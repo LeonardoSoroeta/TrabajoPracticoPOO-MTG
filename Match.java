@@ -1,4 +1,152 @@
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Stack;
 
 public class Match {
+	
+	Player human;
+	Player computer;
+	Player activePlayer;
+	Integer currentTurn;
+	
+	Stack<StackingAction> stack;
+
+	Map<Effect,Event> eventTerminatedEffects;
+	Map<TriggeredAbility,Event> eventTriggeredAbilities;
+	
+	public Match(Player human, Player computer) {
+		this.human = human;
+		this.computer = computer;
+		
+		this.stack = new Stack<StackingAction>();
+		
+		this.eventTriggeredAbilities = new HashMap<TriggeredAbility,Event>();
+		this.eventTerminatedEffects = new HashMap<Effect,Event>();
+		
+		this.currentTurn = 0;
+	}
+	
+	public void start() {		
+		//roll dice (see who chooses who goes first)
+		//shuffle decks
+		//draw cards
+		//players can mulligan
+		
+		//while(no winner)
+			//playTurn()	(whoever goes first doesnt draw a card)
+	}
+	
+	public Integer getCurrentTurn() {
+		return this.currentTurn;
+	}
+	
+	//public void priority() {}
+	
+	//public void switchPriority() {}
+	
+	public void castStackingAction(StackingAction stackingAction) {
+		stack.push(stackingAction);
+		//if(new spell or action)
+			//stackableAction(new stackableAction);
+		//switchPriority();
+			//if(new spell or action)
+				//stackableAction(new stackableAction);
+		//switchPriority();
+		stackingAction.resolve();
+		stack.pop();
+	}
+	
+	public void castLand(Land land) {
+		// inPlay.add(land);
+		// landCastedThisTurn = true;
+	}
+	
+	public void signalEvent(Event event) {
+		for(Map.Entry<TriggeredAbility, Event> entry : eventTriggeredAbilities.entrySet()) {
+			if(entry.getValue().matches(event))
+				castStackingAction(entry.getKey());
+		}
+		for(Map.Entry<Effect, Event> entry : eventTerminatedEffects.entrySet()) {
+			if(entry.getValue().matches(event))
+				entry.getKey().removeEffect();
+		}
+	}
+	
+
+	public void playTurn() {
+		//boolean landCastedThisTurn = false;
+		
+		beginningPhase();
+		mainPhase();
+		combatPhase();
+		mainPhase();
+		endingPhase();
+	
+	}
+	
+	public void beginningPhase() {
+		//signalEvent(untap_step)
+		//for all cards in play that contain attribute can_untap -> untap
+		
+		//signalEvent(upkeep_step)
+		//players play instants and activated abilities...
+		
+		//signalEvent(drawcard_step)
+		//draw card(s)...
+		//players play instants and activated abilities...
+		
+	}
+	
+	public void mainPhase() {
+		//signalEvent(main_phase)
+		//active player casts spells & activated abilities / other players casts instants & activated abilities
+		//active player can play 1 land if not already casted this turn
+		
+	}
+	
+	public void combatPhase() {
+		//signalEvent(combat_phase)
+		//players can play instants and activated abilities
+		
+		//signalEvent(declare_attackers_step)
+		//active player declares attackers (tap creatures)
+		//then players can play instants and activated abilities again
+		
+		//signalEvent(declare_blockers_step)
+		//opponent declares blockers
+		//then players can play instants and activated abilities again
+		
+		//signalEvent(combat_damage_step)
+			// - unblocked attackers deal damage equal to their power to the defending player
+			// - blocked attackers deal their damage to the creatures blocking them. if more than one creature blocks
+			//   one of your attackers, you decide how to divide the attackers damage among the blockers
+			// - blockers deal their damage to the creatures they're blocking. if a creature becomes tapped since
+			//   it was declared a blocker, it still deals damage normally
+			// - If an attacking creature was blocked at the declare blockers step, it doesn’t
+		 	//   deal any damage to the defending player. This is true even if all the blockers
+		 	//   have left play.
+			// - Once you decide how combat damage will be dealt, the damage goes on the
+		 	//   stack. After that, the damage is “locked in.” It will be dealt even if some of
+			//   the creatures leave play.
+			// - Players may then play instants and activated abilities. Once these have all
+		 	//   resolved, combat damage is actually dealt. If a creature tries to deal damage
+			//   to a creature no longer in play, it can’t and the damage isn’t dealt.
+		
+		//signalEvent(end_of_combat_phase)
+		//players can play instants and activated abilities again
+		
+	}
+	
+	public void endingPhase() {
+		//signalEvent(ending_phase)
+		//players can play instants and activated abilities
+		
+		//signalEvent(cleanup_step)
+		//if you have more than 7 cards in your hand -> discard cards
+		
+		//damage on creatures is removed
+		//signalEvent(end_of_turn)
+		
+	}
 
 }
