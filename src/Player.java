@@ -2,7 +2,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Player implements HealthPoints {
+public class Player {
 	
 	ManaPool manaPool;
 	
@@ -12,7 +12,7 @@ public class Player implements HealthPoints {
 	List<Card> cardsInPlay;
 	List<Card> graveyard;
 	
-	private Integer health;
+	private int health;
 	
 	public Player(List<Card> deck) {
 		this.deck = deck;
@@ -28,19 +28,23 @@ public class Player implements HealthPoints {
 		
 	}
 	
-	public void setHealth(Integer health) {
+	public void setHealth(int health) {
 		this.health = health;
 	}
 	
-	public Integer getHealth() {
+	public int getHealth() {
 		return health;
 	}
 	
-	public void increaseHealth(Integer i) {
+	public void increaseHealth(int i) {
+		if ( i<0)
+			throw new IllegalArgumentException();
 		health += i;
 	}
 	
-	public void decreaseHealth(Integer i) {
+	public void decreaseHealth(int i) {
+		if ( i<0)
+			throw new IllegalArgumentException();
 		health -= i;
 	}
 	
