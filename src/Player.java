@@ -6,7 +6,6 @@ public class Player {
 	
 	ManaPool manaPool;
 	
-	List<Card> deck;
 	List<Card> library;
 	List<Card> hand;
 	List<Card> cardsInPlay;
@@ -14,9 +13,8 @@ public class Player {
 	
 	private int health;
 	
-	public Player(List<Card> deck) {
-		this.deck = deck;
-		this.library = new LinkedList<Card>();
+	public Player(Deck deck) {
+		this.library = deck.getCards();
 		this.hand = new LinkedList<Card>();
 		this.cardsInPlay = new LinkedList<Card>();
 		this.graveyard = new LinkedList<Card>();
