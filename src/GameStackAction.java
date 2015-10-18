@@ -1,4 +1,7 @@
 
+/*
+ *  esta la tiene que implementar todo lo que va al stack
+ */
 public interface GameStackAction {
 	
 	public void toStack(); // capaz al pedo este metodo, se podria llamar directamente stackAtion del GameStack. por ahora queda lindo
