@@ -53,7 +53,7 @@ public class ManaPool {
 	}
 	
 	//suma o resta quantity mana de color
-	public void updateMana(String color, int quantity){
+	public void increaseMana(String color, int quantity){
 		if ( color.equals("Black"))
 			this.BlackMana += quantity;
 		else if ( color.equals("Blue"))
@@ -70,5 +70,21 @@ public class ManaPool {
 			throw new IllegalArgumentException();
 	}
 
+	public void decreaseMana(String color, int quantity){
+		if ( color.equals("Black"))
+			this.BlackMana -= quantity;
+		else if ( color.equals("Blue"))
+			this.BlackMana -= quantity;
+		else if ( color.equals("Green"))
+			this.BlackMana -= quantity;
+		else if ( color.equals("Red"))
+			this.BlackMana -= quantity;
+		else if ( color.equals("White"))
+			this.BlackMana -= quantity;
+		else if ( color.equals("Colorless"))
+			this.BlackMana -= quantity;
+		else
+			throw new IllegalArgumentException();
+	}
 
 }
