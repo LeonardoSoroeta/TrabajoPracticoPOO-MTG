@@ -53,17 +53,17 @@ public class ManaBatch {
 	//luego se fija si alcanza el colorless, tomando en cuenta que los mana de 
 	//color sobrantes tambien se pueden usar como colorless
 	public Boolean contains(ManaBatch manaBatch) {
-		Integer x = this.getConvertedManaCost();
+		Integer manaSobranteTotal = this.getConvertedManaCost();
 		
 		for(int i = 0 ; i < 5 ; i++) {
 			if(mana[i] < manaBatch.getValues()[i])
 				return false;
 			else {
-				x -= manaBatch.getValues()[i];
+				manaSobranteTotal -= manaBatch.getValues()[i];
 			}
 		}
 		
-		if(manaBatch.getValues()[5] > x)
+		if(manaBatch.getValues()[5] > manaSobranteTotal)
 			return false;
 		
 		return true;
