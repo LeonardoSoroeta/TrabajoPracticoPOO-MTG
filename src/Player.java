@@ -8,7 +8,7 @@ public class Player {
 	
 	List<Card> library;
 	List<Card> hand;
-	List<Card> cardsInPlay;
+	List<InPlayObject> objectsInPlay;
 	List<Card> graveyard;
 	
 	private int health;
@@ -16,13 +16,9 @@ public class Player {
 	public Player(Deck deck) {
 		this.library = deck.getCards();
 		this.hand = new LinkedList<Card>();
-		this.cardsInPlay = new LinkedList<Card>();
+		this.objectsInPlay = new LinkedList<InPlayObject>();
 		this.graveyard = new LinkedList<Card>();
 		this.manaPool = new ManaPool();
-		
-	}
-	
-	public void drawCard() {
 		
 	}
 	
@@ -50,9 +46,6 @@ public class Player {
 		return manaPool;
 	}
 	
-	public List<Card> getDeck() {
-		return deck;
-	}
 	
 	public List<Card> getLibrary() {
 		return library;
@@ -62,8 +55,8 @@ public class Player {
 		return hand;
 	}
 	
-	public List<Card> getCardsInPlay() {
-		return cardsInPlay;
+	public List<InPlayObject> getObjectsInPlay() {
+		return objectsInPlay;
 	}
 	
 	public List<Card> getGraveyard() {
@@ -73,4 +66,36 @@ public class Player {
 	public void shuffleLibrary() {
 		Collections.shuffle(this.library);
 	}
+	
+	
+	//alguna excepcion le meto aca
+	public void takeCardFromLibrary(Card card){
+		if (this.library.contains(card)){
+			this.library.remove(card);
+			this.hand.add(card);
+		}	
+	}
+	
+	public void drawCard(Card card){
+		if(this.hand.contains(card)){
+			this.hand.remove(card);
+			this.objectsInPlay.add(card.playCard);
+		}
+	}
+	
+	public void KillObjectInPlay(InPlayObject obj){
+		if(this.objectsInPlay.contains(obj)){
+			this.objectsInPlay.remove(obj);
+			this.graveyard.add(obj.dead);
+		}
+	}
+	
+	public void reviveCard(Card card){
+		if(this.graveyard.contains(card)){
+			this.graveyard.remove(card);
+			this.objectsInPlay.add(card.playCard);
+		}
+	}
+
+
 }
