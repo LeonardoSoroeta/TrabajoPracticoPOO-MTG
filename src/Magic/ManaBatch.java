@@ -1,3 +1,4 @@
+package Magic;
 /* esta clase es una idea de un paquete de mana.
  * para hacer mas simple trabajar con costos de mana. 
  * 

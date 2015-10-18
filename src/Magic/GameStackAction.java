@@ -1,3 +1,4 @@
+package Magic;
 
 /*
  *  esta la tiene que implementar todo lo que va al stack

@@ -1,3 +1,4 @@
+package Magic;
 import java.util.*;
 
 public class GameStack {

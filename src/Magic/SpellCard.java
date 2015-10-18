@@ -1,3 +1,4 @@
+package Magic;
 
 public abstract class SpellCard extends Card{
 

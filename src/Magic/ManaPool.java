@@ -1,3 +1,4 @@
+package Magic;
 public class ManaPool {
 	private int BlackMana;
 	private int BlueMana;

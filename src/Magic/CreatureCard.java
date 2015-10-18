@@ -1,3 +1,4 @@
+package Magic;
 
 public class CreatureCard extends SpellCard{
 

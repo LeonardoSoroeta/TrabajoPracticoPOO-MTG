@@ -1,7 +1,9 @@
+package Magic;
 
-public class SorceryCard extends SpellCard {
+public class InstantCard extends SpellCard {
+
 	
-	public SorceryCard(String nameCard, String typeCard, String color, int colorMana, int colorlessMana, Ability ability) {
+	public InstantCard(String nameCard, String typeCard, String color, int colorMana, int colorlessMana, Ability ability) {
 		super(nameCard, typeCard, color, colorMana, colorlessMana, ability);
 	}
 	
@@ -15,5 +17,8 @@ public class SorceryCard extends SpellCard {
 		//}else{
 			//tira Excepsion!!!
 		//}
+
 	}
+	
+	
 }

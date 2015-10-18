@@ -1,7 +1,9 @@
+package Magic;
 
-public class ArtifactCard extends SpellCard {
+public class EnchantmentCard extends SpellCard {
 
-	public ArtifactCard(String nameCard, String typeCard, String color, int colorMana, int colorlessMana, Ability ability) {
+	
+	public EnchantmentCard(String nameCard, String typeCard, String color, int colorMana, int colorlessMana, Ability ability) {
 		super(nameCard, typeCard, color, colorMana, colorlessMana, ability);
 	}
 	
@@ -11,8 +13,8 @@ public class ArtifactCard extends SpellCard {
 		if(manaPool.getMana(this.getColor()) >= this.getColorMana() && manaPool.getMana("Colorless") >= this.getColorlessMana()){
 			manaPool.decreaseMana(this.getColor(),  this.getColorMana());
 			manaPool.decreaseMana("Colorless", this.getColorlessMana());
-			Artifact artifact = new Artifact(this.getNameCard(), this.getColor(), this.getAttributes(), this.getAbility());
-			return artifact;
+			Enchantment enchantment = new Enchantment(this.getNameCard(), this.getColor(), this.getAttributes(), this.getAbility());
+			return enchantment;
 		}else{
 			//tira Excepsion!!!
 		}

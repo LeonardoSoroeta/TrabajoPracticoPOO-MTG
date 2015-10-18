@@ -1,3 +1,4 @@
+package Magic;
 
 public class LandCard extends Card{
 
