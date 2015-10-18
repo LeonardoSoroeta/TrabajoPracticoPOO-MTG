@@ -156,6 +156,17 @@ public class Match {
 	
 	//
 	//
+	
+	//alguna excepcion le meto aca
+	// tengo la duda si serian metodos de player
+		public void drawCard(Card card, Player player){
+			if (player.library.contains(card)){
+				player.library.remove(card);
+				player.hand.add(card);
+			}	
+		}
+		
+	
 		public void playCard(Card card,Player player){
 			if(player.hand.contains(card)){
 				player.hand.remove(card);

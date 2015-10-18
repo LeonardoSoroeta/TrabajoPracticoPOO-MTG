@@ -68,13 +68,6 @@ public class Player {
 	}
 	
 	
-	//alguna excepcion le meto aca
-	public void drawCard(Card card){
-		if (this.library.contains(card)){
-			this.library.remove(card);
-			this.hand.add(card);
-		}	
-	}
 	
 	
 
