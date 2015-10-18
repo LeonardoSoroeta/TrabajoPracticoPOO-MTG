@@ -9,6 +9,7 @@ public class GameStack {
 	}
 	
 	//recursiva va pidiendo mas spells o abilities a los jugadores
+	//es solo una idea
 	public void stackAction(GameStackAction gameStackAction) {
 		gameStack.add(gameStackAction);
 		//if(new spell or action)
