@@ -4,9 +4,8 @@ import java.util.Stack;
 
 public class Match {
 	
-	Player human;
-	Player computer;
-	Player activePlayer;
+	Player player1;
+	Player player2;
 	Integer currentTurn;
 	
 	Stack<StackingAction> stack;
@@ -14,9 +13,9 @@ public class Match {
 	Map<Effect,Event> eventTerminatedEffects;
 	Map<TriggeredAbility,Event> eventTriggeredAbilities;
 	
-	public Match(Player human, Player computer) {
-		this.human = human;
-		this.computer = computer;
+	public Match(Player player1, Player player2) {
+		this.player1 = player1;
+		this.player2 = player2;
 		
 		this.stack = new Stack<StackingAction>();
 		
@@ -153,5 +152,36 @@ public class Match {
 		//signalEvent(end_of_turn)
 		
 	}
+	
+	
+	//
+	//
+		public void playCard(Card card,Player player){
+			if(player.hand.contains(card)){
+				player.hand.remove(card);
+			
+				// ver como esta implementada Card
+			if (card.isPermanent){
+				player.objectsInPlay.add(card.playCard);
+			}
+			else	
+				player.graveyard.add(card);
+			}	
+		}
+		
+		public void KillObjectInPlay(InPlayObject obj, Player player){
+			if(player.objectsInPlay.contains(obj)){
+				player.objectsInPlay.remove(obj);
+				player.graveyard.add(obj.dead());
+			}
+		}
+		
+		public void reviveCard(Card card, Player player){
+			if(player.graveyard.contains(card)){
+				player.graveyard.remove(card);
+				//ver como esta implementada Card
+				player.objectsInPlay.add(card.playCard);
+			}
+		}
 
 }

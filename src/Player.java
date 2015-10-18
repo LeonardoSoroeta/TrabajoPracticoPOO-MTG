@@ -77,38 +77,7 @@ public class Player {
 	}
 	
 	
-	
-	
-	//estos metodos van en match luego los muevo
-	//
-	public void playCard(Card card){
-		if(this.hand.contains(card)){
-			this.hand.remove(card);
-		
-		if (card.isPermanent){
-	
-			this.objectsInPlay.add(card.playCard);
-		}
-		
-		else
-			
-			this.graveyard.add(card);
-		}	
-	}
-	
-	public void KillObjectInPlay(InPlayObject obj){
-		if(this.objectsInPlay.contains(obj)){
-			this.objectsInPlay.remove(obj);
-			this.graveyard.add(obj.dead);
-		}
-	}
-	
-	public void reviveCard(Card card){
-		if(this.graveyard.contains(card)){
-			this.graveyard.remove(card);
-			this.objectsInPlay.add(card.playCard);
-		}
-	}
+
 
 
 }
