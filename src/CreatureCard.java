@@ -1,4 +1,4 @@
-
+//
 public class CreatureCard extends SpellCard{
 
 	private int attackPoints;

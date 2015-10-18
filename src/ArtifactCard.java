@@ -1,4 +1,4 @@
-
+//
 public class ArtifactCard extends SpellCard {
 
 	public ArtifactCard(String nameCard, String color, int colorMana, int colorlessMana, Ability ability) {

@@ -1,4 +1,4 @@
-
+//
 public class SorceryCard extends SpellCard {
 	
 	public SorceryCard(String nameCard, String color, int colorMana, int colorlessMana, Ability ability) {
