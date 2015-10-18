@@ -13,7 +13,7 @@
  * 
  * y se podria usar por ejemplo asi:
  * 		if player1.getManaPool().contains(spell.manaCost())
- * 			then castearlo y luego remove el cost del mana pool;
+ * 			then remove el costo del mana pool y luego castearlo;
  */
 public class ManaBatch {
 	
