@@ -1,4 +1,4 @@
-//
+
 public class InstantCard extends SpellCard {
 
 	
@@ -6,7 +6,7 @@ public class InstantCard extends SpellCard {
 		super(nameCard, color, colorMana, colorlessMana, ability);
 	}
 	
-	@Override
+
 	public Ability playCard(ManaPool manaPool) {
 		
 		if(manaPool.getMana(this.getColor()) >= this.getColorMana() && manaPool.getMana("Colorless") >= this.getColorlessMana()){

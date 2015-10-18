@@ -1,6 +1,6 @@
 import java.util.LinkedList;
 import java.util.List;
-//
+
 public abstract class Card{
 	
 	private String nameCard;

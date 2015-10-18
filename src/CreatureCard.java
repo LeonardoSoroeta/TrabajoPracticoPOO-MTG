@@ -1,4 +1,4 @@
-//
+
 public class CreatureCard extends SpellCard{
 
 	private int attackPoints;
@@ -16,7 +16,7 @@ public class CreatureCard extends SpellCard{
 		this.defencePoints = defencePoints;
 	}
 	
-	@Override
+	
 	public InPlayObject playCard(ManaPool manaPool) {
 		
 		if(manaPool.getMana(this.getColor()) >= this.getColorMana() && manaPool.getMana("Colorless") >= this.getColorlessMana()){

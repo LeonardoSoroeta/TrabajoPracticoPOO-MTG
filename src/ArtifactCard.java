@@ -1,11 +1,11 @@
-//
+
 public class ArtifactCard extends SpellCard {
 
 	public ArtifactCard(String nameCard, String color, int colorMana, int colorlessMana, Ability ability) {
 		super(nameCard, color, colorMana, colorlessMana, ability);
 	}
 	
-	@Override
+
 	public InPlayObject playCard(ManaPool manaPool) {
 		
 		if(manaPool.getMana(this.getColor()) >= this.getColorMana() && manaPool.getMana("Colorless") >= this.getColorlessMana()){
