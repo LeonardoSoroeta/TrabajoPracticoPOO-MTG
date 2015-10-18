@@ -44,8 +44,8 @@ public class Creature extends InPlayObject {
 	
 	
 	// cuando muere retorna la carta de la que nacio antes
-	public Card dead(){
-		return new Card(this.name, this.color, colormanacost, colorlessmanacost, this.attack, this.defense, this.ability);
+	public CreatureCard dead(){
+		return new CreatureCard(this.name, this.color, colormanacost, colorlessmanacost, this.attack, this.defense, this.ability);
 	
 }
 	

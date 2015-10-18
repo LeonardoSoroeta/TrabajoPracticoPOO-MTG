@@ -69,18 +69,31 @@ public class Player {
 	
 	
 	//alguna excepcion le meto aca
-	public void takeCardFromLibrary(Card card){
+	public void drawCard(Card card){
 		if (this.library.contains(card)){
 			this.library.remove(card);
 			this.hand.add(card);
 		}	
 	}
 	
-	public void drawCard(Card card){
+	
+	
+	
+	//estos metodos quiza no son de player y son de otra clase
+	//
+	public void playCard(Card card){
 		if(this.hand.contains(card)){
 			this.hand.remove(card);
+		
+		if (card.isPermanent){
+		// playcard no es un metodo de Card , hay que arreglarlo
 			this.objectsInPlay.add(card.playCard);
 		}
+		
+		else
+			
+			this.graveyard.add(card);
+		}	
 	}
 	
 	public void KillObjectInPlay(InPlayObject obj){
