@@ -1,4 +1,4 @@
-package Magic;
+package Magic.BackEnd.Interfaces;
 
 /*
  *  esta la tiene que implementar todo lo que va al stack

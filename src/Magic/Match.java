@@ -11,6 +11,7 @@ public class Match {
 	
 	Stack<StackingAction> stack;
 
+	//Los unicos efectos que tienen eventos son los LastingEffects, debería ser un map de LastingEffect,Event
 	Map<Effect,Event> eventTerminatedEffects;
 	Map<TriggeredAbility,Event> eventTriggeredAbilities;
 	

@@ -1,4 +1,6 @@
 package Magic;
+import Magic.BackEnd.Interfaces.GameStackAction;
+
 import java.util.*;
 
 public class GameStack {
