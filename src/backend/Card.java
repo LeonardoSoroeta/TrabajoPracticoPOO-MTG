@@ -49,11 +49,11 @@ public abstract class Card{
 			return null;
 		}
 		else{
-			List<Attribute> aux = new LinkedList<Attribute>();
+			List<Attribute> aux = new LinkedList<Attribute>(attributes);
 		
-			for(Attribute each: attributes){
+			/*for(Attribute each: attributes){
 				aux.add(each);
-			}
+			}*/
 
 			return aux;
 		}
