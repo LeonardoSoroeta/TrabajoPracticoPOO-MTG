@@ -20,11 +20,27 @@ public class eventHandlerPoorTesting {
             }
         });
 
-        //Suppongamos que el juego es un array de integers que se van dando
+        //Suppongamos que el juego es un array de integers que se van jugando. Estos numeros podrían ser las cartas
         List<Integer> list = new ArrayList<>();
         list.add(1);
         list.add(5);
-        list.add(21);
+        list.add(99);
+        list.add(103);
+        list.add(145);
+        list.add(5565);
+        list.add(6);
+
+        //Agrego el efecto al eventHandler
+        EventHandler eventHandler = EventHandler.getEventHandler();
+        eventHandler.addEvent(5,efecto);
+        //Verifico funcionamiento del singletone
+        EventHandler eventHandler2 = EventHandler.getEventHandler();
+        eventHandler.addEvent(6,efecto);
+
+        //chequeo si alguno de los numeros genera algo
+
+        eventHandler.check(list);
+
 
 
     }
