@@ -18,4 +18,8 @@ public class CreatureCardsContainer {
 		// etcetera
 		
 	}
+	
+	public Map<String, CreatureCard>  getCreatureCardsContainer(){
+		return map;
+	}
 }

@@ -7,6 +7,10 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 public class Menu extends BasicGameState {
+	
+	public Menu( int state){
+		
+	}
 
 	
 	public void init(GameContainer arg0, StateBasedGame arg1)
@@ -17,9 +21,10 @@ public class Menu extends BasicGameState {
 	
 	
 
-	public void update(GameContainer arg0, StateBasedGame arg1, int arg2)
+	public void update(GameContainer gc, StateBasedGame sbg, int arg2)
 			throws SlickException {
 		
+		sbg.enterState(1);
 		
 	}
 

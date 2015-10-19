@@ -18,7 +18,7 @@ public class NewGame {
 		try
 		{
 			AppGameContainer appgc;
-			appgc = new AppGameContainer(new ScalableGame(new RunningGame("Magic"), 800, 600));
+			appgc = new AppGameContainer(new ScalableGame(new StatesGame("Magic"), 800, 600));
 			appgc.setDisplayMode(appgc.getScreenWidth(), appgc.getScreenHeight(), true);
 			appgc.start();
 				
@@ -26,7 +26,7 @@ public class NewGame {
 		}
 		catch (SlickException ex)
 		{
-			Logger.getLogger(RunningGame.class.getName()).log(Level.SEVERE, null, ex);
+			Logger.getLogger(StatesGame.class.getName()).log(Level.SEVERE, null, ex);
 		}
 	}
 	

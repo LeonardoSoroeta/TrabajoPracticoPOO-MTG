@@ -2,7 +2,7 @@ package Magic;
 
 public class LandCard extends Card{
 
-	
+	//si trabaja como habilidad el girar el land hay q agregar al constructor
 	
 	public LandCard(String nameCard, String typeCard, String color){
 		super(nameCard, typeCard, color);
