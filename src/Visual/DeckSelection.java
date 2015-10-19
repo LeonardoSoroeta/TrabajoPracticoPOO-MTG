@@ -7,7 +7,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
-import Magic.Deck;
+import backEnd.Deck;
 
 public class DeckSelection extends BasicGameState {
 	
