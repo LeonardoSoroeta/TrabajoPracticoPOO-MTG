@@ -1,4 +1,4 @@
-package Magic;
+package Magic.BackEnd.Interfaces;
 
 public interface Constant {
 	
