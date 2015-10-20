@@ -13,9 +13,9 @@ public class EventHandler {
 
     private static EventHandler instance = new EventHandler();
     
-    Map<Ability, Event> eventRelatedAbilities = new HashMap<Ability, Event>();
-	Map<Ability, Event> abilityRemover = new HashMap<Ability, Event>();
-	Map<LastingEffect, Event> effectRemover = new HashMap<LastingEffect, Event>();
+    private Map<Ability, Event> eventRelatedAbilities = new HashMap<Ability, Event>();
+	private Map<Ability, Event> abilityRemover = new HashMap<Ability, Event>();
+	private Map<LastingEffect, Event> effectRemover = new HashMap<LastingEffect, Event>();
 
     private EventHandler(){
        
