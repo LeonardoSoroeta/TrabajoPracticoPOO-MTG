@@ -3,8 +3,8 @@ package backend.BackEnd.EventHandler;
 import java.util.ArrayList;
 import java.util.List;
 
+import backend.Effect;
 import backend.BackEnd.Effects.EventEffect;
-import backend.BackEnd.Interfaces.Effect;
 
 /**
  * Created by Martin on 18/10/2015.

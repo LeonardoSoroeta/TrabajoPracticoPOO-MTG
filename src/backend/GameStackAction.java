@@ -1,4 +1,4 @@
-package backend.BackEnd.Interfaces;
+package backend;
 
 /*
  *  esta la tiene que implementar todo lo que va al stack

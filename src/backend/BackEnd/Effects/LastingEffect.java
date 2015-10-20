@@ -1,6 +1,6 @@
 package backend.BackEnd.Effects;
 
-import backend.BackEnd.Interfaces.Effect;
+import backend.Effect;
 
 /**
  * Created by Martin on 18/10/2015.

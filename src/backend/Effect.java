@@ -1,6 +1,4 @@
-package backend.BackEnd.Interfaces;
-
-import backend.Card;
+package backend;
 
 /**
  * Created by Martin on 18/10/2015.

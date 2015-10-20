@@ -9,29 +9,14 @@ public class Match {
 	Player player2;
 	Integer currentTurn;
 	
-	Stack<StackingAction> stack;
-
-	//Los unicos efectos que tienen eventos son los LastingEffects, debería ser un map de LastingEffect,Event
-	Map<Effect,Event> eventTerminatedEffects;
-	Map<TriggeredAbility,Event> eventTriggeredAbilities;
-	
 	public Match(Player player1, Player player2) {
 		this.player1 = player1;
 		this.player2 = player2;
 		
-		this.stack = new Stack<StackingAction>();
-		
-		this.eventTriggeredAbilities = new HashMap<TriggeredAbility,Event>();
-		this.eventTerminatedEffects = new HashMap<Effect,Event>();
-		
 		this.currentTurn = 0;
 	}
 	
-	public void start() {	
-		
-		
-		
-		
+	public void start() {
 		
 		//roll dice (see who chooses who goes first)
 		//shuffle decks
@@ -49,35 +34,6 @@ public class Match {
 	//public void priority() {}
 	
 	//public void switchPriority() {}
-	
-	public void castStackingAction(StackingAction stackingAction) {
-		stack.push(stackingAction);
-		//if(new spell or action)
-			//stackableAction(new stackableAction);
-		//switchPriority();
-			//if(new spell or action)
-				//stackableAction(new stackableAction);
-		//switchPriority();
-		stackingAction.resolve();
-		stack.pop();
-	}
-	
-	public void castLand(Land land) {
-		// inPlay.add(land);
-		// landCastedThisTurn = true;
-	}
-	
-	public void signalEvent(Event event) {
-		for(Map.Entry<TriggeredAbility, Event> entry : eventTriggeredAbilities.entrySet()) {
-			if(entry.getValue().matches(event))
-				castStackingAction(entry.getKey());
-		}
-		for(Map.Entry<Effect, Event> entry : eventTerminatedEffects.entrySet()) {
-			if(entry.getValue().matches(event))
-				entry.getKey().removeEffect();
-		}
-	}
-	
 
 	public void playTurn() {
 		//boolean landCastedThisTurn = false;
