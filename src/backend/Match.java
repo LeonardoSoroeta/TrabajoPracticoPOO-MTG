@@ -1,7 +1,5 @@
 package backend;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Stack;
+import java.util.*;
 
 public class Match {
 	
@@ -89,15 +87,15 @@ public class Match {
 			//   one of your attackers, you decide how to divide the attackers damage among the blockers
 			// - blockers deal their damage to the creatures they're blocking. if a creature becomes tapped since
 			//   it was declared a blocker, it still deals damage normally
-			// - If an attacking creature was blocked at the declare blockers step, it doesnâ€™t
+			// - If an attacking creature was blocked at the declare blockers step, it doesn't
 		 	//   deal any damage to the defending player. This is true even if all the blockers
 		 	//   have left play.
 			// - Once you decide how combat damage will be dealt, the damage goes on the
-		 	//   stack. After that, the damage is â€œlocked in.â€� It will be dealt even if some of
+		 	//   stack. After that, the damage is locked in. It will be dealt even if some of
 			//   the creatures leave play.
 			// - Players may then play instants and activated abilities. Once these have all
 		 	//   resolved, combat damage is actually dealt. If a creature tries to deal damage
-			//   to a creature no longer in play, it canâ€™t and the damage isnâ€™t dealt.
+			//   to a creature no longer in play, it can't and the damage isn't dealt.
 		
 		eventHandler.signalEvent(new Event("end_of_combat_phase"));
 		//players can play instants and activated abilities again
@@ -115,10 +113,7 @@ public class Match {
 		eventHandler.signalEvent(new Event("end_of_turn"));		
 	}
 	
-	
-	//
-	//
-	
+
 	//alguna excepcion le meto aca
 	// tengo la duda si serian metodos de player
 		public void drawCard(Card card, Player player){
