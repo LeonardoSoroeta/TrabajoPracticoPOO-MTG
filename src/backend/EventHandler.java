@@ -17,7 +17,7 @@ public class EventHandler {
     
     Map<Ability, Event> eventRelatedAbilities = new HashMap<Ability, Event>();
 	Map<Ability, Event> abilityRemover = new HashMap<Ability, Event>();
-	Map<Effect, Event> effectRemover = new HashMap<Effect, Event>();
+	Map<LastingEffect, Event> effectRemover = new HashMap<LastingEffect, Event>();
 
     private EventHandler(){
         events = new LinkedList<LastingEffect>();
@@ -39,7 +39,7 @@ public class EventHandler {
 	}
 	
 	
-	public void newEffect(Effect effect) {
+	public void newEffect(LastingEffect effect) {
 		// mapear effect a su evento de finalizacion
 	}
 	
