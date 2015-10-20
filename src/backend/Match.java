@@ -67,7 +67,6 @@ public class Match {
 	
 	public void combatPhase() {
 		List<Creature> attackers = new LinkedList<Creature>(); //linked list o lo q sea
-		List<Creature> blockers = new LinkedList<Creature>(); //linked list o lo q sea
 		// Map<Creature, Creature> = new HashMap<Creature, Creature>(); // <blockers, attackers>
 		
 		eventHandler.signalEvent(new Event("combat_phase"));
@@ -75,10 +74,19 @@ public class Match {
 		
 		eventHandler.signalEvent(new Event("declare_attackers_step"));
 		//active player declares attackers (tap creatures)
+			//solo criaturas que no estan tapeadas, se las agrega a la lista de attackers
+			//si ! creature.containsAttribute("taps_on_attack") entonces se la tapea
+		
 		//then players can play instants and activated abilities again
 		
 		eventHandler.signalEvent(new Event("declare_blockers_step"));
 		//opponent declares blockers
+			//solo criaturas que no estan tapeadas (y no se las tapea). se las mapea a un atacante cada una
+			//no se le permite al jugador mapear bloqueadores no voladores a atacantes voladores
+			//no se le permite al jugador mapear un bloqueador de X color si la criatura atacante contiene protection from ese color
+			//no se le permite al jugador mapear ningun bloqueador a una criatura con "swampwalk" si el defensor tiene un swamp
+				//lo mismo para plainswalk islandwalk etc...
+			
 		//then players can play instants and activated abilities again
 		
 		eventHandler.signalEvent(new Event("combat_damage_step"));
