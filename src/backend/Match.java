@@ -75,7 +75,7 @@ public class Match {
 		eventHandler.signalEvent(new Event("declare_attackers_step"));
 		//active player declares attackers (tap creatures)
 			//solo criaturas que no estan tapeadas, se las agrega a la lista de attackers
-			//si ! creature.containsAttribute("taps_on_attack") entonces se la tapea
+			//si creature.containsAttribute("taps_on_attack") entonces se la tapea
 		
 		//then players can play instants and activated abilities again
 		
