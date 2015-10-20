@@ -9,7 +9,7 @@ public class Player {
 	
 	List<Card> library;
 	List<Card> hand;
-	List<InPlayObject> objectsInPlay;
+	List<Permanent> objectsInPlay;
 	List<Card> graveyard;
 	
 	private int health;
@@ -17,7 +17,7 @@ public class Player {
 	public Player(Deck deck) {
 		this.library = deck.getCards();
 		this.hand = new LinkedList<Card>();
-		this.objectsInPlay = new LinkedList<InPlayObject>();
+		this.objectsInPlay = new LinkedList<Permanent>();
 		this.graveyard = new LinkedList<Card>();
 		this.manaPool = new ManaPool();
 		
@@ -56,7 +56,7 @@ public class Player {
 		return hand;
 	}
 	
-	public List<InPlayObject> getObjectsInPlay() {
+	public List<Permanent> getObjectsInPlay() {
 		return objectsInPlay;
 	}
 	

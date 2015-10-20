@@ -2,7 +2,7 @@ package backend;
 import java.util.List;
 
 
-public class Creature extends InPlayObject {
+public class Creature extends Permanent {
 	
 	private String name;
 	private int attack;

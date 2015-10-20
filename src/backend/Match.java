@@ -138,7 +138,7 @@ public class Match {
 			}	
 		}
 		
-		public void KillObjectInPlay(InPlayObject obj, Player player){
+		public void KillObjectInPlay(Permanent obj, Player player){
 			if(player.objectsInPlay.contains(obj)){
 				player.objectsInPlay.remove(obj);
 				player.graveyard.add(obj.dead());

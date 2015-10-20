@@ -9,7 +9,7 @@ public class LandCard extends Card{
 	}
 
 
-	public InPlayObject playCard(ManaPool manaPool) {
+	public Permanent playCard(ManaPool manaPool) {
 		
 		Land land = new Land(this.getNameCard(), this.getColor());
 		return Land;
