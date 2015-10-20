@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import backend.Effect;
+import backend.EventHandler;
 import backend.BackEnd.Effects.EventEffect;
 
 /**
