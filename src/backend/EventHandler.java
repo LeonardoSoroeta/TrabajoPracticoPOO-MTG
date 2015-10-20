@@ -67,7 +67,7 @@ public class EventHandler {
 	 * 
 	 * ejemplo: se castea un sorcery que dice "criatura X gana "volar" hasta fin de turno  (no hay ability)
 	 * 		-> el sorcery al resolver aplica el efecto a la criatura y luego le manda al event handler
-	 * 		   newEffect(Effect, new Event("fin de turno", este jugador) o quizas simplemente ("fin de turno")
+	 * 		   newEffect(Effect) con el effect conteniendo el finalizingEvent("fin de turno")
 	 * 		-> cuando llega fin de turno el event handler hace effect.remove();
 	 * 		-> el metodo del effect effect.apply(Target target) ejecutaria target.addAttribute("flying");
 	 * 		-> el metodo del effect effect.remove() ejectuaria target.removeAttribute("flying");
