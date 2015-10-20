@@ -17,6 +17,10 @@ public class Event {
 		this.description = description;
 	}
 	
+	public Event(String description, Permanent permanent) {
+		
+	}
+	
 	/* seria como un equals para saber si un evento satisface a otro. por ejemplo todo evento deberia 
 	 * satisfacer el evento generico new Event("all_events") que gatilla una habilidad cuando
 	 * sucede cualquier evento. o quizas el evento new Event("permanent_into_play", byPlayer);
@@ -27,6 +31,8 @@ public class Event {
 		
 		if(event.getDescription().equals("all_events"))
 			return true;
+		
+		return false;
 		
 	}
 	

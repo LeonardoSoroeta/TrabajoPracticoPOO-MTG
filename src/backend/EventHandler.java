@@ -2,8 +2,6 @@ package backend;
 
 import java.util.*;
 
-import backend.BackEnd.Effects.EventEffect;
-
 /**
  * Created by Martin on 18/10/2015.
  */
@@ -20,27 +18,44 @@ public class EventHandler {
 	Map<LastingEffect, Event> effectRemover = new HashMap<LastingEffect, Event>();
 
     private EventHandler(){
-        events = new LinkedList<LastingEffect>();
+       
     }
 
     public static EventHandler getEventHandler(){
         return instance;
     }
 
+    /* pasa el evento por los 3 mapas. en el primero se ejecutaria por ejemplo Ability.activateOnEvent()
+	 * en los otros dos se ejecutaria Effect.remove() y Ability.remove()
+	 */	
     public void signalEvent(Event event) {		
-		/* pasa el evento por los 3 mapas. en el primero se ejecutaria por ejemplo Ability.activateOnEvent()
-		 * en los otros dos se ejecutaria Effect.remove() y Ability.remove()
-		 */	
+		for(Map.Entry<Ability, Event> entry : eventRelatedAbilities.entrySet())
+			if(event.satisfies(entry.getValue()))
+				entry.getKey().activate();
+		
+		for(Map.Entry<Ability, Event> entry : abilityRemover.entrySet())
+			if(event.satisfies(entry.getValue()))
+				entry.getKey().activate();
+		
+		for(Map.Entry<LastingEffect, Event> entry : effectRemover.entrySet())
+			if(event.satisfies(entry.getValue()))
+				entry.getKey().remove();
 	}
 	
 	public void newAbility(Ability ability) {
-		// mapear ability a su trigger
-		// mapear ability a la remocion de su fuente
+		
+		/* se mapea la ability a su trigger */
+		eventRelatedAbilities.put(ability, ability.getTriggerEvent());
+		
+		/* se mapea la ability a la remocion del juego de su fuente */
+		abilityRemover.put(ability, new Event("removed_from_play", ability.getSource()));		
 	}
 	
 	
-	public void newEffect(LastingEffect effect) {
-		// mapear effect a su evento de finalizacion
+	public void newLastingEffect(LastingEffect effect) {
+		
+		/* se mapea el efect a su evento finalizador */
+		effectRemover.put(effect, effect.getFinalizingEvent());
 	}
 	
 	/*

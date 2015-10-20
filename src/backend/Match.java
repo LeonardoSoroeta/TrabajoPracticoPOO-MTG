@@ -8,6 +8,7 @@ public class Match {
 	Player player1;
 	Player player2;
 	Integer currentTurn;
+	EventHandler eventHandler = EventHandler.getEventHandler();
 	
 	public Match(Player player1, Player player2) {
 		this.player1 = player1;
@@ -47,38 +48,42 @@ public class Match {
 	}
 	
 	public void beginningPhase() {
-		//signalEvent(untap_step)
+		eventHandler.signalEvent(new Event("untap_step"));
 		//for all cards in play that contain attribute can_untap -> untap
 		
-		//signalEvent(upkeep_step)
+		eventHandler.signalEvent(new Event("upkeep_step"));
 		//players play instants and activated abilities...
 		
-		//signalEvent(drawcard_step)
+		eventHandler.signalEvent(new Event("draw_card_step"));
 		//draw card(s)...
 		//players play instants and activated abilities...
 		
 	}
 	
 	public void mainPhase() {
-		//signalEvent(main_phase)
+		eventHandler.signalEvent(new Event("main_phase"));
 		//active player casts spells & activated abilities / other players casts instants & activated abilities
 		//active player can play 1 land if not already casted this turn
 		
 	}
 	
 	public void combatPhase() {
-		//signalEvent(combat_phase)
+		List<Creature> attackers = new LinkedList<Creature>(); //linked list o lo q sea
+		List<Creature> blockers = new LinkedList<Creature>(); //linked list o lo q sea
+		// Map<Creature, Creature> = new HashMap<Creature, Creature>(); // <blockers, attackers>
+		
+		eventHandler.signalEvent(new Event("combat_phase"));
 		//players can play instants and activated abilities
 		
-		//signalEvent(declare_attackers_step)
+		eventHandler.signalEvent(new Event("declare_attackers_step"));
 		//active player declares attackers (tap creatures)
 		//then players can play instants and activated abilities again
 		
-		//signalEvent(declare_blockers_step)
+		eventHandler.signalEvent(new Event("declare_blockers_step"));
 		//opponent declares blockers
 		//then players can play instants and activated abilities again
 		
-		//signalEvent(combat_damage_step)
+		eventHandler.signalEvent(new Event("combat_damage_step"));
 			// - unblocked attackers deal damage equal to their power to the defending player
 			// - blocked attackers deal their damage to the creatures blocking them. if more than one creature blocks
 			//   one of your attackers, you decide how to divide the attackers damage among the blockers
@@ -94,21 +99,20 @@ public class Match {
 		 	//   resolved, combat damage is actually dealt. If a creature tries to deal damage
 			//   to a creature no longer in play, it canâ€™t and the damage isnâ€™t dealt.
 		
-		//signalEvent(end_of_combat_phase)
+		eventHandler.signalEvent(new Event("end_of_combat_phase"));
 		//players can play instants and activated abilities again
 		
 	}
 	
 	public void endingPhase() {
-		//signalEvent(ending_phase)
+		eventHandler.signalEvent(new Event("ending_phase"));
 		//players can play instants and activated abilities
 		
-		//signalEvent(cleanup_step)
+		eventHandler.signalEvent(new Event("cleanup_step"));
 		//if you have more than 7 cards in your hand -> discard cards
 		
 		//damage on creatures is removed
-		//signalEvent(end_of_turn)
-		
+		eventHandler.signalEvent(new Event("end_of_turn"));		
 	}
 	
 	
