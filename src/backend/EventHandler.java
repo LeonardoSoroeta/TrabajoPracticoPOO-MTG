@@ -35,7 +35,7 @@ public class EventHandler {
 		
 		for(Map.Entry<Ability, Event> entry : abilityRemover.entrySet())
 			if(event.satisfies(entry.getValue()))
-				entry.getKey().activate();
+				abilityRemover.remove(entry.getKey());
 		
 		for(Map.Entry<LastingEffect, Event> entry : effectRemover.entrySet())
 			if(event.satisfies(entry.getValue()))
