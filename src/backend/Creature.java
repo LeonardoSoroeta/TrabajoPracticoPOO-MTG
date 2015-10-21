@@ -2,7 +2,7 @@ package backend;
 import java.util.List;
 
 
-public class Creature extends Permanent {
+public class Creature extends Permanent implements DamageTaking {
 	
 	private String name;
 	private int attack;
@@ -10,6 +10,7 @@ public class Creature extends Permanent {
 	List<Attribute> attributes;
 	Ability ability;
 	private String color;
+	private Integer damageMarkers;
 	
 	
 	private int colormanacost;
@@ -24,6 +25,7 @@ public class Creature extends Permanent {
 		this.color = color;
 		this.colormanacost = colormanacost;
 		this.colorlessmanacost = colorlessmanacost;
+		this.damageMarkers = 0;
 	}
 	
 	
@@ -91,5 +93,22 @@ public class Creature extends Permanent {
 	
 	public void updateDefense(int i){
 		this.defense += i;
+	}
+	
+	public void takeDamage(Integer damage) {
+		
+		this.placeDamageMarker(damage);
+		
+	}
+	
+	public void placeDamageMarker(Integer ammount) {	
+		damageMarkers += ammount;
+		
+		if(damageMarkers >= defense) 
+			this.destroy(); // ejemplo
+	}
+	
+	public void resetDamageMarkers() {
+		damageMarkers = 0;
 	}
 }

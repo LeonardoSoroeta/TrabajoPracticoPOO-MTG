@@ -3,7 +3,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Player {
+public class Player implements DamageTaking {
 	
 	ManaPool manaPool;
 	
@@ -19,8 +19,7 @@ public class Player {
 		this.hand = new LinkedList<Card>();
 		this.objectsInPlay = new LinkedList<Permanent>();
 		this.graveyard = new LinkedList<Card>();
-		this.manaPool = new ManaPool();
-		
+		this.manaPool = new ManaPool();		
 	}
 	
 	public void setHealth(int health) {
@@ -68,10 +67,8 @@ public class Player {
 		Collections.shuffle(this.library);
 	}
 	
-	
-	
-	
-
-
-
+	public void takeDamage(Integer damage) {
+		health -= damage;		
+		// if (health <= 0) then pierde la partida etc etc
+	}
 }
