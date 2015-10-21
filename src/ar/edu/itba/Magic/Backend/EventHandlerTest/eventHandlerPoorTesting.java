@@ -1,4 +1,4 @@
-package ar.edu.itba.Magic.Backend.EventHandler;
+package ar.edu.itba.Magic.Backend.EventHandlerTest;
 
 
 //hay que cambiar el nombre del paquete o de la clase, esta mal.
