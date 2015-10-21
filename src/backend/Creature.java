@@ -111,4 +111,8 @@ public class Creature extends Permanent implements DamageTaking {
 	public void resetDamageMarkers() {
 		damageMarkers = 0;
 	}
+	
+	public void destroy() {
+		
+	}
 }
