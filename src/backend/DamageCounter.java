@@ -8,11 +8,15 @@ package backend;
 
 public class DamageCounter implements GameStackAction {
 	
-	public DamageCounter() {
-		
+	DamageTaking target;
+	Integer ammount;
+	
+	public DamageCounter(DamageTaking target, Integer ammount) {
+		this.target = target;
+		this.ammount = ammount;
 	}
 	
 	public void resolve() {
-		
+		target.takeDamage(ammount);
 	}
 }
