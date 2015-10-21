@@ -10,7 +10,7 @@ import ar.edu.itba.Magic.Frontend.DeckSelection;
 import ar.edu.itba.Magic.Frontend.Match;
 import ar.edu.itba.Magic.Frontend.Menu;
 
-
+//slick
 public class StatesGame extends StateBasedGame  
 {
 	public static int MENU = 0;

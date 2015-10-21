@@ -17,7 +17,7 @@ import ar.edu.itba.Magic.Backend.Deck;
 
 
 
-
+//slick
 public class DeckSelection extends BasicGameState {
 	
 	public DeckSelection(int state){
