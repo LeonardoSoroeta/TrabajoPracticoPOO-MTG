@@ -32,8 +32,9 @@ public class EventHandler {
     /* pasa el evento por los 3 mapas */
     public void signalEvent(Event event) {		
 		for(Map.Entry<Ability, Event> entry : eventRelatedAbilities.entrySet())
-			if(event.satisfies(entry.getValue()))
+			if(event.satisfies(entry.getValue())) {
 				entry.getKey().activate();
+			}
 		
 		for(Map.Entry<Ability, Event> entry : abilityRemover.entrySet())
 			if(event.satisfies(entry.getValue())) {
@@ -42,8 +43,10 @@ public class EventHandler {
 			}
 		
 		for(Map.Entry<LastingEffect, Event> entry : effectRemover.entrySet())
-			if(event.satisfies(entry.getValue()))
+			if(event.satisfies(entry.getValue())) {
 				entry.getKey().remove();
+				effectRemover.remove(entry.getKey());
+			}
 	}
 	
 	public void newAbility(Ability ability) {
