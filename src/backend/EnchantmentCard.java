@@ -8,7 +8,7 @@ public class EnchantmentCard extends SpellCard {
 	}
 	
 
-	public InPlayObject playCard(ManaPool manaPool) {
+	public Permanent playCard(ManaPool manaPool) {
 		
 		if(manaPool.getMana(this.getColor()) >= this.getColorMana() && manaPool.getMana("Colorless") >= this.getColorlessMana()){
 			manaPool.decreaseMana(this.getColor(),  this.getColorMana());

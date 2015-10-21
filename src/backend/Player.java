@@ -3,13 +3,13 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Player {
+public class Player implements DamageTaking {
 	
 	ManaPool manaPool;
 	
 	List<Card> library;
 	List<Card> hand;
-	List<InPlayObject> objectsInPlay;
+	List<Permanent> objectsInPlay;
 	List<Card> graveyard;
 	
 	private int health;
@@ -17,10 +17,9 @@ public class Player {
 	public Player(Deck deck) {
 		this.library = deck.getCards();
 		this.hand = new LinkedList<Card>();
-		this.objectsInPlay = new LinkedList<InPlayObject>();
+		this.objectsInPlay = new LinkedList<Permanent>();
 		this.graveyard = new LinkedList<Card>();
-		this.manaPool = new ManaPool();
-		
+		this.manaPool = new ManaPool();		
 	}
 	
 	public void setHealth(int health) {
@@ -56,7 +55,7 @@ public class Player {
 		return hand;
 	}
 	
-	public List<InPlayObject> getObjectsInPlay() {
+	public List<Permanent> getObjectsInPlay() {
 		return objectsInPlay;
 	}
 	
@@ -68,10 +67,8 @@ public class Player {
 		Collections.shuffle(this.library);
 	}
 	
-	
-	
-	
-
-
-
+	public void takeDamage(Integer damage) {
+		health -= damage;		
+		// if (health <= 0) then pierde la partida etc etc
+	}
 }

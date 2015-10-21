@@ -1,8 +1,6 @@
 package backend;
 import java.util.*;
 
-import backend.BackEnd.Interfaces.GameStackAction;
-
 public class GameStack {
 	
 	List<GameStackAction> gameStack;
