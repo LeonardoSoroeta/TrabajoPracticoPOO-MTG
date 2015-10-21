@@ -31,4 +31,7 @@ public class Deck {
 	public List<Card> getCards(){
 		return deck;
 	}
+	public int getSize(){
+		return deck.size();
+	}
 }

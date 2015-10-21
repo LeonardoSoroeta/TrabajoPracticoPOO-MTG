@@ -1,4 +1,4 @@
-package frontend;
+package ar.edu.itba.Magic.Frontend;
 
 import java.util.logging.Level;
 
@@ -8,7 +8,7 @@ import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.ScalableGame;
 import org.newdawn.slick.SlickException;
 
-@Deprecated
+
 public class NewGame {
 	
 	
