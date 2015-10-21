@@ -1,9 +1,9 @@
 package backend;
 
 /*
- * damage va al stack. asi el otro tiene chance de prevenirlo 
- * menos el damage de combate que se aplica de una. ba esa es la regla nueva
- * de magic y pinta mas facil pero podemos ponerlo en el stack tambien
+ * damage va al stack. asi el otro tiene chance de prevenirlo. hay una regla nueva 
+ * de magic que dice que danio de combate no necesita pasar por el stack 
+ * podemos hacerlo de cualquiera de las dos formas
  */
 
 public class DamageCounter implements GameStackAction {
