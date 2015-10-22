@@ -47,7 +47,7 @@ public class GameEventHandler {
 		
 		for(Map.Entry<LastingEffect, GameEvent> entry : effects.entrySet())
 			if(gameEvent.satisfiesEventRequirement(entry.getValue())) {
-				entry.getKey().removeEffect();
+				entry.getKey().undoEffect();
 				effects.remove(entry.getKey());
 				effectRemover.remove(entry.getKey());
 			}

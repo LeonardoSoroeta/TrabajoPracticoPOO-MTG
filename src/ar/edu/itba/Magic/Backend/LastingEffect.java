@@ -15,7 +15,7 @@ public abstract class LastingEffect {
     
     public abstract void applyEffect();
     
-    public abstract void removeEffect();
+    public abstract void undoEffect();
     
     public GameEvent getFinalizingEvent() {
     	return finalizingEvent;
