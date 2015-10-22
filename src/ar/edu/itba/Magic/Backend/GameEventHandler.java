@@ -13,12 +13,15 @@ public class GameEventHandler {
     private static GameEventHandler instance = new GameEventHandler();
     
     /* habilidades y los eventos que las activan */
-    private Map<GameEventRelatedAbility, GameEvent> gameEventRelatedAbilities = new HashMap<GameEventRelatedAbility, GameEvent>();
+    private Map<GameEventRelatedAbility, GameEvent> abilities = new HashMap<GameEventRelatedAbility, GameEvent>();
     
-    /* habilidades y los eventos que las remueven (la carta que las contiene se va al cementerio) */
+    /* mapeo de habilidades a la quita de su fuente */
 	private Map<GameEventRelatedAbility, GameEvent> abilityRemover = new HashMap<GameEventRelatedAbility, GameEvent>();
 	
-	/* efectos y los eventos hasta cuando terminan */
+	/* efectos y los eventos donde se activan (para deshacerse) */
+	private Map<LastingEffect, GameEvent> effects = new HashMap<LastingEffect, GameEvent>();
+	
+	/* mapeo de efectos a la quita de su target */
 	private Map<LastingEffect, GameEvent> effectRemover = new HashMap<LastingEffect, GameEvent>();
 
     private GameEventHandler(){
@@ -29,9 +32,9 @@ public class GameEventHandler {
         return instance;
     }
 
-    /* pasa el evento por los 3 mapas */
+    /* pasa el evento por los 4 mapas */
     public void signalGameEvent(GameEvent gameEvent) {		
-		for(Map.Entry<GameEventRelatedAbility, GameEvent> entry : gameEventRelatedAbilities.entrySet())
+		for(Map.Entry<GameEventRelatedAbility, GameEvent> entry : abilities.entrySet())
 			if(gameEvent.satisfiesEventRequirement(entry.getValue())) {
 				entry.getKey().analyzeGameEvent(gameEvent);
 			}
@@ -39,29 +42,40 @@ public class GameEventHandler {
 		for(Map.Entry<GameEventRelatedAbility, GameEvent> entry : abilityRemover.entrySet())
 			if(gameEvent.satisfiesEventRequirement(entry.getValue())) {
 				abilityRemover.remove(entry.getKey());
-				gameEventRelatedAbilities.remove(entry.getKey());
+				abilities.remove(entry.getKey());
+			}
+		
+		for(Map.Entry<LastingEffect, GameEvent> entry : effects.entrySet())
+			if(gameEvent.satisfiesEventRequirement(entry.getValue())) {
+				entry.getKey().removeEffect();
+				effects.remove(entry.getKey());
+				effectRemover.remove(entry.getKey());
 			}
 		
 		for(Map.Entry<LastingEffect, GameEvent> entry : effectRemover.entrySet())
 			if(gameEvent.satisfiesEventRequirement(entry.getValue())) {
-				entry.getKey().removeEffect();
+				effects.remove(entry.getKey());
 				effectRemover.remove(entry.getKey());
 			}
 	}
 	
 	public void newAbility(GameEventRelatedAbility ability) {		
 		/* se mapea la ability a su trigger */
-		gameEventRelatedAbilities.put(ability, ability.getRelatedGameEvent());
+		abilities.put(ability, ability.getRelatedGameEvent());
 		
 		/* se mapea la ability a la remocion del juego de su fuente */
 		abilityRemover.put(ability, new GameEvent("removed_from_play", ability.getSource()));		
 	}
-	
-	
+		
 	public void newLastingEffect(LastingEffect effect) {		
 		/* se mapea el effect a su evento finalizador */
-		effectRemover.put(effect, effect.getFinalizingEvent());
+		effects.put(effect, effect.getFinalizingEvent());
+		
+		/*se mapea el effect a la remocion del juego de su target */
+		effectRemover.put(effect, new GameEvent("removed_from_play", effect.getTarget()));
 	}
+	
+	
 	
 	/*
 	 * ejemplo: un encantamiento tiene "todo Land entra en juego girado"
