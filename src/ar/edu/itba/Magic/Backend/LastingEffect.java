@@ -5,27 +5,27 @@ package ar.edu.itba.Magic.Backend;
  */
 public class LastingEffect {
 
-    Targetable target;			/*al que afecta, creo que "Targetable" se podria reemplazar por Permanent*/
-   	Event finalizingEvent;		/*para que lo use el event handler*/
+    Object target;
+   	GameEvent finalizingEvent;
 
-    public LastingEffect(Targetable target, Event finalizingEvent){
+    public LastingEffect(Object target, GameEvent finalizingEvent){
         this.target = target;
         this.finalizingEvent = finalizingEvent;	
     }
     
-    public void apply() {
+    public void applyEffect() {
     	
     }
     
-    public void remove() {
+    public void removeEffect() {
     	
     }
     
-    public Event getFinalizingEvent() {
+    public GameEvent getFinalizingEvent() {
     	return finalizingEvent;
     }
     
-    public Targetable getTarget() {
+    public Object getTarget() {
     	return target;
     }
 

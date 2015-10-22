@@ -4,63 +4,61 @@ import java.util.*;
 /**
  * Created by Martin on 18/10/2015.
  */
-public class EventHandler {
+public class GameEventHandler {
     /**
      * This class is implemented based in Singletone Pattern because it will be needed only one instance
      * each game.
      */
 
-    private static EventHandler instance = new EventHandler();
+    private static GameEventHandler instance = new GameEventHandler();
     
     /* habilidades y los eventos que las activan */
-    private Map<Ability, Event> eventRelatedAbilities = new HashMap<Ability, Event>();
+    private Map<Ability, GameEvent> eventRelatedAbilities = new HashMap<Ability, GameEvent>();
     
     /* habilidades y los eventos que las remueven (la carta que las contiene se va al cementerio) */
-	private Map<Ability, Event> abilityRemover = new HashMap<Ability, Event>();
+	private Map<Ability, GameEvent> abilityRemover = new HashMap<Ability, GameEvent>();
 	
 	/* efectos y los eventos hasta cuando terminan */
-	private Map<LastingEffect, Event> effectRemover = new HashMap<LastingEffect, Event>();
+	private Map<LastingEffect, GameEvent> effectRemover = new HashMap<LastingEffect, GameEvent>();
 
-    private EventHandler(){
+    private GameEventHandler(){
        
     }
 
-    public static EventHandler getEventHandler(){
+    public static GameEventHandler getEventHandler(){
         return instance;
     }
 
     /* pasa el evento por los 3 mapas */
-    public void signalEvent(Event event) {		
-		for(Map.Entry<Ability, Event> entry : eventRelatedAbilities.entrySet())
-			if(event.satisfies(entry.getValue())) {
+    public void signalGameEvent(GameEvent gameEvent) {		
+		for(Map.Entry<Ability, GameEvent> entry : eventRelatedAbilities.entrySet())
+			if(gameEvent.satisfiesEventRequirement(entry.getValue())) {
 				entry.getKey().activate();
 			}
 		
-		for(Map.Entry<Ability, Event> entry : abilityRemover.entrySet())
-			if(event.satisfies(entry.getValue())) {
+		for(Map.Entry<Ability, GameEvent> entry : abilityRemover.entrySet())
+			if(gameEvent.satisfiesEventRequirement(entry.getValue())) {
 				abilityRemover.remove(entry.getKey());
 				eventRelatedAbilities.remove(entry.getKey());
 			}
 		
-		for(Map.Entry<LastingEffect, Event> entry : effectRemover.entrySet())
-			if(event.satisfies(entry.getValue())) {
-				entry.getKey().remove();
+		for(Map.Entry<LastingEffect, GameEvent> entry : effectRemover.entrySet())
+			if(gameEvent.satisfiesEventRequirement(entry.getValue())) {
+				entry.getKey().removeEffect();
 				effectRemover.remove(entry.getKey());
 			}
 	}
 	
-	public void newAbility(Ability ability) {
-		
+	public void newAbility(Ability ability) {		
 		/* se mapea la ability a su trigger */
 		eventRelatedAbilities.put(ability, ability.getTriggerEvent());
 		
 		/* se mapea la ability a la remocion del juego de su fuente */
-		abilityRemover.put(ability, new Event("removed_from_play", ability.getSource()));		
+		abilityRemover.put(ability, new GameEvent("removed_from_play", ability.getSource()));		
 	}
 	
 	
-	public void newLastingEffect(LastingEffect effect) {
-		
+	public void newLastingEffect(LastingEffect effect) {		
 		/* se mapea el effect a su evento finalizador */
 		effectRemover.put(effect, effect.getFinalizingEvent());
 	}

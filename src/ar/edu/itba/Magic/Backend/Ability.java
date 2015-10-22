@@ -16,7 +16,7 @@ public class Ability {
 		return source;
 	}
 	
-	public Event getTriggerEvent() {
-		return new Event("hola");
+	public GameEvent getTriggerEvent() {
+		return new GameEvent("hola");
 	}
 }
