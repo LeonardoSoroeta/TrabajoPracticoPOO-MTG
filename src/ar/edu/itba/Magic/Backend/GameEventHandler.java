@@ -13,10 +13,10 @@ public class GameEventHandler {
     private static GameEventHandler instance = new GameEventHandler();
     
     /* habilidades y los eventos que las activan */
-    private Map<Ability, GameEvent> eventRelatedAbilities = new HashMap<Ability, GameEvent>();
+    private Map<GameEventRelatedAbility, GameEvent> gameEventRelatedAbilities = new HashMap<GameEventRelatedAbility, GameEvent>();
     
     /* habilidades y los eventos que las remueven (la carta que las contiene se va al cementerio) */
-	private Map<Ability, GameEvent> abilityRemover = new HashMap<Ability, GameEvent>();
+	private Map<GameEventRelatedAbility, GameEvent> abilityRemover = new HashMap<GameEventRelatedAbility, GameEvent>();
 	
 	/* efectos y los eventos hasta cuando terminan */
 	private Map<LastingEffect, GameEvent> effectRemover = new HashMap<LastingEffect, GameEvent>();
@@ -25,21 +25,21 @@ public class GameEventHandler {
        
     }
 
-    public static GameEventHandler getEventHandler(){
+    public static GameEventHandler getGameEventHandler(){
         return instance;
     }
 
     /* pasa el evento por los 3 mapas */
     public void signalGameEvent(GameEvent gameEvent) {		
-		for(Map.Entry<Ability, GameEvent> entry : eventRelatedAbilities.entrySet())
+		for(Map.Entry<GameEventRelatedAbility, GameEvent> entry : gameEventRelatedAbilities.entrySet())
 			if(gameEvent.satisfiesEventRequirement(entry.getValue())) {
-				entry.getKey().activate();
+				entry.getKey().analyzeGameEvent(gameEvent);
 			}
 		
-		for(Map.Entry<Ability, GameEvent> entry : abilityRemover.entrySet())
+		for(Map.Entry<GameEventRelatedAbility, GameEvent> entry : abilityRemover.entrySet())
 			if(gameEvent.satisfiesEventRequirement(entry.getValue())) {
 				abilityRemover.remove(entry.getKey());
-				eventRelatedAbilities.remove(entry.getKey());
+				gameEventRelatedAbilities.remove(entry.getKey());
 			}
 		
 		for(Map.Entry<LastingEffect, GameEvent> entry : effectRemover.entrySet())
@@ -49,9 +49,9 @@ public class GameEventHandler {
 			}
 	}
 	
-	public void newAbility(Ability ability) {		
+	public void newAbility(GameEventRelatedAbility ability) {		
 		/* se mapea la ability a su trigger */
-		eventRelatedAbilities.put(ability, ability.getTriggerEvent());
+		gameEventRelatedAbilities.put(ability, ability.getRelatedGameEvent());
 		
 		/* se mapea la ability a la remocion del juego de su fuente */
 		abilityRemover.put(ability, new GameEvent("removed_from_play", ability.getSource()));		

@@ -6,7 +6,7 @@ public class Match {
 	Player player1;
 	Player player2;
 	Integer currentTurn;
-	GameEventHandler eventHandler = GameEventHandler.getEventHandler();
+	GameEventHandler eventHandler = GameEventHandler.getGameEventHandler();
 	
 	public Match(Player player1, Player player2) {
 		this.player1 = player1;
@@ -15,13 +15,11 @@ public class Match {
 		this.currentTurn = 0;
 	}
 	
-	public void start() {
-		
+	public void start() {	
 		//roll dice (see who chooses who goes first)
 		//shuffle decks
 		//draw cards
-		//players can mulligan
-		
+		//players can mulligan	
 		//while(no winner)
 			//playTurn()	(whoever goes first doesnt draw a card)
 	}
@@ -35,31 +33,30 @@ public class Match {
 	//public void switchPriority() {}
 
 	public void playTurn() {
-		//boolean landCastedThisTurn = false;
+		//boolean landCastedThisTurn = false;		
 		
 		beginningPhase();
 		mainPhase();
 		combatPhase();
 		mainPhase();
 		endingPhase();
-	
 	}
 	
 	public void beginningPhase() {
-		eventHandler.signalEvent(new GameEvent("untap_step"));
+		eventHandler.signalGameEvent(new GameEvent("untap_step"));
 		//for all cards in play that contain attribute can_untap -> untap
 		
-		eventHandler.signalEvent(new GameEvent("upkeep_step"));
+		eventHandler.signalGameEvent(new GameEvent("upkeep_step"));
 		//players play instants and activated abilities...
 		
-		eventHandler.signalEvent(new GameEvent("draw_card_step"));
+		eventHandler.signalGameEvent(new GameEvent("draw_card_step"));
 		//draw card(s)...
 		//players play instants and activated abilities...
 		
 	}
 	
 	public void mainPhase() {
-		eventHandler.signalEvent(new GameEvent("main_phase"));
+		eventHandler.signalGameEvent(new GameEvent("main_phase"));
 		//active player casts spells & activated abilities / other players casts instants & activated abilities
 		//active player can play 1 land if not already casted this turn
 		
@@ -69,17 +66,17 @@ public class Match {
 		List<Creature> attackers = new LinkedList<Creature>(); //linked list o lo q sea
 		// Map<Creature, Creature> = new HashMap<Creature, Creature>(); // <blockers, attackers>
 		
-		eventHandler.signalEvent(new GameEvent("combat_phase"));
+		eventHandler.signalGameEvent(new GameEvent("combat_phase"));
 		//players can play instants and activated abilities
 		
-		eventHandler.signalEvent(new GameEvent("declare_attackers_step"));
+		eventHandler.signalGameEvent(new GameEvent("declare_attackers_step"));
 		//active player declares attackers (tap creatures)
 			//solo criaturas que no estan tapeadas, se las agrega a la lista de attackers
 			//si creature.containsAttribute("taps_on_attack") entonces se la tapea
 		
 		//then players can play instants and activated abilities again
 		
-		eventHandler.signalEvent(new GameEvent("declare_blockers_step"));
+		eventHandler.signalGameEvent(new GameEvent("declare_blockers_step"));
 		//opponent declares blockers
 			//solo criaturas que no estan tapeadas (y no se las tapea). se las mapea a un atacante cada una
 			//no se le permite al jugador mapear bloqueadores no voladores a atacantes voladores
@@ -89,7 +86,7 @@ public class Match {
 			
 		//then players can play instants and activated abilities again
 		
-		eventHandler.signalEvent(new GameEvent("combat_damage_step"));
+		eventHandler.signalGameEvent(new GameEvent("combat_damage_step"));
 			// - unblocked attackers deal damage equal to their power to the defending player
 			// - blocked attackers deal their damage to the creatures blocking them. if more than one creature blocks
 			//   one of your attackers, you decide how to divide the attackers damage among the blockers
@@ -105,20 +102,20 @@ public class Match {
 		 	//   resolved, combat damage is actually dealt. If a creature tries to deal damage
 			//   to a creature no longer in play, it can't and the damage isn't dealt.
 		
-		eventHandler.signalEvent(new GameEvent("end_of_combat_phase"));
+		eventHandler.signalGameEvent(new GameEvent("end_of_combat_phase"));
 		//players can play instants and activated abilities again
 		
 	}
 	
 	public void endingPhase() {
-		eventHandler.signalEvent(new GameEvent("ending_phase"));
+		eventHandler.signalGameEvent(new GameEvent("ending_phase"));
 		//players can play instants and activated abilities
 		
-		eventHandler.signalEvent(new GameEvent("cleanup_step"));
+		eventHandler.signalGameEvent(new GameEvent("cleanup_step"));
 		//if you have more than 7 cards in your hand -> discard cards
 		
 		//damage on creatures is removed
-		eventHandler.signalEvent(new GameEvent("end_of_turn"));		
+		eventHandler.signalGameEvent(new GameEvent("end_of_turn"));		
 	}
 	
 
@@ -159,5 +156,6 @@ public class Match {
 				player.objectsInPlay.add(card.playCard);
 			}
 		}
+	
 
 }

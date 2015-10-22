@@ -1,22 +1,15 @@
 package ar.edu.itba.Magic.Backend;
 
-public class Ability {
+public abstract class Ability {
 	
-	Object source;
+	private Object source;
 	
 	public Ability(Object source) {
 		this.source = source;
-	}
-
-	public void activate() {
-		
 	}
 	
 	public Object getSource() {
 		return source;
 	}
-	
-	public GameEvent getTriggerEvent() {
-		return new GameEvent("hola");
-	}
+
 }

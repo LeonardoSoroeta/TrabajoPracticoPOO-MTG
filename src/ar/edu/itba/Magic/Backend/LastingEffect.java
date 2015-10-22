@@ -3,23 +3,19 @@ package ar.edu.itba.Magic.Backend;
 /**
  * Created by Martin on 18/10/2015.
  */
-public class LastingEffect {
+public abstract class LastingEffect {
 
     Object target;
    	GameEvent finalizingEvent;
 
-    public LastingEffect(Object target, GameEvent finalizingEvent){
+    public LastingEffect(Object target, GameEvent finalizingEvent) {
         this.target = target;
         this.finalizingEvent = finalizingEvent;	
     }
     
-    public void applyEffect() {
-    	
-    }
+    public abstract void applyEffect();
     
-    public void removeEffect() {
-    	
-    }
+    public abstract void removeEffect();
     
     public GameEvent getFinalizingEvent() {
     	return finalizingEvent;
