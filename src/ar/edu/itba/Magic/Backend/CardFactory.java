@@ -20,7 +20,23 @@ public class CardFactory {
 				return new CreatureCard("Goku", "saiyan", "black", 10, 10, 10, 10);
 				
 			default:
-				return new CreatureCard("Goku", "saiyan", "black", 10, 10, 10, 10);
+				return new CreatureCard("Goku", "saiyan", "black", 10, 10, 10, 10, 
+						new ActivatedManaAbility() {
+					
+							private Object source;
+							
+							public void activate() {
+								System.out.println("Kamehameha");
+							}
+							
+							public void setSource(Object source) {
+								this.source = source;
+							}
+							
+							public Object getSource() {
+								return source;
+							}				
+				});
 				
 		}
 	}
