@@ -5,7 +5,7 @@ package ar.edu.itba.Magic.Backend;
  */
 public interface GameStackAction {
 	
-	//public void toStack(); // capaz al pedo este metodo, se podria llamar directamente stackAtion del GameStack. por ahora queda lindo
+	public void sendToStack(); // manda al stack y hace lo que tenga que hacer antes (ejemplo determinar targets)
 	
 	public void resolve(); // pasa del stack a entrar en juego o hacer lo q tiene q hacer
 	

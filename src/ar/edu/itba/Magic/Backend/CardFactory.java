@@ -1,4 +1,5 @@
 package ar.edu.itba.Magic.Backend;
+import java.util.*;
 
 public class CardFactory {
 	
@@ -10,6 +11,20 @@ public class CardFactory {
 	
 	public static CardFactory getCardFactory() {
         return instance;
+	}
+	
+	public List<String> getDefaultCreatureAttributes() {
+		List<String> attributes = new ArrayList<String>();
+		
+		attributes.add("can_attack");
+		attributes.add("can_block");
+		attributes.add("can_tap");
+		attributes.add("can_untap");
+		attributes.add("untaps_on_upkeep");
+		//etc
+		//hacer uno para land, artifact, enchantment
+		
+		return attributes;
 	}
 	
 	public Card getCard(String cardName) {
@@ -35,6 +50,11 @@ public class CardFactory {
 							
 							public Object getSource() {
 								return source;
+							}
+
+							public void executeOnAppearance() {
+								System.out.println("Llegue");
+								
 							}				
 				});
 				

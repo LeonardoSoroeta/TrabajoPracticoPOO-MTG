@@ -7,6 +7,8 @@ public abstract class SpellAbility extends Ability implements GameStackAction {
 	
 	public abstract Object getSource();
 	
+	public abstract void sendToStack();
+	
 	public abstract void resolve();
 
 }

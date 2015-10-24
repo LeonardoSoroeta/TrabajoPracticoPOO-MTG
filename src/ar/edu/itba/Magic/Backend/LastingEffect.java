@@ -6,19 +6,19 @@ package ar.edu.itba.Magic.Backend;
 public abstract class LastingEffect {
 
     Object target;
-   	GameEvent finalizingEvent;
+   	String finalizerEventDescriptor;
 
-    public LastingEffect(Object target, GameEvent finalizingEvent) {
+    public LastingEffect(Object target, String finalizerEventDescriptor) {
         this.target = target;
-        this.finalizingEvent = finalizingEvent;	
+        this.finalizerEventDescriptor = finalizerEventDescriptor;	
     }
     
     public abstract void applyEffect();
     
     public abstract void undoEffect();
     
-    public GameEvent getFinalizingEvent() {
-    	return finalizingEvent;
+    public String getEventDescriptor() {
+    	return finalizerEventDescriptor;
     }
     
     public Object getTarget() {

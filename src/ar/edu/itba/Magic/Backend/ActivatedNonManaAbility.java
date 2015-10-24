@@ -7,7 +7,8 @@ public abstract class ActivatedNonManaAbility extends ActivatedAbility implement
 	public abstract Object getSource();
 	
 	public abstract void activate();
+
+	public abstract void sendToStack();
 	
 	public abstract void resolve();
-
 }
