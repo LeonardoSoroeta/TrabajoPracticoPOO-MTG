@@ -4,6 +4,4 @@ public interface ExecutesOnEvent {
 
 	public void executeOnEvent(GameEvent gameEvent);
 	
-	public String getEventDescriptor();
-	
 }
