@@ -1,23 +1,24 @@
 package ar.edu.itba.Magic.Backend;
 
+import java.util.List;
+
 public class CreatureCard extends SpellCard{
 
 	private int attackPoints;
 	private int defencePoints;
 	
-	public CreatureCard(String nameCard, String typeCard, String color, int colorMana, int colorlessMana, int attackPoints, int defencePoints, Ability ability) {
+	public CreatureCard(String nameCard, String typeCard, String color, List<String> attributes, int colorMana, int colorlessMana, int attackPoints, int defencePoints, Ability ability) {
 		super(nameCard, typeCard, color, colorMana, colorlessMana, ability);
 		this.attackPoints = attackPoints;
 		this.defencePoints = defencePoints;
 	}
 
-	public CreatureCard(String nameCard, String typeCard, String color, int colorMana, int colorlessMana, int attackPoints, int defencePoints) {
+	public CreatureCard(String nameCard, String typeCard, String color, List<String> attributes, int colorMana, int colorlessMana, int attackPoints, int defencePoints) {
 		super(nameCard, typeCard, color, colorMana, colorlessMana);
 		this.attackPoints = attackPoints;
 		this.defencePoints = defencePoints;
 	}
-	
-	
+		
 	public Permanent playCard(ManaPool manaPool) {
 		
 		//if(manaPool.getMana(this.getColor()) >= this.getColorMana() && manaPool.getMana("Colorless") >= this.getColorlessMana()){

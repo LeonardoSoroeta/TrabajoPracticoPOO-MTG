@@ -16,7 +16,7 @@ public class EnchantmentCard extends SpellCard {
 			Enchantment enchantment = new Enchantment(this.getNameCard(), this.getColor(), this.getAttributes(), this.getAbility());
 			return enchantment;
 		}else{
-			//tira Excepsion!!!
+			//tira Exception!!!
 		}
 	}
 }

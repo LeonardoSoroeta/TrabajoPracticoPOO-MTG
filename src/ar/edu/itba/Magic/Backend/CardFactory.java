@@ -21,20 +21,46 @@ public class CardFactory {
 		attributes.add("can_block");
 		attributes.add("can_tap");
 		attributes.add("can_untap");
-		attributes.add("untaps_on_upkeep");
-		//etc
+		attributes.add("untaps_on_upkeep");		// etc...
 		
 		return attributes;
 	}
 	
 	public Card getCard(String cardName) {
+		List<String> attributes;
+		
 		switch(cardName) {
 		
-			case "gokuCard":
-				return new CreatureCard("Goku", "saiyan", "black", 10, 10, 10, 10);
+			case "Blight":
+				return new EnchantmentCard("Blight", "enchantment", "black", 2, 0, 
+						new AutomaticPermanentAbility() {
+					
+							GameEventHandler gameEventHandler = GameEventHandler.getGameEventHandler();
+							
+							private Land target;
+					
+							public void executeOnIntroduction() {
+								// determinar target en algun momento
+								gameEventHandler.add(this);
+							}
+							
+							public void executeOnEvent(GameEvent gameEvent) {
+								if(gameEvent.getDescriptor().equals("card_tapped")) {
+									if(gameEvent.getObject1() == target) {
+										target.destroy();
+									}
+								}								
+							}					
+				});
+				
+			case "Bog Imp":
+				attributes = getDefaultCreatureAttributes();
+				attributes.add("flying");
+				return new CreatureCard("Bog Imp", "creature", "black", attributes, 1, 1, 1, 1);
 				
 			default:
-				return new CreatureCard("Goku", "saiyan", "black", 10, 10, 10, 10);			
+				attributes = getDefaultCreatureAttributes();
+				return new CreatureCard("Goku", "saiyan", "black", attributes, 10, 10, 10, 10);			
 		}
 	}
 	

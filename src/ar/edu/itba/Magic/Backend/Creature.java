@@ -1,22 +1,20 @@
 package ar.edu.itba.Magic.Backend;
 import java.util.List;
 
-
 public class Creature extends Permanent implements DamageTaking {
 	
 	private String name;
 	private int attack;
 	private int defense;
-	List<Attribute> attributes;
-	Ability ability;
 	private String color;
 	private Integer damageMarkers;
-	
-	
 	private int colormanacost;
 	private int colorlessmanacost;
-																						// hay que ver que onda Ability
-	public Creature(String name, int attack, int defense, String color, List<Attribute> attributes, Ability ability, int colormanacost, int colorlessmanacost){
+	private Ability ability;
+	private List<String> attributes;
+	
+																						
+	public Creature(String name, int attack, int defense, String color, List<String> attributes, int colormanacost, int colorlessmanacost, PermanentAbility ability){
 		this.name = name;
 		this.attack = attack;
 		this.defense = defense;
@@ -29,22 +27,9 @@ public class Creature extends Permanent implements DamageTaking {
 	}
 	
 	
-	public Creature(String name, int attack, int defense, String color, List<Attribute> attributes, int colormanacost, int colorlessmanacost){
-		this(name, attack, defense, color, attributes, null, colormanacost, colorlessmanacost);
+	public Creature(String name, int attack, int defense, String color, List<String> attributes, int colormanacost, int colorlessmanacost){
+		this(name, attack, defense, color, attributes, colormanacost, colorlessmanacost, null);
 	}
-	
-	
-	
-	public void attack(){
-		
-	}
-	
-	
-	public void defend(){
-		
-	}
-	
-	
 	
 	// cuando muere retorna la carta de la que nacio antes
 	public CreatureCard dead(){
@@ -52,7 +37,7 @@ public class Creature extends Permanent implements DamageTaking {
 	
 }
 	
-	public boolean containAbility(){
+	public boolean containsAbility(){
 		if (this.ability == null)
 			return false;
 		return true;
