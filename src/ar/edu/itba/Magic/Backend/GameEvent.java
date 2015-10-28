@@ -5,6 +5,7 @@ public class GameEvent {
 	private String descriptor;
 	private Object object1;
 	private Object object2;		
+	
 	public GameEvent(String description) {
 		this.descriptor = description;
 	}

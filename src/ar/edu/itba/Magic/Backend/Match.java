@@ -1,18 +1,21 @@
-package backend;
+
 import java.util.*;
 
 public class Match {
 	
+	private static Match instance = new Match();
+	
 	Player player1;
 	Player player2;
-	Integer currentTurn;
+
 	GameEventHandler eventHandler = GameEventHandler.getGameEventHandler();
 	
-	public Match(Player player1, Player player2) {
-		this.player1 = player1;
-		this.player2 = player2;
+	private Match() {
 		
-		this.currentTurn = 0;
+	}
+	
+	public static Match getMatch() {
+		return instance;
 	}
 	
 	public void start() {	
@@ -22,10 +25,6 @@ public class Match {
 		//players can mulligan	
 		//while(no winner)
 			//playTurn()	(whoever goes first doesnt draw a card)
-	}
-	
-	public Integer getCurrentTurn() {
-		return this.currentTurn;
 	}
 	
 	//public void priority() {}

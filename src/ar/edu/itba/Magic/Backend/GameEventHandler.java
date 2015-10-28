@@ -5,10 +5,6 @@ import java.util.*;
  * Created by Martin on 18/10/2015.
  */
 public class GameEventHandler {
-    /**
-     * This class is implemented based in Singletone Pattern because it will be needed only one instance
-     * each game.
-     */
 
     private static GameEventHandler instance = new GameEventHandler();
     
@@ -16,7 +12,7 @@ public class GameEventHandler {
     private List<ExecutesOnEvent> observers = new LinkedList<ExecutesOnEvent>();
 
     private GameEventHandler(){
-       
+    	
     }
 
     public static GameEventHandler getGameEventHandler() {
