@@ -1,4 +1,4 @@
-package ar.edu.itba.Magic.Backend;
+package ar.edu.itba.Magic.Backend.Interfaces;
 
 public interface Activation {
 	

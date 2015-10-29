@@ -1,4 +1,4 @@
-package ar.edu.itba.Magic.Backend;
+package ar.edu.itba.Magic.Backend.Interfaces;
 
 /*  esta la tiene que implementar todo lo que va al stack */
 public interface GameStackAction {

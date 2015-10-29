@@ -1,4 +1,4 @@
-package ar.edu.itba.Magic.Backend;
+package ar.edu.itba.Magic.Backend.Interfaces;
 
 /* criaturas y players implementan esta interface. se implementa distinto en los dos.
  * jugadores toman danio e inmediatamente pierden lo mismo en health.
