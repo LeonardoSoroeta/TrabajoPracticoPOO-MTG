@@ -1,19 +1,26 @@
 package ar.edu.itba.Magic.Backend;
 
+import java.util.List;
+
 public class LandCard extends Card{
 
-	//si trabaja como habilidad el girar el land hay q agregar al constructor
-	
-	public LandCard(String nameCard, String typeCard, String color){
-		super(nameCard, typeCard, color);
+	public LandCard(String cardName, String cardType, String color, List<String> attributes, Integer coloredManaCost, Integer colorlessManaCost, Ability ability) {
+		super(cardName, cardType, color, attributes, coloredManaCost, colorlessManaCost, ability);
 	}
-
-
-	public Permanent playCard(ManaPool manaPool) {
+	
+	public void playCard() {
+		//ManaPool manaPool = ManaPool.getManaPool();
 		
-		Land land = new Land(this.getNameCard(), this.getColor());
-		return Land;
+		//if(manaPool.getMana(this.getColor()) >= this.getColorMana() && manaPool.getMana("Colorless") >= this.getColorlessMana()){
+		//	manaPool.decreaseMana(this.getColor(),  this.getColorMana());
+		//	manaPool.decreaseMana("Colorless", this.getColorlessMana());
+		//	Enchantment enchantment = new Enchantment(this.getNameCard(), this.getColor(), this.getAttributes(), this.getAbility());
+		//	return enchantment;
+		//}else{
+			//tira Exception!!!
+		//}
 		
+		//colocar en juego directamente sin enviar al stack, avisar que ya se coloco un land este turno
 	}
 	
 }

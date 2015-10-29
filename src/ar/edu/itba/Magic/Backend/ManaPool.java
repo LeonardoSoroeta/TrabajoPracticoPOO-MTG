@@ -7,14 +7,19 @@ public class ManaPool {
 	private int WhiteMana;
 	private int ColorlessMana;
 	
+	private static ManaPool instance = new ManaPool();
 	
-	public ManaPool(){
+	private ManaPool(){
 		BlackMana = 0;
 		BlueMana = 0;
 		GreenMana = 0;
 		RedMana = 0;
 		WhiteMana = 0;
 		ColorlessMana = 0;
+	}
+	
+	public static ManaPool getManaPool() {
+		return instance;
 	}
 
 	//si te paso mal el color IllegalArgumentExeption

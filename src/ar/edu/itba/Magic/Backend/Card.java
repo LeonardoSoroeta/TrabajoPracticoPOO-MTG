@@ -3,37 +3,34 @@ package ar.edu.itba.Magic.Backend;
 import java.util.LinkedList;
 import java.util.List;
 
-public abstract class Card{
+public abstract class Card {
 	
-	private String nameCard;
-	private String typeCard;
+	private String cardName;
+	private String cardType;
 	private String color;
+	private Integer coloredManaCost;
+	private Integer colorlessManaCost;
+	private List<String> attributes;
 	private Ability ability;
-	private List<Attribute> attributes;
-	
-	
-	public Card(String nameCard,String typeCard, String color, Ability ability){
-		this.nameCard = nameCard;
-		this.typeCard = typeCard;
+
+	public Card(String cardName,String cardType, String color, List<String> attributes, Integer coloredManaCost, Integer colorlessManaCost ,Ability ability){
+		this.cardName = cardName;
+		this.cardType = cardType;
 		this.color = color;
 		this.ability = ability;
-		this.attributes = new LinkedList<Attribute>();
+		this.attributes = attributes;
 	}
 	
-	public Card(String nameCard,String typeCard, String color){
-		this(nameCard, typeCard, color, null);
-	}
-	
-	public void addAttribute(Attribute attribute){
+	public void addAttribute(String attribute){
 		attributes.add(attribute);
 	}
 	
 	public String getNameCard(){
-		return nameCard;
+		return cardName;
 	}
 	
 	public String getTypeCard(){
-		return this.typeCard;
+		return this.cardType;
 	}
 	
 	public String getColor(){
@@ -44,13 +41,19 @@ public abstract class Card{
 		return ability;		
 	}
 	
-	public List<Attribute> getAttributes(){
+	public boolean containsAbility(){
+		if (this.ability == null)
+			return false;
+		return true;
+	}
+
+	public List<String> getAttributes(){
 		
 		if(attributes.size() == 0){
 			return null;
 		}
 		else{
-			List<Attribute> aux = new LinkedList<Attribute>(attributes);
+			List<String> aux = new LinkedList<String>(attributes);
 		
 			/*for(Attribute each: attributes){
 				aux.add(each);
@@ -60,6 +63,8 @@ public abstract class Card{
 		}
 		
 	}
+	
+	public abstract void playCard();	
 
 }
 

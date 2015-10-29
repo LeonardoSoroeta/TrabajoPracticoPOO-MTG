@@ -1,9 +1,11 @@
 package ar.edu.itba.Magic.Backend;
 
-public class Land {
+import java.util.List;
 
-	public void destroy() {
-		
-	}
+public class Land extends Permanent {
 	
+	public Land(Card sourceCard, String name, String color, List<String> attributes, PermanentAbility ability) {
+		super(sourceCard, name, color, attributes, 0, 0, ability);
+	}
+
 }

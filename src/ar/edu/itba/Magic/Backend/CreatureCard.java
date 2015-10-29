@@ -2,35 +2,33 @@ package ar.edu.itba.Magic.Backend;
 
 import java.util.List;
 
-public class CreatureCard extends SpellCard{
+public class CreatureCard extends Card {
 
 	private int attackPoints;
 	private int defencePoints;
 	
-	public CreatureCard(String nameCard, String typeCard, String color, List<String> attributes, int colorMana, int colorlessMana, int attackPoints, int defencePoints, Ability ability) {
-		super(nameCard, typeCard, color, colorMana, colorlessMana, ability);
+	public CreatureCard(String cardName, String cardType, String color, List<String> attributes, int colorMana, int colorlessMana, int attackPoints, int defencePoints, Ability ability) {
+		super(cardName, cardType, color, attributes, colorMana, colorlessMana, ability);
 		this.attackPoints = attackPoints;
 		this.defencePoints = defencePoints;
 	}
 
-	public CreatureCard(String nameCard, String typeCard, String color, List<String> attributes, int colorMana, int colorlessMana, int attackPoints, int defencePoints) {
-		super(nameCard, typeCard, color, colorMana, colorlessMana);
+	public CreatureCard(String cardName, String cardType, String color, List<String> attributes, int colorMana, int colorlessMana, int attackPoints, int defencePoints) {
+		super(cardName, cardType, color, attributes, colorMana, colorlessMana, null);
 		this.attackPoints = attackPoints;
 		this.defencePoints = defencePoints;
 	}
 		
-	public Permanent playCard(ManaPool manaPool) {
+	public void playCard() {
+		//Creature creature = new Creature(...);
 		
-		//if(manaPool.getMana(this.getColor()) >= this.getColorMana() && manaPool.getMana("Colorless") >= this.getColorlessMana()){
-			manaPool.decreaseMana(this.getColor(),  this.getColorMana());
-			manaPool.decreaseMana("Colorless", this.getColorlessMana());
-			Creature creature = new Creature(this.getNameCard(), attackPoints, defencePoints, this.getColor(), this.getAttributes(), this.getAbility(), this.getColorMana(), this.getColorlessMana());
-			
-			return creature;
-		//}else{
-			//tira Excepsion!!!
-		//}
-
+		//ManaPool manaPool = ManaPool.getManaPool();
+		
+		//pagar costo 
+		
+		//creature = new Creature(parametros...);
+		
+		//creature.sendToStack();	
 	}
 	
 	

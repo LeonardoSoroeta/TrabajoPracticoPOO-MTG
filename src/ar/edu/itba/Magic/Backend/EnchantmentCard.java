@@ -1,22 +1,25 @@
 package ar.edu.itba.Magic.Backend;
 
-public class EnchantmentCard extends SpellCard {
+import java.util.List;
 
-	
-	public EnchantmentCard(String nameCard, String typeCard, String color, int colorMana, int colorlessMana, Ability ability) {
-		super(nameCard, typeCard, color, colorMana, colorlessMana, ability);
+public class EnchantmentCard extends Card {
+
+	public EnchantmentCard(String cardName, String cardType, String color, List<String> attributes, Integer coloredManaCost, Integer colorlessManaCost, Ability ability) {
+		super(cardName, cardType, color, attributes, coloredManaCost, colorlessManaCost, ability);
 	}
 	
-
-	public Permanent playCard(ManaPool manaPool) {
+	public void playCard() {
+		//ManaPool manaPool = ManaPool.getManaPool();
 		
-		if(manaPool.getMana(this.getColor()) >= this.getColorMana() && manaPool.getMana("Colorless") >= this.getColorlessMana()){
-			manaPool.decreaseMana(this.getColor(),  this.getColorMana());
-			manaPool.decreaseMana("Colorless", this.getColorlessMana());
-			Enchantment enchantment = new Enchantment(this.getNameCard(), this.getColor(), this.getAttributes(), this.getAbility());
-			return enchantment;
-		}else{
+		//if(manaPool.getMana(this.getColor()) >= this.getColorMana() && manaPool.getMana("Colorless") >= this.getColorlessMana()){
+		//	manaPool.decreaseMana(this.getColor(),  this.getColorMana());
+		//	manaPool.decreaseMana("Colorless", this.getColorlessMana());
+		//	Enchantment enchantment = new Enchantment(this.getNameCard(), this.getColor(), this.getAttributes(), this.getAbility());
+		//	return enchantment;
+		//}else{
 			//tira Exception!!!
-		}
+		//}
+		
+		
 	}
 }

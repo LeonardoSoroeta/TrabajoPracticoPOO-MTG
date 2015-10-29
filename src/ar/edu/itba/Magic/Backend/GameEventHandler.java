@@ -19,7 +19,7 @@ public class GameEventHandler {
         return instance;
     }
 
-    public void signalGameEvent(GameEvent gameEvent) {		
+    public void notifyGameEvent(GameEvent gameEvent) {		
 		for(ExecutesOnEvent observer : observers)
 			observer.executeOnEvent(gameEvent);
 	}

@@ -3,6 +3,9 @@ import java.util.*;
 
 public class CardFactory {
 	
+	GameEventHandler gameEventHandler = GameEventHandler.getGameEventHandler();
+	Match match = Match.getMatch();
+	
 	private static CardFactory instance = new CardFactory();
 	
 	private CardFactory() {
@@ -13,7 +16,6 @@ public class CardFactory {
         return instance;
 	}
 	
-	/* hacer uno para las demas */
 	public List<String> getDefaultCreatureAttributes() {
 		List<String> attributes = new ArrayList<String>();
 		
@@ -26,31 +28,65 @@ public class CardFactory {
 		return attributes;
 	}
 	
+	public List<String> getDefaultEnchantmentAttributes() {
+		List<String> attributes = new ArrayList<String>();
+		
+		return attributes;
+	}
+	
+	public List<String> getDefaultInstantAttributes() {
+		List<String> attributes = new ArrayList<String>();
+		
+		return attributes;
+	}
+	
 	public Card getCard(String cardName) {
+
 		List<String> attributes;
 		
 		switch(cardName) {
 		
-			case "Blight":
-				return new EnchantmentCard("Blight", "enchantment", "black", 2, 0, 
-						new AutomaticPermanentAbility() {
-					
-							GameEventHandler gameEventHandler = GameEventHandler.getGameEventHandler();
+			case "Flood":
+				attributes = getDefaultEnchantmentAttributes();
+				return new EnchantmentCard("Flood", "enchantment", "blue", attributes, 1, 0, 
+						new ActivatedPermanentAbility() {
 							
-							private Land target;
+							private Permanent sourcePermanent;
 					
 							public void executeOnIntroduction() {
-								// determinar target en algun momento
-								gameEventHandler.add(this);
+								
 							}
 							
-							public void executeOnEvent(GameEvent gameEvent) {
-								if(gameEvent.getDescriptor().equals("card_tapped")) {
-									if(gameEvent.getObject1() == target) {
-										target.destroy();
-									}
-								}								
-							}					
+							public void executeOnActivation() {
+								//pay mana cost
+								//select target creature without flying
+								//creature.tap();
+							}
+							
+							public Permanent getSourcePermanent() {
+								return sourcePermanent;
+							}
+							
+							public void setSourcePermanent(Permanent sourcePermanent) {
+								this.sourcePermanent = sourcePermanent;
+							}
+				});
+
+			case "Terror":
+				attributes = getDefaultInstantAttributes();
+				return new InstantCard("Terror", "instant", "black", attributes, 1, 1, 
+						new SpellAbility() {
+					
+							private Creature target;
+
+							public void sendToStack() {
+							//	target = selectTarget("creature"); //hay que implementar algo asi
+							}
+					
+							public void resolveInStack() {
+								target.destroy();
+							}
+					
 				});
 				
 			case "Bog Imp":
@@ -59,8 +95,7 @@ public class CardFactory {
 				return new CreatureCard("Bog Imp", "creature", "black", attributes, 1, 1, 1, 1);
 				
 			default:
-				attributes = getDefaultCreatureAttributes();
-				return new CreatureCard("Goku", "saiyan", "black", attributes, 10, 10, 10, 10);			
+				throw new IllegalArgumentException("Error: Carta no pertenece a la coleccion.");
 		}
 	}
 	
