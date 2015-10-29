@@ -1,4 +1,7 @@
 package ar.edu.itba.Magic.Backend;
+import ar.edu.itba.Magic.Backend.Interfaces.DamageTaking;
+import ar.edu.itba.Magic.Backend.Interfaces.GameStackAction;
+
 import java.util.List;
 
 public class Creature extends Permanent implements DamageTaking, GameStackAction {

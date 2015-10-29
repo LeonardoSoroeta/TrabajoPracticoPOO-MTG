@@ -1,4 +1,6 @@
 package ar.edu.itba.Magic.Backend;
+import ar.edu.itba.Magic.Backend.Interfaces.ExecutesOnEvent;
+
 import java.util.*;
 
 /**

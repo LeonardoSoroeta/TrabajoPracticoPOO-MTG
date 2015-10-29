@@ -1,4 +1,6 @@
 package ar.edu.itba.Magic.Backend;
+import ar.edu.itba.Magic.Frontend.Match;
+
 import java.util.*;
 
 public class CardFactory {

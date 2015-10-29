@@ -1,5 +1,7 @@
 package ar.edu.itba.Magic.Backend;
 
+import ar.edu.itba.Magic.Backend.Interfaces.ExecutesOnEvent;
+
 public abstract class LastingEffect implements ExecutesOnEvent {
 
     Object target;

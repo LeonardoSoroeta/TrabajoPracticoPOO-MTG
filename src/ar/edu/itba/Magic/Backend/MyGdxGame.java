@@ -1,7 +1,6 @@
 package ar.edu.itba.Magic.Backend;
 
 
-import ar.edu.itba.Magic.Backend.Interfaces.Constants;
 import ar.edu.itba.Magic.Frontend.MagicGameUI;
 
 import com.badlogic.gdx.ApplicationAdapter;
