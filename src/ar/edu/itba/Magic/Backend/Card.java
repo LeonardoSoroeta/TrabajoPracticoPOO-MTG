@@ -37,6 +37,14 @@ public abstract class Card {
 		return color;
 	}
 	
+	public Integer getColoredManaCost() {
+		return coloredManaCost;
+	}
+	
+	public Integer getColorlessManaCost() {
+		return colorlessManaCost;
+	}
+	
 	public Ability getAbility(){
 		return ability;		
 	}

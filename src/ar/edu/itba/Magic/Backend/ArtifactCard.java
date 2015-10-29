@@ -15,10 +15,14 @@ public class ArtifactCard extends Card {
 		//if(manaPool.getMana(this.getColor()) >= this.getColorMana() && manaPool.getMana("Colorless") >= this.getColorlessMana()){
 		//	manaPool.decreaseMana(this.getColor(),  this.getColorMana());
 		//	manaPool.decreaseMana("Colorless", this.getColorlessMana());
-		//	Artifact artifact = new Artifact(this.getNameCard(), this.getColor(), this.getAttributes(), this.getAbility());
-		//	return artifact;
 		//}else{
 			//tira Excepsion!!!
 		//}
+		
+		Artifact artifact = new Artifact(this, this.getNameCard(), this.getAttributes(), this.getColorlessManaCost(), (PermanentAbility) this.getAbility());
+			
+		if(artifact.getAbility().satisfyCastingRequirements() == true)
+			artifact.sendToStack();
+		
 	}
 }

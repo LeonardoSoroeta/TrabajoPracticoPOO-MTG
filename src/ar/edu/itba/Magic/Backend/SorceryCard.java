@@ -19,6 +19,7 @@ public class SorceryCard extends Card {
 			//tira Excepsion!!!
 		//}
 		
-		//ability.sendToStack();
+		if(this.getAbility().satisfyCastingRequirements() == true)
+			((SpellAbility)this.getAbility()).sendToStack();
 	}
 }

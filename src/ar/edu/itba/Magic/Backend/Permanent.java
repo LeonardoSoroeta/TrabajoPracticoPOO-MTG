@@ -46,6 +46,10 @@ public abstract class Permanent {
 		return sourceCard;
 	}
 	
+	public Ability getAbility() {
+		return ability;
+	}
+	
 	public void destroy() {
 		//quitar del juego
 		//signalGameEvent(new GameEvent("permanent_leaves_play", this);

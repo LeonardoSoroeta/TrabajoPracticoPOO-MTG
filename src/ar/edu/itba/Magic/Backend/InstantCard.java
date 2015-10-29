@@ -18,8 +18,9 @@ public class InstantCard extends Card {
 		//}else{
 			//tira Excepsion!!!
 		//}
-			
-		//ability.sendToStack();
+		
+		if(this.getAbility().satisfyCastingRequirements() == true)
+			((SpellAbility)this.getAbility()).sendToStack();
 	}
 	
 	

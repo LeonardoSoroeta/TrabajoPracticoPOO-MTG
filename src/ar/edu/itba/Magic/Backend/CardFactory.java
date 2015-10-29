@@ -78,9 +78,16 @@ public class CardFactory {
 						new SpellAbility() {
 					
 							private Creature target;
+							
+							public boolean satisfyCastingRequirements() {
+								//selecciona un target
+									//return true
+								//else
+								return false;
+							}
 
 							public void sendToStack() {
-							//	target = selectTarget("creature"); //hay que implementar algo asi
+								//gamestack.add(this)
 							}
 					
 							public void resolveInStack() {
