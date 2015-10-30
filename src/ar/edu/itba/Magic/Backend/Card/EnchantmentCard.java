@@ -1,6 +1,9 @@
-package ar.edu.itba.Magic.Backend;
+package ar.edu.itba.Magic.Backend.Card;
 
-import java.util.List;
+
+import ar.edu.itba.Magic.Backend.Ability;
+import ar.edu.itba.Magic.Backend.Enchantment;
+import ar.edu.itba.Magic.Backend.PermanentAbility;
 
 /**
  * When played, this card creates an Enchantment Permanent and places it on the game stack. This card may only be played
@@ -8,8 +11,8 @@ import java.util.List;
  */
 public class EnchantmentCard extends Card {
 
-	public EnchantmentCard(String cardName, String cardType, String color, List<String> attributes, Integer coloredManaCost, Integer colorlessManaCost, Ability ability) {
-		super(cardName, cardType, color, attributes, coloredManaCost, colorlessManaCost, ability);
+	public EnchantmentCard(String cardName, String cardType, ColorCard color, Integer coloredManaCost, Integer colorlessManaCost, Ability ability) {
+		super(cardName, cardType, color, coloredManaCost, colorlessManaCost, ability);
 	}
 	
 	/**
@@ -23,9 +26,8 @@ public class EnchantmentCard extends Card {
 		//pagar costo
 		
 		if(this.getAbility().satisfyCastingRequirements() == true) {
-			enchantment = new Enchantment(this, this.getCardName(), this.getColor(), this.getAttributes(), this.getColoredManaCost(), this.getColorlessManaCost(), (PermanentAbility)this.getAbility());			
-			enchantment.setController(this.getController());	
-			enchantment.getAbility().setSource(enchantment);
+			enchantment = new Enchantment(this, this.getCardName(), this.getColor(), this.getColoredManaCost(), this.getColorlessManaCost(), (PermanentAbility)this.getAbility());			
+			enchantment.setController(this.getController());		
 			enchantment.sendToStack();			
 			this.getController().getHand().remove(this);
 		}

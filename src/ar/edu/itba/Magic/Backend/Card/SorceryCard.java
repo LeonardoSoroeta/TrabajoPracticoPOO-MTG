@@ -1,4 +1,7 @@
-package ar.edu.itba.Magic.Backend;
+package ar.edu.itba.Magic.Backend.Card;
+
+import ar.edu.itba.Magic.Backend.Ability;
+import ar.edu.itba.Magic.Backend.SpellAbility;
 
 /**
  * When played, this card places a SpellAbility on the game stack. This card may only be played during a player's
@@ -6,8 +9,8 @@ package ar.edu.itba.Magic.Backend;
  */
 public class SorceryCard extends Card {
 	
-	public SorceryCard(String cardName, String cardType, String color, Integer coloredManaCost, Integer colorlessManaCost, Ability ability) {
-		super(cardName, cardType, color, null, coloredManaCost, colorlessManaCost, ability);
+	public SorceryCard(String cardName, String cardType, ColorCard color, Integer coloredManaCost, Integer colorlessManaCost, Ability ability) {
+		super(cardName, cardType, color, coloredManaCost, colorlessManaCost, ability);
 	}
 	
 	/**
@@ -17,8 +20,6 @@ public class SorceryCard extends Card {
 	 */
 	public void playCard() {
 		// pagar costo
-		
-		this.getAbility().setSource(this);
 		
 		if(this.getAbility().satisfyCastingRequirements() == true)
 			((SpellAbility)this.getAbility()).sendToStack();

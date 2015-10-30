@@ -1,25 +1,28 @@
-package ar.edu.itba.Magic.Backend;
+package ar.edu.itba.Magic.Backend.Card;
 
 import java.util.LinkedList;
 import java.util.List;
+
+import ar.edu.itba.Magic.Backend.Ability;
+import ar.edu.itba.Magic.Backend.Player;
 
 public abstract class Card {
 	
 	private Player controller;
 	private String cardName;
 	private String cardType;
-	private String color;
+	private ColorCard color;
 	private Integer coloredManaCost;
 	private Integer colorlessManaCost;
-	private List<String> attributes;
 	private Ability ability;
 
-	public Card(String cardName,String cardType, String color, List<String> attributes, Integer coloredManaCost, Integer colorlessManaCost ,Ability ability){
+	public Card(String cardName,String cardType, ColorCard color, Integer coloredManaCost, Integer colorlessManaCost ,Ability ability){
 		this.cardName = cardName;
 		this.cardType = cardType;
 		this.color = color;
+		this.coloredManaCost = coloredManaCost;
+		this.colorlessManaCost = colorlessManaCost;
 		this.ability = ability;
-		this.attributes = attributes;
 	}
 	
 	/**
@@ -43,7 +46,7 @@ public abstract class Card {
 		return this.cardType;
 	}
 	
-	public String getColor(){
+	public ColorCard getColor(){
 		return color;
 	}
 	
@@ -56,30 +59,13 @@ public abstract class Card {
 	}
 	
 	public Ability getAbility(){
-		return ability;		
+		return ability;	
 	}
 	
 	public boolean containsAbility(){
 		if (this.ability == null)
 			return false;
 		return true;
-	}
-
-	public List<String> getAttributes(){
-		
-		if(attributes.size() == 0){
-			return null;
-		}
-		else{
-			List<String> aux = new LinkedList<String>(attributes);
-		
-			/*for(Attribute each: attributes){
-				aux.add(each);
-			}*/
-
-			return aux;
-		}
-		
 	}
 	
 	public abstract void playCard();	
