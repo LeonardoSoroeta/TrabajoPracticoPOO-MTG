@@ -1,96 +1,37 @@
-package backend;
+package ar.edu.itba.Magic.Backend;
+
+import java.util.HashMap;
+import java.util.Map;
+
 public class ManaPool {
-	private int BlackMana;
-	private int BlueMana;
-	private int GreenMana;
-	private int RedMana;
-	private int WhiteMana;
-	private int ColorlessMana;
-	
-	private static ManaPool instance = new ManaPool();
-	
-	private ManaPool(){
-		BlackMana = 0;
-		BlueMana = 0;
-		GreenMana = 0;
-		RedMana = 0;
-		WhiteMana = 0;
-		ColorlessMana = 0;
+	Map<String, Integer> manapool;
+	// cambiar por lo que se use para el color el String
+	public ManaPool(){
+		manapool = new HashMap<String, Integer>();
+		manapool.put("red", 0);
+		manapool.put("black", 0);
+		manapool.put("green", 0);
+		manapool.put("white", 0);
+		manapool.put("blue", 0);
+		manapool.put("colorless", 0);
+		
 	}
 	
-	public static ManaPool getManaPool() {
-		return instance;
-	}
-
-	//si te paso mal el color IllegalArgumentExeption
 	public int getMana(String color){
-		if ( color.equals("Black"))
-			return this.BlackMana;
-		if ( color.equals("Blue"))
-			return this.BlackMana;
-		if ( color.equals("Green"))
-			return this.BlackMana;
-		if ( color.equals("Red"))
-			return this.BlackMana;
-		if ( color.equals("White"))
-			return this.BlackMana;
-		if ( color.equals("Colorless"))
-			return this.BlackMana;
-		throw new IllegalArgumentException();
+		// hago con excepcion
+		return manapool.get(color);
 		
 	}
-	
 	public void setMana(String color, int quantity){
-		
-		if ( color.equals("Black"))
-			this.BlackMana = quantity;
-		else if ( color.equals("Blue"))
-			this.BlackMana = quantity;
-		else if ( color.equals("Green"))
-			this.BlackMana = quantity;
-		else if ( color.equals("Red"))
-			this.BlackMana = quantity;
-		else if ( color.equals("White"))
-			this.BlackMana = quantity;
-		else if ( color.equals("Colorless"))
-			this.BlackMana = quantity;
-		else
-			throw new IllegalArgumentException();
+		manapool.put(color, quantity);
 	}
 	
-	//suma o resta quantity mana de color
-	public void increaseMana(String color, int quantity){
-		if ( color.equals("Black"))
-			this.BlackMana += quantity;
-		else if ( color.equals("Blue"))
-			this.BlackMana += quantity;
-		else if ( color.equals("Green"))
-			this.BlackMana += quantity;
-		else if ( color.equals("Red"))
-			this.BlackMana += quantity;
-		else if ( color.equals("White"))
-			this.BlackMana += quantity;
-		else if ( color.equals("Colorless"))
-			this.BlackMana += quantity;
-		else
-			throw new IllegalArgumentException();
+	public void increaseMana(String color){
+		int aux = manapool.get(color);
+		manapool.put("color", aux+1);
 	}
-
-	public void decreaseMana(String color, int quantity){
-		if ( color.equals("Black"))
-			this.BlackMana -= quantity;
-		else if ( color.equals("Blue"))
-			this.BlackMana -= quantity;
-		else if ( color.equals("Green"))
-			this.BlackMana -= quantity;
-		else if ( color.equals("Red"))
-			this.BlackMana -= quantity;
-		else if ( color.equals("White"))
-			this.BlackMana -= quantity;
-		else if ( color.equals("Colorless"))
-			this.BlackMana -= quantity;
-		else
-			throw new IllegalArgumentException();
+	public void decreaseMana(String color){
+		int aux = manapool.get(color);
+		manapool.put("color", aux-1);
 	}
-
-}
+	}
