@@ -7,8 +7,6 @@ package ar.edu.itba.Magic.Backend;
  */
 public abstract class Ability {
 
-	private Object source;
-	
 	/**
 	 * Must override this method for Cards that require an action to be performed before casting. For example, selecting 
 	 * a target.
@@ -17,14 +15,6 @@ public abstract class Ability {
 	 */
 	public boolean satisfyCastingRequirements() {
 		return true;
-	}
-	
-	public void setSource(Object source) {
-		this.source = source;
-	}
-	
-	public Object getSource() {
-		return source;
 	}
 
 }

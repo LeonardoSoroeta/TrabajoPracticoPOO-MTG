@@ -7,7 +7,7 @@ package ar.edu.itba.Magic.Backend;
 public abstract class PermanentAbility extends Ability {
 	
 	private Permanent source;
-	
+
 	public Permanent getSource() {
 		return source;
 	}
