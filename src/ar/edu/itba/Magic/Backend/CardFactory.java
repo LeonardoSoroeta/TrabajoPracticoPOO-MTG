@@ -1,6 +1,5 @@
 package ar.edu.itba.Magic.Backend;
-import ar.edu.itba.Magic.Frontend.Match;
-
+//import ar.edu.itba.Magic.Frontend.Match;
 import java.util.*;
 
 public class CardFactory {
@@ -25,18 +24,12 @@ public class CardFactory {
 		attributes.add("can_block");
 		attributes.add("can_tap");
 		attributes.add("can_untap");
-		attributes.add("untaps_on_upkeep");		// etc...
+		attributes.add("untaps_on_upkeep");	
 		
 		return attributes;
 	}
 	
 	public List<String> getDefaultEnchantmentAttributes() {
-		List<String> attributes = new ArrayList<String>();
-		
-		return attributes;
-	}
-	
-	public List<String> getDefaultInstantAttributes() {
 		List<String> attributes = new ArrayList<String>();
 		
 		return attributes;
@@ -48,41 +41,64 @@ public class CardFactory {
 		
 		switch(cardName) {
 		
+			case "Bog Imp":
+				attributes = getDefaultCreatureAttributes();
+				attributes.add("flying");
+				return new CreatureCard("Bog Imp", "creature", "black", attributes, 1, 1, 1, 1);
+				
 			case "Flood":
 				attributes = getDefaultEnchantmentAttributes();
 				return new EnchantmentCard("Flood", "enchantment", "blue", attributes, 1, 0, 
 						new ActivatedPermanentAbility() {
-							
-							private Permanent sourcePermanent;
-					
-							public void executeOnIntroduction() {
-								
-							}
-							
+
 							public void executeOnActivation() {
 								//pay mana cost
 								//select target creature without flying
 								//creature.tap();
 							}
+				});
+				
+			case "Nightmare":
+				attributes = getDefaultCreatureAttributes();
+				attributes.add("flying");
+				return new CreatureCard("Nightmare", "creature", "black", attributes, 1, 5, 1, 1, 
+						new AutomaticPermanentAbility() {
 							
-							public Permanent getSourcePermanent() {
-								return sourcePermanent;
+							/**
+							 * Adds Nightmare's automatic ability to the gameEventHandler.
+							 */
+							public void executeOnIntroduction() {
+								gameEventHandler.add(this);
+								gameEventHandler.notifyGameEvent(new GameEvent("generic_event"));
 							}
 							
-							public void setSourcePermanent(Permanent sourcePermanent) {
-								this.sourcePermanent = sourcePermanent;
+							/**
+							 * Executes on every game event. Sets Nightmare's attack and defense equal to
+							 * the ammount of Swamps it's controller has in play.
+							 */
+							public void executeOnEvent(GameEvent gameEvent) {
+								Integer swamps = 0;
+								Player controller = ((Permanent)this.getSource()).getController();
+								List<Permanent> permanents = new LinkedList<Permanent>();
+								permanents.addAll(controller.getPermanentsInPlay());
+								for(Permanent permanent : permanents) {
+									if(permanent.getName().equals("Swamp")) 
+										swamps++;
+								((Creature)this.getSource()).setAttack(swamps);
+								((Creature)this.getSource()).setDefense(swamps);
+								}
+								
 							}
 				});
 
 			case "Terror":
-				attributes = getDefaultInstantAttributes();
-				return new InstantCard("Terror", "instant", "black", attributes, 1, 1, 
+				return new InstantCard("Terror", "instant", "black", 1, 1, 
 						new SpellAbility() {
 					
 							private Creature target;
 							
 							public boolean satisfyCastingRequirements() {
-								//selecciona un target
+								//seleccionar un target
 									//return true
 								//else
 								return false;
@@ -97,11 +113,6 @@ public class CardFactory {
 							}
 					
 				});
-				
-			case "Bog Imp":
-				attributes = getDefaultCreatureAttributes();
-				attributes.add("flying");
-				return new CreatureCard("Bog Imp", "creature", "black", attributes, 1, 1, 1, 1);
 				
 			default:
 				throw new IllegalArgumentException("Error: Carta no pertenece a la coleccion.");

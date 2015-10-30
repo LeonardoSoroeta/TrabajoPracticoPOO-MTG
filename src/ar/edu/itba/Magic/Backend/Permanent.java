@@ -1,8 +1,12 @@
 import java.util.*;
 
+/**
+ * All objects currently in play are Permanents. These objects may be a Creature, an Enchantment, an Artifact or a Land.
+ */
 public abstract class Permanent {
 	
 	private Card sourceCard;
+	private Player controller;
 	private String name;
 	private String color;
 	private int coloredManacost;
@@ -38,12 +42,30 @@ public abstract class Permanent {
 		return attachedEnchantments;
 	}
 	
+	public List<String> getAttributes() {
+		return attributes;
+	}
+	
 	public String getName(){
 		return this.name;
 	}
 	
+	public void setController(Player controller) {
+		this.controller = controller;
+	}
+	
+	public Player getController() {
+		return controller;
+	}
+	
 	public Card getSourceCard() {
 		return sourceCard;
+	}
+	
+	public boolean containsAbility() {
+		if (this.ability == null)
+			return false;
+		return true;
 	}
 	
 	public Ability getAbility() {

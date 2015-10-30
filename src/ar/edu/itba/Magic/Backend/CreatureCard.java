@@ -2,6 +2,10 @@ package ar.edu.itba.Magic.Backend;
 
 import java.util.List;
 
+/**
+ * When played, this card creates a Creature Permanent and places it on the game stack. This card may only be played
+ * during a player's main phase. A CreatureCard and it's generated Creature may or may not contain an Ability.
+ */
 public class CreatureCard extends Card {
 
 	private int attackPoints;
@@ -18,18 +22,32 @@ public class CreatureCard extends Card {
 		this.attackPoints = attackPoints;
 		this.defencePoints = defencePoints;
 	}
-		
-	public void playCard() {
-		//Creature creature = new Creature(...);
-		
-		//ManaPool manaPool = ManaPool.getManaPool();
-		
-		//pagar costo 
-		
-		//creature = new Creature(parametros...);
-		
-		//creature.sendToStack();	
-	}
 	
+	/**
+	 * Plays the card if currently in player's hand. Must request the owner to pay the card's mana cost first. Must also
+	 * execute the ability's satisfyCastingRequireMents method. If the player fails to satisfy the card's casting requirements,
+	 * the card fails to cast.
+	 */
+	public void playCard() {
+		Creature creature;
+		
+		//pagar costo
+		
+		if(this.containsAbility()) {
+			if(this.getAbility().satisfyCastingRequirements() == true) {
+				creature = new Creature(this, this.getCardName(), attackPoints, defencePoints, this.getColor(), this.getAttributes(), this.getColoredManaCost(), this.getColorlessManaCost(), (PermanentAbility)this.getAbility());
+				creature.setController(this.getController());
+				creature.sendToStack();	
+				this.getController().getHand().remove(this);
+			}
+		}
+		else {
+			creature = new Creature(this, this.getCardName(), attackPoints, defencePoints, this.getColor(), this.getAttributes(), this.getColoredManaCost(), this.getColorlessManaCost());
+			creature.setController(this.getController());
+			creature.sendToStack();	
+			this.getController().getHand().remove(this);
+		}
+
+	}
 	
 }

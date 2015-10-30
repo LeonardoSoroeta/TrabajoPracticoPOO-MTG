@@ -5,6 +5,7 @@ import java.util.List;
 
 public abstract class Card {
 	
+	private Player controller;
 	private String cardName;
 	private String cardType;
 	private String color;
@@ -21,15 +22,24 @@ public abstract class Card {
 		this.attributes = attributes;
 	}
 	
-	public void addAttribute(String attribute){
-		attributes.add(attribute);
+	/**
+	 * Must set a Card's controller every time it is instanced. 
+	 * 
+	 * @param controller The player who contains the Card.
+	 */
+	public void setController(Player controller) {
+		this.controller = controller;
 	}
 	
-	public String getNameCard(){
+	public Player getController() {
+		return controller;
+	}
+	
+	public String getCardName(){
 		return cardName;
 	}
 	
-	public String getTypeCard(){
+	public String getCardType(){
 		return this.cardType;
 	}
 	

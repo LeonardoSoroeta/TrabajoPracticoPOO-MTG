@@ -6,6 +6,7 @@ import java.util.List;
 
 public class Creature extends Permanent implements DamageTaking, GameStackAction {
 	
+	GameEventHandler gameEventHandler = GameEventHandler.getGameEventHandler();
 	private int attack;
 	private int defense;
 	private Integer damageMarkers;
@@ -24,13 +25,23 @@ public class Creature extends Permanent implements DamageTaking, GameStackAction
 		this.damageMarkers = 0;
 	}
 	
+	/**
+	 * Sends the creature to the game stack when it's Card is played.
+	 */
 	public void sendToStack(){
 		//gameStack.add(this);
 	}
 	
+	/**
+	 * Places the creature in play. Notifies the event. Executes the ability's executeOnIntroduction method.
+	 */
 	public void resolveInStack() {
-		//colocar en juego
-		//ability.executeOnIntroduction();
+		this.getController().getPermanentsInPlay().add(this);
+		
+		gameEventHandler.notifyGameEvent(new GameEvent("new_permanent_in_play", this));
+		
+		if(this.containsAbility())
+			((PermanentAbility)this.getAbility()).executeOnIntroduction();
 	}
 	
 	public int getAttack(){

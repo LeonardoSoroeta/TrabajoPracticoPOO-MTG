@@ -2,24 +2,31 @@ package ar.edu.itba.Magic.Backend;
 
 import java.util.List;
 
+/**
+ * When played, this card creates an Enchantment Permanent and places it on the game stack. This card may only be played
+ * during a player's main phase.
+ */
 public class EnchantmentCard extends Card {
 
 	public EnchantmentCard(String cardName, String cardType, String color, List<String> attributes, Integer coloredManaCost, Integer colorlessManaCost, Ability ability) {
 		super(cardName, cardType, color, attributes, coloredManaCost, colorlessManaCost, ability);
 	}
 	
+	/**
+	 * Plays the card if currently in player's hand. Must request the owner to pay the card's mana cost first. Must also
+	 * execute the ability's satisfyCastingRequireMents method. If the player fails to satisfy the card's casting requirements,
+	 * the card fails to cast.
+	 */
 	public void playCard() {
-		//ManaPool manaPool = ManaPool.getManaPool();
+		Enchantment enchantment;
 		
-		//if(manaPool.getMana(this.getColor()) >= this.getColorMana() && manaPool.getMana("Colorless") >= this.getColorlessMana()){
-		//	manaPool.decreaseMana(this.getColor(),  this.getColorMana());
-		//	manaPool.decreaseMana("Colorless", this.getColorlessMana());
-		//	Enchantment enchantment = new Enchantment(this.getNameCard(), this.getColor(), this.getAttributes(), this.getAbility());
-		//	return enchantment;
-		//}else{
-			//tira Exception!!!
-		//}
+		//pagar costo
 		
-		
+		if(this.getAbility().satisfyCastingRequirements() == true) {
+			enchantment = new Enchantment(this, this.getCardName(), this.getColor(), this.getAttributes(), this.getColoredManaCost(), this.getColorlessManaCost(), (PermanentAbility)this.getAbility());			
+			enchantment.setController(this.getController());		
+			enchantment.sendToStack();			
+			this.getController().getHand().remove(this);
+		}
 	}
 }

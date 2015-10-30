@@ -5,10 +5,10 @@ public class Match {
 	
 	private static Match instance = new Match();
 	
-	Player player1;
-	Player player2;
-
 	GameEventHandler eventHandler = GameEventHandler.getGameEventHandler();
+	
+	private Player player1;
+	private Player player2;
 	
 	private Match() {
 		
@@ -16,6 +16,14 @@ public class Match {
 	
 	public static Match getMatch() {
 		return instance;
+	}
+	
+	public Player getPlayer1() {
+		return player1;
+	}
+	
+	public Player getPlayer2() {
+		return player2;
 	}
 	
 	public void start() {	

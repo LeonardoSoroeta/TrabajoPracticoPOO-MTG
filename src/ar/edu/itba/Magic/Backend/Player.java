@@ -9,7 +9,7 @@ public class Player implements DamageTaking {
 	
 	List<Card> library;
 	List<Card> hand;
-	List<Permanent> objectsInPlay;
+	List<Permanent> permanentsInPlay;
 	List<Card> graveyard;
 	
 	private int health;
@@ -17,7 +17,7 @@ public class Player implements DamageTaking {
 	public Player(Deck deck) {
 		this.library = deck.getCards();
 		this.hand = new LinkedList<Card>();
-		this.objectsInPlay = new LinkedList<Permanent>();
+		this.permanentsInPlay = new LinkedList<Permanent>();
 		this.graveyard = new LinkedList<Card>();
 		this.manaPool = new ManaPool();		
 	}
@@ -55,8 +55,8 @@ public class Player implements DamageTaking {
 		return hand;
 	}
 	
-	public List<Permanent> getObjectsInPlay() {
-		return objectsInPlay;
+	public List<Permanent> getPermanentsInPlay() {
+		return permanentsInPlay;
 	}
 	
 	public List<Card> getGraveyard() {
