@@ -18,6 +18,8 @@ public class SorceryCard extends Card {
 	public void playCard() {
 		// pagar costo
 		
+		this.getAbility().setSource(this);
+		
 		if(this.getAbility().satisfyCastingRequirements() == true)
 			((SpellAbility)this.getAbility()).sendToStack();
 	}

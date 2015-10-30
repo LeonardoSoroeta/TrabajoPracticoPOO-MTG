@@ -40,11 +40,12 @@ public class CardFactory {
 		List<String> attributes;
 		
 		switch(cardName) {
-		
+
 			case "Bog Imp":
 				attributes = getDefaultCreatureAttributes();
 				attributes.add("flying");
 				return new CreatureCard("Bog Imp", "creature", "black", attributes, 1, 1, 1, 1);
+				
 				
 			case "Flood":
 				attributes = getDefaultEnchantmentAttributes();
@@ -52,11 +53,34 @@ public class CardFactory {
 						new ActivatedPermanentAbility() {
 
 							public void executeOnActivation() {
+								//TODO
 								//pay mana cost
 								//select target creature without flying
 								//creature.tap();
 							}
 				});
+				
+			case "Lord of the Pit":
+				attributes = getDefaultCreatureAttributes();
+				attributes.add("trample");
+				attributes.add("flying");
+				return new CreatureCard("Lord Of The Pit", "creature", "black", attributes, 3, 4, 7, 7,
+						new AutomaticPermanentAbility() {
+					
+							public void executeOnIntroduction() {
+								gameEventHandler.add(this);
+							}
+							
+							public void executeOnEvent(GameEvent gameEvent) {
+								if(gameEvent.getDescriptor().equals("upkeep_step"))
+									if(gameEvent.getObject1().equals(((Permanent)this.getSource()).getController())) {
+										//TODO 
+										//select a creature, destroy it
+										//otherwise, suffer 7 damage
+									}
+							}
+				});
+				
 				
 			case "Nightmare":
 				attributes = getDefaultCreatureAttributes();
@@ -65,7 +89,8 @@ public class CardFactory {
 						new AutomaticPermanentAbility() {
 							
 							/**
-							 * Adds Nightmare's automatic ability to the gameEventHandler.
+							 * Adds Nightmare's automatic ability to the gameEventHandler. Executes a generic
+							 * game event to get Nightmare's attack and defense started.
 							 */
 							public void executeOnIntroduction() {
 								gameEventHandler.add(this);
@@ -97,6 +122,7 @@ public class CardFactory {
 							private Creature target;
 							
 							public boolean satisfyCastingRequirements() {
+								//TODO
 								//seleccionar un target
 									//return true
 								//else
@@ -104,6 +130,7 @@ public class CardFactory {
 							}
 
 							public void sendToStack() {
+								//TODO
 								//gamestack.add(this)
 							}
 					

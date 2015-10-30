@@ -25,7 +25,8 @@ public class LandCard extends Card{
 		
 		if(this.getAbility().satisfyCastingRequirements() == true) {
 			land = new Land(this, this.getCardName(), this.getColor(), this.getAttributes(), (PermanentAbility)this.getAbility());		
-			land.setController(this.getController());			
+			land.setController(this.getController());		
+			land.getAbility().setSource(land);
 			land.getController().getHand().remove(this);			
 			land.getController().getPermanentsInPlay().add(land);			
 			gameEventHandler.notifyGameEvent(new GameEvent("new_permanent_in_play", land));			

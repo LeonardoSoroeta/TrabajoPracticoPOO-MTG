@@ -37,6 +37,7 @@ public class CreatureCard extends Card {
 			if(this.getAbility().satisfyCastingRequirements() == true) {
 				creature = new Creature(this, this.getCardName(), attackPoints, defencePoints, this.getColor(), this.getAttributes(), this.getColoredManaCost(), this.getColorlessManaCost(), (PermanentAbility)this.getAbility());
 				creature.setController(this.getController());
+				creature.getAbility().setSource(creature);
 				creature.sendToStack();	
 				this.getController().getHand().remove(this);
 			}
