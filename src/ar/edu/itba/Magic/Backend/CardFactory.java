@@ -84,10 +84,9 @@ public class CardFactory {
 								for(Permanent permanent : permanents) {
 									if(permanent.getName().equals("Swamp")) 
 										swamps++;
-								((Creature)this.getSource()).setAttack(swamps);
-								((Creature)this.getSource()).setDefense(swamps);
 								}
-								
+								((Creature)this.getSource()).setAttack(swamps);
+								((Creature)this.getSource()).setDefense(swamps);					
 							}
 				});
 
