@@ -11,6 +11,7 @@ public abstract class Permanent {
 	private String color;
 	private int coloredManacost;
 	private int colorlessManacost;
+	private boolean tapped;
 	private PermanentAbility ability;
 	private List<String> attributes;
 	public List<LastingEffect> appliedEffects = new LinkedList<LastingEffect>();
@@ -40,6 +41,13 @@ public abstract class Permanent {
 	
 	public  List<Enchantment> getAttachedEnchantments() {
 		return attachedEnchantments;
+	}
+	
+	public boolean containsAttribute(String attribute) {
+		if(attributes.contains(attribute))
+			return true;
+		
+		return false;
 	}
 	
 	public List<String> getAttributes() {
@@ -72,7 +80,19 @@ public abstract class Permanent {
 		return ability;
 	}
 	
+	public void tap() {
+		if(this.containsAttribute("can_tap") && this.isTapped() == false)
+			tapped = true;
+		else
+			System.out.println("no se puede tapear!"); //TODO cambiar esto
+	}
+	
+	public boolean isTapped() {
+		return tapped;
+	}
+	
 	public void destroy() {
+		//TODO
 		//quitar del juego
 		//signalGameEvent(new GameEvent("permanent_leaves_play", this);
 		//for all applied effects y attached enchantments : quitarlos del juego tambien
