@@ -53,9 +53,13 @@ public abstract class Permanent {
 	public List<String> getAttributes() {
 		return attributes;
 	}
-	
-	public String getName(){
+	 
+	public String getName() {
 		return this.name;
+	}
+	
+	public String getColor() {
+		return color;
 	}
 	
 	public void setController(Player controller) {
