@@ -1,5 +1,6 @@
-package ar.edu.itba.Magic.Backend;
+package ar.edu.itba.Magic.Backend.Card;
 import java.util.HashMap;
+
 import java.util.Map;
 
 

@@ -1,6 +1,8 @@
-package ar.edu.itba.Magic.Backend;
+package ar.edu.itba.Magic.Backend.Card;
 
-import java.util.List;
+import ar.edu.itba.Magic.Backend.Ability;
+import ar.edu.itba.Magic.Backend.Artifact;
+import ar.edu.itba.Magic.Backend.PermanentAbility;
 
 /**
  * When played, this card creates an Artifact Permanent and places it on the game stack. This card may only be played
@@ -8,8 +10,8 @@ import java.util.List;
  */
 public class ArtifactCard extends Card {
 
-	public ArtifactCard(String cardName, String cardType, List<String> attributes, int colorlessManaCost, Ability ability) {
-		super(cardName, cardType, "colorless", attributes, 0, colorlessManaCost, ability);
+	public ArtifactCard(String cardName, String cardType, int colorlessManaCost, Ability ability) {
+		super(cardName, cardType, ColorCard.COLORLESS, 0, colorlessManaCost, ability);
 	}
 	
 	/**
@@ -23,9 +25,8 @@ public class ArtifactCard extends Card {
 		//pagar costo
 		
 		if(this.getAbility().satisfyCastingRequirements() == true) {
-			artifact = new Artifact(this, this.getCardName(), this.getAttributes(), this.getColorlessManaCost(), (PermanentAbility)this.getAbility());			
+			artifact = new Artifact(this, this.getCardName(), this.getColorlessManaCost(), (PermanentAbility)this.getAbility());			
 			artifact.setController(this.getController());	
-			artifact.getAbility().setSource(artifact);
 			artifact.sendToStack();		
 			this.getController().getHand().remove(this);
 		}

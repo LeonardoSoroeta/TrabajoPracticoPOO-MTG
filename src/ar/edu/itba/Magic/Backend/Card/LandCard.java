@@ -1,6 +1,10 @@
-package ar.edu.itba.Magic.Backend;
+package ar.edu.itba.Magic.Backend.Card;
 
-import java.util.List;
+import ar.edu.itba.Magic.Backend.Ability;
+import ar.edu.itba.Magic.Backend.GameEvent;
+import ar.edu.itba.Magic.Backend.GameEventHandler;
+import ar.edu.itba.Magic.Backend.Land;
+import ar.edu.itba.Magic.Backend.PermanentAbility;
 
 /**
  * When played, this card creates a Land Permanent and places it in play. This card may only be played during a player's
@@ -10,8 +14,8 @@ public class LandCard extends Card{
 	
 	GameEventHandler gameEventHandler = GameEventHandler.getGameEventHandler();
 
-	public LandCard(String cardName, String cardType, String color, List<String> attributes, Integer coloredManaCost, Integer colorlessManaCost, Ability ability) {
-		super(cardName, cardType, color, attributes, coloredManaCost, colorlessManaCost, ability);
+	public LandCard(String cardName, String cardType, ColorCard color, Integer coloredManaCost, Integer colorlessManaCost, Ability ability) {
+		super(cardName, cardType, color, coloredManaCost, colorlessManaCost, ability);
 	}
 	
 	/**
@@ -24,9 +28,8 @@ public class LandCard extends Card{
 		//pagar costo
 		
 		if(this.getAbility().satisfyCastingRequirements() == true) {
-			land = new Land(this, this.getCardName(), this.getColor(), this.getAttributes(), (PermanentAbility)this.getAbility());		
-			land.setController(this.getController());		
-			land.getAbility().setSource(land);
+			land = new Land(this, this.getCardName(), this.getColor(), (PermanentAbility)this.getAbility());		
+			land.setController(this.getController());			
 			land.getController().getHand().remove(this);			
 			land.getController().getPermanentsInPlay().add(land);			
 			gameEventHandler.notifyGameEvent(new GameEvent("new_permanent_in_play", land));			
