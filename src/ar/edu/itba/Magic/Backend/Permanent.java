@@ -37,19 +37,32 @@ public abstract class Permanent {
 		this.colorlessManacost = colorlessManaCost;
 	}
 	
+	/**
+	 * Applies a determined lasting effect on this permanent. Sets this permanent as the LastingEffect's target
+	 * and executes the LastingEffects applyEffect method.
+	 * 
+	 * @param lastingEffect lasting effect to be applied.
+	 */
 	public void applyLastingEffect(LastingEffect lastingEffect) {
 		appliedLastingEffects.add(lastingEffect);
 		lastingEffect.setTarget(this);
 		lastingEffect.applyEffect();
 	}
 	
+	/**
+	 * Removes a determined lasting effect from this permanent. Executes the LastingEffect's undoEffect method.
+	 * 
+	 * @param lastingEffect LastingEffect to be removed.
+	 */
 	public void removeLastingEffect(LastingEffect lastingEffect) {
 		appliedLastingEffects.remove(lastingEffect);
 		lastingEffect.undoEffect();
 	}
 	
 	/**
-     * Removes any LastingEffect from a specific Ability targeting this Permanent.
+     * Removes any LastingEffect from a specific Ability targeting this Permanent. Executes the
+     * LastingEffect's undoEffect method.
+     * 
      * @param ability an Ability that may be applying a LastingEffect on this Permanent.
      */
     public void removeLastingEffectFromAbility(Ability ability) {
@@ -77,14 +90,30 @@ public abstract class Permanent {
 		return attachedEnchantments;
 	}
 	
+	/**
+	 * Adds an attribute to this permanent's attribute list.
+	 * 
+	 * @param attribute Attribute to be added.
+	 */
 	public void addAttribute(Attribute	attribute) {
 		attributes.add(attribute);
 	}
 	
+	/**
+	 * Removes an attribute from this permanent's attribute list.
+	 * 
+	 * @param attribute Attribute to be removed.
+	 */
 	public void removeAttribute(Attribute attribute) {
 		attributes.remove(attribute);
 	}
 	
+	/**
+	 * Whether this permanent contains a determined attribute.
+	 * 
+	 * @param attribute Attribute permanent must contain to return true.
+	 * @return True if contains determined attribute. False otherwise.
+	 */
 	public boolean containsAttribute(Attribute attribute) {
 		if(attributes.contains(attribute))
 			return true;
@@ -92,32 +121,63 @@ public abstract class Permanent {
 		return false;
 	}
 	
+	/**
+	 * Get's this permanent's attribute list.
+	 * 
+	 * @return LinkedList containing this permanent's attributes.
+	 */
 	public List<Attribute> getAttributes() {
 		return attributes;
 	}
-	 
+	
+	/**
+	 * Gets this permanent's name.
+	 * 
+	 * @return String containing this permanent's name.
+	 */
 	public String getName() {
 		return this.name;
 	}
 	
+	/**
+	 * Gets this permanent's color.
+	 * 
+	 * @return This permanent's color.
+	 */
 	public Color getColor() {
 		return color;
 	}
 	
+	/**
+	 * Gets this permanent's colored mana cost.
+	 * 
+	 * @return permanent's colored mana cost.
+	 */
 	public Integer getColoredManaCost() {
 		return coloredManacost;
 	}
 	
+	/**
+	 * Gets this permanent's colorless mana cost.
+	 * 
+	 * @return permanent's colorless mana cost.
+	 */
 	public Integer getColorlessManaCost() {
 		return colorlessManacost;
 	}
 	
+	/**
+	 * Sets the player who controls this permanent.
+	 * 
+	 * @param controller controlling Player.
+	 */
 	public void setController(Player controller) {
 		this.controller = controller;
 	}
 	
 	/**
 	 * Controller is the player that contains the Permanent in his PermanentsInPlay section.
+	 * 
 	 * @return the Player that controlls this permanent.s
 	 */
 	public Player getController() {
@@ -126,6 +186,7 @@ public abstract class Permanent {
 	
 	/**
 	 * Gets the Card that created this Permanent.
+	 * 
 	 * @return the Card that created this Permanent.
 	 */
 	public Card getSourceCard() {
@@ -134,6 +195,7 @@ public abstract class Permanent {
 	
 	/**
 	 * Whether this Permanent contains an Ability. Only Creature Permanents may not contain an Ability.
+	 * 
 	 * @return True if this Permanent contains an Ability. False otherwise.
 	 */
 	public boolean containsAbility() {
@@ -144,6 +206,7 @@ public abstract class Permanent {
     
 	/**
 	 * Whether this Permanent is affected by a LastingEffect from a specific Ability
+	 * 
 	 * @param ability an Ability that may be applying a LastingEffect on this Permanent.
 	 * @return True if affected. False otherwise.
 	 */
@@ -159,6 +222,7 @@ public abstract class Permanent {
     
     /**
      * Returns the PermanentAbility contained by this permanent.
+     * 
      * @return PermanentAbility contained by this permanent.
      */
 	public PermanentAbility getAbility() {
@@ -177,6 +241,7 @@ public abstract class Permanent {
 	
 	/** 
 	 * Whether this permanent is tapped.	
+	 * 
 	 * @return True if this Permanent is tapped. False otherwise.
 	 */
 	public boolean isTapped() {
@@ -189,7 +254,7 @@ public abstract class Permanent {
 	 * permanentsInPlay and adds this permanent's source Card to controller player's graveyard.
 	 */
 	public void destroy() {
-		//TODO
+		//TODO  por ahora solo contempla permanents in play, no in stack
 		if(this.containsAbility()) {
 			this.getAbility().executeOnExit();
 		}
