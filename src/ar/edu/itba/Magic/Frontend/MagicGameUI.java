@@ -7,6 +7,7 @@ import ar.edu.itba.Magic.Backend.Interfaces.Drawable;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+@Deprecated
 public class MagicGameUI implements Drawable{
 	private static MagicGameUI self = null;
 //	private MatchUI matchUI;

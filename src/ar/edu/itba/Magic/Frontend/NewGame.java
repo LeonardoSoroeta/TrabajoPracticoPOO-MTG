@@ -8,7 +8,7 @@ import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.ScalableGame;
 import org.newdawn.slick.SlickException;
 
-//slick
+
 public class NewGame {
 	
 	
@@ -19,7 +19,7 @@ public class NewGame {
 		{
 			AppGameContainer appgc;
 			appgc = new AppGameContainer(new ScalableGame(new StatesGame("Magic"), 800, 600));
-			appgc.setDisplayMode(appgc.getScreenWidth(), appgc.getScreenHeight(), true);
+			appgc.setDisplayMode(800, 600, true);
 			appgc.start();
 				
 			
