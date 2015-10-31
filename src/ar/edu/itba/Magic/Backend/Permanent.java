@@ -39,6 +39,8 @@ public abstract class Permanent {
 	
 	public void addLastingEffect(LastingEffect lastingEffect) {
 		appliedLastingEffects.add(lastingEffect);
+		lastingEffect.setTarget(this);
+		lastingEffect.applyEffect();
 	}
 	
 	public void removeLastingEffect(LastingEffect lastingEffect) {
@@ -184,14 +186,19 @@ public abstract class Permanent {
 	
 	/**
 	 * Destroys this permanent. If the permanent contains an ability, executes PermanentAbility's executeOnExit method.
-	 * Removes this permanent from controller player's permanentsInPlay and adds this permanent's source Card to controller
-	 * player's graveyard.
+	 * Destroys any enchantments attached to this permanent. Removes this permanent from controller player's 
+	 * permanentsInPlay and adds this permanent's source Card to controller player's graveyard.
 	 */
 	public void destroy() {
 		//TODO
 		if(this.containsAbility()) {
 			this.getAbility().executeOnExit();
 		}
+		
+		for(Enchantment enchantment : attachedEnchantments) {
+			enchantment.destroy();
+		}
+		
 		gameEventHandler.notifyGameEvent(new GameEvent(Event.PERMANENT_LEAVES_PLAY, this));
 		this.controller.getPermanentsInPlay().remove(this);
 		this.controller.getGraveyard().add(this.sourceCard);

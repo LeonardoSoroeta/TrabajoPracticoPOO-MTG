@@ -38,6 +38,47 @@ public class CardFactory {
 		
 		switch(cardName) {
 		
+			case "Blight":
+				return new EnchantmentCard("Blight", "enchantment", Color.BLACK, 2, 0,
+						new AutomaticPermanentAbility() {
+							Land target;
+							boolean destroyAtEndOfTurn = false;
+							
+							@Override
+							public boolean satisfyCastingRequirements() {
+								// TODO seleccionar target Land
+									//return true
+								//else 
+									return false;
+							}
+							
+							@Override
+							public void executeOnEntering() {
+								target.addAttachedEnchantment((Enchantment)this.getSourcePermanent());
+								gameEventHandler.add(this);
+							}
+							
+							@Override
+							public void executeOnExit() {
+								gameEventHandler.remove(this);
+								target.removeAttachedEnchantment((Enchantment)this.getSourcePermanent());
+							}
+							
+							@Override
+							public void executeOnEvent(GameEvent gameEvent) {
+								if(target.isTapped()) {
+									destroyAtEndOfTurn = true;
+								}
+								
+								if(gameEvent.getDescriptor().equals(Event.END_OF_TURN)) {
+									if(destroyAtEndOfTurn == true) {
+										target.destroy();
+									}
+								}
+							}
+								
+				});
+		
 			case "Bad Moon":
 				return new EnchantmentCard("Bad Moon", "enchantment", Color.BLACK, 1, 1, 
 						new AutomaticPermanentAbility() {
@@ -97,8 +138,7 @@ public class CardFactory {
 											};
 											
 											newEffect.setSourceAbility(this);
-											newEffect.setTarget(permanent);
-											newEffect.applyEffect();											
+											permanent.addLastingEffect(newEffect);										
 										}											
 									}
 								}								
@@ -304,6 +344,8 @@ public class CardFactory {
 							
 							@Override
 							public void executeOnEntering() {
+								gameEventHandler.add(this);
+								target.addAttachedEnchantment((Enchantment)this.getSourcePermanent());
 								LastingEffect newEffect = new LastingEffect() {
 
 									@Override
@@ -319,13 +361,14 @@ public class CardFactory {
 								};
 								
 								newEffect.setSourceAbility(this);
-								newEffect.setTarget(target);
-								newEffect.applyEffect();	
+								target.addLastingEffect(newEffect);
 							}
 							
 							@Override
 							public void executeOnExit() {
 								target.removeLastingEffectFromAbility(this);
+								target.removeAttachedEnchantment((Enchantment)this.getSourcePermanent());
+								gameEventHandler.remove(this);
 							}
 							
 							@Override
