@@ -37,7 +37,7 @@ public abstract class Permanent {
 		this.colorlessManacost = colorlessManaCost;
 	}
 	
-	public void addLastingEffect(LastingEffect lastingEffect) {
+	public void applyLastingEffect(LastingEffect lastingEffect) {
 		appliedLastingEffects.add(lastingEffect);
 		lastingEffect.setTarget(this);
 		lastingEffect.applyEffect();
@@ -45,7 +45,21 @@ public abstract class Permanent {
 	
 	public void removeLastingEffect(LastingEffect lastingEffect) {
 		appliedLastingEffects.remove(lastingEffect);
+		lastingEffect.undoEffect();
 	}
+	
+	/**
+     * Removes any LastingEffect from a specific Ability targeting this Permanent.
+     * @param ability an Ability that may be applying a LastingEffect on this Permanent.
+     */
+    public void removeLastingEffectFromAbility(Ability ability) {
+    	for(LastingEffect lastingEffect : appliedLastingEffects) {
+    		if(lastingEffect.getSourceAbility() == ability) {
+    			lastingEffect.undoEffect();
+    			appliedLastingEffects.remove(lastingEffect);
+    		}
+    	}
+    }
 	
 	public void addAttachedEnchantment(Enchantment enchantment) {
 		attachedEnchantments.add(enchantment);
@@ -143,19 +157,6 @@ public abstract class Permanent {
     	return false;
     }
     
-    /**
-     * Removes any LastingEffect from a specific Ability targeting this Permanent.
-     * @param ability an Ability that may be applying a LastingEffect on this Permanent.
-     */
-    public void removeLastingEffectFromAbility(Ability ability) {
-    	for(LastingEffect lastingEffect : appliedLastingEffects) {
-    		if(lastingEffect.getSourceAbility() == ability) {
-    			lastingEffect.undoEffect();
-    			appliedLastingEffects.remove(lastingEffect);
-    		}
-    	}
-    }
-	
     /**
      * Returns the PermanentAbility contained by this permanent.
      * @return PermanentAbility contained by this permanent.

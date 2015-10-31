@@ -138,7 +138,7 @@ public class CardFactory {
 											};
 											
 											newEffect.setSourceAbility(this);
-											permanent.addLastingEffect(newEffect);										
+											permanent.applyLastingEffect(newEffect);										
 										}											
 									}
 								}								
@@ -361,7 +361,7 @@ public class CardFactory {
 								};
 								
 								newEffect.setSourceAbility(this);
-								target.addLastingEffect(newEffect);
+								target.applyLastingEffect(newEffect);
 							}
 							
 							@Override
