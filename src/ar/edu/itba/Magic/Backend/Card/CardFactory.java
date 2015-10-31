@@ -104,16 +104,30 @@ public class CardFactory {
 								}								
 							}				
 				});
+				
+			case "Bird Maiden":
+				attributes = getDefaultCreatureAttributes();
+				attributes.add(Attribute.FLYING);
+				return new CreatureCard("Bird Maiden", "creature", Color.RED, attributes, 1, 2, 1, 2);
 
 			case "Bog Imp":
 				attributes = getDefaultCreatureAttributes();
 				attributes.add(Attribute.FLYING);
 				return new CreatureCard("Bog Imp", "creature", Color.BLACK, attributes, 1, 1, 1, 1);
 				
+			case "Carnivorous Plant":
+				attributes = getDefaultCreatureAttributes();
+				attributes.add(Attribute.WALL);
+				return new CreatureCard("Carnivorous Plant", "creature", Color.GREEN, attributes, 1, 3, 4, 5);
+				
+			case "Durkwood Boars":
+				attributes = getDefaultCreatureAttributes();
+				return new CreatureCard("Durkwood Boars", "creature", Color.GREEN, attributes, 1, 4, 4 ,4);
+				
 			case "Elvish Archers":
 				attributes = getDefaultCreatureAttributes();
 				attributes.add(Attribute.FIRST_STRIKE);
-				return new CreatureCard("Bog Imp", "creature", Color.GREEN, attributes, 1, 1, 2, 1);
+				return new CreatureCard("Elvish Archers", "creature", Color.GREEN, attributes, 1, 1, 2, 1);
 				
 			case "Flood":
 				return new EnchantmentCard("Flood", "enchantment", Color.BLUE, 1, 0, 
@@ -199,6 +213,11 @@ public class CardFactory {
 								}			
 							}		
 				});
+				
+			case "Land Leeches":
+				attributes = getDefaultCreatureAttributes();
+				attributes.add(Attribute.FIRST_STRIKE);
+				return new CreatureCard("Land Leeches", "creature", Color.GREEN, attributes, 2, 1, 2, 2);
 				
 			case "Lord of the Pit":
 				attributes = getDefaultCreatureAttributes();
@@ -380,8 +399,14 @@ public class CardFactory {
 					
 				});
 				
+			case "Tundra Wolves":
+				attributes = getDefaultCreatureAttributes();
+				attributes.remove(Attribute.FIRST_STRIKE);
+				return new CreatureCard("Tunda Wolves", "creature", Color.WHITE, attributes, 1, 0, 1, 1);
+				
 			case "Zephyr Falcon":
 				attributes = getDefaultCreatureAttributes();
+				attributes.add(Attribute.FLYING);
 				attributes.remove(Attribute.TAPS_ON_ATTACK);
 				return new CreatureCard("Zephyr Falcon", "creature", Color.BLUE, attributes, 1, 1, 1, 1);
 				
