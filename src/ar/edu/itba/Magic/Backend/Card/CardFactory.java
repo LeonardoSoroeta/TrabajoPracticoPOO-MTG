@@ -2,10 +2,9 @@ package ar.edu.itba.Magic.Backend.Card;
 import java.util.LinkedList;
 import java.util.List;
 import ar.edu.itba.Magic.Backend.*;
-import ar.edu.itba.Magic.Backend.GameEventHandler;
-import ar.edu.itba.Magic.Backend.Match;
 import ar.edu.itba.Magic.Backend.Interfaces.Constants.Attribute;
 import ar.edu.itba.Magic.Backend.Interfaces.Constants.Color;
+import ar.edu.itba.Magic.Backend.Interfaces.Constants.Event;
 
 public class CardFactory {
 	
@@ -23,8 +22,7 @@ public class CardFactory {
 	}
 	
 	/**
-	 * Creates a list of default attributes contained by creatures.
-	 * 
+	 * Creates a list of default attributes contained by creatures. 
 	 * @return Returns a list of default attributes contained by creatues.
 	 */
 	public List<Attribute> getDefaultCreatureAttributes() {
@@ -96,11 +94,6 @@ public class CardFactory {
 													((Creature)this.getTarget()).decreaseDefense(1);
 												}
 												
-												@Override
-												public void executeOnEvent(GameEvent gameEvent) {
-													
-												}
-												
 											};
 											
 											newEffect.setSource(this);
@@ -114,9 +107,13 @@ public class CardFactory {
 
 			case "Bog Imp":
 				attributes = getDefaultCreatureAttributes();
-				//attributes.add("flying");
+				attributes.add(Attribute.FLYING);
 				return new CreatureCard("Bog Imp", "creature", Color.BLACK, attributes, 1, 1, 1, 1);
 				
+			case "Elvish Archers":
+				attributes = getDefaultCreatureAttributes();
+				attributes.add(Attribute.FIRST_STRIKE);
+				return new CreatureCard("Bog Imp", "creature", Color.GREEN, attributes, 1, 1, 2, 1);
 				
 			case "Flood":
 				return new EnchantmentCard("Flood", "enchantment", Color.BLUE, 1, 0, 
@@ -127,17 +124,86 @@ public class CardFactory {
 							 */
 							@Override
 							public void executeOnActivation() {
-								//TODO
+								// TODO
 								//pay mana cost
 								//select target creature without flying
 								//creature.tap();
 							}
 				});
 				
+			case "Howl from Beyond":
+				return new InstantCard("Howl from Beyond", "instant", Color.BLACK, 1, 1, 
+						new SpellAbility() {
+							Integer attackBonus = 1;
+							Creature target;
+							
+							@Override
+							public boolean satisfyCastingRequirements() {
+								// TODO seleccionar criatura target
+									//sino return false
+								// TODO pagar extra colorless mana ? hacer asi o sino implementar costo variado
+								//attackBonus += lo que se pago extra
+								
+								return true;
+							}
+
+							@Override
+							public void sendToStack() {
+								// TODO gamestack.add(this);						
+							}
+
+							@Override
+							public void resolveInStack() {
+								LastingEffect newEffect = new LastingEffect() {
+
+									@Override
+									public void executeOnEvent(GameEvent gameEvent) {
+										if(gameEvent.getDescriptor().equals(Event.END_OF_TURN)) {
+											this.undoEffect();
+											target.removeLastingEffect(this);
+										}								
+									}
+
+									@Override
+									public void applyEffect() {
+										((Creature)this.getTarget()).increaseAttack(attackBonus);
+									}
+
+									@Override
+									public void undoEffect() {
+										((Creature)this.getTarget()).decreaseAttack(attackBonus);
+									}
+								};
+								
+								newEffect.setSource(this);
+								newEffect.setTarget(target);
+								newEffect.applyEffect();						
+							}
+						
+				});
+				
+			case "Junun Efreet":
+				attributes = getDefaultCreatureAttributes();
+				attributes.add(Attribute.FLYING);
+				return new CreatureCard("Junun Efreet", "creature", Color.BLACK, attributes, 2, 1, 3, 3,
+						new AutomaticPermanentAbility() {
+
+							@Override
+							public void executeOnEvent(GameEvent gameEvent) {
+								if(gameEvent.getDescriptor().equals(Event.UPKEEP_STEP)) {
+									if(gameEvent.getObject1() == this.getSource().getController()) {
+										// TODO pedir que pague 2 mana negro
+											// else 
+												this.getSource().destroy();
+									}
+								}			
+							}		
+				});
+				
 			case "Lord of the Pit":
 				attributes = getDefaultCreatureAttributes();
-				//attributes.add("trample");
-				//attributes.add("flying");
+				attributes.add(Attribute.TRAMPLE);
+				attributes.add(Attribute.FLYING);
 				return new CreatureCard("Lord Of The Pit", "creature", Color.BLACK, attributes, 3, 4, 7, 7,
 						new AutomaticPermanentAbility() {
 							
@@ -155,19 +221,23 @@ public class CardFactory {
 							 */
 							@Override
 							public void executeOnEvent(GameEvent gameEvent) {
-								if(gameEvent.getDescriptor().equals("upkeep_step"))
+								if(gameEvent.getDescriptor().equals(Event.UPKEEP_STEP))
 									if(gameEvent.getObject1().equals((this.getSource()).getController())) {
-										//TODO 
+										// TODO 
 										//select a creature, destroy it
 										//otherwise, suffer 7 damage
 									}
 							}
 				});
 				
+			case "Lost Soul":
+				attributes = getDefaultCreatureAttributes();
+				attributes.add(Attribute.SWAMPWALK);
+				return new CreatureCard("Lost Soul", "creature", Color.BLACK, attributes, 2, 1, 2, 1);
 				
 			case "Nightmare":
 				attributes = getDefaultCreatureAttributes();
-				//attributes.add("flying");
+				attributes.add(Attribute.FLYING);
 				return new CreatureCard("Nightmare", "creature", Color.BLACK, attributes, 1, 5, 1, 1, 
 						new AutomaticPermanentAbility() {
 							
@@ -178,7 +248,7 @@ public class CardFactory {
 							@Override
 							public void executeOnEntering() {
 								gameEventHandler.add(this);
-								gameEventHandler.notifyGameEvent(new GameEvent("generic_event"));
+								gameEventHandler.notifyGameEvent(new GameEvent(Event.GENERIC_EVENT));
 							}
 							
 							/**
@@ -200,6 +270,56 @@ public class CardFactory {
 							}
 				});
 				
+			case "Paralyze":
+				return new EnchantmentCard("Paralyze", "enchantment", Color.BLACK, 1, 0, 
+						new AutomaticPermanentAbility() {
+							Creature target;
+					
+							@Override
+							public boolean satisfyCastingRequirements() {
+								// TODO seleccionar target creature
+									//return true
+								//else 
+									return false;
+							}
+							
+							@Override
+							public void executeOnEntering() {
+								LastingEffect newEffect = new LastingEffect() {
+
+									@Override
+									public void applyEffect() {
+										target.removeAttribute(Attribute.UNTAPS_DURING_UPKEEP);	
+										target.tap();
+									}
+
+									@Override
+									public void undoEffect() {
+										target.addAttribute(Attribute.UNTAPS_DURING_UPKEEP);						
+									}			
+								};
+								
+								newEffect.setSource(this);
+								newEffect.setTarget(target);
+								newEffect.applyEffect();	
+							}
+							
+							@Override
+							public void executeOnExit() {
+								target.removeLastingEffectFromAbility(this);
+							}
+							
+							@Override
+							public void executeOnEvent(GameEvent gameEvent) {
+								if(gameEvent.getDescriptor().equals(Event.UNTAP_STEP)) {
+									if(gameEvent.getObject1() == this.getSource().getController()) {
+										// TODO pedir si quiere pagar 4 de colorless mana
+										//then untap
+									}
+								}
+							}
+				});
+				
 			case "Royal Assassin":
 				attributes = getDefaultCreatureAttributes();
 				return new CreatureCard("Royal Assassin", "creature", Color.BLACK, attributes, 2, 1, 1, 1,
@@ -218,6 +338,16 @@ public class CardFactory {
 								}								
 							}		
 				});
+				
+			case "Segovian Leviathan":
+				attributes = getDefaultCreatureAttributes();
+				attributes.add(Attribute.ISLANDWALK);
+				return new CreatureCard("Segovian Leviathan", "creature", Color.BLUE, attributes, 1, 4, 3, 3);
+				
+			case "Serra Angel":
+				attributes = getDefaultCreatureAttributes();
+				attributes.remove(Attribute.TAPS_ON_ATTACK);
+				return new CreatureCard("Serra Angel", "creature", Color.WHITE, attributes, 2, 3, 4, 4);		
 
 			case "Terror":
 				return new InstantCard("Terror", "instant", Color.BLACK, 1, 1, 
@@ -249,6 +379,11 @@ public class CardFactory {
 							}
 					
 				});
+				
+			case "Zephyr Falcon":
+				attributes = getDefaultCreatureAttributes();
+				attributes.remove(Attribute.TAPS_ON_ATTACK);
+				return new CreatureCard("Zephyr Falcon", "creature", Color.BLUE, attributes, 1, 1, 1, 1);
 				
 			default:
 				throw new IllegalArgumentException("Error: Carta no pertenece a la coleccion.");

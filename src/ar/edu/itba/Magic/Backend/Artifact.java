@@ -6,6 +6,7 @@ import java.util.List;
 import ar.edu.itba.Magic.Backend.Card.Card;
 import ar.edu.itba.Magic.Backend.Interfaces.GameStackAction;
 import ar.edu.itba.Magic.Backend.Interfaces.Constants.Color;
+import ar.edu.itba.Magic.Backend.Interfaces.Constants.Event;
 import ar.edu.itba.Magic.Backend.Interfaces.Constants.Attribute;
 
 public class Artifact extends Permanent implements GameStackAction {
@@ -36,7 +37,7 @@ public class Artifact extends Permanent implements GameStackAction {
 	public void resolveInStack() {		
 		this.getController().getPermanentsInPlay().add(this);
 		
-		gameEventHandler.notifyGameEvent(new GameEvent("new_permanent_in_play", this));
+		gameEventHandler.notifyGameEvent(new GameEvent(Event.PERMANENT_ENTERS_PLAY, this));
 		
 		((PermanentAbility)this.getAbility()).executeOnEntering();
 	}

@@ -17,5 +17,4 @@ public enum Event {
 	CLEANUP_STEP,
 	END_OF_TURN
 	
-	
 }

@@ -4,6 +4,7 @@ import java.util.*;
 
 import ar.edu.itba.Magic.Backend.Card.Card;
 import ar.edu.itba.Magic.Backend.Interfaces.Constants.Color;
+import ar.edu.itba.Magic.Backend.Interfaces.Constants.Event;
 import ar.edu.itba.Magic.Backend.Interfaces.Constants.Attribute;
 
 /**
@@ -36,11 +37,11 @@ public abstract class Permanent {
 		this.colorlessManacost = colorlessManaCost;
 	}
 	
-	public void addAppliedEffect(LastingEffect lastingEffect) {
+	public void addLastingEffect(LastingEffect lastingEffect) {
 		appliedLastingEffects.add(lastingEffect);
 	}
 	
-	public void removeAppliedEffect(LastingEffect lastingEffect) {
+	public void removeLastingEffect(LastingEffect lastingEffect) {
 		appliedLastingEffects.remove(lastingEffect);
 	}
 	
@@ -62,6 +63,10 @@ public abstract class Permanent {
 	
 	public void addAttribute(Attribute	attribute) {
 		attributes.add(attribute);
+	}
+	
+	public void removeAttribute(Attribute attribute) {
+		attributes.remove(attribute);
 	}
 	
 	public boolean containsAttribute(Attribute attribute) {
@@ -187,7 +192,7 @@ public abstract class Permanent {
 		if(this.containsAbility()) {
 			this.getAbility().executeOnExit();
 		}
-		gameEventHandler.notifyGameEvent(new GameEvent("permanent_leaves_play", this));
+		gameEventHandler.notifyGameEvent(new GameEvent(Event.PERMANENT_LEAVES_PLAY, this));
 		this.controller.getPermanentsInPlay().remove(this);
 		this.controller.getGraveyard().add(this.sourceCard);
 	}

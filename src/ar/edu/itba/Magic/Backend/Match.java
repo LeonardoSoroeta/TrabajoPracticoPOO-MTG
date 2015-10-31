@@ -1,6 +1,8 @@
 
 import java.util.*;
 
+import ar.edu.itba.Magic.Backend.Interfaces.Constants.Event;
+
 public class Match {
 	
 	private static Match instance = new Match();
@@ -55,20 +57,20 @@ public class Match {
 	}
 	
 	public void beginningPhase() {
-		eventHandler.notifyGameEvent(new GameEvent("untap_step", activePlayer));
+		eventHandler.notifyGameEvent(new GameEvent(Event.UNTAP_STEP, activePlayer));
 		//for all cards in play that contain attribute can_untap -> untap
 		
-		eventHandler.notifyGameEvent(new GameEvent("upkeep_step", activePlayer));
+		eventHandler.notifyGameEvent(new GameEvent(Event.UPKEEP_STEP, activePlayer));
 		//players play instants and activated abilities...
 		
-		eventHandler.notifyGameEvent(new GameEvent("draw_card_step", activePlayer));
+		eventHandler.notifyGameEvent(new GameEvent(Event.DRAW_CARD_STEP, activePlayer));
 		//draw card(s)...
 		//players play instants and activated abilities...
 		
 	}
 	
 	public void mainPhase() {
-		eventHandler.notifyGameEvent(new GameEvent("main_phase", activePlayer));
+		eventHandler.notifyGameEvent(new GameEvent(Event.MAIN_PHASE, activePlayer));
 		//active player casts spells & activated abilities / other players casts instants & activated abilities
 		//active player can play 1 land if not already casted this turn
 		
@@ -78,17 +80,17 @@ public class Match {
 		List<Creature> attackers = new LinkedList<Creature>(); //linked list o lo q sea
 		// Map<Creature, Creature> = new HashMap<Creature, Creature>(); // <blockers, attackers>
 		
-		eventHandler.notifyGameEvent(new GameEvent("combat_phase", activePlayer));
+		eventHandler.notifyGameEvent(new GameEvent(Event.COMBAT_PHASE, activePlayer));
 		//players can play instants and activated abilities
 		
-		eventHandler.notifyGameEvent(new GameEvent("declare_attackers_step", activePlayer));
+		eventHandler.notifyGameEvent(new GameEvent(Event.DECLARE_ATTACKERS_STEP, activePlayer));
 		//active player declares attackers (tap creatures)
 			//solo criaturas que no estan tapeadas, se las agrega a la lista de attackers
 			//si creature.containsAttribute("taps_on_attack") entonces se la tapea
 		
 		//then players can play instants and activated abilities again
 		
-		eventHandler.notifyGameEvent(new GameEvent("declare_blockers_step", activePlayer));
+		eventHandler.notifyGameEvent(new GameEvent(Event.DECLARE_BLOCKERS_STEP, activePlayer));
 		//opponent declares blockers
 			//solo criaturas que no estan tapeadas (y no se las tapea). se las mapea a un atacante cada una
 			//no se le permite al jugador mapear bloqueadores no voladores a atacantes voladores
@@ -98,7 +100,7 @@ public class Match {
 			
 		//then players can play instants and activated abilities again
 		
-		eventHandler.notifyGameEvent(new GameEvent("combat_damage_step", activePlayer));
+		eventHandler.notifyGameEvent(new GameEvent(Event.COMBAT_DAMAGE_STEP, activePlayer));
 			// - unblocked attackers deal damage equal to their power to the defending player
 			// - blocked attackers deal their damage to the creatures blocking them. if more than one creature blocks
 			//   one of your attackers, you decide how to divide the attackers damage among the blockers
@@ -114,20 +116,20 @@ public class Match {
 		 	//   resolved, combat damage is actually dealt. If a creature tries to deal damage
 			//   to a creature no longer in play, it can't and the damage isn't dealt.
 		
-		eventHandler.notifyGameEvent(new GameEvent("end_of_combat_phase", activePlayer));
+		eventHandler.notifyGameEvent(new GameEvent(Event.END_OF_COMBAT_PHASE, activePlayer));
 		//players can play instants and activated abilities again
 		
 	}
 	
 	public void endingPhase() {
-		eventHandler.notifyGameEvent(new GameEvent("ending_phase", activePlayer));
+		eventHandler.notifyGameEvent(new GameEvent(Event.ENDING_PHASE, activePlayer));
 		//players can play instants and activated abilities
 		
-		eventHandler.notifyGameEvent(new GameEvent("cleanup_step", activePlayer));
+		eventHandler.notifyGameEvent(new GameEvent(Event.CLEANUP_STEP, activePlayer));
 		//if you have more than 7 cards in your hand -> discard cards
 		
 		//damage on creatures is removed
-		eventHandler.notifyGameEvent(new GameEvent("end_of_turn", activePlayer));		
+		eventHandler.notifyGameEvent(new GameEvent(Event.END_OF_TURN, activePlayer));		
 	}
 	
 

@@ -1,28 +1,30 @@
 package ar.edu.itba.Magic.Backend;
 
+import ar.edu.itba.Magic.Backend.Interfaces.Constants.Event;
+
 public class GameEvent {
 	
-	private String descriptor;
+	private Event event;
 	private Object object1;
 	private Object object2;		
 	
-	public GameEvent(String description) {
-		this.descriptor = description;
+	public GameEvent(Event event) {
+		this.event = event;
 	}
 	
-	public GameEvent(String description, Object object1) {
-		this.descriptor = description;
+	public GameEvent(Event event, Object object1) {
+		this.event = event;
 		this.object1 = object1;
 	}
 	
-	public GameEvent(String description, Object object1, Object object2) {
-		this.descriptor = description;
+	public GameEvent(Event event, Object object1, Object object2) {
+		this.event = event;
 		this.object1 = object1;
 		this.object2 = object2;
 	}
 	
-	public String getDescriptor() {
-		return descriptor;
+	public Event getDescriptor() {
+		return event;
 	}
 	
 	public Object getObject1() {

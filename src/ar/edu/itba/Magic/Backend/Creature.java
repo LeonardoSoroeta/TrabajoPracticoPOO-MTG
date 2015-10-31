@@ -3,6 +3,7 @@ import ar.edu.itba.Magic.Backend.Card.Card;
 import ar.edu.itba.Magic.Backend.Interfaces.DamageTaking;
 import ar.edu.itba.Magic.Backend.Interfaces.GameStackAction;
 import ar.edu.itba.Magic.Backend.Interfaces.Constants.Color;
+import ar.edu.itba.Magic.Backend.Interfaces.Constants.Event;
 import ar.edu.itba.Magic.Backend.Interfaces.Constants.Attribute;
 import java.util.List;
 
@@ -40,7 +41,7 @@ public class Creature extends Permanent implements DamageTaking, GameStackAction
 	public void resolveInStack() {
 		this.getController().getPermanentsInPlay().add(this);
 		
-		gameEventHandler.notifyGameEvent(new GameEvent("new_permanent_in_play", this));
+		gameEventHandler.notifyGameEvent(new GameEvent(Event.PERMANENT_ENTERS_PLAY, this));
 		
 		if(this.containsAbility())
 			((PermanentAbility)this.getAbility()).executeOnEntering();

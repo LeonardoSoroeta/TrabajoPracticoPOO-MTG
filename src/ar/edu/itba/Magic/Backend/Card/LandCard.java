@@ -6,6 +6,7 @@ import ar.edu.itba.Magic.Backend.GameEventHandler;
 import ar.edu.itba.Magic.Backend.Land;
 import ar.edu.itba.Magic.Backend.PermanentAbility;
 import ar.edu.itba.Magic.Backend.Interfaces.Constants.Color;
+import ar.edu.itba.Magic.Backend.Interfaces.Constants.Event;
 
 /**
  * When played, this card creates a Land Permanent and places it in play. This card may only be played during a player's
@@ -29,11 +30,12 @@ public class LandCard extends Card{
 		//pagar costo
 		
 		if(this.getAbility().satisfyCastingRequirements() == true) {
-			land = new Land(this, this.getCardName(), this.getColor(), (PermanentAbility)this.getAbility());		
+			land = new Land(this, this.getCardName(), this.getColor(), (PermanentAbility)this.getAbility());	
+			land.getAbility().setSource(land);
 			land.setController(this.getController());			
 			land.getController().getHand().remove(this);			
 			land.getController().getPermanentsInPlay().add(land);			
-			gameEventHandler.notifyGameEvent(new GameEvent("new_permanent_in_play", land));			
+			gameEventHandler.notifyGameEvent(new GameEvent(Event.PERMANENT_ENTERS_PLAY, land));			
 			((PermanentAbility)land.getAbility()).executeOnEntering();
 		}
 	}

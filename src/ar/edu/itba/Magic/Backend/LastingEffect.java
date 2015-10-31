@@ -27,7 +27,9 @@ public abstract class LastingEffect implements ExecutesOnEvent {
     	this.sourceAbility = sourceAbility;
     }
 
-    public abstract void executeOnEvent(GameEvent gameEvent);
+    public void executeOnEvent(GameEvent gameEvent) {
+    	
+    }
     
     public abstract void applyEffect();
     
