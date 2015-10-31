@@ -133,7 +133,7 @@ public abstract class Permanent {
 	 */
     public boolean affectedByAbility(Ability ability) {
     	for(LastingEffect lastingEffect : appliedLastingEffects) {
-    		if(lastingEffect.getSource() == ability) {
+    		if(lastingEffect.getSourceAbility() == ability) {
     			return true;
     		}
     	}
@@ -147,7 +147,7 @@ public abstract class Permanent {
      */
     public void removeLastingEffectFromAbility(Ability ability) {
     	for(LastingEffect lastingEffect : appliedLastingEffects) {
-    		if(lastingEffect.getSource() == ability) {
+    		if(lastingEffect.getSourceAbility() == ability) {
     			lastingEffect.undoEffect();
     			appliedLastingEffects.remove(lastingEffect);
     		}

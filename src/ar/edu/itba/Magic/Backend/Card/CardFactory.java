@@ -96,7 +96,7 @@ public class CardFactory {
 												
 											};
 											
-											newEffect.setSource(this);
+											newEffect.setSourceAbility(this);
 											newEffect.setTarget(permanent);
 											newEffect.applyEffect();											
 										}											
@@ -189,7 +189,7 @@ public class CardFactory {
 									}
 								};
 								
-								newEffect.setSource(this);
+								newEffect.setSourceAbility(this);
 								newEffect.setTarget(target);
 								newEffect.applyEffect();						
 							}
@@ -205,10 +205,10 @@ public class CardFactory {
 							@Override
 							public void executeOnEvent(GameEvent gameEvent) {
 								if(gameEvent.getDescriptor().equals(Event.UPKEEP_STEP)) {
-									if(gameEvent.getObject1() == this.getSource().getController()) {
+									if(gameEvent.getObject1() == this.getSourcePermanent().getController()) {
 										// TODO pedir que pague 2 mana negro
 											// else 
-												this.getSource().destroy();
+												this.getSourcePermanent().destroy();
 									}
 								}			
 							}		
@@ -241,7 +241,7 @@ public class CardFactory {
 							@Override
 							public void executeOnEvent(GameEvent gameEvent) {
 								if(gameEvent.getDescriptor().equals(Event.UPKEEP_STEP))
-									if(gameEvent.getObject1().equals((this.getSource()).getController())) {
+									if(gameEvent.getObject1().equals((this.getSourcePermanent()).getController())) {
 										// TODO 
 										//select a creature, destroy it
 										//otherwise, suffer 7 damage
@@ -277,15 +277,15 @@ public class CardFactory {
 							@Override
 							public void executeOnEvent(GameEvent gameEvent) {
 								Integer swamps = 0;
-								Player controller = (this.getSource()).getController();
+								Player controller = (this.getSourcePermanent()).getController();
 								List<Permanent> permanents = new LinkedList<Permanent>();
 								permanents.addAll(controller.getPermanentsInPlay());
 								for(Permanent permanent : permanents) {
 									if(permanent.getName().equals("Swamp")) 
 										swamps++;
 								}
-								((Creature)this.getSource()).setAttack(swamps);
-								((Creature)this.getSource()).setDefense(swamps);					
+								((Creature)this.getSourcePermanent()).setAttack(swamps);
+								((Creature)this.getSourcePermanent()).setDefense(swamps);					
 							}
 				});
 				
@@ -318,7 +318,7 @@ public class CardFactory {
 									}			
 								};
 								
-								newEffect.setSource(this);
+								newEffect.setSourceAbility(this);
 								newEffect.setTarget(target);
 								newEffect.applyEffect();	
 							}
@@ -331,7 +331,7 @@ public class CardFactory {
 							@Override
 							public void executeOnEvent(GameEvent gameEvent) {
 								if(gameEvent.getDescriptor().equals(Event.UNTAP_STEP)) {
-									if(gameEvent.getObject1() == this.getSource().getController()) {
+									if(gameEvent.getObject1() == this.getSourcePermanent().getController()) {
 										// TODO pedir si quiere pagar 4 de colorless mana
 										//then untap
 									}
@@ -349,7 +349,7 @@ public class CardFactory {
 							 */
 							@Override
 							public void executeOnActivation() {
-								if(this.getSource().isTapped())
+								if(this.getSourcePermanent().isTapped())
 									System.out.println("cannot tap"); //TODO cambiar esto
 								else {
 									//TODO select target tapped creature

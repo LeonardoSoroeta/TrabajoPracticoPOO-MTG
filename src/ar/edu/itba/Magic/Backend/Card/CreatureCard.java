@@ -64,7 +64,7 @@ public class CreatureCard extends Card {
 		if(this.containsAbility()) {
 			if(this.getAbility().satisfyCastingRequirements() == true) {
 				creature = new Creature(this, this.getCardName(), this.getColor(), attributes, this.getColoredManaCost(), this.getColorlessManaCost(), attackPoints, defencePoints, (PermanentAbility)this.getAbility());
-				creature.getAbility().setSource(creature);
+				creature.getAbility().setSourcePermanent(creature);
 				creature.setController(this.getController());
 				creature.sendToStack();	
 				this.getController().getHand().remove(this);
@@ -72,7 +72,7 @@ public class CreatureCard extends Card {
 		}
 		else {
 			creature = new Creature(this, this.getCardName(), this.getColor(), attributes, this.getColoredManaCost(), attackPoints, defencePoints, this.getColorlessManaCost());
-			creature.getAbility().setSource(creature);
+			creature.getAbility().setSourcePermanent(creature);
 			creature.setController(this.getController());
 			creature.sendToStack();	
 			this.getController().getHand().remove(this);

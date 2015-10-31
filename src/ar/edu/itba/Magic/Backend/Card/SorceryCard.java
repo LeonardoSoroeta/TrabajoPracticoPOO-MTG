@@ -23,7 +23,7 @@ public class SorceryCard extends Card {
 		// pagar costo
 		
 		if(this.getAbility().satisfyCastingRequirements() == true) {
-			((SpellAbility)this.getAbility()).setSource(this);
+			((SpellAbility)this.getAbility()).setSourceCard(this);
 			((SpellAbility)this.getAbility()).sendToStack();
 		}
 	}

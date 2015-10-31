@@ -31,7 +31,7 @@ public class LandCard extends Card{
 		
 		if(this.getAbility().satisfyCastingRequirements() == true) {
 			land = new Land(this, this.getCardName(), this.getColor(), (PermanentAbility)this.getAbility());	
-			land.getAbility().setSource(land);
+			land.getAbility().setSourcePermanent(land);
 			land.setController(this.getController());			
 			land.getController().getHand().remove(this);			
 			land.getController().getPermanentsInPlay().add(land);			

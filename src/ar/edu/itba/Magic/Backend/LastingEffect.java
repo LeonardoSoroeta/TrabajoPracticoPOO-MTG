@@ -19,11 +19,11 @@ public abstract class LastingEffect implements ExecutesOnEvent {
     	return target;
     }
     
-    public Ability getSource() {
+    public Ability getSourceAbility() {
     	return sourceAbility;
     }
     
-    public void setSource(Ability sourceAbility) {
+    public void setSourceAbility(Ability sourceAbility) {
     	this.sourceAbility = sourceAbility;
     }
 

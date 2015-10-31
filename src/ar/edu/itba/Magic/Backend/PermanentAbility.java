@@ -6,14 +6,14 @@ package ar.edu.itba.Magic.Backend;
  */
 public abstract class PermanentAbility extends Ability {
 	
-	private Permanent source;
+	private Permanent sourcePermanent;
 
-	public Permanent getSource() {
-		return source;
+	public Permanent getSourcePermanent() {
+		return sourcePermanent;
 	}
 
-	public void setSource(Permanent source) {
-		this.source = source;
+	public void setSourcePermanent(Permanent sourcePermanent) {
+		this.sourcePermanent = sourcePermanent;
 	}
 	
 	/**
