@@ -4,6 +4,7 @@ package ar.edu.itba.Magic.Backend.Card;
 import ar.edu.itba.Magic.Backend.Ability;
 import ar.edu.itba.Magic.Backend.Enchantment;
 import ar.edu.itba.Magic.Backend.PermanentAbility;
+import ar.edu.itba.Magic.Backend.Interfaces.Constants.Color;
 
 /**
  * When played, this card creates an Enchantment Permanent and places it on the game stack. This card may only be played
@@ -11,7 +12,7 @@ import ar.edu.itba.Magic.Backend.PermanentAbility;
  */
 public class EnchantmentCard extends Card {
 
-	public EnchantmentCard(String cardName, String cardType, ColorCard color, Integer coloredManaCost, Integer colorlessManaCost, Ability ability) {
+	public EnchantmentCard(String cardName, String cardType, Color color, Integer coloredManaCost, Integer colorlessManaCost, Ability ability) {
 		super(cardName, cardType, color, coloredManaCost, colorlessManaCost, ability);
 	}
 	

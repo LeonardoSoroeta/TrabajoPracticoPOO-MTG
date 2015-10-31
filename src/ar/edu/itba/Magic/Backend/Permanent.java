@@ -1,4 +1,10 @@
+package ar.edu.itba.Magic.Backend;
+
 import java.util.*;
+
+import ar.edu.itba.Magic.Backend.Card.Card;
+import ar.edu.itba.Magic.Backend.Interfaces.Constants.Color;
+import ar.edu.itba.Magic.Backend.Interfaces.Constants.Attribute;
 
 /**
  * All objects currently in play are Permanents. These objects may be a Creature, an Enchantment, an Artifact or a Land.
@@ -8,16 +14,16 @@ public abstract class Permanent {
 	private Card sourceCard;
 	private Player controller;
 	private String name;
-	private String color;
-	private int coloredManacost;
-	private int colorlessManacost;
+	private Color color;
+	private Integer coloredManacost;
+	private Integer colorlessManacost;
 	private boolean tapped;
 	private PermanentAbility ability;
-	private List<String> attributes;
+	private List<Attribute> attributes;
 	public List<LastingEffect> appliedEffects = new LinkedList<LastingEffect>();
 	public List<Enchantment> attachedEnchantments = new LinkedList<Enchantment>();
 	
-	public Permanent(Card sourceCard, String name, String color, List<String> attributes, Integer coloredManaCost, Integer colorlessManaCost, PermanentAbility ability) {
+	public Permanent(Card sourceCard, String name, Color color, List<Attribute> attributes, Integer coloredManaCost, Integer colorlessManaCost, PermanentAbility ability) {
 		this.sourceCard = sourceCard;
 		this.name = name;
 		this.attributes = attributes;
@@ -43,14 +49,18 @@ public abstract class Permanent {
 		return attachedEnchantments;
 	}
 	
-	public boolean containsAttribute(String attribute) {
+	public void addAttribute(Attribute	attribute) {
+		attributes.add(attribute);
+	}
+	
+	public boolean containsAttribute(Attribute attribute) {
 		if(attributes.contains(attribute))
 			return true;
 		
 		return false;
 	}
 	
-	public List<String> getAttributes() {
+	public List<Attribute> getAttributes() {
 		return attributes;
 	}
 	 
@@ -58,8 +68,16 @@ public abstract class Permanent {
 		return this.name;
 	}
 	
-	public String getColor() {
+	public Color getColor() {
 		return color;
+	}
+	
+	public Integer getColoredManaCost() {
+		return coloredManacost;
+	}
+	
+	public Integer getColorlessManaCost() {
+		return colorlessManacost;
 	}
 	
 	public void setController(Player controller) {
@@ -85,7 +103,7 @@ public abstract class Permanent {
 	}
 	
 	public void tap() {
-		if(this.containsAttribute("can_tap") && this.isTapped() == false)
+		if(this.containsAttribute(Attribute.CAN_TAP) && this.isTapped() == false)
 			tapped = true;
 		else
 			System.out.println("no se puede tapear!"); //TODO cambiar esto

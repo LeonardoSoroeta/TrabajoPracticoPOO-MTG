@@ -1,6 +1,7 @@
 package ar.edu.itba.Magic.Backend.Card;
 
 import ar.edu.itba.Magic.Backend.Ability;
+import ar.edu.itba.Magic.Backend.Interfaces.Constants.Color;
 import ar.edu.itba.Magic.Backend.Artifact;
 import ar.edu.itba.Magic.Backend.PermanentAbility;
 
@@ -10,8 +11,8 @@ import ar.edu.itba.Magic.Backend.PermanentAbility;
  */
 public class ArtifactCard extends Card {
 
-	public ArtifactCard(String cardName, String cardType, int colorlessManaCost, Ability ability) {
-		super(cardName, cardType, ColorCard.COLORLESS, 0, colorlessManaCost, ability);
+	public ArtifactCard(String cardName, String cardType, Integer colorlessManaCost, Ability ability) {
+		super(cardName, cardType, Color.COLORLESS, 0, colorlessManaCost, ability);
 	}
 	
 	/**

@@ -5,18 +5,19 @@ import java.util.List;
 
 import ar.edu.itba.Magic.Backend.Ability;
 import ar.edu.itba.Magic.Backend.Player;
+import ar.edu.itba.Magic.Backend.Interfaces.Constants.Color;
 
 public abstract class Card {
 	
 	private Player controller;
 	private String cardName;
 	private String cardType;
-	private ColorCard color;
+	private Color color;
 	private Integer coloredManaCost;
 	private Integer colorlessManaCost;
 	private Ability ability;
 
-	public Card(String cardName,String cardType, ColorCard color, Integer coloredManaCost, Integer colorlessManaCost ,Ability ability){
+	public Card(String cardName,String cardType, Color color, Integer coloredManaCost, Integer colorlessManaCost ,Ability ability){
 		this.cardName = cardName;
 		this.cardType = cardType;
 		this.color = color;
@@ -46,7 +47,7 @@ public abstract class Card {
 		return this.cardType;
 	}
 	
-	public ColorCard getColor(){
+	public Color getColor(){
 		return color;
 	}
 	

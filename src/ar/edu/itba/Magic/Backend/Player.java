@@ -1,7 +1,10 @@
-package backend;
+package ar.edu.itba.Magic.Backend;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+
+import ar.edu.itba.Magic.Backend.Card.Card;
+import ar.edu.itba.Magic.Backend.Interfaces.DamageTaking;
 
 public class Player implements DamageTaking {
 	

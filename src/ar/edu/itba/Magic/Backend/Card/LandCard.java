@@ -5,6 +5,7 @@ import ar.edu.itba.Magic.Backend.GameEvent;
 import ar.edu.itba.Magic.Backend.GameEventHandler;
 import ar.edu.itba.Magic.Backend.Land;
 import ar.edu.itba.Magic.Backend.PermanentAbility;
+import ar.edu.itba.Magic.Backend.Interfaces.Constants.Color;
 
 /**
  * When played, this card creates a Land Permanent and places it in play. This card may only be played during a player's
@@ -14,7 +15,7 @@ public class LandCard extends Card{
 	
 	GameEventHandler gameEventHandler = GameEventHandler.getGameEventHandler();
 
-	public LandCard(String cardName, String cardType, ColorCard color, Integer coloredManaCost, Integer colorlessManaCost, Ability ability) {
+	public LandCard(String cardName, String cardType, Color color, Integer coloredManaCost, Integer colorlessManaCost, Ability ability) {
 		super(cardName, cardType, color, coloredManaCost, colorlessManaCost, ability);
 	}
 	

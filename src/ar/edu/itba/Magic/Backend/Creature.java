@@ -1,7 +1,9 @@
 package ar.edu.itba.Magic.Backend;
+import ar.edu.itba.Magic.Backend.Card.Card;
 import ar.edu.itba.Magic.Backend.Interfaces.DamageTaking;
 import ar.edu.itba.Magic.Backend.Interfaces.GameStackAction;
-
+import ar.edu.itba.Magic.Backend.Interfaces.Constants.Color;
+import ar.edu.itba.Magic.Backend.Interfaces.Constants.Attribute;
 import java.util.List;
 
 public class Creature extends Permanent implements DamageTaking, GameStackAction {
@@ -11,14 +13,14 @@ public class Creature extends Permanent implements DamageTaking, GameStackAction
 	private int defense;
 	private Integer damageMarkers;
 																						
-	public Creature(Card sourceCard, String name, int attack, int defense, String color, List<String> attributes, Integer coloredManaCost, Integer colorlessManaCost, PermanentAbility ability) {
+	public Creature(Card sourceCard, String name, Color color, List<Attribute> attributes, Integer coloredManaCost, Integer colorlessManaCost, Integer attack, Integer defense, PermanentAbility ability) {
 		super(sourceCard, name, color, attributes, coloredManaCost, colorlessManaCost, ability);
 		this.attack = attack;
 		this.defense = defense;
 		this.damageMarkers = 0;
 	}
 
-	public Creature(Card sourceCard, String name, int attack, int defense, String color, List<String> attributes, Integer coloredManaCost, Integer colorlessManaCost) {
+	public Creature(Card sourceCard, String name, Color color, List<Attribute> attributes, Integer coloredManaCost, Integer colorlessManaCost, Integer attack, Integer defense) {
 		super(sourceCard, name, color, attributes, coloredManaCost, colorlessManaCost, null);
 		this.attack = attack;
 		this.defense = defense;

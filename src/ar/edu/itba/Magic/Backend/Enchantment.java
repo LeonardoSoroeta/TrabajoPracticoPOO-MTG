@@ -1,13 +1,25 @@
 package ar.edu.itba.Magic.Backend;
 
+import java.util.LinkedList;
 import java.util.List;
+
+import ar.edu.itba.Magic.Backend.Card.Card;
+import ar.edu.itba.Magic.Backend.Interfaces.Constants.Color;
+import ar.edu.itba.Magic.Backend.Interfaces.Constants.Attribute;
 
 public class Enchantment extends Permanent {
 	
 	GameEventHandler gameEventHandler = GameEventHandler.getGameEventHandler();
 	
-	public Enchantment(Card sourceCard, String name, String color, List<String> attributes, Integer coloredManaCost, Integer colorlessManaCost, PermanentAbility ability) {
-		super(sourceCard, name, color, attributes, coloredManaCost, colorlessManaCost, ability);
+	public Enchantment(Card sourceCard, String name, Color color, Integer coloredManaCost, Integer colorlessManaCost, PermanentAbility ability) {
+		super(sourceCard, name, color, getDefaultEnchantmentAttributes(), coloredManaCost, colorlessManaCost, ability);
+	}
+	
+	private static List<Attribute> getDefaultEnchantmentAttributes() {
+		List<Attribute> attributes = new LinkedList<Attribute>();
+			//agregar
+		
+		return attributes;
 	}
 	
 	/**

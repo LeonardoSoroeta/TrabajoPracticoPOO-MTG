@@ -2,6 +2,8 @@ package ar.edu.itba.Magic.Backend;
 import java.util.LinkedList;
 import java.util.List;
 
+import ar.edu.itba.Magic.Backend.Card.Card;
+
 
 public class Deck {
 	

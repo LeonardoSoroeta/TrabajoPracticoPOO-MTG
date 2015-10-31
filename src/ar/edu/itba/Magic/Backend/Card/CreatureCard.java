@@ -1,10 +1,8 @@
 package ar.edu.itba.Magic.Backend.Card;
-
-import java.util.LinkedList;
 import java.util.List;
-
+import ar.edu.itba.Magic.Backend.Interfaces.Constants.Color;
+import ar.edu.itba.Magic.Backend.Interfaces.Constants.Attribute;
 import ar.edu.itba.Magic.Backend.Ability;
-import ar.edu.itba.Magic.Backend.Attribute;
 import ar.edu.itba.Magic.Backend.Creature;
 import ar.edu.itba.Magic.Backend.PermanentAbility;
 
@@ -14,30 +12,25 @@ import ar.edu.itba.Magic.Backend.PermanentAbility;
  */
 public class CreatureCard extends Card {
 
-	private int attackPoints;
-	private int defencePoints;
+	private Integer attackPoints;
+	private Integer defencePoints;
 	private List<Attribute> attributes;
 	
-	public CreatureCard(String cardName, String cardType, ColorCard color, int coloredManaCost, int colorlessManaCost, Ability ability, int attackPoints, int defencePoints, List<Attribute> attributes) {
+	public CreatureCard(String cardName, String cardType, Color color, List<Attribute> attributes, Integer coloredManaCost, Integer colorlessManaCost, Integer attackPoints, Integer defencePoints, Ability ability) {
 		super(cardName, cardType, color, coloredManaCost, colorlessManaCost, ability);
 		this.attackPoints = attackPoints;
 		this.defencePoints = defencePoints;
-		attributes = new LinkedList<Attribute>();
+		this.attributes = attributes;
 	}
 
-	public CreatureCard(String cardName, String cardType, ColorCard color, int coloredManaCost, int colorlessManaCost, int attackPoints, int defencePoints, List<Attribute> attributes) {
+	public CreatureCard(String cardName, String cardType, Color color, List<Attribute> attributes, Integer coloredManaCost, Integer colorlessManaCost, Integer attackPoints, Integer defencePoints) {
 		super(cardName, cardType, color, coloredManaCost, colorlessManaCost, null);
 		this.attackPoints = attackPoints;
 		this.defencePoints = defencePoints;
-		attributes = new LinkedList<Attribute>();
+		this.attributes = attributes;
 	}
 	
-	/**
-	 * Plays the card if currently in player's hand. Must request the owner to pay the card's mana cost first. Must also
-	 * execute the ability's satisfyCastingRequireMents method. If the player fails to satisfy the card's casting requirements,
-	 * the card fails to cast.
-	 */
-	
+/*	
 	public List<Attribute> getAttributes(){
 		
 		if(attributes.size() == 0){
@@ -56,7 +49,13 @@ public class CreatureCard extends Card {
 	public void addAttribute(Attribute attribute){
 		attributes.add(attribute);
 	}
+ */
 	
+	/**
+	 * Plays the card if currently in player's hand. Must request the owner to pay the card's mana cost first. Must also
+	 * execute the ability's satisfyCastingRequireMents method. If the player fails to satisfy the card's casting requirements,
+	 * the card fails to cast.
+	 */
 	public void playCard() {
 		Creature creature;
 		
@@ -64,14 +63,14 @@ public class CreatureCard extends Card {
 		
 		if(this.containsAbility()) {
 			if(this.getAbility().satisfyCastingRequirements() == true) {
-				creature = new Creature(this, this.getCardName(), attackPoints, defencePoints, this.getColor(), this.getAttributes(), this.getColoredManaCost(), this.getColorlessManaCost(), (PermanentAbility)this.getAbility());
+				creature = new Creature(this, this.getCardName(), this.getColor(), attributes, this.getColoredManaCost(), this.getColorlessManaCost(), attackPoints, defencePoints, (PermanentAbility)this.getAbility());
 				creature.setController(this.getController());
 				creature.sendToStack();	
 				this.getController().getHand().remove(this);
 			}
 		}
 		else {
-			creature = new Creature(this, this.getCardName(), attackPoints, defencePoints, this.getColor(), this.getAttributes(), this.getColoredManaCost(), this.getColorlessManaCost());
+			creature = new Creature(this, this.getCardName(), this.getColor(), attributes, this.getColoredManaCost(), attackPoints, defencePoints, this.getColorlessManaCost());
 			creature.setController(this.getController());
 			creature.sendToStack();	
 			this.getController().getHand().remove(this);

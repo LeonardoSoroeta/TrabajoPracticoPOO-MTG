@@ -1,6 +1,11 @@
-package ar.edu.itba.Magic.Backend;
-//import ar.edu.itba.Magic.Frontend.Match;
-import java.util.*;
+package ar.edu.itba.Magic.Backend.Card;
+import java.util.LinkedList;
+import java.util.List;
+import ar.edu.itba.Magic.Backend.*;
+import ar.edu.itba.Magic.Backend.GameEventHandler;
+import ar.edu.itba.Magic.Backend.Match;
+import ar.edu.itba.Magic.Backend.Interfaces.Constants.Attribute;
+import ar.edu.itba.Magic.Backend.Interfaces.Constants.Color;
 
 public class CardFactory {
 	
@@ -22,38 +27,21 @@ public class CardFactory {
 	 * 
 	 * @return Returns a list of default attributes contained by creatues.
 	 */
-	public List<String> getDefaultCreatureAttributes() {
-		List<String> attributes = new ArrayList<String>();
-		
-		attributes.add("can_attack");
-		attributes.add("can_block");
-		attributes.add("can_tap");
-		attributes.add("can_untap");
-		attributes.add("untaps_on_upkeep");	
-		
-		return attributes;
-	}
+	public List<Attribute> getDefaultCreatureAttributes() {
+		List<Attribute> attributes = new LinkedList<Attribute>();
+		//agregar
 	
-	/**
-	 * Creates a list of default attributes contained by enchantments.
-	 * 
-	 * @return Returns a list of default attributes contained by enchantments.
-	 */
-	public List<String> getDefaultEnchantmentAttributes() {
-		List<String> attributes = new ArrayList<String>();
-		
 		return attributes;
 	}
 	
 	public Card getCard(String cardName) {
 
-		List<String> attributes;
+		List<Attribute> attributes;
 		
 		switch(cardName) {
 		
 			case "Bad Moon":
-				attributes = getDefaultEnchantmentAttributes();
-				return new EnchantmentCard("Bad Moon", "enchantment", "black", attributes, 1, 1, 
+				return new EnchantmentCard("Bad Moon", "enchantment", Color.BLACK, 1, 1, 
 						new AutomaticPermanentAbility() {
 					
 							/**
@@ -83,13 +71,12 @@ public class CardFactory {
 
 			case "Bog Imp":
 				attributes = getDefaultCreatureAttributes();
-				attributes.add("flying");
-				return new CreatureCard("Bog Imp", "creature", "black", attributes, 1, 1, 1, 1);
+				//attributes.add("flying");
+				return new CreatureCard("Bog Imp", "creature", Color.BLACK, attributes, 1, 1, 1, 1);
 				
 				
 			case "Flood":
-				attributes = getDefaultEnchantmentAttributes();
-				return new EnchantmentCard("Flood", "enchantment", "blue", attributes, 1, 0, 
+				return new EnchantmentCard("Flood", "enchantment", Color.BLUE, 1, 0, 
 						new ActivatedPermanentAbility() {
 							
 							/**
@@ -106,9 +93,9 @@ public class CardFactory {
 				
 			case "Lord of the Pit":
 				attributes = getDefaultCreatureAttributes();
-				attributes.add("trample");
-				attributes.add("flying");
-				return new CreatureCard("Lord Of The Pit", "creature", "black", attributes, 3, 4, 7, 7,
+				//attributes.add("trample");
+				//attributes.add("flying");
+				return new CreatureCard("Lord Of The Pit", "creature", Color.BLACK, attributes, 3, 4, 7, 7,
 						new AutomaticPermanentAbility() {
 							
 							/**
@@ -137,8 +124,8 @@ public class CardFactory {
 				
 			case "Nightmare":
 				attributes = getDefaultCreatureAttributes();
-				attributes.add("flying");
-				return new CreatureCard("Nightmare", "creature", "black", attributes, 1, 5, 1, 1, 
+				//attributes.add("flying");
+				return new CreatureCard("Nightmare", "creature", Color.BLACK, attributes, 1, 5, 1, 1, 
 						new AutomaticPermanentAbility() {
 							
 							/**
@@ -172,7 +159,7 @@ public class CardFactory {
 				
 			case "Royal Assassin":
 				attributes = getDefaultCreatureAttributes();
-				return new CreatureCard("Royal Assassin", "creature", "black", attributes, 2, 1, 1, 1,
+				return new CreatureCard("Royal Assassin", "creature", Color.BLACK, attributes, 2, 1, 1, 1,
 						new ActivatedPermanentAbility() {
 							
 							/**
@@ -190,7 +177,7 @@ public class CardFactory {
 				});
 
 			case "Terror":
-				return new InstantCard("Terror", "instant", "black", 1, 1, 
+				return new InstantCard("Terror", "instant", Color.BLACK, 1, 1, 
 						new SpellAbility() {
 					
 							private Creature target;
