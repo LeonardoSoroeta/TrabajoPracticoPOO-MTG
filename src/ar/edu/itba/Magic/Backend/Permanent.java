@@ -8,6 +8,7 @@ import ar.edu.itba.Magic.Backend.Interfaces.Constants.Attribute;
 
 /**
  * All objects currently in play are Permanents. These objects may be a Creature, an Enchantment, an Artifact or a Land.
+ * Permanents may be affected by LastingEffects from a determined Ability.
  */
 public abstract class Permanent {
 	
@@ -55,7 +56,7 @@ public abstract class Permanent {
 		return appliedLastingEffects;
 	}
 	
-	public  List<Enchantment> getAttachedEnchantments() {
+	public List<Enchantment> getAttachedEnchantments() {
 		return attachedEnchantments;
 	}
 	
@@ -94,20 +95,37 @@ public abstract class Permanent {
 		this.controller = controller;
 	}
 	
+	/**
+	 * Controller is the player that contains the Permanent in his PermanentsInPlay section.
+	 * @return the Player that controlls this permanent.s
+	 */
 	public Player getController() {
 		return controller;
 	}
 	
+	/**
+	 * Gets the Card that created this Permanent.
+	 * @return the Card that created this Permanent.
+	 */
 	public Card getSourceCard() {
 		return sourceCard;
 	}
 	
+	/**
+	 * Whether this Permanent contains an Ability. Only Creature Permanents may not contain an Ability.
+	 * @return True if this Permanent contains an Ability. False otherwise.
+	 */
 	public boolean containsAbility() {
 		if (this.permanentAbility == null)
 			return false;
 		return true;
 	}
     
+	/**
+	 * Whether this Permanent is affected by a LastingEffect from a specific Ability
+	 * @param ability an Ability that may be applying a LastingEffect on this Permanent.
+	 * @return True if affected. False otherwise.
+	 */
     public boolean affectedByAbility(Ability ability) {
     	for(LastingEffect lastingEffect : appliedLastingEffects) {
     		if(lastingEffect.getSource() == ability) {
@@ -118,6 +136,10 @@ public abstract class Permanent {
     	return false;
     }
     
+    /**
+     * Removes any LastingEffect from a specific Ability targeting this Permanent.
+     * @param ability an Ability that may be applying a LastingEffect on this Permanent.
+     */
     public void removeLastingEffectFromAbility(Ability ability) {
     	for(LastingEffect lastingEffect : appliedLastingEffects) {
     		if(lastingEffect.getSource() == ability) {
@@ -127,10 +149,18 @@ public abstract class Permanent {
     	}
     }
 	
+    /**
+     * Returns the PermanentAbility contained by this permanent.
+     * 
+     * @return PermanentAbility contained by this permanent.
+     */
 	public PermanentAbility getAbility() {
 		return permanentAbility;
 	}
 	
+	/**
+	 * Taps this permanent, only if it contains CAN_TAP attribute and is not already tapped.
+	 */
 	public void tap() {
 		if(this.containsAttribute(Attribute.CAN_TAP) && this.isTapped() == false)
 			tapped = true;
@@ -138,10 +168,20 @@ public abstract class Permanent {
 			System.out.println("no se puede tapear!"); //TODO cambiar esto
 	}
 	
+	/** 
+	 * Whether this permanent is tapped.	
+	 * 
+	 * @return True if this Permanent is tapped. False otherwise.
+	 */
 	public boolean isTapped() {
 		return tapped;
 	}
 	
+	/**
+	 * Destroys this permanent. If the permanent contains an ability, executes PermanentAbility's executeOnExit method.
+	 * Removes this permanent from controller player's permanentsInPlay and adds this permanent's source Card to controller
+	 * player's graveyard.
+	 */
 	public void destroy() {
 		//TODO
 		if(this.containsAbility()) {
@@ -150,7 +190,6 @@ public abstract class Permanent {
 		gameEventHandler.notifyGameEvent(new GameEvent("permanent_leaves_play", this));
 		this.controller.getPermanentsInPlay().remove(this);
 		this.controller.getGraveyard().add(this.sourceCard);
-		//agregar al cementerio this.getSourceCard
 	}
 	
 }
