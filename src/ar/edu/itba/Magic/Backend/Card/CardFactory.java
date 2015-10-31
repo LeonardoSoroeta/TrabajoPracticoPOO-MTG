@@ -208,7 +208,7 @@ public class CardFactory {
 
 							@Override
 							public void resolveInStack() {
-								LastingEffect newEffect = new LastingEffect() {
+								AutomaticLastingEffect newEffect = new AutomaticLastingEffect() {
 
 									@Override
 									public void executeOnEvent(GameEvent gameEvent) {

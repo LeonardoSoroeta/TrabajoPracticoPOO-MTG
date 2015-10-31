@@ -158,7 +158,6 @@ public abstract class Permanent {
 	
     /**
      * Returns the PermanentAbility contained by this permanent.
-     * 
      * @return PermanentAbility contained by this permanent.
      */
 	public PermanentAbility getAbility() {
@@ -177,7 +176,6 @@ public abstract class Permanent {
 	
 	/** 
 	 * Whether this permanent is tapped.	
-	 * 
 	 * @return True if this Permanent is tapped. False otherwise.
 	 */
 	public boolean isTapped() {
