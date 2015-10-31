@@ -45,13 +45,34 @@ public class CardFactory {
 						new AutomaticPermanentAbility() {
 					
 							/**
-							 * Adds Bad Moon's automatic ability to the GameEventHandler.
+							 * Adds Bad Moon's automatic ability to the GameEventHandler. Notifies a generic
+							 * game event to get Bad Moon's ability started.
 							 */
 							@Override 
-							public void executeOnIntroduction() {
+							public void executeOnEntering() {
 								gameEventHandler.add(this);
 							}
 							
+							@Override
+							public void executeOnExit() {
+								gameEventHandler.remove(this);
+								List<Permanent> permanents = new LinkedList<Permanent>();
+								permanents.addAll(match.getPlayer1().getPermanentsInPlay());
+								permanents.addAll(match.getPlayer2().getPermanentsInPlay());
+								for(Permanent permanent : permanents) {
+									if(permanent instanceof Creature) {
+										if(permanent.getColor().equals(Color.BLACK)) 
+											if(permanent.affectedByAbility(this)) {
+												permanent.removeLastingEffectFromAbility(this);
+											}
+									}
+								}
+							}
+							
+							/** 
+							 * On every GameEvent checks if any black creatures are unaffected by Black Moon and
+							 * in that case applies them a LastingEffect.
+							 */
 							@Override
 							public void executeOnEvent(GameEvent gameEvent) {
 								List<Permanent> permanents = new LinkedList<Permanent>();
@@ -59,13 +80,35 @@ public class CardFactory {
 								permanents.addAll(match.getPlayer2().getPermanentsInPlay());
 								for(Permanent permanent : permanents) {
 									if(permanent instanceof Creature) {
-										if(permanent.getColor().equals("black")) {
+										if(permanent.getColor().equals(Color.BLACK)) 
+											if(!permanent.affectedByAbility(this)) {
+											LastingEffect newEffect = new LastingEffect() {
+												
+												@Override
+												public void applyEffect() {
+													((Creature)this.getTarget()).increaseAttack(1);
+													((Creature)this.getTarget()).increaseDefense(1);
+												}
+												
+												@Override
+												public void undoEffect() {
+													((Creature)this.getTarget()).decreaseAttack(1);
+													((Creature)this.getTarget()).decreaseDefense(1);
+												}
+												
+												@Override
+												public void executeOnEvent(GameEvent gameEvent) {
+													
+												}
+												
+											};
 											
-										}
-											
+											newEffect.setSource(this);
+											newEffect.setTarget(permanent);
+											newEffect.applyEffect();											
+										}											
 									}
-								}
-								
+								}								
 							}				
 				});
 
@@ -102,7 +145,7 @@ public class CardFactory {
 							 * Adds Lord of the Pit's automatic ability to the GameEventHandler.
 							 */
 							@Override
-							public void executeOnIntroduction() {
+							public void executeOnEntering() {
 								gameEventHandler.add(this);
 							}
 							
@@ -129,11 +172,11 @@ public class CardFactory {
 						new AutomaticPermanentAbility() {
 							
 							/**
-							 * Adds Nightmare's automatic ability to the GameEventHandler. Executes a generic
+							 * Adds Nightmare's automatic ability to the GameEventHandler. Notifies a generic
 							 * game event to get Nightmare's attack and defense started.
 							 */
 							@Override
-							public void executeOnIntroduction() {
+							public void executeOnEntering() {
 								gameEventHandler.add(this);
 								gameEventHandler.notifyGameEvent(new GameEvent("generic_event"));
 							}

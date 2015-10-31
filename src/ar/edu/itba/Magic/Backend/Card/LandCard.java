@@ -34,7 +34,7 @@ public class LandCard extends Card{
 			land.getController().getHand().remove(this);			
 			land.getController().getPermanentsInPlay().add(land);			
 			gameEventHandler.notifyGameEvent(new GameEvent("new_permanent_in_play", land));			
-			((PermanentAbility)land.getAbility()).executeOnIntroduction();
+			((PermanentAbility)land.getAbility()).executeOnEntering();
 		}
 	}
 	

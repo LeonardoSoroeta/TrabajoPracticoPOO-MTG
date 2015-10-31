@@ -37,7 +37,7 @@ public class Enchantment extends Permanent {
 		
 		gameEventHandler.notifyGameEvent(new GameEvent("new_permanent_in_play", this));
 		
-		((PermanentAbility)this.getAbility()).executeOnIntroduction();
+		((PermanentAbility)this.getAbility()).executeOnEntering();
 	}
 
 }

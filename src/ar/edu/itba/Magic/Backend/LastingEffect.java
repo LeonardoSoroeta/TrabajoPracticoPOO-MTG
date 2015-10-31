@@ -4,14 +4,18 @@ import ar.edu.itba.Magic.Backend.Interfaces.ExecutesOnEvent;
 
 public abstract class LastingEffect implements ExecutesOnEvent {
 
-    Object target;
+    Permanent target;
     Ability sourceAbility;
 
-    public LastingEffect(Object target) {
+    public LastingEffect() {
+
+    }
+    
+    public void setTarget(Permanent target) {
     	this.target = target;
     }
     
-    public Object getTarget() {
+    public Permanent getTarget() {
     	return target;
     }
     
@@ -22,7 +26,7 @@ public abstract class LastingEffect implements ExecutesOnEvent {
     public void setSource(Ability sourceAbility) {
     	this.sourceAbility = sourceAbility;
     }
-    
+
     public abstract void executeOnEvent(GameEvent gameEvent);
     
     public abstract void applyEffect();

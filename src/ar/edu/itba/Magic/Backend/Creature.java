@@ -43,7 +43,7 @@ public class Creature extends Permanent implements DamageTaking, GameStackAction
 		gameEventHandler.notifyGameEvent(new GameEvent("new_permanent_in_play", this));
 		
 		if(this.containsAbility())
-			((PermanentAbility)this.getAbility()).executeOnIntroduction();
+			((PermanentAbility)this.getAbility()).executeOnEntering();
 	}
 	
 	public int getAttack(){
@@ -62,12 +62,20 @@ public class Creature extends Permanent implements DamageTaking, GameStackAction
 		this.defense = i;
 	}
 	
-	public void updateAttack(int i){
+	public void increaseAttack(int i){
 		this.attack += i;
 	}
 	
-	public void updateDefense(int i){
+	public void increaseDefense(int i){
 		this.defense += i;
+	}
+	
+	public void decreaseAttack(int i){
+		this.attack -= i;
+	}
+	
+	public void decreaseDefense(int i){
+		this.defense -= i;
 	}
 	
 	public void takeDamage(Integer damage) {		

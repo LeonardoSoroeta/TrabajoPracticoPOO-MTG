@@ -38,6 +38,6 @@ public class Artifact extends Permanent implements GameStackAction {
 		
 		gameEventHandler.notifyGameEvent(new GameEvent("new_permanent_in_play", this));
 		
-		((PermanentAbility)this.getAbility()).executeOnIntroduction();
+		((PermanentAbility)this.getAbility()).executeOnEntering();
 	}
 }

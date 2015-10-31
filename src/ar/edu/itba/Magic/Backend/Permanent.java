@@ -18,31 +18,41 @@ public abstract class Permanent {
 	private Integer coloredManacost;
 	private Integer colorlessManacost;
 	private boolean tapped;
-	private PermanentAbility ability;
+	private PermanentAbility permanentAbility;
 	private List<Attribute> attributes;
-	public List<LastingEffect> appliedEffects = new LinkedList<LastingEffect>();
-	public List<Enchantment> attachedEnchantments = new LinkedList<Enchantment>();
+	private List<LastingEffect> appliedLastingEffects = new LinkedList<LastingEffect>();
+	private List<Enchantment> attachedEnchantments = new LinkedList<Enchantment>();
+	GameEventHandler gameEventHandler = GameEventHandler.getGameEventHandler();
+	Match match = Match.getMatch();
 	
 	public Permanent(Card sourceCard, String name, Color color, List<Attribute> attributes, Integer coloredManaCost, Integer colorlessManaCost, PermanentAbility ability) {
 		this.sourceCard = sourceCard;
 		this.name = name;
 		this.attributes = attributes;
-		this.ability = ability;
+		this.permanentAbility = ability;
 		this.color = color;
 		this.coloredManacost = coloredManaCost;
 		this.colorlessManacost = colorlessManaCost;
 	}
 	
 	public void addAppliedEffect(LastingEffect lastingEffect) {
-		appliedEffects.add(lastingEffect);
+		appliedLastingEffects.add(lastingEffect);
+	}
+	
+	public void removeAppliedEffect(LastingEffect lastingEffect) {
+		appliedLastingEffects.remove(lastingEffect);
 	}
 	
 	public void addAttachedEnchantment(Enchantment enchantment) {
 		attachedEnchantments.add(enchantment);
 	}
+	
+	public void removeAttachedEnchantment(Enchantment enchantment) {
+		attachedEnchantments.remove(enchantment);
+	}
 
-	public List<LastingEffect> getAppliedEffects()	{
-		return appliedEffects;
+	public List<LastingEffect> getAppliedLastingEffects()	{
+		return appliedLastingEffects;
 	}
 	
 	public  List<Enchantment> getAttachedEnchantments() {
@@ -93,13 +103,32 @@ public abstract class Permanent {
 	}
 	
 	public boolean containsAbility() {
-		if (this.ability == null)
+		if (this.permanentAbility == null)
 			return false;
 		return true;
 	}
+    
+    public boolean affectedByAbility(Ability ability) {
+    	for(LastingEffect lastingEffect : appliedLastingEffects) {
+    		if(lastingEffect.getSource() == ability) {
+    			return true;
+    		}
+    	}
+    	
+    	return false;
+    }
+    
+    public void removeLastingEffectFromAbility(Ability ability) {
+    	for(LastingEffect lastingEffect : appliedLastingEffects) {
+    		if(lastingEffect.getSource() == ability) {
+    			lastingEffect.undoEffect();
+    			appliedLastingEffects.remove(lastingEffect);
+    		}
+    	}
+    }
 	
-	public Ability getAbility() {
-		return ability;
+	public PermanentAbility getAbility() {
+		return permanentAbility;
 	}
 	
 	public void tap() {
@@ -115,9 +144,12 @@ public abstract class Permanent {
 	
 	public void destroy() {
 		//TODO
-		//quitar del juego
-		//signalGameEvent(new GameEvent("permanent_leaves_play", this);
-		//for all applied effects y attached enchantments : quitarlos del juego tambien
+		if(this.containsAbility()) {
+			this.getAbility().executeOnExit();
+		}
+		gameEventHandler.notifyGameEvent(new GameEvent("permanent_leaves_play", this));
+		this.controller.getPermanentsInPlay().remove(this);
+		this.controller.getGraveyard().add(this.sourceCard);
 		//agregar al cementerio this.getSourceCard
 	}
 	

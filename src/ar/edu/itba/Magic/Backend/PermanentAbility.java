@@ -19,7 +19,14 @@ public abstract class PermanentAbility extends Ability {
 	/**
 	 * Must execute this method every time the ability's Permanent source enters play.
 	 */
-	public void executeOnIntroduction() {
+	public void executeOnEntering() {
+		
+	}
+		
+	/**
+	 * Must execute this method every time the ability's Permanent source leaves play.
+	 */
+	public void executeOnExit() {
 		
 	}
 
