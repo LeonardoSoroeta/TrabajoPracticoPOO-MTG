@@ -51,25 +51,33 @@ public abstract class Permanent {
 	
 	/**
 	 * Removes a determined lasting effect from this permanent. Executes the LastingEffect's undoEffect method.
+	 * If lasting effect is an AutomaticLastingEffect, removes it from the GameEventHandler as well.
 	 * 
 	 * @param lastingEffect LastingEffect to be removed.
 	 */
 	public void removeLastingEffect(LastingEffect lastingEffect) {
 		appliedLastingEffects.remove(lastingEffect);
 		lastingEffect.undoEffect();
+		if(lastingEffect instanceof AutomaticLastingEffect) {
+			gameEventHandler.remove((AutomaticLastingEffect)lastingEffect);
+		}
 	}
 	
 	/**
-     * Removes any LastingEffect from a specific Ability targeting this Permanent. Executes the
-     * LastingEffect's undoEffect method.
+     * Removes any LastingEffect from this permanent that comes from a specific Ability. Executes the
+     * LastingEffect's undoEffect method. If lasting effect is an AutomaticLastingEffect, removes 
+     * it from the GameEventHandler as well.
      * 
      * @param ability an Ability that may be applying a LastingEffect on this Permanent.
      */
-    public void removeLastingEffectFromAbility(Ability ability) {
+    public void removeLastingEffectFromSourceAbility(Ability ability) {
     	for(LastingEffect lastingEffect : appliedLastingEffects) {
     		if(lastingEffect.getSourceAbility() == ability) {
     			lastingEffect.undoEffect();
     			appliedLastingEffects.remove(lastingEffect);
+    			if(lastingEffect instanceof AutomaticLastingEffect) {
+    				gameEventHandler.remove((AutomaticLastingEffect)lastingEffect);
+    			}
     		}
     	}
     }

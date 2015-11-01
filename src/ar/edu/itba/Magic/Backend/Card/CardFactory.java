@@ -102,7 +102,7 @@ public class CardFactory {
 									if(permanent instanceof Creature) {
 										if(permanent.getColor().equals(Color.BLACK)) 
 											if(permanent.affectedByAbility(this)) {
-												permanent.removeLastingEffectFromAbility(this);
+												permanent.removeLastingEffectFromSourceAbility(this);
 											}
 									}
 								}
@@ -159,6 +159,42 @@ public class CardFactory {
 				attributes = getDefaultCreatureAttributes();
 				attributes.add(Attribute.WALL);
 				return new CreatureCard("Carnivorous Plant", "creature", Color.GREEN, attributes, 1, 3, 4, 5);
+				
+			case "Carrion Ants":
+				attributes = getDefaultCreatureAttributes();
+				return new CreatureCard("Carrion Ants", "creature", Color.BLACK, attributes, 2, 2, 1, 1, 
+						new ActivatedPermanentAbility() {
+
+							@Override
+							public void executeOnActivation() {
+								// TODO request pagar 1 de mana colorless, then {
+								AutomaticLastingEffect newEffect = new AutomaticLastingEffect() {
+
+									@Override
+									public void executeOnEvent(GameEvent gameEvent) {
+										if(gameEvent.getDescriptor().equals(Event.END_OF_TURN)) {
+											((PermanentAbility)this.getSourceAbility()).getSourcePermanent().removeLastingEffect(this);
+										}
+									}
+
+									@Override
+									public void applyEffect() {
+										((Creature)this.getTarget()).increaseAttack(1);
+										((Creature)this.getTarget()).increaseDefense(1);
+									}
+
+									@Override
+									public void undoEffect() {
+										((Creature)this.getTarget()).decreaseAttack(1);
+										((Creature)this.getTarget()).decreaseDefense(1);
+									}		
+								};
+								
+								newEffect.setSourceAbility(this);
+								this.getSourcePermanent().applyLastingEffect(newEffect);
+								gameEventHandler.add(newEffect);
+							}				
+				});
 				
 			case "Durkwood Boars":
 				attributes = getDefaultCreatureAttributes();
@@ -230,8 +266,8 @@ public class CardFactory {
 								};
 								
 								newEffect.setSourceAbility(this);
-								newEffect.setTarget(target);
-								newEffect.applyEffect();						
+								target.applyLastingEffect(newEffect);	
+								gameEventHandler.add(newEffect);
 							}
 						
 				});
@@ -366,7 +402,7 @@ public class CardFactory {
 							
 							@Override
 							public void executeOnExit() {
-								target.removeLastingEffectFromAbility(this);
+								target.removeLastingEffectFromSourceAbility(this);
 								target.removeAttachedEnchantment((Enchantment)this.getSourcePermanent());
 								gameEventHandler.remove(this);
 							}
