@@ -1,37 +1,42 @@
 package ar.edu.itba.Magic.Backend;
 
+import ar.edu.itba.Magic.Backend.Interfaces.Constants.Color;
+
 import java.util.HashMap;
 import java.util.Map;
 
 public class ManaPool {
-	Map<String, Integer> manapool;
-	// cambiar por lo que se use para el color el String
+	private Map<Color, Integer> manapool;
+
 	public ManaPool(){
-		manapool = new HashMap<String, Integer>();
-		manapool.put("red", 0);
-		manapool.put("black", 0);
-		manapool.put("green", 0);
-		manapool.put("white", 0);
-		manapool.put("blue", 0);
-		manapool.put("colorless", 0);
+		manapool = new HashMap<Color, Integer>();
+		manapool.put(Color.RED, 0);
+		manapool.put(Color.GREEN, 0);
+		manapool.put(Color.BLACK, 0);
+		manapool.put(Color.BLUE, 0);
+		manapool.put(Color.WHITE, 0);
+		manapool.put(Color.COLORLESS, 0);
 		
 	}
 	
-	public int getMana(String color){
-		// hago con excepcion
+	public int getMana(Color color){
 		return manapool.get(color);
 		
 	}
-	public void setMana(String color, int quantity){
+	public void setMana(Color color, Integer quantity){
 		manapool.put(color, quantity);
 	}
 	
-	public void increaseMana(String color){
-		int aux = manapool.get(color);
-		manapool.put("color", aux+1);
+	public void increaseMana(Color color){
+		manapool.put(color, manapool.get(color)+1);
 	}
-	public void decreaseMana(String color){
-		int aux = manapool.get(color);
-		manapool.put("color", aux-1);
+	public void decreaseMana(Color color){
+		if(isAvailable(color))
+			manapool.put(color, manapool.get(color)-1);
+		throw new NotAvailableManaException();
 	}
+
+	private boolean isAvailable(Color color){
+		return manapool.get(color) - 1 >= 0;
 	}
+}

@@ -13,26 +13,26 @@ public class GameStack {
 	private GameStack() {
 
 	}
+
     public GameStack getGameStackInstance(){
         return this;
     }
 
 	public void stackAction(GameStackAction gameStackAction) {
         if(gameStackAction == null)
-            throw new IllegalArgumentException("Null object in stack.");
+            throw new IllegalArgumentException("Null object added in stack.");
         stack.push(gameStackAction);
     }
 
-    public GameStackAction pop(){
-        if(!stack.isEmpty())
-            stack.pop();
-        throw new EmptyStackException();
-    }
-
-    public void push(GameStackAction gameStackAction){
+    public static void Add(GameStackAction gameStackAction){
         if(gameStackAction != null)
             stack.push(gameStackAction);
     }
+
+    private void CallOtherPlayer(){
+
+    }
+
 
 
 	

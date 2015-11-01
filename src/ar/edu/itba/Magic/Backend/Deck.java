@@ -1,4 +1,6 @@
 package ar.edu.itba.Magic.Backend;
+import ar.edu.itba.Magic.Backend.Card.Card;
+
 import java.util.LinkedList;
 import java.util.List;
 

@@ -34,6 +34,7 @@ public class Match {
 	}
 	
 	public void start() {	
+		//TODO
 		//roll dice (see who chooses who goes first)
 		//shuffle decks
 		//draw cards
