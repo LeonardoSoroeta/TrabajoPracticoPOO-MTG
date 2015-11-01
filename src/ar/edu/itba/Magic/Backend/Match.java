@@ -1,11 +1,11 @@
 
-import java.util.*;
-
+import ar.edu.itba.Magic.Backend.GameEventHandler;
 import ar.edu.itba.Magic.Backend.Interfaces.Constants.Event;
+import ar.edu.itba.Magic.Backend.Player;
 
 public class Match {
 	
-	private static Match instance = new Match();
+	private static Match instance = getMatchInstance();
 	
 	GameEventHandler eventHandler = GameEventHandler.getGameEventHandler();
 	
@@ -16,6 +16,10 @@ public class Match {
 	private Match() {
 		
 	}
+
+    public Match getMatchInstance(){
+        return this;
+    }
 	
 	public static Match getMatch() {
 		return instance;

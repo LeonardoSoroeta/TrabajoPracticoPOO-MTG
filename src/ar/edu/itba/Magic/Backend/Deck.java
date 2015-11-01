@@ -1,11 +1,8 @@
 package ar.edu.itba.Magic.Backend;
-import ar.edu.itba.Magic.Backend.Card.Card;
 
+import javax.smartcardio.Card;
 import java.util.LinkedList;
 import java.util.List;
-
-import ar.edu.itba.Magic.Backend.Card.Card;
-
 
 public class Deck {
 	
@@ -16,7 +13,9 @@ public class Deck {
 	}
 
 	public void addCard(Card card){
-		deck.add(card);
+		if(card != null)
+			deck.add(card);
+		throw new IllegalArgumentException();
 	}
 	
 	public void removeCard(Card card){
