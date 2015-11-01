@@ -1,7 +1,7 @@
 package ar.edu.itba.Magic.Backend;
 
+import ar.edu.itba.Magic.Backend.Card.Card;
 import ar.edu.itba.Magic.Backend.Interfaces.DamageTaking;
-import javax.smartcardio.Card;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -16,7 +16,7 @@ public class Player implements DamageTaking {
 	private List<Card> graveyard;
 	private int health;
 	
-	public Player(Deck deck,) {
+	public Player(Deck deck) {
 		this.library = deck.getCards();
 		this.hand = new LinkedList<Card>();
 		this.permanentsInPlay = new LinkedList<Permanent>();
