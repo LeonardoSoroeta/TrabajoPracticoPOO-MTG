@@ -1,5 +1,6 @@
 package ar.edu.itba.Magic.Backend;
 
+import ar.edu.itba.Magic.Backend.Exceptions.NotAvailableManaException;
 import ar.edu.itba.Magic.Backend.Interfaces.Constants.Color;
 
 import java.util.HashMap;
@@ -30,7 +31,7 @@ public class ManaPool {
 	public void increaseMana(Color color){
 		manapool.put(color, manapool.get(color)+1);
 	}
-	public void decreaseMana(Color color){
+	public void decreaseMana(Color color) throws NotAvailableManaException{
 		if(isAvailable(color))
 			manapool.put(color, manapool.get(color)-1);
 		throw new NotAvailableManaException();
