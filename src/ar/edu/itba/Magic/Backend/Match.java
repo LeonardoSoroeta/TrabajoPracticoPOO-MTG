@@ -33,6 +33,15 @@ public class Match {
 		return player2;
 	}
 	
+	public Player getOpponent(Player player) {
+		if(player == player1) {
+			return player2;
+		}
+		else {
+			return player1;
+		}
+	}
+	
 	public Player getActivePlayer() {
 		return activePlayer;
 	}

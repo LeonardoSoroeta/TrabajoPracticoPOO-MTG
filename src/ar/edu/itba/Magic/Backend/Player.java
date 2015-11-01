@@ -74,6 +74,7 @@ public class Player implements DamageTaking {
 		return graveyard;
 	}
 	
+	/*  no se si es objetoso esto
 	public Player getOpponent() {
 		if(this == match.getPlayer1()) {
 			return match.getPlayer2();
@@ -82,6 +83,7 @@ public class Player implements DamageTaking {
 			return match.getPlayer1();
 		}
 	}
+	*/
 	
 	public void shuffleLibrary() {
 		Collections.shuffle(this.library);
