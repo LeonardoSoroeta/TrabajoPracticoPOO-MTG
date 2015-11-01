@@ -1,23 +1,22 @@
 package ar.edu.itba.Magic.Backend;
+
+import ar.edu.itba.Magic.Backend.Interfaces.DamageTaking;
+import javax.smartcardio.Card;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-import ar.edu.itba.Magic.Backend.Card.Card;
-import ar.edu.itba.Magic.Backend.Interfaces.DamageTaking;
-
 public class Player implements DamageTaking {
-	
-	ManaPool manaPool;
-	
-	List<Card> library;
-	List<Card> hand;
-	List<Permanent> permanentsInPlay;
-	List<Card> graveyard;
-	
+
+    private String name;
+	private ManaPool manaPool;
+	private Deck deck;
+	private List<Card> hand;
+	private List<Permanent> permanentsInPlay;
+	private List<Card> graveyard;
 	private int health;
 	
-	public Player(Deck deck) {
+	public Player(Deck deck,) {
 		this.library = deck.getCards();
 		this.hand = new LinkedList<Card>();
 		this.permanentsInPlay = new LinkedList<Permanent>();
@@ -33,16 +32,16 @@ public class Player implements DamageTaking {
 		return health;
 	}
 	
-	public void increaseHealth(int i) {
-		if ( i<0)
+	public void increaseHealth(Integer increment) {
+		if (increment < 0)
 			throw new IllegalArgumentException();
-		health += i;
+		health += increment;
 	}
 	
-	public void decreaseHealth(int i) {
-		if ( i<0)
+	public void decreaseHealth(Integer decrement) {
+		if (decrement < 0)
 			throw new IllegalArgumentException();
-		health -= i;
+		health -= decrement;
 	}
 	
 	public ManaPool getManaPool() {
@@ -71,7 +70,15 @@ public class Player implements DamageTaking {
 	}
 	
 	public void takeDamage(Integer damage) {
-		health -= damage;		
+		if(damage >= 0)
+			health -= damage;
+		throw new IllegalArgumentException();
 		// if (health <= 0) then pierde la partida etc etc
+	}
+
+	public boolean lost(){
+		if(health <= 0)
+			return true;
+		return false;
 	}
 }

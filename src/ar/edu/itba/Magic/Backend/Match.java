@@ -5,7 +5,7 @@ import ar.edu.itba.Magic.Backend.Player;
 
 public class Match {
 	
-	private static Match instance = getMatchInstance();
+	private static Match instance = getMatch();
 	
 	GameEventHandler eventHandler = GameEventHandler.getGameEventHandler();
 	

@@ -1,16 +1,21 @@
 package ar.edu.itba.Magic.Backend;
 
 import javax.smartcardio.Card;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
 public class Deck {
 	
-	List<Card> deck;
+	private LinkedList<Card> deck;
 	
 	public Deck(){
 		deck = new LinkedList();
 	}
+
+    public Deck(LinkedList<Card> list){
+        deck.addAll(list);
+    }
 
 	public void addCard(Card card){
 		if(card != null)
@@ -19,19 +24,19 @@ public class Deck {
 	}
 	
 	public void removeCard(Card card){
-		if( deck.contains(card))
+		if(deck.contains(card))
 			deck.remove(card);
 	}
 
-	public void addCardList(List<Card> cardlist){
-		deck.addAll(cardlist);
-	}
+    public void ShuffleDeck(){
+        Collections.shuffle(deck);
+    }
 	
 	public void clearDeck(){
 		deck.clear();
 	}
 	
-	public List<Card> getCards(){
+	public LinkedList<Card> getCards(){
 		return deck;
 	}
 	public int getSize(){
