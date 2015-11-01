@@ -15,6 +15,7 @@ public class Player implements DamageTaking {
 	private List<Permanent> permanentsInPlay;
 	private List<Card> graveyard;
 	private int health;
+	private Match match = Match.getMatch();
 	
 	public Player(Deck deck) {
 		this.library = deck.getCards();
@@ -26,6 +27,14 @@ public class Player implements DamageTaking {
 	
 	public void setHealth(int health) {
 		this.health = health;
+	}
+	
+	public void increaseHealth(int ammount) {
+		this.health += ammount;
+	}
+	
+	public void decreaseHealth(int ammount) {
+		this.health -= ammount;
 	}
 	
 	public int getHealth() {
@@ -63,6 +72,15 @@ public class Player implements DamageTaking {
 	
 	public List<Card> getGraveyard() {
 		return graveyard;
+	}
+	
+	public Player getOpponent() {
+		if(this == match.getPlayer1()) {
+			return match.getPlayer2();
+		}
+		else {
+			return match.getPlayer1();
+		}
 	}
 	
 	public void shuffleLibrary() {

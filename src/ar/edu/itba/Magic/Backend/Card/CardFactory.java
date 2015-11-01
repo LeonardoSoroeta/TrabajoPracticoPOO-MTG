@@ -145,10 +145,70 @@ public class CardFactory {
 							}				
 				});
 				
+			case "Ball Lightning":
+				attributes = getDefaultCreatureAttributes();
+				attributes.add(Attribute.TRAMPLE);
+				attributes.remove(Attribute.SUMMONING_SICKNESS);
+				return new CreatureCard("Ball Lightning", "creature", Color.RED, attributes, 3, 0, 6, 1);
+				
 			case "Bird Maiden":
 				attributes = getDefaultCreatureAttributes();
 				attributes.add(Attribute.FLYING);
 				return new CreatureCard("Bird Maiden", "creature", Color.RED, attributes, 1, 2, 1, 2);
+				
+			case "Blood Lust":
+				return new InstantCard("Blood Lust", "instant", Color.RED, 1, 1, 
+						new SpellAbility() {
+							Creature target;
+							
+							@Override
+							public boolean satisfyCastingRequirements() {
+								// TODO target = select target creature
+									// return true;
+								// else
+									return false;
+							}
+
+							@Override
+							public void sendToStack() {
+								// TODO stack.add(this);
+							}
+
+							@Override
+							public void resolveInStack() {
+								AutomaticLastingEffect newEffect = new AutomaticLastingEffect() {
+									Integer previousTargetDefense;
+
+									@Override
+									public void executeOnEvent(GameEvent gameEvent) {
+										if(gameEvent.getDescriptor().equals(Event.END_OF_TURN)) {
+											this.getTarget().removeLastingEffect(this);
+										}
+									}
+
+									@Override
+									public void applyEffect() {
+										((Creature)this.getTarget()).increaseAttack(4);
+										previousTargetDefense = ((Creature)this.getTarget()).getDefense();
+										if(previousTargetDefense <= 4) {
+											((Creature)this.getTarget()).setDefense(1);
+										}
+										else {
+											((Creature)this.getTarget()).decreaseDefense(4);
+										}	
+									}
+
+									@Override
+									public void undoEffect() {
+										((Creature)this.getTarget()).decreaseAttack(4);
+										((Creature)this.getTarget()).setDefense(previousTargetDefense);	
+									}
+								};
+								
+								newEffect.setSourceAbility(this);
+								target.applyLastingEffect(newEffect);	
+							}
+				});
 
 			case "Bog Imp":
 				attributes = getDefaultCreatureAttributes();
@@ -158,6 +218,7 @@ public class CardFactory {
 			case "Carnivorous Plant":
 				attributes = getDefaultCreatureAttributes();
 				attributes.add(Attribute.WALL);
+				attributes.remove(Attribute.CAN_ATTACK);
 				return new CreatureCard("Carnivorous Plant", "creature", Color.GREEN, attributes, 1, 3, 4, 5);
 				
 			case "Carrion Ants":
@@ -173,7 +234,7 @@ public class CardFactory {
 									@Override
 									public void executeOnEvent(GameEvent gameEvent) {
 										if(gameEvent.getDescriptor().equals(Event.END_OF_TURN)) {
-											((PermanentAbility)this.getSourceAbility()).getSourcePermanent().removeLastingEffect(this);
+											this.getTarget().removeLastingEffect(this);
 										}
 									}
 
@@ -192,8 +253,58 @@ public class CardFactory {
 								
 								newEffect.setSourceAbility(this);
 								this.getSourcePermanent().applyLastingEffect(newEffect);
-								gameEventHandler.add(newEffect);
 							}				
+				});
+				
+			case "Crumble":
+				return new InstantCard("Crumble", "instant", Color.GREEN, 1, 0,
+						new SpellAbility() {
+							Artifact target;
+							
+							@Override
+							public boolean satisfyCastingRequirements() {
+								// TODO select target Artifact
+									// return true;
+								//else 
+									return false;
+							}
+		
+							@Override
+							public void sendToStack() {
+								// TODO gamestack.add(this)
+								
+							}
+		
+							@Override
+							public void resolveInStack() {
+								target.destroy();	
+								target.getController().increaseHealth(target.getColorlessManaCost());								
+							}			
+				});
+						
+			case "Desert Twister":
+				return new SorceryCard("Desert Twister", "sorcery", Color.GREEN, 2, 4, 
+						new SpellAbility() {
+							Permanent target;
+					
+							@Override
+							public boolean satisfyCastingRequirements() {
+								// TODO select target Permanent
+									// return true;
+								//else 
+									return false;
+							}
+
+							@Override
+							public void sendToStack() {
+								// TODO gamestack.add(this)
+								
+							}
+
+							@Override
+							public void resolveInStack() {
+								target.destroy();				
+							}						
 				});
 				
 			case "Durkwood Boars":
@@ -205,9 +316,35 @@ public class CardFactory {
 				attributes.add(Attribute.FIRST_STRIKE);
 				return new CreatureCard("Elvish Archers", "creature", Color.GREEN, attributes, 1, 1, 2, 1);
 				
+			case "Fissure":
+				return new InstantCard("Fissure", "instant", Color.RED, 2, 3, 
+						new SpellAbility() {
+							Permanent target;
+					
+							@Override
+							public boolean satisfyCastingRequirements() {
+								// TODO target = selec target land or creature
+									// return true;
+								// else
+									return false;
+							}
+
+							@Override
+							public void sendToStack() {
+								// TODO gamestack.add(this);
+								
+							}
+
+							@Override
+							public void resolveInStack() {
+								target.destroy();
+							}
+				});
+				
 			case "Flood":
 				return new EnchantmentCard("Flood", "enchantment", Color.BLUE, 1, 0, 
 						new ActivatedPermanentAbility() {
+							Creature target;
 							
 							/**
 							 * Pay 2 blue mana to tap a target creature without flying.
@@ -217,7 +354,7 @@ public class CardFactory {
 								// TODO
 								//pay mana cost
 								//select target creature without flying
-								//creature.tap();
+								target.tap();
 							}
 				});
 				
@@ -249,8 +386,7 @@ public class CardFactory {
 									@Override
 									public void executeOnEvent(GameEvent gameEvent) {
 										if(gameEvent.getDescriptor().equals(Event.END_OF_TURN)) {
-											this.undoEffect();
-											target.removeLastingEffect(this);
+											this.getTarget().removeLastingEffect(this);
 										}								
 									}
 
@@ -267,7 +403,6 @@ public class CardFactory {
 								
 								newEffect.setSourceAbility(this);
 								target.applyLastingEffect(newEffect);	
-								gameEventHandler.add(newEffect);
 							}
 						
 				});
@@ -288,6 +423,43 @@ public class CardFactory {
 									}
 								}			
 							}		
+				});
+				
+			case "Kismet":
+				return new EnchantmentCard("Kismet", "enchantment", Color.WHITE, 1, 3, 
+						new AutomaticPermanentAbility() {
+							Player targetPlayer;
+					
+							@Override
+							public boolean satisfyCastingRequirements() {
+								// TODO select target player
+									// return true;
+								// else
+									return false;
+							}
+							
+							@Override
+							public void executeOnEntering() {
+								gameEventHandler.add(this);
+							}
+							
+							@Override
+							public void executeOnExit() {
+								gameEventHandler.remove(this);
+							}
+							
+							@Override
+							public void executeOnEvent(GameEvent gameEvent) {
+								if(gameEvent.getDescriptor().equals(Event.PERMANENT_ENTERS_PLAY)) {
+									if(((Permanent)gameEvent.getObject1()).getController() == targetPlayer){
+										if(gameEvent.getObject1() instanceof Creature ||
+										   gameEvent.getObject1() instanceof Artifact ||
+										   gameEvent.getObject1() instanceof Land	) {
+											((Permanent)gameEvent.getObject1()).tap();
+										}
+									}
+								}
+							}
 				});
 				
 			case "Land Leeches":
@@ -372,7 +544,7 @@ public class CardFactory {
 					
 							@Override
 							public boolean satisfyCastingRequirements() {
-								// TODO seleccionar target creature
+								// TODO target = seleccionar target creature
 									//return true
 								//else 
 									return false;
@@ -417,6 +589,41 @@ public class CardFactory {
 								}
 							}
 				});
+				
+			case "Radjan Spirit":
+				attributes = getDefaultCreatureAttributes();
+				return new CreatureCard("Radjan Spirit", "creature", Color.GREEN, attributes, 1, 3, 3, 2,
+						new ActivatedPermanentAbility() {
+							Creature target;
+							
+							@Override
+							public void executeOnActivation() {
+								// TODO target = select target creature with flying, then {
+								AutomaticLastingEffect newEffect = new AutomaticLastingEffect() {
+
+									@Override
+									public void executeOnEvent(GameEvent gameEvent) {
+										if(gameEvent.getDescriptor().equals(Event.END_OF_TURN)) {
+											this.getTarget().removeLastingEffect(this);
+										}	
+									}
+
+									@Override
+									public void applyEffect() {
+										this.getTarget().removeAttribute(Attribute.FLYING);	
+									}
+
+									@Override
+									public void undoEffect() {
+										this.getTarget().addAttribute(Attribute.FLYING);						
+									}		
+								};
+								
+								newEffect.setSourceAbility(this);
+								target.applyLastingEffect(newEffect);	
+								
+							}		
+						});
 				
 			case "Royal Assassin":
 				attributes = getDefaultCreatureAttributes();
@@ -482,6 +689,29 @@ public class CardFactory {
 				attributes = getDefaultCreatureAttributes();
 				attributes.remove(Attribute.FIRST_STRIKE);
 				return new CreatureCard("Tunda Wolves", "creature", Color.WHITE, attributes, 1, 0, 1, 1);
+				
+			case "Wanderlust":
+				return new EnchantmentCard("Wanderlust", "enchantment", Color.GREEN, 1 ,2, 
+						new AutomaticPermanentAbility() {
+							Creature target;
+					
+							@Override
+							public boolean satisfyCastingRequirements() {
+								// TODO target = select target creature;
+									//return true;
+								//else
+									return false;
+							}
+
+							@Override
+							public void executeOnEvent(GameEvent gameEvent) {
+								if(gameEvent.getDescriptor().equals(Event.UPKEEP_STEP)) {
+									if(gameEvent.getObject1() == target.getController()) {
+										// TODO target.getController().takeDamage(1); o decreaseHealth();
+									}
+								}		
+							}
+				});
 				
 			case "Zephyr Falcon":
 				attributes = getDefaultCreatureAttributes();

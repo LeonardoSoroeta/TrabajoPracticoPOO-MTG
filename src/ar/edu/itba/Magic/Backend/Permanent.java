@@ -39,7 +39,8 @@ public abstract class Permanent {
 	
 	/**
 	 * Applies a determined lasting effect on this permanent. Sets this permanent as the LastingEffect's target
-	 * and executes the LastingEffects applyEffect method.
+	 * and executes the LastingEffects applyEffect method. If lasting effect is an AutomaticLastingEffect, 
+	 * adds it to the GameEventHandler as well.
 	 * 
 	 * @param lastingEffect lasting effect to be applied.
 	 */
@@ -47,6 +48,9 @@ public abstract class Permanent {
 		appliedLastingEffects.add(lastingEffect);
 		lastingEffect.setTarget(this);
 		lastingEffect.applyEffect();
+		if(lastingEffect instanceof AutomaticLastingEffect) {
+			gameEventHandler.add((AutomaticLastingEffect)lastingEffect);
+		}
 	}
 	
 	/**
