@@ -16,12 +16,14 @@ public class Player implements DamageTaking {
 	private List<Card> graveyard;
 	private int health;
 	
-	public Player(Deck deck,) {
-		this.library = deck.getCards();
+	public Player(Deck deck, String name) {
+		this.name = name;
+        this.deck = deck;
 		this.hand = new LinkedList<Card>();
 		this.permanentsInPlay = new LinkedList<Permanent>();
 		this.graveyard = new LinkedList<Card>();
-		this.manaPool = new ManaPool();		
+		this.manaPool = new ManaPool();
+        this.health = 20;
 	}
 	
 	public void setHealth(int health) {
@@ -47,12 +49,11 @@ public class Player implements DamageTaking {
 	public ManaPool getManaPool() {
 		return manaPool;
 	}
-	
-	
+
 	public List<Card> getLibrary() {
-		return library;
+		return deck;
 	}
-	
+
 	public List<Card> getHand() {
 		return hand;
 	}
