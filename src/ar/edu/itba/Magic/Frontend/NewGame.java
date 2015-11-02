@@ -5,12 +5,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.newdawn.slick.AppGameContainer;
-import org.newdawn.slick.ScalableGame;
 import org.newdawn.slick.SlickException;
 
 
 public class NewGame {
-	
 	
 	public static void main(String[] args)
 	{	
@@ -18,11 +16,9 @@ public class NewGame {
 		try
 		{
 			AppGameContainer appgc;
-			appgc = new AppGameContainer(new ScalableGame(new StatesGame("Magic"), 800, 600));
-			appgc.setDisplayMode(800, 600, true);
+			appgc = new AppGameContainer(new StatesGame("Magic"));
+			appgc.setDisplayMode(appgc.getScreenWidth(), appgc.getScreenHeight(), true);
 			appgc.start();
-				
-			
 		}
 		catch (SlickException ex)
 		{

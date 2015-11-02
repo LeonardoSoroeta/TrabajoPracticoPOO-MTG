@@ -21,20 +21,20 @@ public class DeckSelectionState extends BasicGameState {
 	Input input;
 
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
-		backGround = new ExtendedImage("res/magiclogo.png",200,0);
-		createNewDeck = new ExtendedImage("res/newdeck.png",gc.getWidth()*2/8,gc.getHeight()*2/3);
-		editExistingDeck = new ExtendedImage("res/edit.png",gc.getWidth()*2/8,gc.getHeight()*3/4);
-		back = new ExtendedImage("res/back.png",gc.getWidth()*2/8,gc.getHeight()*5/6);
+		backGround = new ExtendedImage("res/magiclogo.png",gc.getWidth()*2/5,gc.getHeight()*1/3);
+		createNewDeck = new ExtendedImage("res/newdeck.png",gc.getWidth()*2/9,gc.getHeight()*2/3);
+		editExistingDeck = new ExtendedImage("res/edit.png",gc.getWidth()*2/9,gc.getHeight()*3/4);
+		back = new ExtendedImage("res/back.png",gc.getWidth()*2/9,gc.getHeight()*5/6);
 	}
 	
 	public void update(GameContainer gc, StateBasedGame sbg, int arg2) throws SlickException {
 		input = gc.getInput();
 		
-		if(back.mouseClicked(input))
+		if(back.mouseLClicked(input))
 			sbg.enterState(0);
-		else if(createNewDeck.mouseClicked(input))
+		else if(createNewDeck.mouseLClicked(input))
 			sbg.enterState(3);
-		else if(editExistingDeck.mouseClicked(input))
+		else if(editExistingDeck.mouseLClicked(input))
 			gc.exit();
 		
 		if(gc.getInput().isKeyPressed(Input.KEY_ESCAPE)){

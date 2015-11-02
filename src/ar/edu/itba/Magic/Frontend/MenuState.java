@@ -20,10 +20,10 @@ public class MenuState extends BasicGameState {
 	
 	public void init(GameContainer gc, StateBasedGame arg1) throws SlickException {
 		backGround = new ExtendedImage("res/background.png",0,0);
-		magicLogo = new ExtendedImage("res/magic.png",gc.getWidth()*1/5,gc.getHeight()*1/10);
-		startNewMatch = new ExtendedImage("res/snm.png",gc.getWidth()*2/8,gc.getHeight()*2/3);
-		deckSelection = new ExtendedImage("res/ds.png",gc.getWidth()*2/8,gc.getHeight()*3/4);
-		exit = new ExtendedImage("res/exit.png",gc.getWidth()*2/8,gc.getHeight()*5/6);
+		magicLogo = new ExtendedImage("res/magic.png",gc.getWidth()*1/4,gc.getHeight()*1/10);
+		startNewMatch = new ExtendedImage("res/snm.png",gc.getWidth()*2/9,gc.getHeight()*2/3);
+		deckSelection = new ExtendedImage("res/ds.png",gc.getWidth()*2/9,gc.getHeight()*3/4);
+		exit = new ExtendedImage("res/exit.png",gc.getWidth()*2/9,gc.getHeight()*5/6);
 	}
 	
 	
@@ -32,11 +32,11 @@ public class MenuState extends BasicGameState {
 		if(gc.getInput().isKeyPressed(Input.KEY_ESCAPE)){
 			gc.exit();
 		}
-		if(startNewMatch.mouseClicked(input))
+		if(startNewMatch.mouseLClicked(input))
 			sbg.enterState(2);
-		else if(deckSelection.mouseClicked(input))
+		else if(deckSelection.mouseLClicked(input))
 			sbg.enterState(1);
-		else if(exit.mouseClicked(input))
+		else if(exit.mouseLClicked(input))
 			gc.exit();
 		
 		if(gc.getInput().isKeyPressed(Input.KEY_ESCAPE)){
