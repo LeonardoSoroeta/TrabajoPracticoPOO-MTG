@@ -36,8 +36,8 @@ public class Deck {
 		deck.clear();
 	}
 	
-	public LinkedList<Card> getCards(){
-		return deck;
+	public Card getCard(){
+		return deck.pop();
 	}
 	public int getSize(){
 		return deck.size();
