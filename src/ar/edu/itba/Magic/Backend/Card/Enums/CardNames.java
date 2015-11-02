@@ -4,6 +4,34 @@ package ar.edu.itba.Magic.Backend.Card.Enums;
  * Created by Martin on 02/11/2015.
  */
 public enum CardNames {
-
-
+    BLIGHT,
+    BAD_MOON,
+    BALL_LIGHTNING,
+    BIRD_MAIDEN,
+    BLOOD_LUST,
+    BOG_IMP,
+    CARNIVOROUS_PLANT,
+    CARRION_ANTS,
+    CRUMBLE,
+    DESERT_TWISTER,
+    DURKWOOD_BOARDS,
+    ELVISH_ARCHERS,
+    FISSURE,
+    FLOOD,
+    HOWL_FROM_BEYOND,
+    JUNUN_EFREET,
+    KISMET,
+    LAND_LEECHES,
+    LORD_OF_THE_PIT,
+    LOST_SOUL,
+    NIGHTMARE,
+    PARALYZE,
+    RADJAN_SPIRIT,
+    ROYAL_ASSASIN,
+    SEGOVIAN_LEVIATHAN,
+    SERRA_ANGEL,
+    TERROR,
+    TUNDRA_WOLVES,
+    WANDERLUST,
+    ZEPHYR_FALCON,
 }
