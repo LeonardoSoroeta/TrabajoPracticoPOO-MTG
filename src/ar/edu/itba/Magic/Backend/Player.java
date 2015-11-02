@@ -2,6 +2,8 @@ package ar.edu.itba.Magic.Backend;
 
 import ar.edu.itba.Magic.Backend.Card.Card;
 import ar.edu.itba.Magic.Backend.Interfaces.DamageTaking;
+import com.sun.org.apache.xerces.internal.impl.xpath.regex.Match;
+
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -18,7 +20,7 @@ public class Player implements DamageTaking {
 	private Match match = Match.getMatch();
 	
 	public Player(Deck deck) {
-		this.library = deck.getCards();
+		this.deck = deck;
 		this.hand = new LinkedList<Card>();
 		this.permanentsInPlay = new LinkedList<Permanent>();
 		this.graveyard = new LinkedList<Card>();
