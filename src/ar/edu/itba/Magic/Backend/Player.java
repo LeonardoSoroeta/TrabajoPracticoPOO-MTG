@@ -17,7 +17,6 @@ public class Player implements DamageTaking {
 	private List<Permanent> permanentsInPlay;
 	private List<Card> graveyard;
 	private int health;
-	private Match match = Match.getMatch();
 	
 	public Player(Deck deck) {
 		this.deck = deck;
