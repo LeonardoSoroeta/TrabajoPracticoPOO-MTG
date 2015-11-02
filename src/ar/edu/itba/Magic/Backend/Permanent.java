@@ -25,7 +25,6 @@ public abstract class Permanent {
 	private List<LastingEffect> appliedLastingEffects = new LinkedList<LastingEffect>();
 	private List<Enchantment> attachedEnchantments = new LinkedList<Enchantment>();
 	GameEventHandler gameEventHandler = GameEventHandler.getGameEventHandler();
-	Match match = Match.getMatch();
 	
 	public Permanent(Card sourceCard, String name, Color color, List<Attribute> attributes, Integer coloredManaCost, Integer colorlessManaCost, PermanentAbility ability) {
 		this.sourceCard = sourceCard;
