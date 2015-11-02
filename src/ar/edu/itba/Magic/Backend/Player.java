@@ -58,11 +58,6 @@ public class Player implements DamageTaking {
 		return manaPool;
 	}
 	
-	
-	public List<Card> getLibrary() {
-		return library;
-	}
-	
 	public List<Card> getHand() {
 		return hand;
 	}
