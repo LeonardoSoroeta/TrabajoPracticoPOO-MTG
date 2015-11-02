@@ -1,7 +1,7 @@
 package ar.edu.itba.Magic.Backend;
 
+import ar.edu.itba.Magic.Backend.Card.Card;
 import ar.edu.itba.Magic.Backend.Interfaces.DamageTaking;
-import javax.smartcardio.Card;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -15,19 +15,26 @@ public class Player implements DamageTaking {
 	private List<Permanent> permanentsInPlay;
 	private List<Card> graveyard;
 	private int health;
+	private Match match = Match.getMatch();
 	
-	public Player(Deck deck, String name) {
-		this.name = name;
-        this.deck = deck;
+	public Player(Deck deck) {
+		this.library = deck.getCards();
 		this.hand = new LinkedList<Card>();
 		this.permanentsInPlay = new LinkedList<Permanent>();
 		this.graveyard = new LinkedList<Card>();
-		this.manaPool = new ManaPool();
-        this.health = 20;
+		this.manaPool = new ManaPool();		
 	}
 	
 	public void setHealth(int health) {
 		this.health = health;
+	}
+	
+	public void increaseHealth(int ammount) {
+		this.health += ammount;
+	}
+	
+	public void decreaseHealth(int ammount) {
+		this.health -= ammount;
 	}
 	
 	public int getHealth() {
@@ -49,11 +56,12 @@ public class Player implements DamageTaking {
 	public ManaPool getManaPool() {
 		return manaPool;
 	}
-
+	
+	
 	public List<Card> getLibrary() {
-		return deck;
+		return library;
 	}
-
+	
 	public List<Card> getHand() {
 		return hand;
 	}
@@ -65,6 +73,17 @@ public class Player implements DamageTaking {
 	public List<Card> getGraveyard() {
 		return graveyard;
 	}
+	
+	/*  no se si es objetoso esto
+	public Player getOpponent() {
+		if(this == match.getPlayer1()) {
+			return match.getPlayer2();
+		}
+		else {
+			return match.getPlayer1();
+		}
+	}
+	*/
 	
 	public void shuffleLibrary() {
 		Collections.shuffle(this.library);

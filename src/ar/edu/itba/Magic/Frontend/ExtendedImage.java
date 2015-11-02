@@ -7,6 +7,10 @@ import org.newdawn.slick.SlickException;
 public class ExtendedImage extends Image {
 	private float x, y;
 	
+	public ExtendedImage(Image other) {
+		super(other);
+	}
+	
 	public ExtendedImage(String ref, float x, float y) throws SlickException {
 		super(ref);
 		this.x = x;
@@ -44,22 +48,36 @@ public class ExtendedImage extends Image {
 	
 	public boolean mouseOver(int x, int y) {
 		if(x >= this.x && y >= this.y) {
-			if(x <= this.x + getWidth() && y <= this.y + getHeight()) {
+			if(x <= this.x + this.getWidth() && y <= this.y + this.getHeight()) {
 				return true;
 			}
 		}
 		return false;
 	}
 	
-	
-	public boolean mouseClicked(Input input) {
+	/**
+	 * See if the mouse click is pressed over the image 
+	 */
+	public boolean mouseLClicked(Input input) {
 		if(mouseOver(input)) {
 			if(input.isMousePressed(TOP_LEFT))
 				return true;
 		}
 		return false;
 	}
+
 	
+	public boolean mouseRClicked(Input input) {
+		if(mouseOver(input)) {
+			if(input.isMousePressed(TOP_RIGHT))
+				return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * See if the mouse is over the image 
+	 */
 	public boolean mouseOver(Input input) {
 		return mouseOver(input.getMouseX(), input.getMouseY());
 	}

@@ -1,5 +1,13 @@
 package ar.edu.itba.Magic.Backend.Card;
 
+import java.util.List;
+
+import ar.edu.itba.Magic.Backend.Ability;
+import ar.edu.itba.Magic.Backend.PermanentAbility;
+import ar.edu.itba.Magic.Backend.Creature;
+import ar.edu.itba.Magic.Backend.Interfaces.Constants.Attribute;
+import ar.edu.itba.Magic.Backend.Interfaces.Constants.Color;
+
 /**
  * Created by Martin on 31/10/2015.
  */
@@ -43,4 +51,3 @@ public class CreatureCard extends Card {
         }
     }
 
-}

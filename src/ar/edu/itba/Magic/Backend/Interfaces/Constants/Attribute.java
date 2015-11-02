@@ -7,6 +7,8 @@ public enum Attribute {
     WALL,
     FIRST_STRIKE,
     REACH,
+    SUMMONING_SICKNESS,
+    CAN_ATTACK,
     TAPS_ON_ATTACK,
     CAN_TAP,
     UNTAPS_DURING_UPKEEP,
