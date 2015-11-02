@@ -1,14 +1,17 @@
 package ar.edu.itba.Magic.Backend.Card;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import ar.edu.itba.Magic.Backend.*;
+import ar.edu.itba.Magic.Backend.Card.Enums.CardNames;
 import ar.edu.itba.Magic.Backend.Interfaces.Constants.Attribute;
 import ar.edu.itba.Magic.Backend.Interfaces.Constants.Color;
 import ar.edu.itba.Magic.Backend.Interfaces.Constants.Event;
 
 public class CardFactory {
 	
-	GameEventHandler gameEventHandler = GameEventHandler.getGameEventHandler();
+	private GameEventHandler gameEventHandler = GameEventHandler.getGameEventHandler();
+	private Map<CardNames, CardImplementation> cardsImplementation = new HashMap<>();
 	Match match = Match.getMatch();
 	
 	private static CardFactory instance = new CardFactory();
