@@ -59,15 +59,74 @@ public class Player implements DamageTaking {
 	}
 	
 	public List<Card> getHand() {
+		List<Card> hand = new LinkedList<Card>();
+		hand.addAll(this.hand);
+		
 		return hand;
 	}
 	
-	public List<Permanent> getPermanentsInPlay() {
-		return permanentsInPlay;
-	}
 	
 	public List<Card> getGraveyard() {
+		List<Card> graveyard = new LinkedList<Card>();
+		graveyard.addAll(this.graveyard);
+		
 		return graveyard;
+	}
+	
+	
+	public List<Permanent> getPermanentsInPlay() {
+		List<Permanent> permanents = new LinkedList<Permanent>();
+		permanents.addAll(permanentsInPlay);
+		
+		return permanents;
+	}
+	
+	public List<Creature> getCreatures() {
+		List<Creature> creatures = new LinkedList<Creature>();
+		
+		for(Permanent permanent : permanentsInPlay) {
+			if(permanent instanceof Creature) {
+				creatures.add((Creature)permanent);
+			}
+		}
+		
+		return creatures;
+	}
+	
+	public List<Land> getLands() {
+		List<Land> lands = new LinkedList<Land>();
+		
+		for(Permanent permanent : permanentsInPlay) {
+			if(permanent instanceof Land) {
+				lands.add((Land)permanent);
+			}
+		}
+		
+		return lands;
+	}
+	
+	public List<Artifact> getArtifacts() {
+		List<Artifact> artifacts = new LinkedList<Artifact>();
+		
+		for(Permanent permanent : permanentsInPlay) {
+			if(permanent instanceof Artifact) {
+				artifacts.add((Artifact)permanent);
+			}
+		}
+		
+		return artifacts;
+	}
+	
+	public List<Enchantment> getEnchantments() {
+		List<Enchantment> enchantments = new LinkedList<Enchantment>();	
+		
+		for(Permanent permanent : permanentsInPlay) {
+			if(permanent instanceof Enchantment) {
+				enchantments.add((Enchantment)permanent);
+			}
+		}
+	
+	return enchantments;
 	}
 	
 	/*  no se si es objetoso esto
