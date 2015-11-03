@@ -3,7 +3,7 @@ package ar.edu.itba.Magic.Backend.Card;
 import ar.edu.itba.Magic.Backend.*;
 import ar.edu.itba.Magic.Backend.Interfaces.CardImplementation;
 import ar.edu.itba.Magic.Backend.Interfaces.Enum.Attribute;
-import ar.edu.itba.Magic.Backend.Interfaces.Enum.CardNames;
+import ar.edu.itba.Magic.Backend.Interfaces.Enum.CardName;
 import ar.edu.itba.Magic.Backend.Interfaces.Enum.Color;
 import ar.edu.itba.Magic.Backend.Interfaces.Enum.Event;
 import ar.edu.itba.Magic.Backend.Match;
@@ -16,7 +16,7 @@ import java.util.List;
 public class CardFactory {
 	
 	private GameEventHandler gameEventHandler = GameEventHandler.getGameEventHandler();
-	private HashMap<CardNames, CardImplementation> cardsImplementation;
+	private HashMap<CardName, CardImplementation> cardImplementations;
 	
 	List<Attribute> attributes = new LinkedList<Attribute>();
 
@@ -25,7 +25,7 @@ public class CardFactory {
 	private static CardFactory instance = new CardFactory();
 	
 	private CardFactory(){
-        cardsImplementation = new HashMap<>();
+        cardImplementations = new HashMap<>();
         this.initiateCards();
 	}
 	
@@ -44,9 +44,9 @@ public class CardFactory {
 		return attributes;
 	}
 	
-	public Card getCard(CardNames cardName){
+	public Card getCard(CardName cardName){
         if(cardName != null)
-            cardsImplementation.get(cardName).createCard();
+            cardImplementations.get(cardName).createCard();
         throw new IllegalArgumentException();
     }
 
@@ -54,7 +54,7 @@ public class CardFactory {
         /**
          * Blight Card Implementation. aa
          */
-        cardsImplementation.put(CardNames.BLIGHT, new CardImplementation() {
+        cardImplementations.put(CardName.BLIGHT, new CardImplementation() {
             @Override
             public EnchantmentCard createCard() {
                 return new EnchantmentCard("Blight", "enchantment", Color.BLACK, 2, 0,
@@ -99,7 +99,7 @@ public class CardFactory {
         });
 
 
-        cardsImplementation.put(CardNames.BAD_MOON, new CardImplementation() {
+        cardImplementations.put(CardName.BAD_MOON, new CardImplementation() {
             @Override
             public EnchantmentCard createCard() {
                 return new EnchantmentCard("Bad Moon", "enchantment", Color.BLACK, 1, 1, new AutomaticPermanentAbility() {
@@ -162,7 +162,7 @@ public class CardFactory {
                 }
         });
 
-        cardsImplementation.put(CardNames.BALL_LIGHTNING, new CardImplementation() {
+        cardImplementations.put(CardName.BALL_LIGHTNING, new CardImplementation() {
             @Override
             public CreatureCard createCard() {
                 attributes = getDefaultCreatureAttributes();
@@ -173,7 +173,7 @@ public class CardFactory {
             }
         });
 
-        cardsImplementation.put(CardNames.BIRD_MAIDEN, new CardImplementation() {
+        cardImplementations.put(CardName.BIRD_MAIDEN, new CardImplementation() {
             @Override
             public CreatureCard createCard() {
                 attributes = getDefaultCreatureAttributes();
@@ -181,60 +181,65 @@ public class CardFactory {
                 return new CreatureCard("Bird Maiden", "creature", Color.RED, attributes, 1, 2, 1, 2);
             }
         });
-//
-//			case "Blood Lust":
-//				return new InstantCard("Blood Lust", "instant", Color.RED, 1, 1,
-//						new SpellAbility() {
-//							Creature target;
-//
-//							@Override
-//							public boolean satisfyCastingRequirements() {
-//								// TODO target = select target creature
-//									// return true;
-//								// else
-//									return false;
-//							}
-//
-//							@Override
-//							public void sendToStack() {
-//								// TODO stack.add(this);
-//							}
-//
-//							@Override
-//							public void resolveInStack() {
-//								AutomaticLastingEffect newEffect = new AutomaticLastingEffect(this) {
-//									Integer previousTargetDefense;
-//
-//									@Override
-//									public void executeOnEvent(GameEvent gameEvent) {
-//										if(gameEvent.getDescriptor().equals(Event.END_OF_TURN)) {
-//											this.getTarget().removeLastingEffect(this);
-//										}
-//									}
-//
-//									@Override
-//									public void applyEffect() {
-//										((Creature)this.getTarget()).increaseAttack(4);
-//										previousTargetDefense = ((Creature)this.getTarget()).getDefense();
-//										if(previousTargetDefense <= 4) {
-//											((Creature)this.getTarget()).setDefense(1);
-//										}
-//										else {
-//											((Creature)this.getTarget()).decreaseDefense(4);
-//										}
-//									}
-//
-//									@Override
-//									public void undoEffect() {
-//										((Creature)this.getTarget()).decreaseAttack(4);
-//										((Creature)this.getTarget()).setDefense(previousTargetDefense);
-//									}
-//								};
-//
-//								target.applyLastingEffect(newEffect);
-//							}
-//				});
-//
+
+        cardImplementations.put(CardName.BLOOD_LUST, new CardImplementation() {
+            @Override
+            public InstantCard createCard() {
+				return new InstantCard("Blood Lust", "instant", Color.RED, 1, 1,
+						new SpellAbility() {
+							Creature target;
+
+							@Override
+							public boolean satisfyCastingRequirements() {
+								// TODO target = select target creature
+									// return true;
+								// else
+									return false;
+							}
+
+							@Override
+							public void sendToStack() {
+								// TODO stack.add(this);
+							}
+
+							@Override
+							public void resolveInStack() {
+								AutomaticLastingEffect newEffect = new AutomaticLastingEffect(this) {
+									Integer previousTargetDefense;
+
+									@Override
+									public void executeOnEvent(GameEvent gameEvent) {
+										if(gameEvent.getDescriptor().equals(Event.END_OF_TURN)) {
+											this.getTarget().removeLastingEffect(this);
+										}
+									}
+
+									@Override
+									public void applyEffect() {
+										((Creature)this.getTarget()).increaseAttack(4);
+										previousTargetDefense = ((Creature)this.getTarget()).getDefense();
+										if(previousTargetDefense <= 4) {
+											((Creature)this.getTarget()).setDefense(1);
+										}
+										else {
+											((Creature)this.getTarget()).decreaseDefense(4);
+										}
+									}
+
+									@Override
+									public void undoEffect() {
+										((Creature)this.getTarget()).decreaseAttack(4);
+										((Creature)this.getTarget()).setDefense(previousTargetDefense);
+									}
+								};
+
+								target.applyLastingEffect(newEffect);
+							}
+				});
+            }
+        });
+        
+
 //			case "Bog Imp":
 //				attributes = getDefaultCreatureAttributes();
 //				attributes.add(Attribute.FLYING);

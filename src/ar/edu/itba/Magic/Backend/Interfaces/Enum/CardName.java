@@ -3,7 +3,7 @@ package ar.edu.itba.Magic.Backend.Interfaces.Enum;
 /**
  * Created by Martin on 02/11/2015.
  */
-public enum CardNames {
+public enum CardName {
     BLIGHT,
     BAD_MOON,
     BALL_LIGHTNING,
