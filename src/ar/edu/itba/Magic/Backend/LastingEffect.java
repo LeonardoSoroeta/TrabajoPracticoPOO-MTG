@@ -11,8 +11,8 @@ public abstract class LastingEffect {
     Permanent target;
     Ability sourceAbility;
 
-    public LastingEffect() {
-
+    public LastingEffect(Ability sourceAbility) {
+    	this.sourceAbility = sourceAbility;
     }
     
     public void setTarget(Permanent target) {
@@ -26,11 +26,7 @@ public abstract class LastingEffect {
     public Ability getSourceAbility() {
     	return sourceAbility;
     }
-    
-    public void setSourceAbility(Ability sourceAbility) {
-    	this.sourceAbility = sourceAbility;
-    }
-    
+
     public abstract void applyEffect();
     
     public abstract void undoEffect();

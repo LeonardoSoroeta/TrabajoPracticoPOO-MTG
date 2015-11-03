@@ -8,6 +8,10 @@ import ar.edu.itba.Magic.Backend.Interfaces.ExecutesOnEvent;
  */
 public abstract class AutomaticLastingEffect extends LastingEffect implements ExecutesOnEvent {
 	
+	public AutomaticLastingEffect(Ability sourceAbility) {
+		super(sourceAbility);
+	}
+	
     public abstract void executeOnEvent(GameEvent gameEvent);
     
     public abstract void applyEffect();

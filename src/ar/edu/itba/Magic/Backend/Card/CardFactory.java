@@ -124,7 +124,7 @@ public class CardFactory {
 									if(permanent instanceof Creature) {
 										if(permanent.getColor().equals(Color.BLACK)) 
 											if(!permanent.affectedByAbility(this)) {
-											LastingEffect newEffect = new LastingEffect() {
+											LastingEffect newEffect = new LastingEffect(this) {
 												
 												@Override
 												public void applyEffect() {
@@ -140,7 +140,6 @@ public class CardFactory {
 												
 											};
 											
-											newEffect.setSourceAbility(this);
 											permanent.applyLastingEffect(newEffect);										
 										}											
 									}
@@ -179,7 +178,7 @@ public class CardFactory {
 
 							@Override
 							public void resolveInStack() {
-								AutomaticLastingEffect newEffect = new AutomaticLastingEffect() {
+								AutomaticLastingEffect newEffect = new AutomaticLastingEffect(this) {
 									Integer previousTargetDefense;
 
 									@Override
@@ -208,7 +207,6 @@ public class CardFactory {
 									}
 								};
 								
-								newEffect.setSourceAbility(this);
 								target.applyLastingEffect(newEffect);	
 							}
 				});
@@ -232,7 +230,7 @@ public class CardFactory {
 							@Override
 							public void executeOnActivation() {
 								// TODO request pagar 1 de mana colorless, then {
-								AutomaticLastingEffect newEffect = new AutomaticLastingEffect() {
+								AutomaticLastingEffect newEffect = new AutomaticLastingEffect(this) {
 
 									@Override
 									public void executeOnEvent(GameEvent gameEvent) {
@@ -254,7 +252,6 @@ public class CardFactory {
 									}		
 								};
 								
-								newEffect.setSourceAbility(this);
 								this.getSourcePermanent().applyLastingEffect(newEffect);
 							}				
 				});
@@ -384,7 +381,7 @@ public class CardFactory {
 
 							@Override
 							public void resolveInStack() {
-								AutomaticLastingEffect newEffect = new AutomaticLastingEffect() {
+								AutomaticLastingEffect newEffect = new AutomaticLastingEffect(this) {
 
 									@Override
 									public void executeOnEvent(GameEvent gameEvent) {
@@ -404,7 +401,6 @@ public class CardFactory {
 									}
 								};
 								
-								newEffect.setSourceAbility(this);
 								target.applyLastingEffect(newEffect);	
 							}
 						
@@ -557,7 +553,7 @@ public class CardFactory {
 							public void executeOnEntering() {
 								gameEventHandler.add(this);
 								target.addAttachedEnchantment((Enchantment)this.getSourcePermanent());
-								LastingEffect newEffect = new LastingEffect() {
+								LastingEffect newEffect = new LastingEffect(this) {
 
 									@Override
 									public void applyEffect() {
@@ -571,7 +567,6 @@ public class CardFactory {
 									}			
 								};
 								
-								newEffect.setSourceAbility(this);
 								target.applyLastingEffect(newEffect);
 							}
 							
@@ -602,7 +597,7 @@ public class CardFactory {
 							@Override
 							public void executeOnActivation() {
 								// TODO target = select target creature with flying, then {
-								AutomaticLastingEffect newEffect = new AutomaticLastingEffect() {
+								AutomaticLastingEffect newEffect = new AutomaticLastingEffect(this) {
 
 									@Override
 									public void executeOnEvent(GameEvent gameEvent) {
@@ -622,9 +617,7 @@ public class CardFactory {
 									}		
 								};
 								
-								newEffect.setSourceAbility(this);
 								target.applyLastingEffect(newEffect);	
-								
 							}		
 						});
 				
