@@ -17,8 +17,6 @@ public class CardFactory {
 	
 	private GameEventHandler gameEventHandler = GameEventHandler.getGameEventHandler();
 	private HashMap<CardName, CardImplementation> cardImplementations;
-	
-	List<Attribute> attributes = new LinkedList<Attribute>();
 
 	Match match = Match.getMatch();
 	
@@ -165,6 +163,7 @@ public class CardFactory {
         cardImplementations.put(CardName.BALL_LIGHTNING, new CardImplementation() {
             @Override
             public CreatureCard createCard() {
+            	List<Attribute> attributes = new LinkedList<Attribute>();
                 attributes = getDefaultCreatureAttributes();
                 attributes.add(Attribute.TRAMPLE);
                 attributes.remove(Attribute.SUMMONING_SICKNESS);
@@ -176,6 +175,7 @@ public class CardFactory {
         cardImplementations.put(CardName.BIRD_MAIDEN, new CardImplementation() {
             @Override
             public CreatureCard createCard() {
+            	List<Attribute> attributes = new LinkedList<Attribute>();
                 attributes = getDefaultCreatureAttributes();
                 attributes.add(Attribute.FLYING);
                 return new CreatureCard("Bird Maiden", "creature", Color.RED, attributes, 1, 2, 1, 2);
