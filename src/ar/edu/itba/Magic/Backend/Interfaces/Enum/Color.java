@@ -5,6 +5,17 @@ package ar.edu.itba.Magic.Backend.Interfaces.Enum;
  */
 public enum Color {
 
-    WHITE, BLACK, RED, GREEN, BLUE, COLORLESS
+    WHITE("White"), 
+    BLACK("Black"), 
+    RED("Red"), 
+    GREEN("Green"), 
+    BLUE("Blue"), 
+    COLORLESS("Colorless");
+	
+	String color;
+	
+	private Color(String color) {
+		this.color = color;
+	}
 
 }
