@@ -3,6 +3,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import ar.edu.itba.Magic.Backend.GameEventHandler;
+import ar.edu.itba.Magic.Backend.Interfaces.Constants.Attribute;
 import ar.edu.itba.Magic.Backend.Interfaces.Constants.Event;
 import ar.edu.itba.Magic.Backend.Player;
 import ar.edu.itba.Magic.Backend.Card.Card;
@@ -93,7 +94,7 @@ public class Match {
 	
 	public void untapPermanents(){
 		for(Permanent each : activePlayer.getPermanentsInPlay()){
-			if(each.isTapped()){
+			if(each.isTapped() && each.containsAttribute(Attribute.UNTAPS_DURING_UPKEEP)){
 				each.untap();
 			}
 		}
