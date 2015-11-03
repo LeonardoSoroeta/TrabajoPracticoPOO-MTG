@@ -37,9 +37,56 @@ public class CardFactory {
 	}
 
     private void initiateCards(){
-        /**
-         * Blight Card Implementation. aa
-         */
+
+    	cardImplementations.put(CardName.ASPECT_OF_WOLF, new CardImplementation() {
+            @Override
+            public SorceryCard createCard() {
+				return new SorceryCard(CardName.ASPECT_OF_WOLF, Color.GREEN, 1, 1,
+						new AutomaticPermanentAbility() {
+							Integer previousForests;
+							
+							@Override
+							public boolean satisfyCastingRequirements() {
+								// TODO select target creature
+								// return true
+								// sino
+								return false;
+							}
+							
+							@Override
+							public void executeOnEntering() {
+								previousForests = 0;
+								gameEventHandler.add(this);
+								gameEventHandler.notifyGameEvent(new GameEvent(Event.GENERIC_EVENT));
+							}
+							
+							@Override
+							public void executeOnExit() {
+								gameEventHandler.remove(this);
+							}
+					
+							@Override
+							public void executeOnEvent(GameEvent gameEvent) {
+								List<Land> lands = new LinkedList<Land>();
+								Integer forests = 0;
+								lands = this.getSourcePermanent().getController().getLands();
+								for(Land land : lands) {
+									if(land.getName().equals(CardName.FOREST)) {
+										forests++;
+									}
+								}
+								if(forests != previousForests) {
+									// TODO me fui a dormir - terminar maniana
+								}
+								
+								
+								
+							}
+					
+				});
+            }
+        });
+    	
         cardImplementations.put(CardName.BLIGHT, new CardImplementation() {
             @Override
             public EnchantmentCard createCard() {
@@ -155,6 +202,23 @@ public class CardFactory {
                 attributes = getDefaultCreatureAttributes();
                 attributes.add(Attribute.FLYING);
                 return new CreatureCard(CardName.BIRD_MAIDEN, Color.RED, attributes, 1, 2, 1, 2);
+            }
+        });
+        
+        cardImplementations.put(CardName.BIRDS_OF_PARADISE, new CardImplementation() {
+            @Override
+            public CreatureCard createCard() {
+            	List<Attribute> attributes = new LinkedList<Attribute>();
+                attributes = getDefaultCreatureAttributes();
+                attributes.add(Attribute.FLYING);
+                return new CreatureCard(CardName.BIRDS_OF_PARADISE, Color.WHITE, attributes, 1, 2, 1, 2,
+                		new ActivatedPermanentAbility() {
+
+							@Override
+							public void executeOnActivation() {
+								// TODO if not tapped: add one mana of player's choice, tap
+							}
+                });
             }
         });
 
@@ -604,8 +668,6 @@ public class CardFactory {
             public EnchantmentCard createCard() {
 				return new EnchantmentCard(CardName.KARMA, Color.WHITE, 2, 2,
 						new AutomaticPermanentAbility() {
-							Player targetPlayer;
-
 							@Override
 							public void executeOnEntering() {
 								gameEventHandler.add(this);
@@ -622,7 +684,7 @@ public class CardFactory {
 									List<Land> swamps = new LinkedList<Land>();
 									swamps = ((Player)gameEvent.getObject1()).getLands();
 									for(Land swamp : swamps) {
-										((Player)gameEvent.getObject1()).takeDamage(1);
+										swamp.getController().takeDamage(1);
 									}
 								}
 							}
@@ -864,6 +926,15 @@ public class CardFactory {
             }
         });
         
+        cardImplementations.put(CardName.PEARLED_UNICORN, new CardImplementation() {
+            @Override
+            public CreatureCard createCard() {
+            	List<Attribute> attributes = new LinkedList<Attribute>();
+                attributes = getDefaultCreatureAttributes();
+                return new CreatureCard(CardName.PEARLED_UNICORN, Color.WHITE, attributes, 1, 2, 2, 2);
+            }
+        });
+        
         cardImplementations.put(CardName.PLAINS, new CardImplementation() {
         	@Override
         	public LandCard createCard() {
@@ -940,6 +1011,15 @@ public class CardFactory {
             }
         });
 
+        cardImplementations.put(CardName.SAVANNAH_LIONS, new CardImplementation() {
+            @Override
+            public CreatureCard createCard() {
+            	List<Attribute> attributes = new LinkedList<Attribute>();
+                attributes = getDefaultCreatureAttributes();
+                return new CreatureCard(CardName.SAVANNAH_LIONS, Color.WHITE, attributes, 1, 0, 2, 1);
+            }
+        });
+        
         cardImplementations.put(CardName.SEGOVIAN_LEVIATHAN, new CardImplementation() {
             @Override
             public CreatureCard createCard() {

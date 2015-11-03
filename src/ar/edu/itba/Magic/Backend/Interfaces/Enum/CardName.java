@@ -4,10 +4,12 @@ package ar.edu.itba.Magic.Backend.Interfaces.Enum;
  * Created by Martin on 02/11/2015.
  */
 public enum CardName {
+	ASPECT_OF_WOLF,
     BLIGHT,
     BAD_MOON,
     BALL_LIGHTNING,
     BIRD_MAIDEN,
+    BIRDS_OF_PARADISE,
     BLOOD_LUST,
     BOG_IMP,
     CARNIVOROUS_PLANT,
@@ -34,9 +36,11 @@ public enum CardName {
     MOUNTAIN,
     NIGHTMARE,
     PARALYZE,
+    PEARLED_UNICORN,
     PLAINS,
     RADJAN_SPIRIT,
     ROYAL_ASSASIN,
+    SAVANNAH_LIONS,
     SEGOVIAN_LEVIATHAN,
     SERRA_ANGEL,
     SINKHOLE,
