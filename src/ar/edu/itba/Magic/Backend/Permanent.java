@@ -220,7 +220,7 @@ public abstract class Permanent {
 	 * @param ability an Ability that may be applying a LastingEffect on this Permanent.
 	 * @return True if affected. False otherwise.
 	 */
-    public boolean affectedByAbility(Ability ability) {
+    public boolean isAffectedByAbility(Ability ability) {
     	for(LastingEffect lastingEffect : appliedLastingEffects) {
     		if(lastingEffect.getSourceAbility() == ability) {
     			return true;

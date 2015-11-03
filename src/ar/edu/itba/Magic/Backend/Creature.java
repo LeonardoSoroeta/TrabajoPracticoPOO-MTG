@@ -61,6 +61,7 @@ public class Creature extends Permanent implements DamageTaking, GameStackAction
 	
 	public void setDefense(int i){
 		this.defense = i;
+		// TODO if defense - damageMarkers <= 0 , then this.destroy();
 	}
 	
 	public void increaseAttack(int i){
@@ -77,6 +78,7 @@ public class Creature extends Permanent implements DamageTaking, GameStackAction
 	
 	public void decreaseDefense(int i){
 		this.defense -= i;
+		// TODO if defense - damageMarkers <= 0 , then this.destroy();
 	}
 	
 	public void takeDamage(Integer damage) {		
@@ -86,8 +88,7 @@ public class Creature extends Permanent implements DamageTaking, GameStackAction
 	public void placeDamageMarker(Integer ammount) {	
 		damageMarkers += ammount;
 		
-		if(damageMarkers >= defense) 
-			this.destroy();
+		// TODO if defense - damageMarkers <= 0 , then this.destroy();
 	}
 	
 	public void resetDamageMarkers() {
