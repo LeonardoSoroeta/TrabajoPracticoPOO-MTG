@@ -1,4 +1,7 @@
 
+import java.util.LinkedList;
+import java.util.List;
+
 import ar.edu.itba.Magic.Backend.GameEventHandler;
 import ar.edu.itba.Magic.Backend.Interfaces.Constants.Event;
 import ar.edu.itba.Magic.Backend.Player;

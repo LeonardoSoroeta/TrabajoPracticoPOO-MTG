@@ -65,6 +65,16 @@ public class Player implements DamageTaking {
 		return hand;
 	}
 	
+	public void placeCardInHand(Card card) {
+		hand.add(card);
+	}
+	
+	public void removeCardFromHand(Card card) {
+		if(hand.contains(card)) {
+			hand.remove(card);
+		}
+		// else throw card not in hand exception
+	}
 	
 	public List<Card> getGraveyard() {
 		List<Card> graveyard = new LinkedList<Card>();
@@ -73,12 +83,33 @@ public class Player implements DamageTaking {
 		return graveyard;
 	}
 	
+	public void placeCardInGraveyard(Card card) {
+		graveyard.add(card);
+	}
+	
+	public void removeCardFromGraveyard(Card card) {
+		if(graveyard.contains(card)) {
+			graveyard.remove(card);
+		}
+		// else throw exception card not in graveyard
+	}
 	
 	public List<Permanent> getPermanentsInPlay() {
 		List<Permanent> permanents = new LinkedList<Permanent>();
 		permanents.addAll(permanentsInPlay);
 		
 		return permanents;
+	}
+	
+	public void placePermanentInPlay(Permanent permanent) {
+		permanentsInPlay.add(permanent);
+	}
+	
+	public void removePermanentFromPlay(Permanent permanent) {
+		if(permanentsInPlay.contains(permanent)) {
+			permanentsInPlay.remove(permanent);
+		}
+		//else throw exception permanent not in play
 	}
 	
 	public List<Creature> getCreatures() {
@@ -126,7 +157,7 @@ public class Player implements DamageTaking {
 			}
 		}
 	
-	return enchantments;
+		return enchantments;
 	}
 	
 	/*  no se si es objetoso esto
@@ -141,7 +172,7 @@ public class Player implements DamageTaking {
 	*/
 	
 	public void shuffleLibrary() {
-		Collections.shuffle(this.library);
+		deck.shuffleDeck();
 	}
 	
 	public void takeDamage(Integer damage) {
