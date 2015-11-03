@@ -6,7 +6,6 @@ import ar.edu.itba.Magic.Backend.Interfaces.Enum.Attribute;
 import ar.edu.itba.Magic.Backend.Interfaces.Enum.CardName;
 import ar.edu.itba.Magic.Backend.Interfaces.Enum.Color;
 import ar.edu.itba.Magic.Backend.Interfaces.Enum.Event;
-import ar.edu.itba.Magic.Backend.Match;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -31,23 +30,11 @@ public class CardFactory {
         return instance;
 	}
 	
-	/**
-	 * Creates a list of default attributes contained by creatures. 
-	 * @return Returns a list of default attributes contained by creatues.
-	 */
-	public List<Attribute> getDefaultCreatureAttributes() {
-		List<Attribute> attributes = new LinkedList<Attribute>();
-		//agregar
-	
-		return attributes;
-	}
-	
 	public Card getCard(CardName cardName) {
         if(cardName != null)
             cardImplementations.get(cardName).createCard();
         throw new IllegalArgumentException();
 	}
- 
 
     private void initiateCards(){
         /**
@@ -139,19 +126,7 @@ public class CardFactory {
                                 for(Creature creature : allCreatures) {
                                     if(creature.getColor().equals(Color.BLACK)) {
                                         if(!creature.isAffectedByAbility(this)) {
-                                            LastingEffect newEffect = new LastingEffect(this) {
-                                                @Override
-                                                public void applyEffect() {
-                                                    ((Creature)this.getTarget()).increaseAttack(1);
-                                                    ((Creature)this.getTarget()).increaseDefense(1);
-                                                }
-                                                @Override
-                                                public void undoEffect() {
-                                                    ((Creature)this.getTarget()).decreaseAttack(1);
-                                                    ((Creature)this.getTarget()).decreaseDefense(1);
-                                                }
-                                            };
-                                            
+                                            LastingEffect newEffect = new StaticStatModifier(this, 1, 1);  
                                             creature.applyLastingEffect(newEffect);
                                         }
                                     }
@@ -329,6 +304,57 @@ public class CardFactory {
 				});
             }
         });
+        
+        cardImplementations.put(CardName.CRUSADE, new CardImplementation() {
+            @Override
+            public EnchantmentCard createCard() {
+                return new EnchantmentCard(CardName.CRUSADE, Color.WHITE, 2, 0, 
+                		new AutomaticPermanentAbility() {
+                            /**
+                             * Adds Bad Moon's automatic ability to the GameEventHandler. Notifies a generic
+                             * game event to get Bad Moon's ability started.
+                             */
+                            @Override
+                            public void executeOnEntering() {
+                                gameEventHandler.add(this);
+                            }
+
+                            @Override
+                            public void executeOnExit() {
+                                gameEventHandler.remove(this);
+                                List<Creature> allCreatures = new LinkedList<Creature>();
+                                allCreatures.addAll(match.getPlayer1().getCreatures());
+                                allCreatures.addAll(match.getPlayer2().getCreatures());
+                                for(Creature creature : allCreatures) {
+                                    if(creature.getColor().equals(Color.WHITE)) {
+                                        if(creature.isAffectedByAbility(this)) {
+                                            creature.removeLastingEffectFromSourceAbility(this);
+                                        }
+                                    }
+                                }
+                            }
+
+                            /**
+                             * On every GameEvent checks if any black creatures are unaffected by Crusade and
+                             * in that case applies them a LastingEffect.
+                             */
+                            @Override
+                            public void executeOnEvent(GameEvent gameEvent) {
+                            	List<Creature> allCreatures = new LinkedList<Creature>();
+                                allCreatures.addAll(match.getPlayer1().getCreatures());
+                                allCreatures.addAll(match.getPlayer2().getCreatures());
+                                for(Creature creature : allCreatures) {
+                                    if(creature.getColor().equals(Color.WHITE)) {
+                                        if(!creature.isAffectedByAbility(this)) {
+                                            LastingEffect newEffect = new StaticStatModifier(this, 1, 1);  
+                                            creature.applyLastingEffect(newEffect);
+                                        }
+                                    }
+                                 }
+                              }
+                          });
+                }
+        });
 
         cardImplementations.put(CardName.DESERT_TWISTER, new CardImplementation() {
             @Override
@@ -427,6 +453,81 @@ public class CardFactory {
 				});
             }
         });
+        
+        cardImplementations.put(CardName.FOREST, new CardImplementation() {
+        	@Override
+        	public LandCard createCard() {
+        		return new LandCard(CardName.FOREST, 
+        				new ActivatedPermanentAbility() {
+
+							@Override
+							public void executeOnActivation() {
+								// TODO if not tapped, tap and generate 1 green mana
+							}
+        		});
+        	}
+        });
+        
+        cardImplementations.put(CardName.JUMP, new CardImplementation() {
+            @Override
+            public InstantCard createCard() {
+				return new InstantCard(CardName.JUMP, Color.BLUE, 1, 0,
+						new AutomaticSpellAbility() {
+							Creature target;
+					
+							@Override
+							public boolean satisfyCastingRequirements() {
+								// TODO target = selec target creature without flying
+								// return true;
+								// else
+								return false;
+							}
+
+							@Override
+							public void sendToStack() {
+								// TODO stack.add(this);
+							}
+
+							@Override
+							public void resolveInStack() {
+								target.addAttribute(Attribute.FLYING);
+							}
+
+							@Override
+							public void executeOnEvent(GameEvent gameEvent) {
+								if(gameEvent.getDescriptor().equals(Event.END_OF_TURN))	{
+									target.removeAttribute(Attribute.FLYING);
+								}
+							}
+				});
+            }
+        });
+        
+        cardImplementations.put(CardName.HOLY_STRENGTH, new CardImplementation() {
+            @Override
+            public EnchantmentCard createCard() {
+                return new EnchantmentCard(CardName.HOLY_STRENGTH, Color.WHITE, 2, 0,
+                        new PermanentAbility() {
+                            Creature target;
+                            
+                            public boolean satisfyCastingRequirements() {
+	                        	// TODO seleccionar target Creature
+	                            //return true
+	                            //else
+	                            return false;
+                            }
+                            
+                            public void executeOnEntering() {
+                            	LastingEffect newEffect = new StaticStatModifier(this, 1, 2);
+                            	target.applyLastingEffect(newEffect);
+                            }
+                            
+                            public void executeOnExit() {
+                            	target.removeLastingEffectFromSourceAbility(this);
+                            }  
+                });
+            }
+        });
 
         cardImplementations.put(CardName.HOWL_FROM_BEYOND, new CardImplementation() {
             @Override
@@ -453,31 +554,26 @@ public class CardFactory {
 
 							@Override
 							public void resolveInStack() {
-								AutomaticLastingEffect newEffect = new AutomaticLastingEffect(this) {
-
-									@Override
-									public void executeOnEvent(GameEvent gameEvent) {
-										if(gameEvent.getDescriptor().equals(Event.END_OF_TURN)) {
-											this.getTarget().removeLastingEffect(this);
-										}
-									}
-
-									@Override
-									public void applyEffect() {
-										((Creature)this.getTarget()).increaseAttack(attackBonus);
-									}
-
-									@Override
-									public void undoEffect() {
-										((Creature)this.getTarget()).decreaseAttack(attackBonus);
-									}
-								};
-
+								AutomaticLastingEffect newEffect = new OneTurnStatModifier(this, attackBonus, 0);
 								target.applyLastingEffect(newEffect);
 							}
 
 				});
             }
+        });
+        
+        cardImplementations.put(CardName.ISLAND, new CardImplementation() {
+        	@Override
+        	public LandCard createCard() {
+        		return new LandCard(CardName.ISLAND, 
+        				new ActivatedPermanentAbility() {
+
+							@Override
+							public void executeOnActivation() {
+								// TODO if not tapped, tap and generate 1 blue mana
+							}
+        		});
+        	}
         });
 
         cardImplementations.put(CardName.JUNUN_EFREET, new CardImplementation() {
@@ -496,6 +592,37 @@ public class CardFactory {
 										// TODO pedir que pague 2 mana negro
 											// else
 												this.getSourcePermanent().destroy();
+									}
+								}
+							}
+				});
+            }
+        });
+        
+        cardImplementations.put(CardName.KARMA, new CardImplementation() {
+            @Override
+            public EnchantmentCard createCard() {
+				return new EnchantmentCard(CardName.KARMA, Color.WHITE, 2, 2,
+						new AutomaticPermanentAbility() {
+							Player targetPlayer;
+
+							@Override
+							public void executeOnEntering() {
+								gameEventHandler.add(this);
+							}
+
+							@Override
+							public void executeOnExit() {
+								gameEventHandler.remove(this);
+							}
+
+							@Override
+							public void executeOnEvent(GameEvent gameEvent) {
+								if(gameEvent.getDescriptor().equals(Event.UPKEEP_STEP)) {
+									List<Land> swamps = new LinkedList<Land>();
+									swamps = ((Player)gameEvent.getObject1()).getLands();
+									for(Land swamp : swamps) {
+										((Player)gameEvent.getObject1()).takeDamage(1);
 									}
 								}
 							}
@@ -553,6 +680,34 @@ public class CardFactory {
 				return new CreatureCard(CardName.LAND_LEECHES, Color.GREEN, attributes, 2, 1, 2, 2);
             }
         });
+        
+        cardImplementations.put(CardName.LANCE, new CardImplementation() {
+            @Override
+            public EnchantmentCard createCard() {
+				return new EnchantmentCard(CardName.LANCE, Color.WHITE, 1, 0,
+						new PermanentAbility() {
+							Creature target;
+
+							@Override
+							public boolean satisfyCastingRequirements() {
+								// TODO target = seleccionar target creature que no tenga First Strike
+									//return true
+								//else
+									return false;
+							}
+
+							@Override
+							public void executeOnEntering() {
+								target.addAttribute(Attribute.FIRST_STRIKE);
+							}
+
+							@Override
+							public void executeOnExit() {
+								target.removeAttribute(Attribute.FIRST_STRIKE);
+							}
+				});
+            }
+        });
 
         cardImplementations.put(CardName.LORD_OF_THE_PIT, new CardImplementation() {
             @Override
@@ -597,6 +752,20 @@ public class CardFactory {
 				attributes.add(Attribute.SWAMPWALK);
 				return new CreatureCard(CardName.LOST_SOUL, Color.BLACK, attributes, 2, 1, 2, 1);
             }
+        });
+        
+        cardImplementations.put(CardName.MOUNTAIN, new CardImplementation() {
+        	@Override
+        	public LandCard createCard() {
+        		return new LandCard(CardName.MOUNTAIN, 
+        				new ActivatedPermanentAbility() {
+
+							@Override
+							public void executeOnActivation() {
+								// TODO if not tapped, tap and generate 1 red mana
+							}
+        		});
+        	}
         });
 
         cardImplementations.put(CardName.NIGHTMARE, new CardImplementation() {
@@ -694,6 +863,20 @@ public class CardFactory {
 				});
             }
         });
+        
+        cardImplementations.put(CardName.PLAINS, new CardImplementation() {
+        	@Override
+        	public LandCard createCard() {
+        		return new LandCard(CardName.PLAINS, 
+        				new ActivatedPermanentAbility() {
+
+							@Override
+							public void executeOnActivation() {
+								// TODO if not tapped, tap and generate 1 white mana
+							}
+        		});
+        	}
+        });
 
         cardImplementations.put(CardName.RADJAN_SPIRIT, new CardImplementation() {
             @Override
@@ -776,7 +959,49 @@ public class CardFactory {
 				return new CreatureCard(CardName.SERRA_ANGEL, Color.WHITE, attributes, 2, 3, 4, 4);
             }
         });
+        
+        cardImplementations.put(CardName.SINKHOLE, new CardImplementation() {
+            @Override
+            public EnchantmentCard createCard() {
+				return new EnchantmentCard(CardName.SINKHOLE, Color.BLACK, 2, 0,
+						new SpellAbility() {
+							Land target;
+					
+							@Override
+							public boolean satisfyCastingRequirements() {
+								// TODO target = seleccionar target land
+									//return true
+								//else
+									return false;
+							}
 
+							@Override
+							public void sendToStack() {
+								// TODO gamestack.add(this);
+							}
+
+							@Override
+							public void resolveInStack() {
+								target.destroy();
+							}
+				});
+            }
+        });
+        
+        cardImplementations.put(CardName.SWAMP, new CardImplementation() {
+        	@Override
+        	public LandCard createCard() {
+        		return new LandCard(CardName.SWAMP, 
+        				new ActivatedPermanentAbility() {
+
+							@Override
+							public void executeOnActivation() {
+								// TODO if not tapped, tap and generate 1 black mana
+							}
+        		});
+        	}
+        });
+        
         cardImplementations.put(CardName.TERROR, new CardImplementation() {
             @Override
             public InstantCard createCard() {
@@ -821,7 +1046,72 @@ public class CardFactory {
 				return new CreatureCard(CardName.TUNDRA_WOLVES, Color.WHITE, attributes, 1, 0, 1, 1);
             }
         });
+        
+        cardImplementations.put(CardName.UNHOLY_STRENGTH, new CardImplementation() {
+            @Override
+            public EnchantmentCard createCard() {
+                return new EnchantmentCard(CardName.UNHOLY_STRENGTH, Color.BLACK, 2, 0,
+                        new PermanentAbility() {
+                            Creature target;
+                            
+                            public boolean satisfyCastingRequirements() {
+	                        	// TODO seleccionar target Creature
+	                            //return true
+	                            //else
+	                            return false;
+                            }
+                            
+                            public void executeOnEntering() {
+                            	LastingEffect newEffect = new StaticStatModifier(this, 2, 1);
+                            	target.applyLastingEffect(newEffect);
+                            }
+                            
+                            public void executeOnExit() {
+                            	target.removeLastingEffectFromSourceAbility(this);
+                            }  
+                });
+            }
+        });
+        
+        cardImplementations.put(CardName.UNSTABLE_MUTATION, new CardImplementation() {
+            @Override
+            public EnchantmentCard createCard() {
+                return new EnchantmentCard(CardName.UNSTABLE_MUTATION, Color.BLUE, 1, 0,
+                        new AutomaticPermanentAbility() {
+                            Creature target;
+                            
+                            @Override
+                            public boolean satisfyCastingRequirements() {
+	                        	// TODO seleccionar target Creature
+	                            //return true
+	                            //else
+	                            return false;
+                            }
+                            
+                            @Override
+                            public void executeOnEntering() {
+                            	target.increaseAttack(3);
+                            	target.increaseDefense(3);
+                            }
+                            
+                            @Override
+                            public void executeOnExit() {
+                            	target.removeLastingEffectFromSourceAbility(this);
+                            }
 
+							@Override
+							public void executeOnEvent(GameEvent gameEvent) {
+								if(gameEvent.getDescriptor().equals(Event.UPKEEP_STEP)) {
+									if(gameEvent.getObject1() == target.getController()) {
+										target.decreaseAttack(1);
+										target.decreaseDefense(1);
+									}
+								}
+							}  
+                });
+            }
+        });
+                
         cardImplementations.put(CardName.WANDERLUST, new CardImplementation() {
             @Override
             public EnchantmentCard createCard() {
@@ -848,6 +1138,59 @@ public class CardFactory {
 						});
             }
         });
+        
+        cardImplementations.put(CardName.WARP_ARTIFACT, new CardImplementation() {
+            @Override
+            public EnchantmentCard createCard() {
+				return new EnchantmentCard(CardName.WARP_ARTIFACT, Color.BLACK, 2 ,0,
+						new AutomaticPermanentAbility() {
+							Artifact target;
+
+							@Override
+							public boolean satisfyCastingRequirements() {
+								// TODO target = select target artifact;
+									//return true;
+								//else
+									return false;
+							}
+
+							@Override
+							public void executeOnEvent(GameEvent gameEvent) {
+								if(gameEvent.getDescriptor().equals(Event.UPKEEP_STEP)) {
+									if(gameEvent.getObject1() == target.getController()) {
+										// TODO target.getController().takeDamage(1); o decreaseHealth();
+									}
+								}
+							}
+						});
+            }
+        });
+        
+        cardImplementations.put(CardName.WEAKNESS, new CardImplementation() {
+            @Override
+            public EnchantmentCard createCard() {
+                return new EnchantmentCard(CardName.WEAKNESS, Color.BLACK, 1, 0,
+                        new PermanentAbility() {
+                            Creature target;
+                            
+                            public boolean satisfyCastingRequirements() {
+	                        	// TODO seleccionar target Creature
+	                            //return true
+	                            //else
+	                            return false;
+                            }
+                            
+                            public void executeOnEntering() {
+                            	LastingEffect newEffect = new StaticStatModifier(this, -2, -1);
+                            	target.applyLastingEffect(newEffect);
+                            }
+                            
+                            public void executeOnExit() {
+                            	target.removeLastingEffectFromSourceAbility(this);
+                            }  
+                });
+            }
+        });
 
         cardImplementations.put(CardName.ZEPHYR_FALCON, new CardImplementation() {
             @Override
@@ -860,4 +1203,109 @@ public class CardFactory {
             }
         });
     }
+    
+	/**
+	 * Creates a list of default attributes contained by creatures. 
+	 * @return Returns a list of default attributes contained by creatues.
+	 */
+	public List<Attribute> getDefaultCreatureAttributes() {
+		List<Attribute> attributes = new LinkedList<Attribute>();
+		//agregar
+	
+		return attributes;
+	}
+	
+	class OneTurnStatModifier extends AutomaticLastingEffect {
+		private Integer attackModifier;
+		private Integer defenseModifier;
+
+		public OneTurnStatModifier(Ability sourceAbility, Integer attackModifier, Integer defenseModifier) {
+			super(sourceAbility);
+			this.attackModifier = attackModifier;
+			this.defenseModifier = defenseModifier;
+		}
+
+		@Override
+		public void executeOnEvent(GameEvent gameEvent) {
+			if(gameEvent.getDescriptor().equals(Event.END_OF_TURN)) {
+				this.getTarget().removeLastingEffect(this);
+			}
+		}
+
+		@Override
+		public void applyEffect() {
+			if(attackModifier < 0) {
+				((Creature)this.getTarget()).decreaseAttack(attackModifier);
+			}
+			else {
+				((Creature)this.getTarget()).increaseAttack(attackModifier);
+			}
+			if(defenseModifier < 0) {
+				((Creature)this.getTarget()).decreaseDefense(defenseModifier);
+			}
+			else {
+				((Creature)this.getTarget()).increaseDefense(defenseModifier);
+			}
+		}
+
+		@Override
+		public void undoEffect() {
+			if(attackModifier < 0) {
+				((Creature)this.getTarget()).increaseAttack(attackModifier);
+			}
+			else {
+				((Creature)this.getTarget()).decreaseAttack(attackModifier);
+			}
+			if(defenseModifier < 0) {
+				((Creature)this.getTarget()).increaseDefense(defenseModifier);
+			}
+			else {
+				((Creature)this.getTarget()).decreaseDefense(defenseModifier);
+			}
+		}
+	}
+	
+	class StaticStatModifier extends LastingEffect {
+		private Integer attackModifier;
+		private Integer defenseModifier;
+
+		public StaticStatModifier(Ability sourceAbility, Integer attackModifier, Integer defenseModifier) {
+			super(sourceAbility);
+			this.attackModifier = attackModifier;
+			this.defenseModifier = defenseModifier;
+		}
+
+		@Override
+		public void applyEffect() {
+			if(attackModifier < 0) {
+				((Creature)this.getTarget()).decreaseAttack(Math.abs(attackModifier));
+			}
+			else {
+				((Creature)this.getTarget()).increaseAttack(attackModifier);
+			}
+			if(defenseModifier < 0) {
+				((Creature)this.getTarget()).decreaseDefense(Math.abs(defenseModifier));
+			}
+			else {
+				((Creature)this.getTarget()).increaseDefense(defenseModifier);
+			}
+		}
+
+		@Override
+		public void undoEffect() {
+			if(attackModifier < 0) {
+				((Creature)this.getTarget()).increaseAttack(Math.abs(attackModifier));
+			}
+			else {
+				((Creature)this.getTarget()).decreaseAttack(attackModifier);
+			}
+			if(defenseModifier < 0) {
+				((Creature)this.getTarget()).increaseDefense(Math.abs(defenseModifier));
+			}
+			else {
+				((Creature)this.getTarget()).decreaseDefense(defenseModifier);
+			}
+		}
+	}
+
 }

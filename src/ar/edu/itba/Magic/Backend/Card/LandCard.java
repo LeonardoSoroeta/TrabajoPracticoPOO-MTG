@@ -15,8 +15,8 @@ import ar.edu.itba.Magic.Backend.PermanentAbility;
 public class LandCard extends Card {
     GameEventHandler gameEventHandler = GameEventHandler.getGameEventHandler();
 
-    public LandCard(CardName cardName, Color color, Integer coloredManaCost, Integer colorlessManaCost, Ability ability) {
-        super(cardName, color, coloredManaCost, colorlessManaCost, ability);
+    public LandCard(CardName cardName, Ability ability) {
+        super(cardName, Color.COLORLESS, 0, 0, ability);
     }
 
     public void playCard() {
