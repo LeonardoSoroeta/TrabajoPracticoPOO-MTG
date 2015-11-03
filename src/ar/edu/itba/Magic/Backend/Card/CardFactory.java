@@ -11,7 +11,7 @@ import ar.edu.itba.Magic.Backend.Interfaces.Constants.Event;
 public class CardFactory {
 	
 	private GameEventHandler gameEventHandler = GameEventHandler.getGameEventHandler();
-	private Map<CardNames, CardImplementation> cardsImplementation = new HashMap<>();
+	//private Map<CardNames, CardImplementation> cardsImplementation = new HashMap<>();
 	Match match = Match.getMatch();
 	
 	private static CardFactory instance = new CardFactory();
@@ -22,17 +22,6 @@ public class CardFactory {
 	
 	public static CardFactory getCardFactory() {
         return instance;
-	}
-	
-	/**
-	 * Creates a list of default attributes contained by creatures. 
-	 * @return Returns a list of default attributes contained by creatues.
-	 */
-	public List<Attribute> getDefaultCreatureAttributes() {
-		List<Attribute> attributes = new LinkedList<Attribute>();
-		//agregar
-	
-		return attributes;
 	}
 	
 	public Card getCard(String cardName) {
@@ -78,8 +67,7 @@ public class CardFactory {
 										target.destroy();
 									}
 								}
-							}
-								
+							}		
 				});
 		
 			case "Bad Moon":
@@ -98,15 +86,14 @@ public class CardFactory {
 							@Override
 							public void executeOnExit() {
 								gameEventHandler.remove(this);
-								List<Permanent> permanents = new LinkedList<Permanent>();
-								permanents.addAll(match.getPlayer1().getPermanentsInPlay());
-								permanents.addAll(match.getPlayer2().getPermanentsInPlay());
-								for(Permanent permanent : permanents) {
-									if(permanent instanceof Creature) {
-										if(permanent.getColor().equals(Color.BLACK)) 
-											if(permanent.affectedByAbility(this)) {
-												permanent.removeLastingEffectFromSourceAbility(this);
-											}
+								List<Creature> allCreatures = new LinkedList<Creature>();
+								allCreatures.addAll(match.getPlayer1().getCreatures());
+								allCreatures.addAll(match.getPlayer2().getCreatures());
+								for(Creature creature : allCreatures) {
+									if(creature.getColor().equals(Color.BLACK)) {
+										if(creature.isAffectedByAbility(this)) {
+											creature.removeLastingEffectFromSourceAbility(this);
+										}
 									}
 								}
 							}
@@ -117,13 +104,12 @@ public class CardFactory {
 							 */
 							@Override
 							public void executeOnEvent(GameEvent gameEvent) {
-								List<Permanent> permanents = new LinkedList<Permanent>();
-								permanents.addAll(match.getPlayer1().getPermanentsInPlay());
-								permanents.addAll(match.getPlayer2().getPermanentsInPlay());
-								for(Permanent permanent : permanents) {
-									if(permanent instanceof Creature) {
-										if(permanent.getColor().equals(Color.BLACK)) 
-											if(!permanent.affectedByAbility(this)) {
+								List<Creature> allCreatures = new LinkedList<Creature>();
+								allCreatures.addAll(match.getPlayer1().getCreatures());
+								allCreatures.addAll(match.getPlayer2().getCreatures());
+								for(Creature creature : allCreatures) {
+									if(creature.getColor().equals(Color.BLACK)) {
+											if(!creature.isAffectedByAbility(this)) {
 											LastingEffect newEffect = new LastingEffect(this) {
 												
 												@Override
@@ -137,10 +123,9 @@ public class CardFactory {
 													((Creature)this.getTarget()).decreaseAttack(1);
 													((Creature)this.getTarget()).decreaseDefense(1);
 												}
-												
 											};
 											
-											permanent.applyLastingEffect(newEffect);										
+											creature.applyLastingEffect(newEffect);										
 										}											
 									}
 								}								
@@ -718,6 +703,17 @@ public class CardFactory {
 			default:
 				throw new IllegalArgumentException("Error: Carta no pertenece a la coleccion.");
 		}
+	}
+	
+	/**
+	 * Creates a list of default attributes contained by creatures. 
+	 * @return Returns a list of default attributes contained by creatues.
+	 */
+	public List<Attribute> getDefaultCreatureAttributes() {
+		List<Attribute> attributes = new LinkedList<Attribute>();
+		//agregar
+	
+		return attributes;
 	}
 	
 }
