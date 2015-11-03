@@ -1345,6 +1345,7 @@ public class CardFactory {
                 return new EnchantmentCard(CardName.UNSTABLE_MUTATION, Color.BLUE, 1, 0,
                         new AutomaticPermanentAbility() {
                             Creature target;
+                            LastingEffect startingBuff;
                             
                             @Override
                             public boolean satisfyCastingRequirements() {
@@ -1356,21 +1357,23 @@ public class CardFactory {
                             
                             @Override
                             public void executeOnEntering() {
-                            	target.increaseAttack(3);
-                            	target.increaseDefense(3);
+                            	gameEventHandler.add(this);
+                            	startingBuff = new StaticStatModifier(this, 3, 3);
+                            	target.applyLastingEffect(startingBuff);
                             }
                             
                             @Override
                             public void executeOnExit() {
-                            	target.removeLastingEffectFromSourceAbility(this);
+                            	gameEventHandler.remove(this);
+                            	target.removeLastingEffect(startingBuff);
                             }
 
 							@Override
 							public void executeOnEvent(GameEvent gameEvent) {
 								if(gameEvent.getDescriptor().equals(Event.UPKEEP_STEP)) {
 									if(gameEvent.getObject1() == target.getController()) {
-										target.decreaseAttack(1);
-										target.decreaseDefense(1);
+										LastingEffect newEffect = new StaticStatModifier(this, -1, -1);
+		                            	target.applyLastingEffect(newEffect);
 									}
 								}
 							}  
