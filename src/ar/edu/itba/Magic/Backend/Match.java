@@ -108,6 +108,11 @@ public class Match {
 		player.getHand().add(aux);
 	}
 	
+	public void setMana(Land permanent, Player player){
+		player.getManaPool().increaseMana(permanent.getColor());
+		player.getPermanentInPlay(permanent).tap();
+	}
+	
 	public void mainPhasePlayCard(Card card, Player player){
 		if(card.getClass().equals(LandCard.class)){
 			if(!landCastedThisTurn){
