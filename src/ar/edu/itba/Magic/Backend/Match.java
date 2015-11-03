@@ -5,6 +5,8 @@ import java.util.List;
 import ar.edu.itba.Magic.Backend.GameEventHandler;
 import ar.edu.itba.Magic.Backend.Interfaces.Constants.Event;
 import ar.edu.itba.Magic.Backend.Player;
+import ar.edu.itba.Magic.Backend.Card.Card;
+import ar.edu.itba.Magic.Backend.Card.LandCard;
 
 public class Match {
 	
@@ -15,6 +17,8 @@ public class Match {
 	private Player player1;
 	private Player player2;
 	private Player activePlayer;
+	
+	private boolean landCastedThisTurn = false;
 	
 	private Match() {
 		
@@ -62,10 +66,11 @@ public class Match {
 	//public void priority() {}
 	
 	//public void switchPriority() {}
-
+	
 	public void playTurn() {
-		//boolean landCastedThisTurn = false;		
 		
+		
+					
 		beginningPhase();
 		mainPhase();
 		combatPhase();
@@ -76,21 +81,53 @@ public class Match {
 	public void beginningPhase() {
 		eventHandler.notifyGameEvent(new GameEvent(Event.UNTAP_STEP, activePlayer));
 		//for all cards in play that contain attribute can_untap -> untap
-		
+		untapPermanents();
 		eventHandler.notifyGameEvent(new GameEvent(Event.UPKEEP_STEP, activePlayer));
 		//players play instants and activated abilities...
 		
 		eventHandler.notifyGameEvent(new GameEvent(Event.DRAW_CARD_STEP, activePlayer));
 		//draw card(s)...
 		//players play instants and activated abilities...
-		
+		drawCard(activePlayer);
 	}
 	
+	public void untapPermanents(){
+		for(Permanent each : activePlayer.getPermanentsInPlay()){
+			if(each.isTapped()){
+				each.untap();
+			}
+		}
+	}
+	 
+	
+	
+	public void drawCard(Player player){
+		Card aux = player.getDeck().getCard();
+		player.getHand().add(aux);
+	}
+	
+	public void mainPhasePlayCard(Card card, Player player){
+		if(card.getClass().equals(LandCard.class)){
+			if(!landCastedThisTurn){
+				this.playCard(card, player);
+				landCastedThisTurn = true;
+			}
+		}else{
+			this.playCard(card, player);
+		}
+	}
+	
+	public void playCard(Card card, Player player){
+		player.getHand().remove(card);
+		card.playCard();
+	}
+	
+
 	public void mainPhase() {
 		eventHandler.notifyGameEvent(new GameEvent(Event.MAIN_PHASE, activePlayer));
 		//active player casts spells & activated abilities / other players casts instants & activated abilities
 		//active player can play 1 land if not already casted this turn
-		
+
 	}
 	
 	public void combatPhase() {
@@ -150,19 +187,11 @@ public class Match {
 	}
 	
 
-	//alguna excepcion le meto aca
-	// tengo la duda si serian metodos de player
-		public void drawCard(Card card, Player player){
-			if (player.library.contains(card)){
-				player.library.remove(card);
-				player.hand.add(card);
-			}	
-		}
-		
-	
+			
+		/*
 		public void playCard(Card card,Player player){
-			if(player.hand.contains(card)){
-				player.hand.remove(card);
+			if(player.getHand().contains(card)){
+				player.getHand().remove(card);
 			
 				// ver como esta implementada Card
 			if (card.isPermanent){
@@ -187,6 +216,6 @@ public class Match {
 				player.objectsInPlay.add(card.playCard);
 			}
 		}
-	
+		*/
 
 }

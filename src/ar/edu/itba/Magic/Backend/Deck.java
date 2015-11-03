@@ -3,6 +3,8 @@ package ar.edu.itba.Magic.Backend;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.NoSuchElementException;
+
 import ar.edu.itba.Magic.Backend.Card.Card;
 
 public class Deck {
@@ -37,8 +39,48 @@ public class Deck {
 	}
 	
 	public Card getCard(){
-		return deck.pop();
+		if(this.getSize() > 0){
+			return deck.pop();
+		}else{
+			throw new NoSuchElementException();
+		}
 	}
+	
+	public boolean containsCard(Card card){
+		return deck.contains(card);
+	}
+	
+	public Card getCard(Card card){
+		if(containsCard(card)){
+			deck.remove(card);
+			return card;
+		}else{
+			throw new NoSuchElementException();
+		}
+		 
+	}
+	/*estaria bueno que tenga metodos como estos dos para las habilidades raras
+	public List<Card> getTypeCard(Card card){
+		List<Card> listCardType = new LinkedList<Card>(); 
+		for(Card each : deck){
+			if(each.getCardType().equals(card.getCardType())){
+				listCardType.add(each);
+			}
+		}
+		return listCardType;
+	}
+	
+	public List<Card> getColorCard(Card card){
+		List<Card> listCardColor = new LinkedList<Card>(); 
+		for(Card each : deck){
+			if(each.getColor().equals(card.getColor())){
+				listCardColor.add(each);
+			}
+		}
+		return listCardColor;
+	}
+	*/
+	
 	public int getSize(){
 		return deck.size();
 	}
