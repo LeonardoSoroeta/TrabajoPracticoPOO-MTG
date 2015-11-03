@@ -86,52 +86,7 @@ public class CardFactory {
 				});
             }
         });
-    	
-        cardImplementations.put(CardName.BLIGHT, new CardImplementation() {
-            @Override
-            public EnchantmentCard createCard() {
-                return new EnchantmentCard(CardName.BLIGHT, Color.BLACK, 2, 0,
-                        new AutomaticPermanentAbility() {
-                            Land target;
-                            boolean destroyAtEndOfTurn = false;
-
-                            @Override
-                            public boolean satisfyCastingRequirements() {
-                                // TODO seleccionar target Land
-                                //return true
-                                //else
-                                return false;
-                            }
-
-                            @Override
-                            public void executeOnEntering() {
-                                target.addAttachedEnchantment((Enchantment) this.getSourcePermanent());
-                                gameEventHandler.add(this);
-                            }
-
-                            @Override
-                            public void executeOnExit() {
-                                gameEventHandler.remove(this);
-                                target.removeAttachedEnchantment((Enchantment) this.getSourcePermanent());
-                            }
-
-                            @Override
-                            public void executeOnEvent(GameEvent gameEvent) {
-                                if (target.isTapped())
-                                    destroyAtEndOfTurn = true;
-
-                                if (gameEvent.getDescriptor().equals(Event.END_OF_TURN))
-                                    if (destroyAtEndOfTurn == true)
-                                        target.destroy();
-
-                            }
-
-                        });
-
-            }
-        });
-
-
+ 
         cardImplementations.put(CardName.BAD_MOON, new CardImplementation() {
             @Override
             public EnchantmentCard createCard() {
@@ -220,6 +175,50 @@ public class CardFactory {
 								// TODO if not tapped: add one mana of player's choice, tap
 							}
                 });
+            }
+        });
+        
+        cardImplementations.put(CardName.BLIGHT, new CardImplementation() {
+            @Override
+            public EnchantmentCard createCard() {
+                return new EnchantmentCard(CardName.BLIGHT, Color.BLACK, 2, 0,
+                        new AutomaticPermanentAbility() {
+                            Land target;
+                            boolean destroyAtEndOfTurn = false;
+
+                            @Override
+                            public boolean satisfyCastingRequirements() {
+                                // TODO seleccionar target Land
+                                //return true
+                                //else
+                                return false;
+                            }
+
+                            @Override
+                            public void executeOnEntering() {
+                                target.addAttachedEnchantment((Enchantment) this.getSourcePermanent());
+                                gameEventHandler.add(this);
+                            }
+
+                            @Override
+                            public void executeOnExit() {
+                                gameEventHandler.remove(this);
+                                target.removeAttachedEnchantment((Enchantment) this.getSourcePermanent());
+                            }
+
+                            @Override
+                            public void executeOnEvent(GameEvent gameEvent) {
+                                if (target.isTapped())
+                                    destroyAtEndOfTurn = true;
+
+                                if (gameEvent.getDescriptor().equals(Event.END_OF_TURN))
+                                    if (destroyAtEndOfTurn == true)
+                                        target.destroy();
+
+                            }
+
+                        });
+
             }
         });
 
@@ -337,6 +336,15 @@ public class CardFactory {
 								this.getSourcePermanent().applyLastingEffect(newEffect);
 							}
 				});
+            }
+        });
+        
+        cardImplementations.put(CardName.CRAW_WURM, new CardImplementation() {
+            @Override
+            public CreatureCard createCard() {
+				List<Attribute> attributes = new LinkedList<Attribute>();
+				attributes = getDefaultCreatureAttributes();
+				return new CreatureCard(CardName.CRAW_WURM, Color.GREEN, attributes, 2, 4, 6, 4);
             }
         });
 
@@ -552,6 +560,38 @@ public class CardFactory {
         	}
         });
         
+        cardImplementations.put(CardName.FORCE_OF_NATURE, new CardImplementation() {
+            @Override
+            public CreatureCard createCard() {
+				List<Attribute> attributes = new LinkedList<Attribute>();
+				attributes = getDefaultCreatureAttributes();
+				attributes.add(Attribute.TRAMPLE);
+				return new CreatureCard(CardName.FORCE_OF_NATURE, Color.GREEN, attributes, 4, 2, 8, 8,
+						new AutomaticPermanentAbility() {
+
+							@Override 
+							public void executeOnEntering() {
+								gameEventHandler.add(this);
+							}
+							
+							@Override
+							public void executeOnExit() {
+								gameEventHandler.remove(this);
+							}
+					
+							@Override
+							public void executeOnEvent(GameEvent gameEvent) {
+								if(gameEvent.getDescriptor().equals(Event.UPKEEP_STEP)) {
+									if(gameEvent.getObject1() == this.getSourcePermanent().getController())	{
+										// TODO player pay 4 green mana or suffer 8 damage
+									}
+								}
+							}
+				});
+            }
+        });
+
+        
         cardImplementations.put(CardName.FROZEN_SHADE, new CardImplementation() {
             @Override
             public CreatureCard createCard() {
@@ -566,42 +606,6 @@ public class CardFactory {
 								this.getSourcePermanent().applyLastingEffect(newEffect);
 							}
                 });
-            }
-        });
- 
-        
-        cardImplementations.put(CardName.JUMP, new CardImplementation() {
-            @Override
-            public InstantCard createCard() {
-				return new InstantCard(CardName.JUMP, Color.BLUE, 1, 0,
-						new AutomaticSpellAbility() {
-							Creature target;
-					
-							@Override
-							public boolean satisfyCastingRequirements() {
-								// TODO target = selec target creature without flying
-								// return true;
-								// else
-								return false;
-							}
-
-							@Override
-							public void sendToStack() {
-								// TODO stack.add(this);
-							}
-
-							@Override
-							public void resolveInStack() {
-								target.addAttribute(Attribute.FLYING);
-							}
-
-							@Override
-							public void executeOnEvent(GameEvent gameEvent) {
-								if(gameEvent.getDescriptor().equals(Event.END_OF_TURN))	{
-									target.removeAttribute(Attribute.FLYING);
-								}
-							}
-				});
             }
         });
         
@@ -676,6 +680,41 @@ public class CardFactory {
 							}
         		});
         	}
+        });
+        
+        cardImplementations.put(CardName.JUMP, new CardImplementation() {
+            @Override
+            public InstantCard createCard() {
+				return new InstantCard(CardName.JUMP, Color.BLUE, 1, 0,
+						new AutomaticSpellAbility() {
+							Creature target;
+					
+							@Override
+							public boolean satisfyCastingRequirements() {
+								// TODO target = selec target creature without flying
+								// return true;
+								// else
+								return false;
+							}
+
+							@Override
+							public void sendToStack() {
+								// TODO stack.add(this);
+							}
+
+							@Override
+							public void resolveInStack() {
+								target.addAttribute(Attribute.FLYING);
+							}
+
+							@Override
+							public void executeOnEvent(GameEvent gameEvent) {
+								if(gameEvent.getDescriptor().equals(Event.END_OF_TURN))	{
+									target.removeAttribute(Attribute.FLYING);
+								}
+							}
+				});
+            }
         });
 
         cardImplementations.put(CardName.JUNUN_EFREET, new CardImplementation() {
@@ -770,16 +809,6 @@ public class CardFactory {
 				});
             }
         });
-
-        cardImplementations.put(CardName.LAND_LEECHES, new CardImplementation() {
-            @Override
-            public CreatureCard createCard() {
-				List<Attribute> attributes = new LinkedList<Attribute>();
-				attributes = getDefaultCreatureAttributes();
-				attributes.add(Attribute.FIRST_STRIKE);
-				return new CreatureCard(CardName.LAND_LEECHES, Color.GREEN, attributes, 2, 1, 2, 2);
-            }
-        });
         
         cardImplementations.put(CardName.LANCE, new CardImplementation() {
             @Override
@@ -806,6 +835,16 @@ public class CardFactory {
 								target.removeAttribute(Attribute.FIRST_STRIKE);
 							}
 				});
+            }
+        });
+        
+        cardImplementations.put(CardName.LAND_LEECHES, new CardImplementation() {
+            @Override
+            public CreatureCard createCard() {
+				List<Attribute> attributes = new LinkedList<Attribute>();
+				attributes = getDefaultCreatureAttributes();
+				attributes.add(Attribute.FIRST_STRIKE);
+				return new CreatureCard(CardName.LAND_LEECHES, Color.GREEN, attributes, 2, 1, 2, 2);
             }
         });
 
@@ -1125,8 +1164,8 @@ public class CardFactory {
         
         cardImplementations.put(CardName.SINKHOLE, new CardImplementation() {
             @Override
-            public EnchantmentCard createCard() {
-				return new EnchantmentCard(CardName.SINKHOLE, Color.BLACK, 2, 0,
+            public SorceryCard createCard() {
+				return new SorceryCard(CardName.SINKHOLE, Color.BLACK, 2, 0,
 						new SpellAbility() {
 							Land target;
 					

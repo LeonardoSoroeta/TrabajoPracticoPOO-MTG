@@ -3,57 +3,69 @@ package ar.edu.itba.Magic.Backend.Interfaces.Enum;
 /**
  * Created by Martin on 02/11/2015.
  */
+/*
+ * Red Cards:		4
+ * Green Cards:		12
+ * Blue Cards:		5
+ * Black Cards: 	19
+ * White Cards:		9
+ * Colorless Cards:	5
+ * 
+ * Total:			54
+ */
 public enum CardName {
-	ASPECT_OF_WOLF,
-    BLIGHT,
-    BAD_MOON,
-    BALL_LIGHTNING,
-    BIRD_MAIDEN,
-    BIRDS_OF_PARADISE,
-    BLOOD_LUST,
-    BOG_IMP,
-    CARNIVOROUS_PLANT,
-    CARRION_ANTS,
-    CRUMBLE,
-    CRUSADE,
-    DARK_RITUAL,
-    DESERT_TWISTER,
-    DURKWOOD_BOARDS,
-    ELVISH_ARCHERS,
-    FISSURE,
-    FLOOD,
-    FOREST,
-    FROZEN_SHADE,
-    HOLY_STRENGTH,
-    HOWL_FROM_BEYOND,
-    ISLAND,
-    JUMP,
-    JUNUN_EFREET,
-    KARMA,
-    KISMET,
-    LANCE,
-    LAND_LEECHES,
-    LORD_OF_THE_PIT,
-    LOST_SOUL,
-    MARSH_GAS,
-    MOUNTAIN,
-    NIGHTMARE,
-    PARALYZE,
-    PEARLED_UNICORN,
-    PLAINS,
-    RADJAN_SPIRIT,
-    ROYAL_ASSASIN,
-    SAVANNAH_LIONS,
-    SEGOVIAN_LEVIATHAN,
-    SERRA_ANGEL,
-    SINKHOLE,
-    SWAMP,
-    TERROR,
-    TUNDRA_WOLVES,
-    UNHOLY_STRENGTH,
-    UNSTABLE_MUTATION,
-    WANDERLUST,
-    WARP_ARTIFACT,
-    WEAKNESS,
-    ZEPHYR_FALCON,
+	ASPECT_OF_WOLF,		// Green Enchantment
+    BAD_MOON,			// Black Enchantment
+    BALL_LIGHTNING,		// Red Creature
+    BIRD_MAIDEN,		// Red Creature
+    BIRDS_OF_PARADISE,	// Green Creature
+    BLIGHT,				// Black Enchantment
+    BLOOD_LUST,			// Red Instant
+    BOG_IMP,			// Black Creature
+    CARNIVOROUS_PLANT,	// Green Creature
+    CARRION_ANTS,		// Black Creature
+    CRAW_WURM,			// Green Creature
+    CRUMBLE,			// Green Instant
+    CRUSADE,			// White Enchantment
+    DARK_RITUAL,		// Black Instant
+    DESERT_TWISTER,		// Green Sorcery
+    DURKWOOD_BOARDS,	// Green Creature
+    ELVISH_ARCHERS,		// Green Creature
+    FISSURE,			// Red Instant
+    FLOOD,				// Blue Enchantment
+    FOREST,				// Land
+    FORCE_OF_NATURE,	// Green Creature
+    FROZEN_SHADE,		// Black Creature
+    HOLY_STRENGTH,		// White Enchantment
+    HOWL_FROM_BEYOND,	// Black Instant
+    ISLAND,				// Land
+    JUMP,				// Blue Instant
+    JUNUN_EFREET,		// Black Creature
+    KARMA,				// White Enchantment
+    KISMET,				// White Enchantment
+    LANCE,				// White Enchantment
+    LAND_LEECHES,		// Green Creature
+    LORD_OF_THE_PIT,	// Black Creature
+    LOST_SOUL,			// Black Creature
+    MARSH_GAS,			// Black Instant
+    MOUNTAIN,			// Land
+    NIGHTMARE,			// Black Creature
+    PARALYZE,			// Black Enchantment
+    PEARLED_UNICORN,	// White Creature
+    PLAINS,				// Land
+    RADJAN_SPIRIT,		// Green Creature
+    ROYAL_ASSASIN,		// Black Creature
+    SAVANNAH_LIONS,		// White Creature
+    SEGOVIAN_LEVIATHAN,	// Blue Creature
+    SERRA_ANGEL,		// White Creature
+    SINKHOLE,			// Black Sorcery
+    SWAMP,				// Land
+    TERROR,				// Black Instant
+    TUNDRA_WOLVES,		// White Creature
+    UNHOLY_STRENGTH,	// Black Enchantment
+    UNSTABLE_MUTATION,	// Blue Enchantment
+    WANDERLUST,			// Green Enchantment
+    WARP_ARTIFACT,		// Black Enchantment
+    WEAKNESS,			// Black Enchantment
+    ZEPHYR_FALCON,		// Blue Creature
 }
