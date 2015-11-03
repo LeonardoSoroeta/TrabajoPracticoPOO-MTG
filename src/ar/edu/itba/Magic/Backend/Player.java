@@ -2,6 +2,8 @@ package ar.edu.itba.Magic.Backend;
 
 import ar.edu.itba.Magic.Backend.Card.Card;
 import ar.edu.itba.Magic.Backend.Interfaces.DamageTaking;
+import ar.edu.itba.Magic.Backend.Interfaces.Constants.Event;
+
 import com.sun.org.apache.xerces.internal.impl.xpath.regex.Match;
 
 import java.util.Collections;
@@ -17,6 +19,7 @@ public class Player implements DamageTaking {
 	private List<Permanent> permanentsInPlay;
 	private List<Card> graveyard;
 	private int health;
+	GameEventHandler gameEventHandler = GameEventHandler.getGameEventHandler();
 	
 	public Player(Deck deck) {
 		this.deck = deck;
@@ -66,6 +69,9 @@ public class Player implements DamageTaking {
 	}
 	
 	public void placeCardInHand(Card card) {
+		if(hand.contains(card)) {
+			// throw exception card already in hand
+		}
 		hand.add(card);
 	}
 	
@@ -84,6 +90,9 @@ public class Player implements DamageTaking {
 	}
 	
 	public void placeCardInGraveyard(Card card) {
+		if(graveyard.contains(card)) {
+			// throw exception card already in graveyard
+		}
 		graveyard.add(card);
 	}
 	
@@ -102,7 +111,11 @@ public class Player implements DamageTaking {
 	}
 	
 	public void placePermanentInPlay(Permanent permanent) {
+		if(permanentsInPlay.contains(permanent)) {
+			//throw exception permanent already in play
+		}
 		permanentsInPlay.add(permanent);
+		gameEventHandler.notifyGameEvent(new GameEvent(Event.PERMANENT_ENTERS_PLAY, permanent));
 	}
 	
 	public void removePermanentFromPlay(Permanent permanent) {
@@ -110,6 +123,7 @@ public class Player implements DamageTaking {
 			permanentsInPlay.remove(permanent);
 		}
 		//else throw exception permanent not in play
+		gameEventHandler.notifyGameEvent(new GameEvent(Event.PERMANENT_LEAVES_PLAY, permanent));
 	}
 	
 	public List<Creature> getCreatures() {

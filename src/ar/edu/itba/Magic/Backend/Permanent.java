@@ -4,7 +4,6 @@ import java.util.*;
 
 import ar.edu.itba.Magic.Backend.Card.Card;
 import ar.edu.itba.Magic.Backend.Interfaces.Constants.Color;
-import ar.edu.itba.Magic.Backend.Interfaces.Constants.Event;
 import ar.edu.itba.Magic.Backend.Interfaces.Constants.Attribute;
 
 /**
@@ -276,6 +275,7 @@ public abstract class Permanent {
 	 */
 	public void destroy() {
 		//TODO  por ahora solo contempla permanents in play, no in stack
+		
 		if(this.containsAbility()) {
 			this.getAbility().executeOnExit();
 		}
@@ -284,9 +284,8 @@ public abstract class Permanent {
 			enchantment.destroy();
 		}
 		
-		gameEventHandler.notifyGameEvent(new GameEvent(Event.PERMANENT_LEAVES_PLAY, this));
-		this.controller.getPermanentsInPlay().remove(this);
-		this.controller.getGraveyard().add(this.sourceCard);
+		this.controller.removePermanentFromPlay(this);
+		this.controller.placeCardInGraveyard(sourceCard);
 	}
 	
 }
