@@ -119,6 +119,10 @@ public class Match {
 		}
 	}
 	
+	public void playAbility(Permanent permanent, ActivatedPermanentAbility ablility, Player player){
+		player.getPermanentInPlay(permanent).getAbility().executeOnActivation();
+	}
+	
 	public void playCard(Card card, Player player){
 		player.getHand().remove(card);
 		card.playCard();

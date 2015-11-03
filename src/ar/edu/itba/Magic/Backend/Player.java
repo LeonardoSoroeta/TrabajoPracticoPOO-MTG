@@ -5,6 +5,7 @@ import ar.edu.itba.Magic.Backend.Interfaces.DamageTaking;
 import ar.edu.itba.Magic.Backend.Interfaces.Enum.Event;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 public class Player implements DamageTaking {
 
@@ -55,6 +56,10 @@ public class Player implements DamageTaking {
 	
 	public ManaPool getManaPool() {
 		return manaPool;
+	}
+	
+	public Deck getDeck(){
+		return deck;
 	}
 	
 	public List<Card> getHand() {
@@ -180,6 +185,23 @@ public class Player implements DamageTaking {
 		}
 	}
 	*/
+	
+	public boolean containsPermanentsInPlay(Permanent permanent){
+		
+		if(this.permanentsInPlay.contains(permanent)){
+			return true;
+		}
+		return false;
+	}
+	
+	public Permanent getPermanentInPlay(Permanent permanent){
+		
+		if(this.containsPermanentsInPlay(permanent)){
+			return this.permanentsInPlay.get(this.permanentsInPlay.indexOf(permanent));
+		}else{
+			throw new NoSuchElementException();
+		}
+	}
 	
 	public void shuffleLibrary() {
 		deck.shuffleDeck();
