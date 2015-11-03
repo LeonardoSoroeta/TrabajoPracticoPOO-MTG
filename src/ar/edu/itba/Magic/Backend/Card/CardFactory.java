@@ -56,7 +56,7 @@ public class CardFactory {
         cardImplementations.put(CardName.BLIGHT, new CardImplementation() {
             @Override
             public EnchantmentCard createCard() {
-                return new EnchantmentCard(CardName.BLIGHT, "enchantment", Color.BLACK, 2, 0,
+                return new EnchantmentCard(CardName.BLIGHT, Color.BLACK, 2, 0,
                         new AutomaticPermanentAbility() {
                             Land target;
                             boolean destroyAtEndOfTurn = false;
@@ -101,7 +101,8 @@ public class CardFactory {
         cardImplementations.put(CardName.BAD_MOON, new CardImplementation() {
             @Override
             public EnchantmentCard createCard() {
-                return new EnchantmentCard(CardName.BAD_MOON, "enchantment", Color.BLACK, 1, 1, new AutomaticPermanentAbility() {
+                return new EnchantmentCard(CardName.BAD_MOON, Color.BLACK, 1, 1, 
+                		new AutomaticPermanentAbility() {
                             /**
                              * Adds Bad Moon's automatic ability to the GameEventHandler. Notifies a generic
                              * game event to get Bad Moon's ability started.
@@ -114,15 +115,14 @@ public class CardFactory {
                             @Override
                             public void executeOnExit() {
                                 gameEventHandler.remove(this);
-                                List<Permanent> permanents = new LinkedList<Permanent>();
-                                permanents.addAll(match.getPlayer1().getPermanentsInPlay());
-                                permanents.addAll(match.getPlayer2().getPermanentsInPlay());
-                                for(Permanent permanent : permanents) {
-                                    if(permanent instanceof Creature) {
-                                        if(permanent.getColor().equals(Color.BLACK))
-                                            if(permanent.isAffectedByAbility(this)) {
-                                                permanent.removeLastingEffectFromSourceAbility(this);
-                                            }
+                                List<Creature> allCreatures = new LinkedList<Creature>();
+                                allCreatures.addAll(match.getPlayer1().getCreatures());
+                                allCreatures.addAll(match.getPlayer2().getCreatures());
+                                for(Creature creature : allCreatures) {
+                                    if(creature.getColor().equals(Color.BLACK)) {
+                                        if(creature.isAffectedByAbility(this)) {
+                                            creature.removeLastingEffectFromSourceAbility(this);
+                                        }
                                     }
                                 }
                             }
@@ -133,31 +133,31 @@ public class CardFactory {
                              */
                             @Override
                             public void executeOnEvent(GameEvent gameEvent) {
-                                List<Permanent> permanents = new LinkedList<Permanent>();
-                                permanents.addAll(match.getPlayer1().getPermanentsInPlay());
-                                permanents.addAll(match.getPlayer2().getPermanentsInPlay());
-                                for(Permanent permanent : permanents) {
-                                    if(permanent instanceof Creature) {
-                                        if(permanent.getColor().equals(Color.BLACK))
-                                            if(!permanent.isAffectedByAbility(this)) {
-                                                LastingEffect newEffect = new LastingEffect(this) {
-                                                    @Override
-                                                    public void applyEffect() {
-                                                        ((Creature)this.getTarget()).increaseAttack(1);
-                                                        ((Creature)this.getTarget()).increaseDefense(1);
-                                                    }
-                                                    @Override
-                                                    public void undoEffect() {
-                                                        ((Creature)this.getTarget()).decreaseAttack(1);
-                                                        ((Creature)this.getTarget()).decreaseDefense(1);
-                                                    }
-                                                };
-                                                permanent.applyLastingEffect(newEffect);
-                                            }
+                            	List<Creature> allCreatures = new LinkedList<Creature>();
+                                allCreatures.addAll(match.getPlayer1().getCreatures());
+                                allCreatures.addAll(match.getPlayer2().getCreatures());
+                                for(Creature creature : allCreatures) {
+                                    if(creature.getColor().equals(Color.BLACK)) {
+                                        if(!creature.isAffectedByAbility(this)) {
+                                            LastingEffect newEffect = new LastingEffect(this) {
+                                                @Override
+                                                public void applyEffect() {
+                                                    ((Creature)this.getTarget()).increaseAttack(1);
+                                                    ((Creature)this.getTarget()).increaseDefense(1);
+                                                }
+                                                @Override
+                                                public void undoEffect() {
+                                                    ((Creature)this.getTarget()).decreaseAttack(1);
+                                                    ((Creature)this.getTarget()).decreaseDefense(1);
+                                                }
+                                            };
+                                            
+                                            creature.applyLastingEffect(newEffect);
                                         }
-                                     }
-                                }
-                            });
+                                    }
+                                 }
+                              }
+                          });
                 }
         });
 
@@ -168,7 +168,7 @@ public class CardFactory {
                 attributes = getDefaultCreatureAttributes();
                 attributes.add(Attribute.TRAMPLE);
                 attributes.remove(Attribute.SUMMONING_SICKNESS);
-                return new CreatureCard(CardName.BALL_LIGHTNING, "creature", Color.RED, attributes, 3, 0, 6, 1);
+                return new CreatureCard(CardName.BALL_LIGHTNING, Color.RED, attributes, 3, 0, 6, 1);
 
             }
         });
@@ -179,14 +179,14 @@ public class CardFactory {
             	List<Attribute> attributes = new LinkedList<Attribute>();
                 attributes = getDefaultCreatureAttributes();
                 attributes.add(Attribute.FLYING);
-                return new CreatureCard(CardName.BIRD_MAIDEN, "creature", Color.RED, attributes, 1, 2, 1, 2);
+                return new CreatureCard(CardName.BIRD_MAIDEN, Color.RED, attributes, 1, 2, 1, 2);
             }
         });
 
         cardImplementations.put(CardName.BLOOD_LUST, new CardImplementation() {
             @Override
             public InstantCard createCard() {
-				return new InstantCard(CardName.BLOOD_LUST, "instant", Color.RED, 1, 1,
+				return new InstantCard(CardName.BLOOD_LUST, Color.RED, 1, 1,
 						new SpellAbility() {
 							Creature target;
 
@@ -246,7 +246,7 @@ public class CardFactory {
 				List<Attribute> attributes = new LinkedList<Attribute>();
 				attributes = getDefaultCreatureAttributes();
 				attributes.add(Attribute.FLYING);
-				return new CreatureCard(CardName.BOG_IMP, "creature", Color.BLACK, attributes, 1, 1, 1, 1);
+				return new CreatureCard(CardName.BOG_IMP, Color.BLACK, attributes, 1, 1, 1, 1);
             }
         });
 
@@ -257,7 +257,7 @@ public class CardFactory {
 				attributes = getDefaultCreatureAttributes();
 				attributes.add(Attribute.WALL);
 				attributes.remove(Attribute.CAN_ATTACK);
-				return new CreatureCard(CardName.CARNIVOROUS_PLANT, "creature", Color.GREEN, attributes, 1, 3, 4, 5);
+				return new CreatureCard(CardName.CARNIVOROUS_PLANT, Color.GREEN, attributes, 1, 3, 4, 5);
             }
         });
 
@@ -266,7 +266,7 @@ public class CardFactory {
             public CreatureCard createCard() {
 				List<Attribute> attributes = new LinkedList<Attribute>();
 				attributes = getDefaultCreatureAttributes();
-				return new CreatureCard(CardName.CARRION_ANTS, "creature", Color.BLACK, attributes, 2, 2, 1, 1,
+				return new CreatureCard(CardName.CARRION_ANTS, Color.BLACK, attributes, 2, 2, 1, 1,
 						new ActivatedPermanentAbility() {
 
 							@Override
@@ -303,7 +303,7 @@ public class CardFactory {
         cardImplementations.put(CardName.CRUMBLE, new CardImplementation() {
             @Override
             public InstantCard createCard() {
-				return new InstantCard(CardName.CRUMBLE, "instant", Color.GREEN, 1, 0,
+				return new InstantCard(CardName.CRUMBLE, Color.GREEN, 1, 0,
 						new SpellAbility() {
 							Artifact target;
 
@@ -333,7 +333,7 @@ public class CardFactory {
         cardImplementations.put(CardName.DESERT_TWISTER, new CardImplementation() {
             @Override
             public SorceryCard createCard() {
-				return new SorceryCard("Desert Twister", "sorcery", Color.GREEN, 2, 4,
+				return new SorceryCard(CardName.DESERT_TWISTER, Color.GREEN, 2, 4,
 						new SpellAbility() {
 							Permanent target;
 
@@ -364,7 +364,7 @@ public class CardFactory {
             public CreatureCard createCard() {
 				List<Attribute> attributes = new LinkedList<Attribute>();
 				attributes = getDefaultCreatureAttributes();
-				return new CreatureCard(CardName.DURKWOOD_BOARDS, "creature", Color.GREEN, attributes, 1, 4, 4 ,4);
+				return new CreatureCard(CardName.DURKWOOD_BOARDS, Color.GREEN, attributes, 1, 4, 4 ,4);
             }
         });
 
@@ -374,14 +374,14 @@ public class CardFactory {
 				List<Attribute> attributes = new LinkedList<Attribute>();
 				attributes = getDefaultCreatureAttributes();
 				attributes.add(Attribute.FIRST_STRIKE);
-				return new CreatureCard(CardName.ELVISH_ARCHERS, "creature", Color.GREEN, attributes, 1, 1, 2, 1);
+				return new CreatureCard(CardName.ELVISH_ARCHERS, Color.GREEN, attributes, 1, 1, 2, 1);
             }
         });
 
         cardImplementations.put(CardName.FISSURE, new CardImplementation() {
             @Override
             public InstantCard createCard() {
-				return new InstantCard(CardName.FISSURE, "instant", Color.RED, 2, 3,
+				return new InstantCard(CardName.FISSURE, Color.RED, 2, 3,
 						new SpellAbility() {
 							Permanent target;
 
@@ -410,7 +410,7 @@ public class CardFactory {
         cardImplementations.put(CardName.FLOOD, new CardImplementation() {
             @Override
             public EnchantmentCard createCard() {
-				return new EnchantmentCard(CardName.FLOOD, "enchantment", Color.BLUE, 1, 0,
+				return new EnchantmentCard(CardName.FLOOD, Color.BLUE, 1, 0,
 						new ActivatedPermanentAbility() {
 							Creature target;
 
@@ -431,7 +431,7 @@ public class CardFactory {
         cardImplementations.put(CardName.HOWL_FROM_BEYOND, new CardImplementation() {
             @Override
             public InstantCard createCard() {
-				return new InstantCard(CardName.HOWL_FROM_BEYOND, "instant", Color.BLACK, 1, 1,
+				return new InstantCard(CardName.HOWL_FROM_BEYOND, Color.BLACK, 1, 1,
 						new SpellAbility() {
 							Integer attackBonus = 1;
 							Creature target;
@@ -486,7 +486,7 @@ public class CardFactory {
 				List<Attribute> attributes = new LinkedList<Attribute>();
 				attributes = getDefaultCreatureAttributes();
 				attributes.add(Attribute.FLYING);
-				return new CreatureCard(CardName.JUNUN_EFREET, "creature", Color.BLACK, attributes, 2, 1, 3, 3,
+				return new CreatureCard(CardName.JUNUN_EFREET, Color.BLACK, attributes, 2, 1, 3, 3,
 						new AutomaticPermanentAbility() {
 
 							@Override
@@ -506,7 +506,7 @@ public class CardFactory {
         cardImplementations.put(CardName.KISMET, new CardImplementation() {
             @Override
             public EnchantmentCard createCard() {
-				return new EnchantmentCard(CardName.KISMET, "enchantment", Color.WHITE, 1, 3,
+				return new EnchantmentCard(CardName.KISMET, Color.WHITE, 1, 3,
 						new AutomaticPermanentAbility() {
 							Player targetPlayer;
 
@@ -550,7 +550,7 @@ public class CardFactory {
 				List<Attribute> attributes = new LinkedList<Attribute>();
 				attributes = getDefaultCreatureAttributes();
 				attributes.add(Attribute.FIRST_STRIKE);
-				return new CreatureCard(CardName.LAND_LEECHES, "creature", Color.GREEN, attributes, 2, 1, 2, 2);
+				return new CreatureCard(CardName.LAND_LEECHES, Color.GREEN, attributes, 2, 1, 2, 2);
             }
         });
 
@@ -561,7 +561,7 @@ public class CardFactory {
 				attributes = getDefaultCreatureAttributes();
 				attributes.add(Attribute.TRAMPLE);
 				attributes.add(Attribute.FLYING);
-				return new CreatureCard(CardName.LORD_OF_THE_PIT, "creature", Color.BLACK, attributes, 3, 4, 7, 7,
+				return new CreatureCard(CardName.LORD_OF_THE_PIT, Color.BLACK, attributes, 3, 4, 7, 7,
 						new AutomaticPermanentAbility() {
 
 							/**
@@ -595,7 +595,7 @@ public class CardFactory {
 				List<Attribute> attributes = new LinkedList<Attribute>();
 				attributes = getDefaultCreatureAttributes();
 				attributes.add(Attribute.SWAMPWALK);
-				return new CreatureCard(CardName.LOST_SOUL, "creature", Color.BLACK, attributes, 2, 1, 2, 1);
+				return new CreatureCard(CardName.LOST_SOUL, Color.BLACK, attributes, 2, 1, 2, 1);
             }
         });
 
@@ -605,7 +605,7 @@ public class CardFactory {
 				List<Attribute> attributes = new LinkedList<Attribute>();
 				attributes = getDefaultCreatureAttributes();
 				attributes.add(Attribute.FLYING);
-				return new CreatureCard(CardName.NIGHTMARE, "creature", Color.BLACK, attributes, 1, 5, 1, 1,
+				return new CreatureCard(CardName.NIGHTMARE, Color.BLACK, attributes, 1, 5, 1, 1,
 						new AutomaticPermanentAbility() {
 
 							/**
@@ -642,7 +642,7 @@ public class CardFactory {
         cardImplementations.put(CardName.PARALYZE, new CardImplementation() {
             @Override
             public EnchantmentCard createCard() {
-				return new EnchantmentCard(CardName.PARALYZE, "enchantment", Color.BLACK, 1, 0,
+				return new EnchantmentCard(CardName.PARALYZE, Color.BLACK, 1, 0,
 						new AutomaticPermanentAbility() {
 							Creature target;
 
@@ -700,7 +700,7 @@ public class CardFactory {
             public CreatureCard createCard() {
 				List<Attribute> attributes = new LinkedList<Attribute>();
 				attributes = getDefaultCreatureAttributes();
-				return new CreatureCard(CardName.RADJAN_SPIRIT, "creature", Color.GREEN, attributes, 1, 3, 3, 2,
+				return new CreatureCard(CardName.RADJAN_SPIRIT, Color.GREEN, attributes, 1, 3, 3, 2,
 						new ActivatedPermanentAbility() {
 							Creature target;
 
@@ -738,7 +738,7 @@ public class CardFactory {
             public CreatureCard createCard() {
 				List<Attribute> attributes = new LinkedList<Attribute>();
 				attributes = getDefaultCreatureAttributes();
-				return new CreatureCard(CardName.ROYAL_ASSASIN, "creature", Color.BLACK, attributes, 2, 1, 1, 1,
+				return new CreatureCard(CardName.ROYAL_ASSASIN, Color.BLACK, attributes, 2, 1, 1, 1,
 						new ActivatedPermanentAbility() {
 
 							/**
@@ -763,7 +763,7 @@ public class CardFactory {
 				List<Attribute> attributes = new LinkedList<Attribute>();
 				attributes = getDefaultCreatureAttributes();
 				attributes.add(Attribute.ISLANDWALK);
-				return new CreatureCard(CardName.SEGOVIAN_LEVIATHAN, "creature", Color.BLUE, attributes, 1, 4, 3, 3);
+				return new CreatureCard(CardName.SEGOVIAN_LEVIATHAN, Color.BLUE, attributes, 1, 4, 3, 3);
             }
         });
 
@@ -773,14 +773,14 @@ public class CardFactory {
 				List<Attribute> attributes = new LinkedList<Attribute>();
 				attributes = getDefaultCreatureAttributes();
 				attributes.remove(Attribute.TAPS_ON_ATTACK);
-				return new CreatureCard(CardName.SERRA_ANGEL, "creature", Color.WHITE, attributes, 2, 3, 4, 4);
+				return new CreatureCard(CardName.SERRA_ANGEL, Color.WHITE, attributes, 2, 3, 4, 4);
             }
         });
 
         cardImplementations.put(CardName.TERROR, new CardImplementation() {
             @Override
             public InstantCard createCard() {
-				return new InstantCard(CardName.TERROR, "instant", Color.BLACK, 1, 1,
+				return new InstantCard(CardName.TERROR, Color.BLACK, 1, 1,
 						new SpellAbility() {
 
 							private Creature target;
@@ -818,14 +818,14 @@ public class CardFactory {
 				List<Attribute> attributes = new LinkedList<Attribute>();
 				attributes = getDefaultCreatureAttributes();
 				attributes.remove(Attribute.FIRST_STRIKE);
-				return new CreatureCard(CardName.TUNDRA_WOLVES, "creature", Color.WHITE, attributes, 1, 0, 1, 1);
+				return new CreatureCard(CardName.TUNDRA_WOLVES, Color.WHITE, attributes, 1, 0, 1, 1);
             }
         });
 
         cardImplementations.put(CardName.WANDERLUST, new CardImplementation() {
             @Override
             public EnchantmentCard createCard() {
-				return new EnchantmentCard(CardName.WANDERLUST, "enchantment", Color.GREEN, 1 ,2,
+				return new EnchantmentCard(CardName.WANDERLUST, Color.GREEN, 1 ,2,
 						new AutomaticPermanentAbility() {
 							Creature target;
 
@@ -856,7 +856,7 @@ public class CardFactory {
 				attributes = getDefaultCreatureAttributes();
 				attributes.add(Attribute.FLYING);
 				attributes.remove(Attribute.TAPS_ON_ATTACK);
-				return new CreatureCard(CardName.ZEPHYR_FALCON, "creature", Color.BLUE, attributes, 1, 1, 1, 1);
+				return new CreatureCard(CardName.ZEPHYR_FALCON, Color.BLUE, attributes, 1, 1, 1, 1);
             }
         });
     }

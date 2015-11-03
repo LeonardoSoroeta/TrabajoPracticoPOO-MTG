@@ -9,8 +9,8 @@ import ar.edu.itba.Magic.Backend.Interfaces.Enum.Color;
  * Created by Martin on 31/10/2015.
  */
 public class EnchantmentCard extends Card {
-    public EnchantmentCard(CardName cardName, String cardType, Color color, Integer coloredManaCost, Integer colorlessManaCost, Ability ability) {
-        super(cardName, cardType, color, coloredManaCost, colorlessManaCost, ability);
+    public EnchantmentCard(CardName cardName, Color color, Integer coloredManaCost, Integer colorlessManaCost, Ability ability) {
+        super(cardName, color, coloredManaCost, colorlessManaCost, ability);
     }
 
     public void playCard() {

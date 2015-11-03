@@ -17,15 +17,15 @@ public class CreatureCard extends Card {
         private Integer defencePoints;
         private List<Attribute> attributes;
 
-        public CreatureCard(CardName cardName, String cardType, Color color, List<Attribute> attributes, Integer coloredManaCost, Integer colorlessManaCost, Integer attackPoints, Integer defencePoints, Ability ability) {
-            super(cardName, cardType, color, coloredManaCost, colorlessManaCost, ability);
+        public CreatureCard(CardName cardName, Color color, List<Attribute> attributes, Integer coloredManaCost, Integer colorlessManaCost, Integer attackPoints, Integer defencePoints, Ability ability) {
+            super(cardName, color, coloredManaCost, colorlessManaCost, ability);
             this.attackPoints = attackPoints;
             this.defencePoints = defencePoints;
             this.attributes = attributes;
         }
 
-        public CreatureCard(CardName cardName, String cardType, Color color, List<Attribute> attributes, Integer coloredManaCost, Integer colorlessManaCost, Integer attackPoints, Integer defencePoints) {
-            super(cardName, cardType, color, coloredManaCost, colorlessManaCost, (Ability)null);
+        public CreatureCard(CardName cardName, Color color, List<Attribute> attributes, Integer coloredManaCost, Integer colorlessManaCost, Integer attackPoints, Integer defencePoints) {
+            super(cardName, color, coloredManaCost, colorlessManaCost, (Ability)null);
             this.attackPoints = attackPoints;
             this.defencePoints = defencePoints;
             this.attributes = attributes;
