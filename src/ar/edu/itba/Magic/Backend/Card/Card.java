@@ -1,6 +1,7 @@
 package ar.edu.itba.Magic.Backend.Card;
 import ar.edu.itba.Magic.Backend.Ability;
 import ar.edu.itba.Magic.Backend.Player;
+import ar.edu.itba.Magic.Backend.Interfaces.Enum.CardName;
 import ar.edu.itba.Magic.Backend.Interfaces.Enum.Color;
 
 /**
@@ -8,14 +9,14 @@ import ar.edu.itba.Magic.Backend.Interfaces.Enum.Color;
  */
 public abstract class Card {
     private Player controller;
-    private String cardName;
+    private CardName cardName;
     private String cardType;
     private Color color;
     private Integer coloredManaCost;
     private Integer colorlessManaCost;
     private Ability ability;
 
-    public Card(String cardName, String cardType, Color color, Integer coloredManaCost, Integer colorlessManaCost, Ability ability) {
+    public Card(CardName cardName, String cardType, Color color, Integer coloredManaCost, Integer colorlessManaCost, Ability ability) {
         this.cardName = cardName;
         this.cardType = cardType;
         this.color = color;
@@ -32,7 +33,7 @@ public abstract class Card {
         return this.controller;
     }
 
-    public String getCardName() {
+    public CardName getCardName() {
         return this.cardName;
     }
 

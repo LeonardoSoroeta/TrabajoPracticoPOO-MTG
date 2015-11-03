@@ -5,6 +5,7 @@ import ar.edu.itba.Magic.Backend.Interfaces.GameStackAction;
 import ar.edu.itba.Magic.Backend.Interfaces.Enum.Color;
 import ar.edu.itba.Magic.Backend.Interfaces.Enum.Event;
 import ar.edu.itba.Magic.Backend.Interfaces.Enum.Attribute;
+import ar.edu.itba.Magic.Backend.Interfaces.Enum.CardName;
 
 import java.util.List;
 
@@ -15,14 +16,14 @@ public class Creature extends Permanent implements DamageTaking, GameStackAction
 	private int defense;
 	private Integer damageMarkers;
 																						
-	public Creature(Card sourceCard, String name, Color color, List<Attribute> attributes, Integer coloredManaCost, Integer colorlessManaCost, Integer attack, Integer defense, PermanentAbility ability) {
+	public Creature(Card sourceCard, CardName name, Color color, List<Attribute> attributes, Integer coloredManaCost, Integer colorlessManaCost, Integer attack, Integer defense, PermanentAbility ability) {
 		super(sourceCard, name, color, attributes, coloredManaCost, colorlessManaCost, ability);
 		this.attack = attack;
 		this.defense = defense;
 		this.damageMarkers = 0;
 	}
 
-	public Creature(Card sourceCard, String name, Color color, List<Attribute> attributes, Integer coloredManaCost, Integer colorlessManaCost, Integer attack, Integer defense) {
+	public Creature(Card sourceCard, CardName name, Color color, List<Attribute> attributes, Integer coloredManaCost, Integer colorlessManaCost, Integer attack, Integer defense) {
 		super(sourceCard, name, color, attributes, coloredManaCost, colorlessManaCost, null);
 		this.attack = attack;
 		this.defense = defense;

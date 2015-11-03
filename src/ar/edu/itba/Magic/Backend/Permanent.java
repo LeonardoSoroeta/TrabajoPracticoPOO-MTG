@@ -5,6 +5,7 @@ import java.util.*;
 import ar.edu.itba.Magic.Backend.Card.Card;
 import ar.edu.itba.Magic.Backend.Interfaces.Enum.Color;
 import ar.edu.itba.Magic.Backend.Interfaces.Enum.Attribute;
+import ar.edu.itba.Magic.Backend.Interfaces.Enum.CardName;
 
 /**
  * All objects currently in play are Permanents. These objects may be a Creature, an Enchantment, an Artifact or a Land.
@@ -14,7 +15,7 @@ public abstract class Permanent {
 	
 	private Card sourceCard;
 	private Player controller;
-	private String name;
+	private CardName name;
 	private Color color;
 	private Integer coloredManacost;
 	private Integer colorlessManacost;
@@ -25,7 +26,7 @@ public abstract class Permanent {
 	private List<Enchantment> attachedEnchantments = new LinkedList<Enchantment>();
 	GameEventHandler gameEventHandler = GameEventHandler.getGameEventHandler();
 	
-	public Permanent(Card sourceCard, String name, Color color, List<Attribute> attributes, Integer coloredManaCost, Integer colorlessManaCost, PermanentAbility ability) {
+	public Permanent(Card sourceCard, CardName name, Color color, List<Attribute> attributes, Integer coloredManaCost, Integer colorlessManaCost, PermanentAbility ability) {
 		this.sourceCard = sourceCard;
 		this.name = name;
 		this.attributes = attributes;
@@ -145,7 +146,7 @@ public abstract class Permanent {
 	 * 
 	 * @return String containing this permanent's name.
 	 */
-	public String getName() {
+	public CardName getName() {
 		return this.name;
 	}
 	

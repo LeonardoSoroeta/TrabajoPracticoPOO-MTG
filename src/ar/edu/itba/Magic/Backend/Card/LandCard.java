@@ -3,6 +3,7 @@ package ar.edu.itba.Magic.Backend.Card;
 import ar.edu.itba.Magic.Backend.GameEvent;
 import ar.edu.itba.Magic.Backend.GameEventHandler;
 import ar.edu.itba.Magic.Backend.Ability;
+import ar.edu.itba.Magic.Backend.Interfaces.Enum.CardName;
 import ar.edu.itba.Magic.Backend.Interfaces.Enum.Color;
 import ar.edu.itba.Magic.Backend.Interfaces.Enum.Event;
 import ar.edu.itba.Magic.Backend.Land;
@@ -14,7 +15,7 @@ import ar.edu.itba.Magic.Backend.PermanentAbility;
 public class LandCard extends Card {
     GameEventHandler gameEventHandler = GameEventHandler.getGameEventHandler();
 
-    public LandCard(String cardName, String cardType, Color color, Integer coloredManaCost, Integer colorlessManaCost, Ability ability) {
+    public LandCard(CardName cardName, String cardType, Color color, Integer coloredManaCost, Integer colorlessManaCost, Ability ability) {
         super(cardName, cardType, color, coloredManaCost, colorlessManaCost, ability);
     }
 

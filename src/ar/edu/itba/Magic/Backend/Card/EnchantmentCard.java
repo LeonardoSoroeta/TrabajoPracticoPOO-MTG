@@ -2,13 +2,14 @@ package ar.edu.itba.Magic.Backend.Card;
 import ar.edu.itba.Magic.Backend.Enchantment;
 import ar.edu.itba.Magic.Backend.Ability;
 import ar.edu.itba.Magic.Backend.PermanentAbility;
+import ar.edu.itba.Magic.Backend.Interfaces.Enum.CardName;
 import ar.edu.itba.Magic.Backend.Interfaces.Enum.Color;
 
 /**
  * Created by Martin on 31/10/2015.
  */
 public class EnchantmentCard extends Card {
-    public EnchantmentCard(String cardName, String cardType, Color color, Integer coloredManaCost, Integer colorlessManaCost, Ability ability) {
+    public EnchantmentCard(CardName cardName, String cardType, Color color, Integer coloredManaCost, Integer colorlessManaCost, Ability ability) {
         super(cardName, cardType, color, coloredManaCost, colorlessManaCost, ability);
     }
 

@@ -7,6 +7,7 @@ import ar.edu.itba.Magic.Backend.PermanentAbility;
 import ar.edu.itba.Magic.Backend.Creature;
 import ar.edu.itba.Magic.Backend.Interfaces.Enum.Color;
 import ar.edu.itba.Magic.Backend.Interfaces.Enum.Attribute;
+import ar.edu.itba.Magic.Backend.Interfaces.Enum.CardName;
 
 /**
  * Created by Martin on 31/10/2015.
@@ -16,14 +17,14 @@ public class CreatureCard extends Card {
         private Integer defencePoints;
         private List<Attribute> attributes;
 
-        public CreatureCard(String cardName, String cardType, Color color, List<Attribute> attributes, Integer coloredManaCost, Integer colorlessManaCost, Integer attackPoints, Integer defencePoints, Ability ability) {
+        public CreatureCard(CardName cardName, String cardType, Color color, List<Attribute> attributes, Integer coloredManaCost, Integer colorlessManaCost, Integer attackPoints, Integer defencePoints, Ability ability) {
             super(cardName, cardType, color, coloredManaCost, colorlessManaCost, ability);
             this.attackPoints = attackPoints;
             this.defencePoints = defencePoints;
             this.attributes = attributes;
         }
 
-        public CreatureCard(String cardName, String cardType, Color color, List<Attribute> attributes, Integer coloredManaCost, Integer colorlessManaCost, Integer attackPoints, Integer defencePoints) {
+        public CreatureCard(CardName cardName, String cardType, Color color, List<Attribute> attributes, Integer coloredManaCost, Integer colorlessManaCost, Integer attackPoints, Integer defencePoints) {
             super(cardName, cardType, color, coloredManaCost, colorlessManaCost, (Ability)null);
             this.attackPoints = attackPoints;
             this.defencePoints = defencePoints;
