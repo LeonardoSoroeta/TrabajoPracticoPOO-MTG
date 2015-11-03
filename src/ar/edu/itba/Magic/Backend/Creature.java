@@ -34,19 +34,14 @@ public class Creature extends Permanent implements DamageTaking, GameStackAction
 	 * Sends the creature to the game stack when it's Card is played.
 	 */
 	public void sendToStack(){
-		//gameStack.add(this);
+		// TODO gameStack.add(this);
 	}
 	
 	/**
 	 * Places the creature in play. Notifies the event. Executes the ability's executeOnIntroduction method.
 	 */
 	public void resolveInStack() {
-		this.getController().getPermanentsInPlay().add(this);
-		
-		gameEventHandler.notifyGameEvent(new GameEvent(Event.PERMANENT_ENTERS_PLAY, this));
-		
-		if(this.containsAbility())
-			((PermanentAbility)this.getAbility()).executeOnEntering();
+		this.getController().placePermanentInPlay(this);
 	}
 	
 	public int getAttack(){

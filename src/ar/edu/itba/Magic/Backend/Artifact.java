@@ -20,7 +20,7 @@ public class Artifact extends Permanent implements GameStackAction {
 	
 	private static List<Attribute> getDefaultArtifactAttributes() {
 		List<Attribute> attributes = new LinkedList<Attribute>();
-			//agregar
+			// TODO agregar
 		
 		return attributes;
 	}
@@ -29,17 +29,13 @@ public class Artifact extends Permanent implements GameStackAction {
 	 * Sends the artifact to the game stack when it's Card is played.
 	 */
 	public void sendToStack(){
-		//gameStack.add(this);
+		// TODO gameStack.add(this);
 	}
 	
 	/**
 	 * Places the artifact in play. Notifies the event. Executes the ability's executeOnIntroduction method.
 	 */
 	public void resolveInStack() {		
-		this.getController().getPermanentsInPlay().add(this);
-		
-		gameEventHandler.notifyGameEvent(new GameEvent(Event.PERMANENT_ENTERS_PLAY, this));
-		
-		((PermanentAbility)this.getAbility()).executeOnEntering();
+		this.getController().placePermanentInPlay(this);
 	}
 }

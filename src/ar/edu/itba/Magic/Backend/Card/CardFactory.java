@@ -137,6 +137,7 @@ public class CardFactory {
             public EnchantmentCard createCard() {
                 return new EnchantmentCard(CardName.BAD_MOON, Color.BLACK, 1, 1, 
                 		new AutomaticPermanentAbility() {
+                	
                             /**
                              * Adds Bad Moon's automatic ability to the GameEventHandler. Notifies a generic
                              * game event to get Bad Moon's ability started.
@@ -419,6 +420,25 @@ public class CardFactory {
                           });
                 }
         });
+        
+        cardImplementations.put(CardName.DARK_RITUAL, new CardImplementation() {
+            @Override
+            public InstantCard createCard() {
+				return new InstantCard(CardName.DARK_RITUAL, Color.BLACK, 1, 0,
+						new SpellAbility() {
+
+							@Override
+							public void sendToStack() {
+								// TODO gamestack.add(this)
+							}
+		
+							@Override
+							public void resolveInStack() {
+								// TODO add 3 black mana to mana pool
+							}
+				});
+            }
+        });
 
         cardImplementations.put(CardName.DESERT_TWISTER, new CardImplementation() {
             @Override
@@ -531,6 +551,24 @@ public class CardFactory {
         		});
         	}
         });
+        
+        cardImplementations.put(CardName.FROZEN_SHADE, new CardImplementation() {
+            @Override
+            public CreatureCard createCard() {
+            	List<Attribute> attributes = new LinkedList<Attribute>();
+                attributes = getDefaultCreatureAttributes();
+                return new CreatureCard(CardName.FROZEN_SHADE, Color.BLACK, attributes, 1, 2, 0, 1, 
+                		new ActivatedPermanentAbility() {
+
+							@Override
+							public void executeOnActivation() {
+								LastingEffect newEffect = new OneTurnStatModifier(this, 1, 1);
+								this.getSourcePermanent().applyLastingEffect(newEffect);
+							}
+                });
+            }
+        });
+ 
         
         cardImplementations.put(CardName.JUMP, new CardImplementation() {
             @Override
@@ -813,6 +851,51 @@ public class CardFactory {
 				attributes = getDefaultCreatureAttributes();
 				attributes.add(Attribute.SWAMPWALK);
 				return new CreatureCard(CardName.LOST_SOUL, Color.BLACK, attributes, 2, 1, 2, 1);
+            }
+        });
+        
+        cardImplementations.put(CardName.MARSH_GAS, new CardImplementation() {
+            @Override
+            public InstantCard createCard() {
+                return new InstantCard(CardName.MARSH_GAS, Color.BLACK, 1, 0, 
+                		new AutomaticSpellAbility() {
+
+							@Override
+							public void sendToStack() {
+								// TODO stack.add(this);
+							}
+
+							@Override
+							public void resolveInStack() {
+								gameEventHandler.add(this);
+							}
+
+							@Override
+							public void executeOnEvent(GameEvent gameEvent) {
+								if(gameEvent.getDescriptor().equals(Event.END_OF_TURN)) {
+									gameEventHandler.remove(this);
+	                                List<Creature> allCreatures = new LinkedList<Creature>();
+	                                allCreatures.addAll(match.getPlayer1().getCreatures());
+	                                allCreatures.addAll(match.getPlayer2().getCreatures());
+	                                for(Creature creature : allCreatures) {
+	                                	if(creature.isAffectedByAbility(this)) {
+	                                		creature.removeLastingEffectFromSourceAbility(this);
+	                                	}
+	                                }
+								}
+								else {
+									List<Creature> allCreatures = new LinkedList<Creature>();
+	                                allCreatures.addAll(match.getPlayer1().getCreatures());
+	                                allCreatures.addAll(match.getPlayer2().getCreatures());
+	                                for(Creature creature : allCreatures) {
+                                        if(!creature.isAffectedByAbility(this)) {
+                                            LastingEffect newEffect = new StaticStatModifier(this, -2, 0);  
+                                            creature.applyLastingEffect(newEffect);
+                                        }
+	                                 }
+								}
+							}
+                });
             }
         });
         

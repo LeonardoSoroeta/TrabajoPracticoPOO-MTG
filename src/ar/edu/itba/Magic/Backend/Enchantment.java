@@ -20,7 +20,7 @@ public class Enchantment extends Permanent {
 	
 	private static List<Attribute> getDefaultEnchantmentAttributes() {
 		List<Attribute> attributes = new LinkedList<Attribute>();
-			//agregar
+			//TODO agregar
 		
 		return attributes;
 	}
@@ -29,18 +29,14 @@ public class Enchantment extends Permanent {
 	 * Sends the enchantment to the game stack when it's Card is played.
 	 */
 	public void sendToStack(){
-		//gameStack.add(this);
+		//TODO gameStack.add(this);
 	}
 	
 	/**
 	 * Places the enchantment in play. Notifies the event. Executes the ability's executeOnIntroduction method.
 	 */
 	public void resolveInStack() {
-		this.getController().getPermanentsInPlay().add(this);
-		
-		gameEventHandler.notifyGameEvent(new GameEvent(Event.PERMANENT_ENTERS_PLAY, this));
-		
-		((PermanentAbility)this.getAbility()).executeOnEntering();
+		this.getController().placePermanentInPlay(this);
 	}
 
 }

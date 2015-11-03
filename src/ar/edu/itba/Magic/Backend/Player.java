@@ -113,17 +113,23 @@ public class Player implements DamageTaking {
 	
 	public void placePermanentInPlay(Permanent permanent) {
 		if(permanentsInPlay.contains(permanent)) {
-			//throw exception permanent already in play
+			// TODO throw exception permanent already in play
 		}
 		permanentsInPlay.add(permanent);
+		if(permanent.containsAbility()) {
+			permanent.getAbility().executeOnEntering();
+		}
 		gameEventHandler.notifyGameEvent(new GameEvent(Event.PERMANENT_ENTERS_PLAY, permanent));
 	}
 	
 	public void removePermanentFromPlay(Permanent permanent) {
 		if(permanentsInPlay.contains(permanent)) {
+			if(permanent.containsAbility()) {
+				permanent.getAbility().executeOnExit();
+			}
 			permanentsInPlay.remove(permanent);
 		}
-		//else throw exception permanent not in play
+		// TODO else throw exception permanent not in play
 		gameEventHandler.notifyGameEvent(new GameEvent(Event.PERMANENT_LEAVES_PLAY, permanent));
 	}
 	
