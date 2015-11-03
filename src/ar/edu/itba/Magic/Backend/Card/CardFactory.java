@@ -37,6 +37,16 @@ public class CardFactory {
 	}
 
     private void initiateCards(){
+    	
+    	cardImplementations.put(CardName.AIR_ELEMENTAL, new CardImplementation() {
+            @Override
+            public CreatureCard createCard() {
+            	List<Attribute> attributes = new LinkedList<Attribute>();
+                attributes = getDefaultCreatureAttributes();
+                attributes.add(Attribute.FLYING);
+                return new CreatureCard(CardName.AIR_ELEMENTAL, Color.BLUE, attributes, 2, 3, 4, 4);
+            }
+        });
 
     	cardImplementations.put(CardName.ASPECT_OF_WOLF, new CardImplementation() {
             @Override
@@ -476,6 +486,33 @@ public class CardFactory {
 				});
             }
         });
+        
+        cardImplementations.put(CardName.DRAIN_POWER, new CardImplementation() {
+            @Override
+            public SorceryCard createCard() {
+				return new SorceryCard(CardName.DRAIN_POWER, Color.BLUE, 2, 0,
+						new SpellAbility() {
+
+							@Override
+							public void sendToStack() {
+								// TODO Auto-generated method stub
+								
+							}
+
+							@Override
+							public void resolveInStack() {
+								Player opponent = this.getSourceCard().getController().getOpponent();
+								List<Land> opponentLands = opponent.getLands();
+								for(Land opponentLand : opponentLands) {
+									if(!opponentLand.isTapped()) {
+										opponentLand.tap();
+										// TODO agregar el mana correspondiente a mana pool de this.getController()
+									}
+								}
+							}
+				});
+            }
+        });
 
         cardImplementations.put(CardName.DURKWOOD_BOARDS, new CardImplementation() {
             @Override
@@ -520,6 +557,34 @@ public class CardFactory {
 							@Override
 							public void resolveInStack() {
 								target.destroy();
+							}
+				});
+            }
+        });
+        
+        cardImplementations.put(CardName.FLIGHT, new CardImplementation() {
+            @Override
+            public EnchantmentCard createCard() {
+				return new EnchantmentCard(CardName.FLIGHT, Color.BLUE, 1, 0,
+						new PermanentAbility() {
+							Creature target;
+							
+							@Override
+							public boolean satisfyCastingRequirements() {
+								// TODO target = selec target creature without flying
+									// return true;
+								// else
+									return false;
+							}
+
+							@Override
+							public void executeOnEntering() {
+								target.addAttribute(Attribute.FLYING);
+							}
+							
+							@Override
+							public void executeOnExit() {
+								target.removeAttribute(Attribute.FLYING);
 							}
 				});
             }
@@ -590,7 +655,6 @@ public class CardFactory {
 				});
             }
         });
-
         
         cardImplementations.put(CardName.FROZEN_SHADE, new CardImplementation() {
             @Override

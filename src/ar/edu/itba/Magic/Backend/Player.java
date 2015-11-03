@@ -17,6 +17,7 @@ public class Player implements DamageTaking {
 	private List<Card> graveyard;
 	private int health;
 	GameEventHandler gameEventHandler = GameEventHandler.getGameEventHandler();
+	Match match = Match.getMatch();
 	
 	public Player(Deck deck) {
 		this.deck = deck;
@@ -181,7 +182,6 @@ public class Player implements DamageTaking {
 		return enchantments;
 	}
 	
-	/*  no se si es objetoso esto
 	public Player getOpponent() {
 		if(this == match.getPlayer1()) {
 			return match.getPlayer2();
@@ -190,7 +190,6 @@ public class Player implements DamageTaking {
 			return match.getPlayer1();
 		}
 	}
-	*/
 	
 	public boolean containsPermanentsInPlay(Permanent permanent){
 		

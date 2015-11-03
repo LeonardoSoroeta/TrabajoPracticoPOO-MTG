@@ -6,14 +6,16 @@ package ar.edu.itba.Magic.Backend.Interfaces.Enum;
 /*
  * Red Cards:		4
  * Green Cards:		12
- * Blue Cards:		5
+ * Blue Cards:		8
  * Black Cards: 	19
  * White Cards:		9
- * Colorless Cards:	5
+ * Artifacts:		0
+ * Lands:			5
  * 
- * Total:			54
+ * Total:			57
  */
 public enum CardName {
+	AIR_ELEMENTAL,		// Blue Creature
 	ASPECT_OF_WOLF,		// Green Enchantment
     BAD_MOON,			// Black Enchantment
     BALL_LIGHTNING,		// Red Creature
@@ -29,9 +31,11 @@ public enum CardName {
     CRUSADE,			// White Enchantment
     DARK_RITUAL,		// Black Instant
     DESERT_TWISTER,		// Green Sorcery
+    DRAIN_POWER, 		// Blue Sorcery
     DURKWOOD_BOARDS,	// Green Creature
     ELVISH_ARCHERS,		// Green Creature
     FISSURE,			// Red Instant
+    FLIGHT,				// Blue Enchantment
     FLOOD,				// Blue Enchantment
     FOREST,				// Land
     FORCE_OF_NATURE,	// Green Creature
