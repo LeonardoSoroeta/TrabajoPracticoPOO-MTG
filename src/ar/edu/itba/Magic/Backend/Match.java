@@ -3,8 +3,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 import ar.edu.itba.Magic.Backend.GameEventHandler;
-import ar.edu.itba.Magic.Backend.Interfaces.Constants.Attribute;
-import ar.edu.itba.Magic.Backend.Interfaces.Constants.Event;
+import ar.edu.itba.Magic.Backend.Interfaces.Enum.Color;
+import ar.edu.itba.Magic.Backend.Interfaces.Enum.Event;
+import ar.edu.itba.Magic.Backend.Interfaces.Enum.Attribute;
 import ar.edu.itba.Magic.Backend.Player;
 import ar.edu.itba.Magic.Backend.Card.Card;
 import ar.edu.itba.Magic.Backend.Card.LandCard;

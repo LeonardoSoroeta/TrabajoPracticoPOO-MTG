@@ -3,8 +3,8 @@ package ar.edu.itba.Magic.Backend.Card;
 import ar.edu.itba.Magic.Backend.GameEvent;
 import ar.edu.itba.Magic.Backend.GameEventHandler;
 import ar.edu.itba.Magic.Backend.Ability;
-import ar.edu.itba.Magic.Backend.Interfaces.Constants.Color;
-import ar.edu.itba.Magic.Backend.Interfaces.Constants.Event;
+import ar.edu.itba.Magic.Backend.Interfaces.Enum.Color;
+import ar.edu.itba.Magic.Backend.Interfaces.Enum.Event;
 import ar.edu.itba.Magic.Backend.Land;
 import ar.edu.itba.Magic.Backend.PermanentAbility;
 

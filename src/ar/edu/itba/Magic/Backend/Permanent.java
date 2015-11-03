@@ -3,8 +3,8 @@ package ar.edu.itba.Magic.Backend;
 import java.util.*;
 
 import ar.edu.itba.Magic.Backend.Card.Card;
-import ar.edu.itba.Magic.Backend.Interfaces.Constants.Color;
-import ar.edu.itba.Magic.Backend.Interfaces.Constants.Attribute;
+import ar.edu.itba.Magic.Backend.Interfaces.Enum.Color;
+import ar.edu.itba.Magic.Backend.Interfaces.Enum.Attribute;
 
 /**
  * All objects currently in play are Permanents. These objects may be a Creature, an Enchantment, an Artifact or a Land.

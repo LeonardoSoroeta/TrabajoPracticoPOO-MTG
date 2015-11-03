@@ -6,7 +6,6 @@ import ar.edu.itba.Magic.Backend.Interfaces.Enum.Attribute;
 import ar.edu.itba.Magic.Backend.Interfaces.Enum.CardNames;
 import ar.edu.itba.Magic.Backend.Interfaces.Enum.Color;
 import ar.edu.itba.Magic.Backend.Interfaces.Enum.Event;
-import com.sun.javaws.exceptions.InvalidArgumentException;
 import ar.edu.itba.Magic.Backend.Match;
 
 import java.util.HashMap;
@@ -18,6 +17,8 @@ public class CardFactory {
 	
 	private GameEventHandler gameEventHandler = GameEventHandler.getGameEventHandler();
 	private HashMap<CardNames, CardImplementation> cardsImplementation;
+	
+	List<Attribute> attributes = new LinkedList<Attribute>();
 
 	Match match = Match.getMatch();
 	
@@ -25,7 +26,7 @@ public class CardFactory {
 	
 	private CardFactory(){
         cardsImplementation = new HashMap<>();
-        this.createCards();
+        this.initiateCards();
 	}
 	
 	public static CardFactory getCardFactory() {
@@ -45,17 +46,17 @@ public class CardFactory {
 	
 	public Card getCard(CardNames cardName){
         if(cardName != null)
-            cardsImplementation.get(cardName).CardImpllementation();
-        throw new InvalidArgumentException();
+            cardsImplementation.get(cardName).createCard();
+        throw new IllegalArgumentException();
     }
 
-    private void createCards(){
+    private void initiateCards(){
         /**
          * Blight Card Implementation. aa
          */
         cardsImplementation.put(CardNames.BLIGHT, new CardImplementation() {
             @Override
-            public EnchantmentCard CardImpllementation() {
+            public EnchantmentCard createCard() {
                 return new EnchantmentCard("Blight", "enchantment", Color.BLACK, 2, 0,
                         new AutomaticPermanentAbility() {
                             Land target;
@@ -100,7 +101,7 @@ public class CardFactory {
 
         cardsImplementation.put(CardNames.BAD_MOON, new CardImplementation() {
             @Override
-            public EnchantmentCard CardImpllementation() {
+            public EnchantmentCard createCard() {
                 return new EnchantmentCard("Bad Moon", "enchantment", Color.BLACK, 1, 1, new AutomaticPermanentAbility() {
                             /**
                              * Adds Bad Moon's automatic ability to the GameEventHandler. Notifies a generic
@@ -120,7 +121,7 @@ public class CardFactory {
                                 for(Permanent permanent : permanents) {
                                     if(permanent instanceof Creature) {
                                         if(permanent.getColor().equals(Color.BLACK))
-                                            if(permanent.affectedByAbility(this)) {
+                                            if(permanent.isAffectedByAbility(this)) {
                                                 permanent.removeLastingEffectFromSourceAbility(this);
                                             }
                                     }
@@ -139,7 +140,7 @@ public class CardFactory {
                                 for(Permanent permanent : permanents) {
                                     if(permanent instanceof Creature) {
                                         if(permanent.getColor().equals(Color.BLACK))
-                                            if(!permanent.affectedByAbility(this)) {
+                                            if(!permanent.isAffectedByAbility(this)) {
                                                 LastingEffect newEffect = new LastingEffect(this) {
                                                     @Override
                                                     public void applyEffect() {
@@ -163,8 +164,7 @@ public class CardFactory {
 
         cardsImplementation.put(CardNames.BALL_LIGHTNING, new CardImplementation() {
             @Override
-            public CreatureCard CardImpllementation() {
-                List<Attribute> attributes = new LinkedList();
+            public CreatureCard createCard() {
                 attributes = getDefaultCreatureAttributes();
                 attributes.add(Attribute.TRAMPLE);
                 attributes.remove(Attribute.SUMMONING_SICKNESS);
@@ -175,8 +175,7 @@ public class CardFactory {
 
         cardsImplementation.put(CardNames.BIRD_MAIDEN, new CardImplementation() {
             @Override
-            public CreatureCard CardImpllementation() {
-                List<Attribute> attributes = new LinkedList();
+            public CreatureCard createCard() {
                 attributes = getDefaultCreatureAttributes();
                 attributes.add(Attribute.FLYING);
                 return new CreatureCard("Bird Maiden", "creature", Color.RED, attributes, 1, 2, 1, 2);
@@ -745,4 +744,5 @@ public class CardFactory {
 //		}
 //	}
 //
+    }
 }

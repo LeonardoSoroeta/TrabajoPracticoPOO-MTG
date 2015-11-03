@@ -2,11 +2,7 @@ package ar.edu.itba.Magic.Backend;
 
 import ar.edu.itba.Magic.Backend.Card.Card;
 import ar.edu.itba.Magic.Backend.Interfaces.DamageTaking;
-import ar.edu.itba.Magic.Backend.Interfaces.Constants.Event;
-
-import com.sun.org.apache.xerces.internal.impl.xpath.regex.Match;
-
-import java.util.Collections;
+import ar.edu.itba.Magic.Backend.Interfaces.Enum.Event;
 import java.util.LinkedList;
 import java.util.List;
 

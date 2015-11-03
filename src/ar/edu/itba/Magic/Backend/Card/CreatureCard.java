@@ -5,8 +5,8 @@ import java.util.List;
 import ar.edu.itba.Magic.Backend.Ability;
 import ar.edu.itba.Magic.Backend.PermanentAbility;
 import ar.edu.itba.Magic.Backend.Creature;
-import ar.edu.itba.Magic.Backend.Interfaces.Constants.Attribute;
-import ar.edu.itba.Magic.Backend.Interfaces.Constants.Color;
+import ar.edu.itba.Magic.Backend.Interfaces.Enum.Color;
+import ar.edu.itba.Magic.Backend.Interfaces.Enum.Attribute;
 
 /**
  * Created by Martin on 31/10/2015.

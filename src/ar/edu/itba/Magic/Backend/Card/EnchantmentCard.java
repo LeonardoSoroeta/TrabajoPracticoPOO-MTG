@@ -1,8 +1,8 @@
 package ar.edu.itba.Magic.Backend.Card;
 import ar.edu.itba.Magic.Backend.Enchantment;
 import ar.edu.itba.Magic.Backend.Ability;
-import ar.edu.itba.Magic.Backend.Interfaces.Constants.Color;
 import ar.edu.itba.Magic.Backend.PermanentAbility;
+import ar.edu.itba.Magic.Backend.Interfaces.Enum.Color;
 
 /**
  * Created by Martin on 31/10/2015.
