@@ -51,7 +51,7 @@ public class CardFactory {
 
     private void createCards(){
         /**
-         * Blight Card Implementation.
+         * Blight Card Implementation. aa
          */
         cardsImplementation.put(CardNames.BLIGHT, new CardImplementation() {
             @Override
