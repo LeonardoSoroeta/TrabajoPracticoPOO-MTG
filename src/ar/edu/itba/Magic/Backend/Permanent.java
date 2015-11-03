@@ -253,7 +253,7 @@ public abstract class Permanent {
 	 * Untaps this permanent, only if it contains  UNTAPS_DURING_UPKEEP attribute and is already tapped.
 	 */
 	public void untap() {
-		if(this.containsAttribute(Attribute. UNTAPS_DURING_UPKEEP) && this.isTapped() == true)
+		if(this.isTapped() == false)
 			tapped = true;
 		else
 			System.out.println("no se puede untapear!"); //TODO cambiar esto
