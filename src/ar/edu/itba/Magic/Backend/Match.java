@@ -19,9 +19,7 @@ public class Match {
 	private Player player1;
 	private Player player2;
 	private Player activePlayer;
-	
-	private boolean landCastedThisTurn = false;
-	
+		
 	private Match() {
 		
 	}
@@ -71,8 +69,6 @@ public class Match {
 	
 	public void playTurn() {
 		
-		
-					
 		beginningPhase();
 		mainPhase();
 		combatPhase();
@@ -83,25 +79,22 @@ public class Match {
 	public void beginningPhase() {
 		eventHandler.notifyGameEvent(new GameEvent(Event.UNTAP_STEP, activePlayer));
 		//for all cards in play that contain attribute can_untap -> untap
-		untapPermanents();
+
 		eventHandler.notifyGameEvent(new GameEvent(Event.UPKEEP_STEP, activePlayer));
 		//players play instants and activated abilities...
 		
 		eventHandler.notifyGameEvent(new GameEvent(Event.DRAW_CARD_STEP, activePlayer));
 		//draw card(s)...
 		//players play instants and activated abilities...
-		drawCard(activePlayer);
 	}
 	
-	public void untapPermanents(){
+	public void untapDuringUnkeep(){
 		for(Permanent each : activePlayer.getPermanentsInPlay()){
 			if(each.isTapped() && each.containsAttribute(Attribute.UNTAPS_DURING_UPKEEP)){
 				each.untap();
 			}
 		}
-	}
-	 
-	
+	}	
 	
 	public void drawCard(Player player){
 		Card aux = player.getDeck().getCard();
@@ -112,18 +105,7 @@ public class Match {
 		player.getManaPool().increaseMana(permanent.getColor());
 		player.getPermanentInPlay(permanent).tap();
 	}
-	
-	public void mainPhasePlayCard(Card card, Player player){
-		if(card.getClass().equals(LandCard.class)){
-			if(!landCastedThisTurn){
-				this.playCard(card, player);
-				landCastedThisTurn = true;
-			}
-		}else{
-			this.playCard(card, player);
-		}
-	}
-	
+		
 	public void playAbility(Permanent permanent, ActivatedPermanentAbility ablility, Player player){
 		player.getPermanentInPlay(permanent).getAbility().executeOnActivation();
 	}
@@ -132,8 +114,12 @@ public class Match {
 		player.getHand().remove(card);
 		card.playCard();
 	}
-	
 
+	public void discardCard(Card card, Player player){
+		player.getHand().remove(card);
+		player.getGraveyard().add(card);
+	}
+	
 	public void mainPhase() {
 		eventHandler.notifyGameEvent(new GameEvent(Event.MAIN_PHASE, activePlayer));
 		//active player casts spells & activated abilities / other players casts instants & activated abilities
