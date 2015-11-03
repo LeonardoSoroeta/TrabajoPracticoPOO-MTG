@@ -1,4 +1,4 @@
-package ar.edu.itba.Magic.Backend.Interfaces.Constants;
+package ar.edu.itba.Magic.Backend.Interfaces.Enum;
 
 /**
  * Created by Martin on 29/10/2015.

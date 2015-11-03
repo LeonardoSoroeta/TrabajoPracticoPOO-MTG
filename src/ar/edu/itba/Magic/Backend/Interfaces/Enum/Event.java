@@ -1,4 +1,4 @@
-package ar.edu.itba.Magic.Backend.Interfaces.Constants;
+package ar.edu.itba.Magic.Backend.Interfaces.Enum;
 
 public enum Event {
 	GENERIC_EVENT,
