@@ -15,61 +15,69 @@ package ar.edu.itba.Magic.Backend.Interfaces.Enum;
  * Total:			57
  */
 public enum CardName {
-	AIR_ELEMENTAL,		// Blue Creature
-	ASPECT_OF_WOLF,		// Green Enchantment
-    BAD_MOON,			// Black Enchantment
-    BALL_LIGHTNING,		// Red Creature
-    BIRD_MAIDEN,		// Red Creature
-    BIRDS_OF_PARADISE,	// Green Creature
-    BLIGHT,				// Black Enchantment
-    BLOOD_LUST,			// Red Instant
-    BOG_IMP,			// Black Creature
-    CARNIVOROUS_PLANT,	// Green Creature
-    CARRION_ANTS,		// Black Creature
-    CRAW_WURM,			// Green Creature
-    CRUMBLE,			// Green Instant
-    CRUSADE,			// White Enchantment
-    DARK_RITUAL,		// Black Instant
-    DESERT_TWISTER,		// Green Sorcery
-    DRAIN_POWER, 		// Blue Sorcery
-    DURKWOOD_BOARDS,	// Green Creature
-    ELVISH_ARCHERS,		// Green Creature
-    FISSURE,			// Red Instant
-    FLIGHT,				// Blue Enchantment
-    FLOOD,				// Blue Enchantment
-    FOREST,				// Land
-    FORCE_OF_NATURE,	// Green Creature
-    FROZEN_SHADE,		// Black Creature
-    HOLY_STRENGTH,		// White Enchantment
-    HOWL_FROM_BEYOND,	// Black Instant
-    ISLAND,				// Land
-    JUMP,				// Blue Instant
-    JUNUN_EFREET,		// Black Creature
-    KARMA,				// White Enchantment
-    KISMET,				// White Enchantment
-    LANCE,				// White Enchantment
-    LAND_LEECHES,		// Green Creature
-    LORD_OF_THE_PIT,	// Black Creature
-    LOST_SOUL,			// Black Creature
-    MARSH_GAS,			// Black Instant
-    MOUNTAIN,			// Land
-    NIGHTMARE,			// Black Creature
-    PARALYZE,			// Black Enchantment
-    PEARLED_UNICORN,	// White Creature
-    PLAINS,				// Land
-    RADJAN_SPIRIT,		// Green Creature
-    ROYAL_ASSASIN,		// Black Creature
-    SAVANNAH_LIONS,		// White Creature
-    SEGOVIAN_LEVIATHAN,	// Blue Creature
-    SERRA_ANGEL,		// White Creature
-    SINKHOLE,			// Black Sorcery
-    SWAMP,				// Land
-    TERROR,				// Black Instant
-    TUNDRA_WOLVES,		// White Creature
-    UNHOLY_STRENGTH,	// Black Enchantment
-    UNSTABLE_MUTATION,	// Blue Enchantment
-    WANDERLUST,			// Green Enchantment
-    WARP_ARTIFACT,		// Black Enchantment
-    WEAKNESS,			// Black Enchantment
-    ZEPHYR_FALCON,		// Blue Creature
+	
+	AIR_ELEMENTAL("Air Elemental"),				// Blue Creature
+	ASPECT_OF_WOLF("Aspect of Wolf"),			// Green Enchantment
+    BAD_MOON("Bad Moon"),						// Black Enchantment
+    BALL_LIGHTNING("Ball Lightning"),			// Red Creature
+    BIRD_MAIDEN("Bird Maiden"),					// Red Creature
+    BIRDS_OF_PARADISE("Birds of Paradise"),		// Green Creature
+    BLIGHT("Blight"),							// Black Enchantment
+    BLOOD_LUST("Blood Lust"),					// Red Instant
+    BOG_IMP("Bog Imp"),							// Black Creature
+    CARNIVOROUS_PLANT("Carnivorous Plant"),		// Green Creature
+    CARRION_ANTS("Carrion Ants"),				// Black Creature
+    CRAW_WURM("Craw Wurm"),						// Green Creature
+    CRUMBLE("Crumble"),							// Green Instant
+    CRUSADE("Crusade"),							// White Enchantment
+    DARK_RITUAL("Dark Ritual"),					// Black Instant
+    DESERT_TWISTER("Desert Twister"),			// Green Sorcery
+    DRAIN_POWER("Drain Power"), 				// Blue Sorcery
+    DURKWOOD_BOARS("Durkwood Boars"),			// Green Creature
+    ELVISH_ARCHERS("Elvish Archers"),			// Green Creature
+    FISSURE("Fissure"),							// Red Instant
+    FLIGHT("Flight"),							// Blue Enchantment
+    FLOOD("Flood"),								// Blue Enchantment
+    FOREST("Forest"),							// Land
+    FORCE_OF_NATURE("Force of Nature"),			// Green Creature
+    FROZEN_SHADE("Frozen Shade"),				// Black Creature
+    HOLY_STRENGTH("Holy Strength"),				// White Enchantment
+    HOWL_FROM_BEYOND("Howl from Beyond"),		// Black Instant
+    ISLAND("Island"),							// Land
+    JUMP("Jump"),								// Blue Instant
+    JUNUN_EFREET("Junun Efreet"),				// Black Creature
+    KARMA("Karma"),								// White Enchantment
+    KISMET("Kismet"),							// White Enchantment
+    LANCE("Lance"),								// White Enchantment
+    LAND_LEECHES("Land Leeches"),				// Green Creature
+    LORD_OF_THE_PIT("Lord of the Pit"),			// Black Creature
+    LOST_SOUL("Lost Soul"),						// Black Creature
+    MARSH_GAS("Marsh Gas"),						// Black Instant
+    MOUNTAIN("Mountain"),						// Land
+    NIGHTMARE("Nightmare"),						// Black Creature
+    PARALYZE("Paralyze"),						// Black Enchantment
+    PEARLED_UNICORN("Pearled Unicorn"),			// White Creature
+    PLAINS("Plains"),							// Land
+    RADJAN_SPIRIT("Radjan Spirit"),				// Green Creature
+    ROYAL_ASSASIN("Royal Assassin"),			// Black Creature
+    SAVANNAH_LIONS("Savannah Lions"),			// White Creature
+    SEGOVIAN_LEVIATHAN("Segovian Leviathan"),	// Blue Creature
+    SERRA_ANGEL("Serra Angel"),					// White Creature
+    SINKHOLE("Sinkhole"),						// Black Sorcery
+    SWAMP("Swamp"),								// Land
+    TERROR("Terror"),							// Black Instant
+    TUNDRA_WOLVES("Tundra Wolves"),				// White Creature
+    UNHOLY_STRENGTH("Unholy Strength"),			// Black Enchantment
+    UNSTABLE_MUTATION("Unstable Mutation"),		// Blue Enchantment
+    WANDERLUST("Wanderlust"),					// Green Enchantment
+    WARP_ARTIFACT("Warp Artifact"),				// Black Enchantment
+    WEAKNESS("Weakness"),						// Black Enchantment
+    ZEPHYR_FALCON("Zephyr Falcon");				// Blue Creature
+	
+	String cardName;
+	
+	private CardName(String cardName) {
+		this.cardName = cardName;
+	}
+	
 }

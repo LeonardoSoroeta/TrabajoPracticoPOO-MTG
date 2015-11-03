@@ -514,12 +514,12 @@ public class CardFactory {
             }
         });
 
-        cardImplementations.put(CardName.DURKWOOD_BOARDS, new CardImplementation() {
+        cardImplementations.put(CardName.DURKWOOD_BOARS, new CardImplementation() {
             @Override
             public CreatureCard createCard() {
 				List<Attribute> attributes = new LinkedList<Attribute>();
 				attributes = getDefaultCreatureAttributes();
-				return new CreatureCard(CardName.DURKWOOD_BOARDS, Color.GREEN, attributes, 1, 4, 4 ,4);
+				return new CreatureCard(CardName.DURKWOOD_BOARS, Color.GREEN, attributes, 1, 4, 4 ,4);
             }
         });
 
