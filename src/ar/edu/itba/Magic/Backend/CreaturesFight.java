@@ -1,10 +1,9 @@
-package src.ar.edu.itba.Magic.Backend;
+package ar.edu.itba.Magic.Backend;
 
+import ar.edu.itba.Magic.Backend.Interfaces.Enum.Attribute;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import com.sun.org.apache.bcel.internal.classfile.Attribute;
 
 import ar.edu.itba.Magic.Backend.Creature;
 import ar.edu.itba.Magic.Backend.Land;
@@ -26,14 +25,16 @@ public class CreaturesFight {
 			
 			
 			// el attacker pega si puede
-				if( (attacker.containsAttribute(CAN_FLY) && defender.containsAttribute(CAN_FLY)) || !defender.containsAttribute(CAN_FLY))
+			
+				if( (attacker.containsAttribute(Attribute.FLYING) && defender.containsAttribute(Attribute.FLYING)) || !defender.containsAttribute(Attribute.FLYING))
 				defender.takeDamage(attacker.getAttack());
 				
 				
 			// el defender pega si puede
-				if (defender.containsAttribute(CAN_FLY) || (!defender.containsAttribute(CAN_FLY) && !defender.containsAttribute(CAN_FLY)) || defender.containsAttribute(REACH) || !attackerWalk( attacker, def) ){
+				
+				if (defender.containsAttribute(Attribute.FLYING) || (!defender.containsAttribute(Attribute.FLYING) && !defender.containsAttribute(Attribute.FLYING)) || defender.containsAttribute(Attribute.REACH) || !attackerWalk( attacker, def) ){
 		
-					if( attacker.containsAttribute(FIRST_ATTACK)){
+					if( attacker.containsAttribute(Attribute.FIRST_STRIKE)){
 					
 						if(defender.getDefense() < defender.getDamageMarker() )
 							attacker.takeDamage(defender.getAttack());
@@ -48,21 +49,21 @@ public class CreaturesFight {
 				int defdam = defender.getDamageMarker() - defender.getDefense();
 				int attdam = attacker.getDamageMarker() - attacker.getDefense();
 				
-				if( attacker.containsAttribute(TRAMPLE)){
+				if( attacker.containsAttribute(Attribute.TRAMPLE)){
 					
 					if( defdam > 0)
-						def.decreaseHealth(aux);
+						def.decreaseHealth(defdam);
 				}
 				
-				if( defender.containsAttribute(ar.edu.itba.Magic.Backend.Interfaces.Enum.Attribute.TRAMPLE)){
+				if( defender.containsAttribute(Attribute.TRAMPLE)){
 				
 					if( attdam > 0)
-						att.decreaseHealth(aux);
+						att.decreaseHealth(attdam);
 				}
 				
 				
 				// tapea si tiene que
-				if( attacker.containsAttribute(TAP_ON_ATTACK)){
+				if( attacker.containsAttribute(Attribute.TAPS_ON_ATTACK)){
 					attacker.tap();
 				}
 		
@@ -80,11 +81,11 @@ public class CreaturesFight {
 	public boolean attackerWalk( Creature creature, Player defensor){
 		
 		List<Attribute> walks= new ArrayList();
-		walks.add(SWAMP_WALK);
-		walks.add(WALK2);
-		walks.add(WALK3);
-		walks.add(WALK4);
-		walks.add(WALK5);
+		walks.add(Attribute.FORESTWALK);
+		walks.add(Attribute.ISLANDWALK);
+		walks.add(Attribute.MOUNTAINWALK);
+		walks.add(Attribute.PLAINSWALK);
+		walks.add(Attribute.SWAMPWALK);
 		
 		for( Attribute walk: walks){
 			for( Land land: defensor.getLands())

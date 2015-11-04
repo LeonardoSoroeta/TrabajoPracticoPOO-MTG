@@ -82,6 +82,10 @@ public class Creature extends Permanent implements DamageTaking, GameStackAction
 		damageMarkers += damage;
 	}
 	
+	public int getDamageMarker() {		
+		return damageMarkers;
+	}
+	
 	
 	public void resetDamageMarkers() {
 		damageMarkers = 0;
