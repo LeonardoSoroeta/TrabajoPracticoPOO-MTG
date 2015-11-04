@@ -126,7 +126,7 @@ public class Player implements DamageTaking {
 		if(permanent.containsAbility()) {
 			permanent.getAbility().executeOnEntering();
 		}
-		gameEventHandler.notifyGameEvent(new GameEvent(Event.PERMANENT_ENTERS_PLAY, permanent));
+		gameEventHandler.triggerGameEvent(new GameEvent(Event.PERMANENT_ENTERS_PLAY, permanent));
 	}
 	
 	public void removePermanentFromPlay(Permanent permanent) {
@@ -137,7 +137,7 @@ public class Player implements DamageTaking {
 			permanentsInPlay.remove(permanent);
 		}
 		// TODO else throw exception permanent not in play
-		gameEventHandler.notifyGameEvent(new GameEvent(Event.PERMANENT_LEAVES_PLAY, permanent));
+		gameEventHandler.triggerGameEvent(new GameEvent(Event.PERMANENT_LEAVES_PLAY, permanent));
 	}
 	
 	public List<Creature> getCreatures() {

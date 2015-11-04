@@ -66,13 +66,13 @@ public class CardFactory {
 							@Override
 							public void executeOnEntering() {
 								previousForests = 0;
-								gameEventHandler.add(this);
-								gameEventHandler.notifyGameEvent(new GameEvent(Event.GENERIC_EVENT));
+								gameEventHandler.addListener(this);
+								gameEventHandler.triggerGameEvent(new GameEvent(Event.GENERIC_EVENT));
 							}
 							
 							@Override
 							public void executeOnExit() {
-								gameEventHandler.remove(this);
+								gameEventHandler.removeListener(this);
 							}
 					
 							@Override
@@ -109,12 +109,12 @@ public class CardFactory {
                              */
                             @Override
                             public void executeOnEntering() {
-                                gameEventHandler.add(this);
+                                gameEventHandler.addListener(this);
                             }
 
                             @Override
                             public void executeOnExit() {
-                                gameEventHandler.remove(this);
+                                gameEventHandler.removeListener(this);
                                 List<Creature> allCreatures = new LinkedList<Creature>();
                                 allCreatures.addAll(match.getPlayer1().getCreatures());
                                 allCreatures.addAll(match.getPlayer2().getCreatures());
@@ -207,12 +207,12 @@ public class CardFactory {
                             @Override
                             public void executeOnEntering() {
                                 target.addAttachedEnchantment((Enchantment) this.getSourcePermanent());
-                                gameEventHandler.add(this);
+                                gameEventHandler.addListener(this);
                             }
 
                             @Override
                             public void executeOnExit() {
-                                gameEventHandler.remove(this);
+                                gameEventHandler.removeListener(this);
                                 target.removeAttachedEnchantment((Enchantment) this.getSourcePermanent());
                             }
 
@@ -399,12 +399,12 @@ public class CardFactory {
                              */
                             @Override
                             public void executeOnEntering() {
-                                gameEventHandler.add(this);
+                                gameEventHandler.addListener(this);
                             }
 
                             @Override
                             public void executeOnExit() {
-                                gameEventHandler.remove(this);
+                                gameEventHandler.removeListener(this);
                                 List<Creature> allCreatures = new LinkedList<Creature>();
                                 allCreatures.addAll(match.getPlayer1().getCreatures());
                                 allCreatures.addAll(match.getPlayer2().getCreatures());
@@ -636,12 +636,12 @@ public class CardFactory {
 
 							@Override 
 							public void executeOnEntering() {
-								gameEventHandler.add(this);
+								gameEventHandler.addListener(this);
 							}
 							
 							@Override
 							public void executeOnExit() {
-								gameEventHandler.remove(this);
+								gameEventHandler.removeListener(this);
 							}
 					
 							@Override
@@ -811,12 +811,12 @@ public class CardFactory {
 						new AutomaticPermanentAbility() {
 							@Override
 							public void executeOnEntering() {
-								gameEventHandler.add(this);
+								gameEventHandler.addListener(this);
 							}
 
 							@Override
 							public void executeOnExit() {
-								gameEventHandler.remove(this);
+								gameEventHandler.removeListener(this);
 							}
 
 							@Override
@@ -850,12 +850,12 @@ public class CardFactory {
 
 							@Override
 							public void executeOnEntering() {
-								gameEventHandler.add(this);
+								gameEventHandler.addListener(this);
 							}
 
 							@Override
 							public void executeOnExit() {
-								gameEventHandler.remove(this);
+								gameEventHandler.removeListener(this);
 							}
 
 							@Override
@@ -927,12 +927,12 @@ public class CardFactory {
 							 */
 							@Override
 							public void executeOnEntering() {
-								gameEventHandler.add(this);
+								gameEventHandler.addListener(this);
 							}
 							
 							@Override
 							public void executeOnExit() {
-								gameEventHandler.remove(this);
+								gameEventHandler.removeListener(this);
 							}
 
 							/**
@@ -975,13 +975,13 @@ public class CardFactory {
 
 							@Override
 							public void resolveInStack() {
-								gameEventHandler.add(this);
+								gameEventHandler.addListener(this);
 							}
 
 							@Override
 							public void executeOnEvent(GameEvent gameEvent) {
 								if(gameEvent.getDescriptor().equals(Event.END_OF_TURN)) {
-									gameEventHandler.remove(this);
+									gameEventHandler.removeListener(this);
 	                                List<Creature> allCreatures = new LinkedList<Creature>();
 	                                allCreatures.addAll(match.getPlayer1().getCreatures());
 	                                allCreatures.addAll(match.getPlayer2().getCreatures());
@@ -1036,8 +1036,8 @@ public class CardFactory {
 							 */
 							@Override
 							public void executeOnEntering() {
-								gameEventHandler.add(this);
-								gameEventHandler.notifyGameEvent(new GameEvent(Event.GENERIC_EVENT));
+								gameEventHandler.addListener(this);
+								gameEventHandler.triggerGameEvent(new GameEvent(Event.GENERIC_EVENT));
 							}
 
 							/**
@@ -1078,7 +1078,7 @@ public class CardFactory {
 
 							@Override
 							public void executeOnEntering() {
-								gameEventHandler.add(this);
+								gameEventHandler.addListener(this);
 								target.addAttachedEnchantment((Enchantment)this.getSourcePermanent());
 								LastingEffect newEffect = new LastingEffect(this) {
 
@@ -1101,7 +1101,7 @@ public class CardFactory {
 							public void executeOnExit() {
 								target.removeLastingEffectFromSourceAbility(this);
 								target.removeAttachedEnchantment((Enchantment)this.getSourcePermanent());
-								gameEventHandler.remove(this);
+								gameEventHandler.removeListener(this);
 							}
 
 							@Override
@@ -1221,12 +1221,12 @@ public class CardFactory {
 
 							@Override
 							public void executeOnEntering() {
-								gameEventHandler.add(this);
+								gameEventHandler.addListener(this);
 							}
 							
 							@Override
 							public void executeOnExit() {
-								gameEventHandler.remove(this);
+								gameEventHandler.removeListener(this);
 							}
 					
 							@Override
@@ -1341,12 +1341,12 @@ public class CardFactory {
                 	
                             @Override
                             public void executeOnEntering() {
-                                gameEventHandler.add(this);
+                                gameEventHandler.addListener(this);
                             }
 
                             @Override
                             public void executeOnExit() {
-                                gameEventHandler.remove(this);
+                                gameEventHandler.removeListener(this);
                                 List<Creature> allCreatures = new LinkedList<Creature>();
                                 allCreatures.addAll(match.getPlayer1().getCreatures());
                                 allCreatures.addAll(match.getPlayer2().getCreatures());
@@ -1485,14 +1485,14 @@ public class CardFactory {
                             
                             @Override
                             public void executeOnEntering() {
-                            	gameEventHandler.add(this);
+                            	gameEventHandler.addListener(this);
                             	startingBuff = new StaticStatModifier(this, 3, 3);
                             	target.applyLastingEffect(startingBuff);
                             }
                             
                             @Override
                             public void executeOnExit() {
-                            	gameEventHandler.remove(this);
+                            	gameEventHandler.removeListener(this);
                             	target.removeLastingEffect(startingBuff);
                             }
 

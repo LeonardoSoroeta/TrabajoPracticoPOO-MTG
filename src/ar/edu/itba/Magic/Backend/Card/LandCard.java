@@ -26,7 +26,7 @@ public class LandCard extends Card {
             land.setController(this.getController());
             land.getController().getHand().remove(this);
             land.getController().getPermanentsInPlay().add(land);
-            this.gameEventHandler.notifyGameEvent(new GameEvent(Event.PERMANENT_ENTERS_PLAY, land));
+            this.gameEventHandler.triggerGameEvent(new GameEvent(Event.PERMANENT_ENTERS_PLAY, land));
             land.getAbility().executeOnEntering();
         }
 

@@ -48,7 +48,7 @@ public abstract class Permanent {
 		lastingEffect.setTarget(this);
 		lastingEffect.applyEffect();
 		if(lastingEffect instanceof AutomaticLastingEffect) {
-			gameEventHandler.add((AutomaticLastingEffect)lastingEffect);
+			gameEventHandler.addListener((AutomaticLastingEffect)lastingEffect);
 		}
 	}
 	
@@ -62,7 +62,7 @@ public abstract class Permanent {
 		appliedLastingEffects.remove(lastingEffect);
 		lastingEffect.undoEffect();
 		if(lastingEffect instanceof AutomaticLastingEffect) {
-			gameEventHandler.remove((AutomaticLastingEffect)lastingEffect);
+			gameEventHandler.removeListener((AutomaticLastingEffect)lastingEffect);
 		}
 	}
 	
@@ -79,7 +79,7 @@ public abstract class Permanent {
     			lastingEffect.undoEffect();
     			appliedLastingEffects.remove(lastingEffect);
     			if(lastingEffect instanceof AutomaticLastingEffect) {
-    				gameEventHandler.remove((AutomaticLastingEffect)lastingEffect);
+    				gameEventHandler.removeListener((AutomaticLastingEffect)lastingEffect);
     			}
     		}
     	}
