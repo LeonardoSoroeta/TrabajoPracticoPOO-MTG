@@ -1,8 +1,8 @@
 package ar.edu.itba.Magic.Backend;
 
-import ar.edu.itba.Magic.Backend.Interfaces.ExecutesOnEvent;
+import ar.edu.itba.Magic.Backend.Interfaces.EventObserver;
 
-public abstract class AutomaticSpellAbility extends SpellAbility implements ExecutesOnEvent {
+public abstract class AutomaticSpellAbility extends SpellAbility implements EventObserver {
 
 	public abstract void sendToStack();
 	

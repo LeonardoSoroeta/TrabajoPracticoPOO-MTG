@@ -1,9 +1,9 @@
 package ar.edu.itba.Magic.Backend;
 
-import ar.edu.itba.Magic.Backend.Interfaces.Activation;
-import ar.edu.itba.Magic.Backend.Interfaces.ExecutesOnEvent;
+import ar.edu.itba.Magic.Backend.Interfaces.Activator;
+import ar.edu.itba.Magic.Backend.Interfaces.EventObserver;
 
-public abstract class ActivatedAutomaticPermanentAbility extends PermanentAbility implements Activation, ExecutesOnEvent {
+public abstract class ActivatedAutomaticPermanentAbility extends PermanentAbility implements Activator, EventObserver {
 
 	public abstract void executeOnEvent(GameEvent gameEvent);
 	

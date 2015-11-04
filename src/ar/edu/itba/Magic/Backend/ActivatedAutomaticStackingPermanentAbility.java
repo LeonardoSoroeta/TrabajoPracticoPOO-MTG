@@ -1,10 +1,10 @@
 package ar.edu.itba.Magic.Backend;
 
-import ar.edu.itba.Magic.Backend.Interfaces.Activation;
-import ar.edu.itba.Magic.Backend.Interfaces.ExecutesOnEvent;
+import ar.edu.itba.Magic.Backend.Interfaces.Activator;
+import ar.edu.itba.Magic.Backend.Interfaces.EventObserver;
 import ar.edu.itba.Magic.Backend.Interfaces.GameStackAction;
 
-public abstract class ActivatedAutomaticStackingPermanentAbility extends PermanentAbility implements Activation, ExecutesOnEvent, GameStackAction {
+public abstract class ActivatedAutomaticStackingPermanentAbility extends PermanentAbility implements Activator, EventObserver, GameStackAction {
 
 	public abstract void executeOnEvent(GameEvent gameEvent);
 	

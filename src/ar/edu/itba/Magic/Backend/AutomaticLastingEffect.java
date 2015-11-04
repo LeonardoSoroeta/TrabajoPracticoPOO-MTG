@@ -1,12 +1,12 @@
 package ar.edu.itba.Magic.Backend;
 
-import ar.edu.itba.Magic.Backend.Interfaces.ExecutesOnEvent;
+import ar.edu.itba.Magic.Backend.Interfaces.EventObserver;
 
 /**
  * AutomaticLastingEffect is a LastingEffect that takes on the responsiblity of removing itself 
  * on a specific GameEvent.
  */
-public abstract class AutomaticLastingEffect extends LastingEffect implements ExecutesOnEvent {
+public abstract class AutomaticLastingEffect extends LastingEffect implements EventObserver {
 	
 	public AutomaticLastingEffect(Ability sourceAbility) {
 		super(sourceAbility);

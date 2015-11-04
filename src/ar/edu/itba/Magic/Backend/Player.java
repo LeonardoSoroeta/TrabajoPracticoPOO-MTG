@@ -63,6 +63,18 @@ public class Player implements DamageTaking {
 		return deck;
 	}
 	
+	public Card drawCard() {
+		Card card = deck.getCard();
+		this.placeCardInHand(card);
+		
+		return card;
+	}
+	
+	public void discardCard(Card card) {
+		this.removeCardFromHand(card);
+		this.placeCardInGraveyard(card);
+	}
+	
 	public List<Card> getHand() {
 		List<Card> hand = new LinkedList<Card>();
 		hand.addAll(this.hand);

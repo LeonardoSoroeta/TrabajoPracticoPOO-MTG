@@ -929,6 +929,11 @@ public class CardFactory {
 							public void executeOnEntering() {
 								gameEventHandler.add(this);
 							}
+							
+							@Override
+							public void executeOnExit() {
+								gameEventHandler.remove(this);
+							}
 
 							/**
 							 * Activates on Lord of the Pit's controller's upkeep. Requires the player to sacrifice
@@ -1206,6 +1211,58 @@ public class CardFactory {
             }
         });
         
+        cardImplementations.put(CardName.SEA_SERPENT, new CardImplementation() {
+            @Override
+            public CreatureCard createCard() {
+				List<Attribute> attributes = new LinkedList<Attribute>();
+				attributes = getDefaultCreatureAttributes();
+				return new CreatureCard(CardName.SEA_SERPENT, Color.BLUE, attributes, 1, 5, 5, 5, 
+						new AutomaticPermanentAbility() {
+
+							@Override
+							public void executeOnEntering() {
+								gameEventHandler.add(this);
+							}
+							
+							@Override
+							public void executeOnExit() {
+								gameEventHandler.remove(this);
+							}
+					
+							@Override
+							public void executeOnEvent(GameEvent gameEvent) {
+								boolean destroyThis = true;
+								boolean opponentHasIsland = false;
+								List<Land> lands = this.getSourcePermanent().getController().getLands();
+								for(Land land : lands) {
+									if(land.getName().equals(CardName.ISLAND)) {
+										destroyThis = false;
+									}
+								}
+								if(destroyThis == true) {
+									this.getSourcePermanent().destroy();
+								}
+								lands = this.getSourcePermanent().getController().getOpponent().getLands();
+								for(Land land : lands) {
+									if(land.getName().equals(CardName.ISLAND)) {
+										opponentHasIsland = true;
+									}
+								}
+								if(opponentHasIsland) {
+									if(!this.getSourcePermanent().containsAttribute(Attribute.CAN_ATTACK)) {
+										this.getSourcePermanent().addAttribute(Attribute.CAN_ATTACK);
+									}
+								}
+								else {
+									if(this.getSourcePermanent().containsAttribute(Attribute.CAN_ATTACK)) {
+										this.getSourcePermanent().removeAttribute(Attribute.CAN_ATTACK);
+									}
+								}
+							}
+				});
+            }
+        });
+        
         cardImplementations.put(CardName.SEGOVIAN_LEVIATHAN, new CardImplementation() {
             @Override
             public CreatureCard createCard() {
@@ -1223,6 +1280,28 @@ public class CardFactory {
 				attributes = getDefaultCreatureAttributes();
 				attributes.remove(Attribute.TAPS_ON_ATTACK);
 				return new CreatureCard(CardName.SERRA_ANGEL, Color.WHITE, attributes, 2, 3, 4, 4);
+            }
+        });
+        
+        cardImplementations.put(CardName.SINDBAD, new CardImplementation() {
+            @Override
+            public CreatureCard createCard() {
+				List<Attribute> attributes = new LinkedList<Attribute>();
+				attributes = getDefaultCreatureAttributes();
+				return new CreatureCard(CardName.SINDBAD, Color.BLUE, attributes, 1, 1, 1, 1,
+						new ActivatedPermanentAbility() {
+
+							@Override
+							public void executeOnActivation() {
+								if(!this.getSourcePermanent().isTapped()) {
+									this.getSourcePermanent().tap();
+									Card card = this.getSourcePermanent().getController().drawCard();
+									if(!(card instanceof LandCard)) {
+										this.getSourcePermanent().getController().discardCard(card);
+									}
+								}
+							}
+				});
             }
         });
         
@@ -1252,6 +1331,55 @@ public class CardFactory {
 							}
 				});
             }
+        });
+        
+        cardImplementations.put(CardName.SUNKEN_CITY, new CardImplementation() {
+            @Override
+            public EnchantmentCard createCard() {
+                return new EnchantmentCard(CardName.SUNKEN_CITY, Color.BLUE, 2, 0, 
+                		new AutomaticPermanentAbility() {
+                	
+                            @Override
+                            public void executeOnEntering() {
+                                gameEventHandler.add(this);
+                            }
+
+                            @Override
+                            public void executeOnExit() {
+                                gameEventHandler.remove(this);
+                                List<Creature> allCreatures = new LinkedList<Creature>();
+                                allCreatures.addAll(match.getPlayer1().getCreatures());
+                                allCreatures.addAll(match.getPlayer2().getCreatures());
+                                for(Creature creature : allCreatures) {
+                                    if(creature.getColor().equals(Color.BLUE)) {
+                                        if(creature.isAffectedByAbility(this)) {
+                                            creature.removeLastingEffectFromSourceAbility(this);
+                                        }
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void executeOnEvent(GameEvent gameEvent) {
+                            	if(gameEvent.getDescriptor().equals(Event.UPKEEP_STEP)) {
+                            		if(gameEvent.getObject1() == this.getSourcePermanent().getController()) {
+                            			// TODO player pay 2 blue or this.getSourcePermanent().destroy();
+                            		}
+                            	}
+                            	List<Creature> allCreatures = new LinkedList<Creature>();
+                                allCreatures.addAll(match.getPlayer1().getCreatures());
+                                allCreatures.addAll(match.getPlayer2().getCreatures());
+                                for(Creature creature : allCreatures) {
+                                    if(creature.getColor().equals(Color.BLUE)) {
+                                        if(!creature.isAffectedByAbility(this)) {
+                                            LastingEffect newEffect = new StaticStatModifier(this, 1, 1);  
+                                            creature.applyLastingEffect(newEffect);
+                                        }
+                                    }
+                                 }
+                              }
+                          });
+                }
         });
         
         cardImplementations.put(CardName.SWAMP, new CardImplementation() {
@@ -1380,6 +1508,25 @@ public class CardFactory {
                 });
             }
         });
+        
+        cardImplementations.put(CardName.WALL_OF_WATER, new CardImplementation() {
+            @Override
+            public CreatureCard createCard() {
+				List<Attribute> attributes = new LinkedList<Attribute>();
+				attributes = getDefaultCreatureAttributes();
+				attributes.remove(Attribute.CAN_ATTACK);
+				return new CreatureCard(CardName.WALL_OF_WATER, Color.BLUE, attributes, 2, 1, 0, 5, 
+						new ActivatedPermanentAbility() {
+
+							@Override
+							public void executeOnActivation() {
+								// TODO pay 1 blue mana, then
+								LastingEffect newEffect = new OneTurnStatModifier(this, 1, 0);
+								this.getSourcePermanent().applyLastingEffect(newEffect);
+							}
+				});
+            }
+        });
                 
         cardImplementations.put(CardName.WANDERLUST, new CardImplementation() {
             @Override
@@ -1432,6 +1579,15 @@ public class CardFactory {
 								}
 							}
 						});
+            }
+        });
+        
+        cardImplementations.put(CardName.WATER_ELEMENTAL, new CardImplementation() {
+            @Override
+            public CreatureCard createCard() {
+				List<Attribute> attributes = new LinkedList<Attribute>();
+				attributes = getDefaultCreatureAttributes();
+				return new CreatureCard(CardName.WATER_ELEMENTAL, Color.BLUE, attributes, 2, 3, 5, 4);
             }
         });
         

@@ -1,5 +1,5 @@
 package ar.edu.itba.Magic.Backend;
-import ar.edu.itba.Magic.Backend.Interfaces.ExecutesOnEvent;
+import ar.edu.itba.Magic.Backend.Interfaces.EventObserver;
 
 import java.util.*;
 
@@ -12,7 +12,7 @@ public class GameEventHandler {
 
     private static GameEventHandler instance = new GameEventHandler();
       
-    private List<ExecutesOnEvent> observers = new LinkedList<ExecutesOnEvent>();
+    private List<EventObserver> observers = new LinkedList<EventObserver>();
 
     private GameEventHandler(){
     	
@@ -28,14 +28,14 @@ public class GameEventHandler {
      * @param gameEvent Event descriptor.
      */
     public void notifyGameEvent(GameEvent gameEvent) {		
-		for(ExecutesOnEvent observer : observers)
+		for(EventObserver observer : observers)
 			observer.executeOnEvent(gameEvent);
 	}
 	
     /**
      * Adds an automatic ability or lasting effect to the observer list.
      */
-	public void add(ExecutesOnEvent observer) {
+	public void add(EventObserver observer) {
 		observers.add(observer);
 	}
 	
@@ -44,7 +44,7 @@ public class GameEventHandler {
 	 * 
 	 * @param observer Any automatic ability or lasting effect.
 	 */
-	public void remove(ExecutesOnEvent observer) {
+	public void remove(EventObserver observer) {
 		observers.remove(observer);
 	}
 	

@@ -6,13 +6,13 @@ package ar.edu.itba.Magic.Backend.Interfaces.Enum;
 /*
  * Red Cards:		4
  * Green Cards:		12
- * Blue Cards:		8
+ * Blue Cards:		13
  * Black Cards: 	19
  * White Cards:		9
  * Artifacts:		0
  * Lands:			5
  * 
- * Total:			57
+ * Total:			62
  */
 public enum CardName {
 	
@@ -61,16 +61,21 @@ public enum CardName {
     RADJAN_SPIRIT("Radjan Spirit"),				// Green Creature
     ROYAL_ASSASIN("Royal Assassin"),			// Black Creature
     SAVANNAH_LIONS("Savannah Lions"),			// White Creature
+    SEA_SERPENT("Sea Serpent"),					// Blue Creature
     SEGOVIAN_LEVIATHAN("Segovian Leviathan"),	// Blue Creature
     SERRA_ANGEL("Serra Angel"),					// White Creature
+    SINDBAD("Sindbad"),							// Blue Creature
     SINKHOLE("Sinkhole"),						// Black Sorcery
+    SUNKEN_CITY("Sunken City"),					// Blue Enchantment
     SWAMP("Swamp"),								// Land
     TERROR("Terror"),							// Black Instant
     TUNDRA_WOLVES("Tundra Wolves"),				// White Creature
     UNHOLY_STRENGTH("Unholy Strength"),			// Black Enchantment
     UNSTABLE_MUTATION("Unstable Mutation"),		// Blue Enchantment
+    WALL_OF_WATER("Wall of Water"),				// Blue Creature
     WANDERLUST("Wanderlust"),					// Green Enchantment
     WARP_ARTIFACT("Warp Artifact"),				// Black Enchantment
+    WATER_ELEMENTAL("Water Elemental"),			// Blue Creature
     WEAKNESS("Weakness"),						// Black Enchantment
     ZEPHYR_FALCON("Zephyr Falcon");				// Blue Creature
 	

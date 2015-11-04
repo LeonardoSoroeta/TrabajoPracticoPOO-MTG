@@ -1,6 +1,6 @@
 package ar.edu.itba.Magic.Backend.Interfaces;
 
-public interface Activation {
+public interface Activator {
 	
 	public void executeOnActivation();
 
