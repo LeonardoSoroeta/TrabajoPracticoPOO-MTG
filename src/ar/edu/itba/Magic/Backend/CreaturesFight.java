@@ -20,9 +20,17 @@ public class CreaturesFight {
 
 	public void realizeFight(List<Creature> attack, List<Creature> defense, Player att, Player def){
 		
-		for( Creature attacker: attack ){
+		for( Creature attacker: attack ){			
+			
 			Creature defender = defense.get(attack.indexOf(attacker));
 			
+			if ( defender == null){
+				
+				def.decreaseHealth(attacker.getAttack());
+				
+			}
+			
+			else{
 			
 			// el attacker pega si puede
 			
@@ -72,7 +80,9 @@ public class CreaturesFight {
 					defender.destroy();
 				if (attdam >= 0)
 					attacker.destroy();
-		}
+			}
+			
+		}	
 		
 		
 		
