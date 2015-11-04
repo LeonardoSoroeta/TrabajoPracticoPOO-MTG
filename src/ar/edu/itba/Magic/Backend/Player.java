@@ -31,25 +31,19 @@ public class Player implements DamageTaking {
 		this.health = health;
 	}
 	
-	public void increaseHealth(int ammount) {
-		this.health += ammount;
-	}
 	
-	public void decreaseHealth(int ammount) {
-		this.health -= ammount;
-	}
 	
 	public int getHealth() {
 		return health;
 	}
 	
-	public void increaseHealth(Integer increment) {
+	public void increaseHealth(int increment) {
 		if (increment < 0)
 			throw new IllegalArgumentException();
 		health += increment;
 	}
 	
-	public void decreaseHealth(Integer decrement) {
+	public void decreaseHealth(int decrement) {
 		if (decrement < 0)
 			throw new IllegalArgumentException();
 		health -= decrement;
