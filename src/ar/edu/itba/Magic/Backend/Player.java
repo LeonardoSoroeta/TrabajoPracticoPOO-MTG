@@ -224,7 +224,7 @@ public class Player implements DamageTaking {
 		deck.shuffleDeck();
 	}
 	
-	public void takeDamage(Integer damage) {
+	public void takeDamage(int damage) {
 		if(damage >= 0)
 			health -= damage;
 		throw new IllegalArgumentException();
