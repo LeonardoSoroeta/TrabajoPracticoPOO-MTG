@@ -1,8 +1,8 @@
 package ar.edu.itba.Magic.Backend;
 
-import ar.edu.itba.Magic.Backend.Interfaces.EventListener;
+import ar.edu.itba.Magic.Backend.Interfaces.GameEventListener;
 
-public abstract class AutomaticSpellAbility extends SpellAbility implements EventListener {
+public abstract class AutomaticSpellAbility extends SpellAbility implements GameEventListener {
 
 	public abstract void sendToStack();
 	
