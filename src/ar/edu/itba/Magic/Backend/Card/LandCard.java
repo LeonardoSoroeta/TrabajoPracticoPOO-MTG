@@ -24,11 +24,10 @@ public class LandCard extends Card {
             Land land = new Land(this, this.getCardName(), this.getColor(), (PermanentAbility)this.getAbility());
             land.getAbility().setSourcePermanent(land);
             land.setController(this.getController());
-            land.getController().getHand().remove(this);
-            land.getController().getPermanentsInPlay().add(land);
+            this.getController().discardCard(this);
+            this.getController().placePermanentInPlay(land);
             this.gameEventHandler.triggerGameEvent(new GameEvent(Event.PERMANENT_ENTERS_PLAY, land));
             land.getAbility().executeOnEntering();
         }
-
     }
 }

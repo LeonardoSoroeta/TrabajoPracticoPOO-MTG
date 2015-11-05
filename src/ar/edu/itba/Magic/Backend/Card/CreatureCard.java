@@ -39,14 +39,13 @@ public class CreatureCard extends Card {
                     creature.getAbility().setSourcePermanent(creature);
                     creature.setController(this.getController());
                     creature.sendToStack();
-                    this.getController().getHand().remove(this);
+                    this.getController().discardCard(this);
                 }
             } else {
                 creature = new Creature(this, this.getCardName(), this.getColor(), this.attributes, this.getColoredManaCost(), this.attackPoints, this.defencePoints, this.getColorlessManaCost());
-                creature.getAbility().setSourcePermanent(creature);
                 creature.setController(this.getController());
                 creature.sendToStack();
-                this.getController().getHand().remove(this);
+                this.getController().discardCard(this);
             }
 
         }
