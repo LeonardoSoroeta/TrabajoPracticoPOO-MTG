@@ -3,6 +3,7 @@ package ar.edu.itba.Magic.Backend.Card;
 import ar.edu.itba.Magic.Backend.*;
 import ar.edu.itba.Magic.Backend.Interfaces.CardImplementation;
 import ar.edu.itba.Magic.Backend.Interfaces.Enum.Attribute;
+import ar.edu.itba.Magic.Backend.Interfaces.Enum.AttributeModifier;
 import ar.edu.itba.Magic.Backend.Interfaces.Enum.CardName;
 import ar.edu.itba.Magic.Backend.Interfaces.Enum.Color;
 import ar.edu.itba.Magic.Backend.Interfaces.Enum.Event;
@@ -298,6 +299,35 @@ public class CardFactory {
 				return new CreatureCard(CardName.BOG_IMP, Color.BLACK, attributes, 1, 1, 1, 1);
             }
         });
+        
+        cardImplementations.put(CardName.BURROWING, new CardImplementation() {
+            @Override
+            public EnchantmentCard createCard() {
+				return new EnchantmentCard(CardName.BURROWING, Color.RED, 1, 0,
+						new PermanentAbility() {
+							Creature target;
+							
+							@Override
+							public boolean satisfyCastingRequirements() {
+								// TODO target = selec target creature without flying
+									// return true;
+								// else
+									return false;
+							}
+	
+							@Override
+							public void executeOnEntering() {
+								LastingEffect newEffect = new StaticAttributeModifier(this, AttributeModifier.ADD, Attribute.MOUNTAINWALK);
+								target.applyLastingEffect(newEffect);
+							}
+							
+							@Override
+							public void executeOnExit() {
+								target.removeLastingEffectFromSourceAbility(this);
+							}
+					});
+            }
+        });
 
         cardImplementations.put(CardName.CARNIVOROUS_PLANT, new CardImplementation() {
             @Override
@@ -522,6 +552,34 @@ public class CardFactory {
 				return new CreatureCard(CardName.DURKWOOD_BOARS, Color.GREEN, attributes, 1, 4, 4 ,4);
             }
         });
+        
+        cardImplementations.put(CardName.DWARVEN_DEMOLITION_TEAM, new CardImplementation() {
+            @Override
+            public CreatureCard createCard() {
+				List<Attribute> attributes = new LinkedList<Attribute>();
+				attributes = getDefaultCreatureAttributes();
+				return new CreatureCard(CardName.DWARVEN_DEMOLITION_TEAM, Color.RED, attributes, 1, 2, 1, 1, 
+						new ActivatedPermanentAbility() {
+
+							@Override
+							public void executeOnActivation() {
+								//	TODO Creature target;
+								//  select target creature with WALL attribute, then
+								//	target.destroy();
+							}
+					
+				});
+            }
+        });
+        
+        cardImplementations.put(CardName.EARTH_ELEMENTAL, new CardImplementation() {
+            @Override
+            public CreatureCard createCard() {
+				List<Attribute> attributes = new LinkedList<Attribute>();
+				attributes = getDefaultCreatureAttributes();
+				return new CreatureCard(CardName.EARTH_ELEMENTAL, Color.RED, attributes, 2, 3, 4, 5);
+            }
+        });
 
         cardImplementations.put(CardName.ELVISH_ARCHERS, new CardImplementation() {
             @Override
@@ -530,6 +588,15 @@ public class CardFactory {
 				attributes = getDefaultCreatureAttributes();
 				attributes.add(Attribute.FIRST_STRIKE);
 				return new CreatureCard(CardName.ELVISH_ARCHERS, Color.GREEN, attributes, 1, 1, 2, 1);
+            }
+        });
+        
+        cardImplementations.put(CardName.FIRE_ELEMENTAL, new CardImplementation() {
+            @Override
+            public CreatureCard createCard() {
+				List<Attribute> attributes = new LinkedList<Attribute>();
+				attributes = getDefaultCreatureAttributes();
+				return new CreatureCard(CardName.FIRE_ELEMENTAL, Color.RED, attributes, 2, 3, 5, 4);
             }
         });
 
@@ -673,6 +740,15 @@ public class CardFactory {
             }
         });
         
+        cardImplementations.put(CardName.GRAY_OGRE, new CardImplementation() {
+            @Override
+            public CreatureCard createCard() {
+				List<Attribute> attributes = new LinkedList<Attribute>();
+				attributes = getDefaultCreatureAttributes();
+				return new CreatureCard(CardName.GRAY_OGRE, Color.RED, attributes, 1, 2, 2, 2);
+            }
+        });
+        
         cardImplementations.put(CardName.HOLY_STRENGTH, new CardImplementation() {
             @Override
             public EnchantmentCard createCard() {
@@ -732,6 +808,24 @@ public class CardFactory {
             }
         });
         
+        cardImplementations.put(CardName.HILL_GIANT, new CardImplementation() {
+            @Override
+            public CreatureCard createCard() {
+				List<Attribute> attributes = new LinkedList<Attribute>();
+				attributes = getDefaultCreatureAttributes();
+				return new CreatureCard(CardName.HILL_GIANT, Color.RED, attributes, 1, 3, 3, 3);
+            }
+        });
+        
+        cardImplementations.put(CardName.HURLOON_MINOTAUR, new CardImplementation() {
+            @Override
+            public CreatureCard createCard() {
+				List<Attribute> attributes = new LinkedList<Attribute>();
+				attributes = getDefaultCreatureAttributes();
+				return new CreatureCard(CardName.HURLOON_MINOTAUR, Color.RED, attributes, 2, 1, 2, 3);
+            }
+        });
+        
         cardImplementations.put(CardName.ISLAND, new CardImplementation() {
         	@Override
         	public LandCard createCard() {
@@ -750,7 +844,7 @@ public class CardFactory {
             @Override
             public InstantCard createCard() {
 				return new InstantCard(CardName.JUMP, Color.BLUE, 1, 0,
-						new AutomaticSpellAbility() {
+						new SpellAbility() {
 							Creature target;
 					
 							@Override
@@ -768,14 +862,8 @@ public class CardFactory {
 
 							@Override
 							public void resolveInStack() {
-								target.addAttribute(Attribute.FLYING);
-							}
-
-							@Override
-							public void executeOnEvent(GameEvent gameEvent) {
-								if(gameEvent.getDescriptor().equals(Event.END_OF_TURN))	{
-									target.removeAttribute(Attribute.FLYING);
-								}
+								AutomaticLastingEffect newEffect = new OneTurnAttributeModifier(this, AttributeModifier.ADD, Attribute.FLYING);
+								target.applyLastingEffect(newEffect);
 							}
 				});
             }
@@ -1007,10 +1095,19 @@ public class CardFactory {
             }
         });
         
-        cardImplementations.put(CardName.MOUNTAIN, new CardImplementation() {
+        cardImplementations.put(CardName.MONSS_GOBLIN_RAIDERS, new CardImplementation() {
+            @Override
+            public CreatureCard createCard() {
+				List<Attribute> attributes = new LinkedList<Attribute>();
+				attributes = getDefaultCreatureAttributes();
+				return new CreatureCard(CardName.MONSS_GOBLIN_RAIDERS, Color.RED, attributes, 1, 0, 1, 1);
+            }
+        });
+        
+        cardImplementations.put(CardName.MOUNTAINS, new CardImplementation() {
         	@Override
         	public LandCard createCard() {
-        		return new LandCard(CardName.MOUNTAIN, 
+        		return new LandCard(CardName.MOUNTAINS, 
         				new ActivatedPermanentAbility() {
 
 							@Override
@@ -1177,6 +1274,16 @@ public class CardFactory {
 						});
             	}
         	});
+        
+        cardImplementations.put(CardName.ROC_OF_KHER_RIDGES, new CardImplementation() {
+            @Override
+            public CreatureCard createCard() {
+				List<Attribute> attributes = new LinkedList<Attribute>();
+				attributes = getDefaultCreatureAttributes();
+				attributes.add(Attribute.FLYING);
+				return new CreatureCard(CardName.ROC_OF_KHER_RIDGES, Color.RED, attributes, 1, 3, 3, 3);
+            }
+        });
 
         cardImplementations.put(CardName.ROYAL_ASSASIN, new CardImplementation() {
             @Override
@@ -1509,6 +1616,16 @@ public class CardFactory {
             }
         });
         
+        cardImplementations.put(CardName.WALL_OF_STONE, new CardImplementation() {
+            @Override
+            public CreatureCard createCard() {
+				List<Attribute> attributes = new LinkedList<Attribute>();
+				attributes = getDefaultCreatureAttributes();
+				attributes.add(Attribute.WALL);
+				return new CreatureCard(CardName.WALL_OF_STONE, Color.RED, attributes, 2, 1, 0, 8);
+            }
+        });
+        
         cardImplementations.put(CardName.WALL_OF_WATER, new CardImplementation() {
             @Override
             public CreatureCard createCard() {
@@ -1640,6 +1757,10 @@ public class CardFactory {
 		return attributes;
 	}
 	
+	/**
+	 * Automatic Lasting Effect that modifies a target creature's attack and/or defense. Stays until 
+	 * end of turn.
+	 */
 	class OneTurnStatModifier extends AutomaticLastingEffect {
 		private Integer attackModifier;
 		private Integer defenseModifier;
@@ -1690,6 +1811,10 @@ public class CardFactory {
 		}
 	}
 	
+	/**
+	 * Lasting Effect that modifies a target creature's attack and/or defense. Lasts indefinitely until removed
+	 * by an external action.
+	 */
 	class StaticStatModifier extends LastingEffect {
 		private Integer attackModifier;
 		private Integer defenseModifier;
@@ -1729,6 +1854,84 @@ public class CardFactory {
 			}
 			else {
 				((Creature)this.getTarget()).decreaseDefense(defenseModifier);
+			}
+		}
+	}
+	
+	/**
+	 * Lasting Effect that adds or removes an attribute from a target creature. Lasts until end of turn.
+	 */
+	class OneTurnAttributeModifier extends AutomaticLastingEffect {
+		
+		AttributeModifier attributeModifier;
+		Attribute attribute;
+
+		public OneTurnAttributeModifier(Ability sourceAbility, AttributeModifier attributeModifier, Attribute attribute) {
+			super(sourceAbility);
+			this.attributeModifier = attributeModifier;
+			this.attribute = attribute;
+		}
+
+		@Override
+		public void executeOnEvent(GameEvent gameEvent) {
+			if(gameEvent.getDescriptor().equals(Event.END_OF_TURN)) {
+				this.getTarget().removeLastingEffect(this);
+			}
+		}
+
+		@Override
+		public void applyEffect() {
+			if(attributeModifier.equals(AttributeModifier.ADD)) {
+				this.getTarget().addAttribute(attribute);
+			}
+			if(attributeModifier.equals(AttributeModifier.REMOVE)) {
+				this.getTarget().removeAttribute(attribute);
+			}
+		}
+
+		@Override
+		public void undoEffect() {
+			if(attributeModifier.equals(AttributeModifier.ADD)) {
+				this.getTarget().removeAttribute(attribute);
+			}
+			if(attributeModifier.equals(AttributeModifier.REMOVE)) {
+				this.getTarget().addAttribute(attribute);
+			}
+		}
+	}
+	
+	/**
+	 * Lasting Effect that adds or removes an attribute from a target creature. Lasts indefinitely until removed
+	 * by an external action.
+	 */
+	class StaticAttributeModifier extends LastingEffect {
+		
+		AttributeModifier attributeModifier;
+		Attribute attribute;
+
+		public StaticAttributeModifier(Ability sourceAbility, AttributeModifier attributeModifier, Attribute attribute) {
+			super(sourceAbility);
+			this.attributeModifier = attributeModifier;
+			this.attribute = attribute;
+		}
+
+		@Override
+		public void applyEffect() {
+			if(attributeModifier.equals(AttributeModifier.ADD)) {
+				this.getTarget().addAttribute(attribute);
+			}
+			if(attributeModifier.equals(AttributeModifier.REMOVE)) {
+				this.getTarget().removeAttribute(attribute);
+			}
+		}
+
+		@Override
+		public void undoEffect() {
+			if(attributeModifier.equals(AttributeModifier.ADD)) {
+				this.getTarget().removeAttribute(attribute);
+			}
+			if(attributeModifier.equals(AttributeModifier.REMOVE)) {
+				this.getTarget().addAttribute(attribute);
 			}
 		}
 	}
