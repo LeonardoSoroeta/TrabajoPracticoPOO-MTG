@@ -46,6 +46,34 @@ public class CardFactory {
                 return new CreatureCard(CardName.AIR_ELEMENTAL, Color.BLUE, attributes, 2, 3, 4, 4);
             }
         });
+    	
+    	cardImplementations.put(CardName.ANKH_OF_MISHRA, new CardImplementation() {
+            @Override
+            public ArtifactCard createCard() {
+                return new ArtifactCard(CardName.ANKH_OF_MISHRA, 2,
+                		new AutomaticPermanentAbility() {
+
+		                	@Override
+							public void executeOnEntering() {
+								gameEventHandler.addListener(this);
+							}
+							
+							@Override
+							public void executeOnExit() {
+								gameEventHandler.removeListener(this);
+							}
+					
+							@Override
+							public void executeOnEvent(GameEvent gameEvent) {
+								if(gameEvent.getDescriptor().equals(Event.PERMANENT_ENTERS_PLAY)) {
+									if(gameEvent.getObject1() instanceof Land) {
+										((Permanent)gameEvent.getObject1()).getController().takeDamage(2);
+									}
+								}
+							}
+                });
+            }
+        });
 
     	cardImplementations.put(CardName.ASPECT_OF_WOLF, new CardImplementation() {
             @Override
@@ -179,6 +207,22 @@ public class CardFactory {
 							@Override
 							public void executeOnActivation() {
 								// TODO if not tapped: add one mana of player's choice, tap
+							}
+                });
+            }
+        });
+        
+        cardImplementations.put(CardName.BLACK_LOTUS, new CardImplementation() {
+            @Override
+            public ArtifactCard createCard() {
+                return new ArtifactCard(CardName.BLACK_LOTUS, 0,
+                		new ActivatedPermanentAbility() {
+
+							@Override
+							public void executeOnActivation() {
+								// TODO player select one color
+								// manapool.add(3 of chosen color)
+								this.getSourcePermanent().destroy();
 							}
                 });
             }
@@ -1590,6 +1634,18 @@ public class CardFactory {
             }
         });
         
+        cardImplementations.put(CardName.WALL_OF_SWORDS, new CardImplementation() {
+            @Override
+            public CreatureCard createCard() {
+				List<Attribute> attributes = new LinkedList<Attribute>();
+				attributes = getDefaultCreatureAttributes();
+				attributes.add(Attribute.WALL);
+				attributes.remove(Attribute.CAN_ATTACK);
+				attributes.add(Attribute.FLYING);
+				return new CreatureCard(CardName.WALL_OF_SWORDS, Color.WHITE, attributes, 1, 3, 3, 5);
+            }
+        });
+        
         cardImplementations.put(CardName.WALL_OF_WATER, new CardImplementation() {
             @Override
             public CreatureCard createCard() {
@@ -1722,6 +1778,30 @@ public class CardFactory {
                             	target.removeLastingEffectsFromSourceAbility(this);
                             }  
                 });
+            }
+        });
+        
+        cardImplementations.put(CardName.WRATH_OF_GOD, new CardImplementation() {
+            @Override
+            public SorceryCard createCard() {
+				return new SorceryCard(CardName.WRATH_OF_GOD, Color.WHITE, 2, 2,
+						new SpellAbility() {
+
+							@Override
+							public void sendToStack() {
+								// TODO gamestack.add(this)
+							}
+
+							@Override
+							public void resolveInStack() {
+								List<Creature> allCreatures = new LinkedList<Creature>();
+                                allCreatures.addAll(match.getPlayer1().getCreatures());
+                                allCreatures.addAll(match.getPlayer2().getCreatures());
+                                for(Creature creature : allCreatures) {
+                                	creature.destroy();
+                                }
+							}
+				});
             }
         });
 

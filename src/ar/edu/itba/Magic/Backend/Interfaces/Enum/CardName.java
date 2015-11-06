@@ -8,20 +8,22 @@ package ar.edu.itba.Magic.Backend.Interfaces.Enum;
  * Green Cards:		12
  * Blue Cards:		13
  * Black Cards: 	19
- * White Cards:		9
- * Artifacts:		0
+ * White Cards:		11
+ * Artifacts:		2
  * Lands:			5
  * 
- * Total:			72
+ * Total:			76
  */
 public enum CardName {
 	
 	AIR_ELEMENTAL("Air Elemental"),						// Blue Creature
+	ANKH_OF_MISHRA("Ankh of Mishra"),					// Artifact
 	ASPECT_OF_WOLF("Aspect of Wolf"),					// Green Enchantment
     BAD_MOON("Bad Moon"),								// Black Enchantment
     BALL_LIGHTNING("Ball Lightning"),					// Red Creature
     BIRD_MAIDEN("Bird Maiden"),							// Red Creature
     BIRDS_OF_PARADISE("Birds of Paradise"),				// Green Creature
+    BLACK_LOTUS("Black Lotus"),							// Artifact
     BLIGHT("Blight"),									// Black Enchantment
     BLOOD_LUST("Blood Lust"),							// Red Instant
     BOG_IMP("Bog Imp"),									// Black Creature
@@ -82,11 +84,13 @@ public enum CardName {
     UNHOLY_STRENGTH("Unholy Strength"),					// Black Enchantment
     UNSTABLE_MUTATION("Unstable Mutation"),				// Blue Enchantment
     WALL_OF_STONE("Wall of Stone"),						// Red Creature
+    WALL_OF_SWORDS("Wall of Swords"),					// White Creature
     WALL_OF_WATER("Wall of Water"),						// Blue Creature
     WANDERLUST("Wanderlust"),							// Green Enchantment
     WARP_ARTIFACT("Warp Artifact"),						// Black Enchantment
     WATER_ELEMENTAL("Water Elemental"),					// Blue Creature
     WEAKNESS("Weakness"),								// Black Enchantment
+    WRATH_OF_GOD("Wrath of God"),						// White Creature
     ZEPHYR_FALCON("Zephyr Falcon");						// Blue Creature
 	
 	String cardName;
