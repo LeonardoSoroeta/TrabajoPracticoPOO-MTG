@@ -539,6 +539,34 @@ public class CardFactory {
             }
         });
         
+        cardImplementations.put(CardName.DIVINE_TRANSFORMATION, new CardImplementation() {
+            @Override
+            public EnchantmentCard createCard() {
+                return new EnchantmentCard(CardName.DIVINE_TRANSFORMATION, Color.WHITE, 2, 2,
+                        new PermanentAbility() {
+                            Creature target;
+                            
+                            public boolean satisfyCastingRequirements() {
+	                        	// TODO seleccionar target Creature
+	                            //return true
+	                            //else
+	                            return false;
+                            }
+                            
+                            public void executeOnEntering() {
+                            	LastingEffect newEffect = new StaticStatModifier(this, 3, 3);
+                            	target.addAttachedEnchantment((Enchantment)this.getSourcePermanent());
+                            	target.applyLastingEffect(newEffect);
+                            }
+                            
+                            public void executeOnExit() {
+                            	target.removeAttachedEnchantment((Enchantment)this.getSourcePermanent());
+                            	target.removeLastingEffectsFromSourceAbility(this);
+                            }  
+                });
+            }
+        });
+        
         cardImplementations.put(CardName.DRAIN_POWER, new CardImplementation() {
             @Override
             public SorceryCard createCard() {
@@ -1161,6 +1189,76 @@ public class CardFactory {
         		});
         	}
         });
+        
+        cardImplementations.put(CardName.MOX_EMERALD, new CardImplementation() {
+            @Override
+            public ArtifactCard createCard() {
+				return new ArtifactCard(CardName.MOX_EMERALD, 0,
+						new ActivatedPermanentAbility() {
+
+							@Override
+							public void executeOnActivation() {
+								// TODO tap, add one green mana
+							}
+				});
+            }
+        });
+        
+        cardImplementations.put(CardName.MOX_JET, new CardImplementation() {
+            @Override
+            public ArtifactCard createCard() {
+				return new ArtifactCard(CardName.MOX_JET, 0,
+						new ActivatedPermanentAbility() {
+
+							@Override
+							public void executeOnActivation() {
+								// TODO tap, add one black mana
+							}
+				});
+            }
+        });
+        
+        cardImplementations.put(CardName.MOX_PEARL, new CardImplementation() {
+            @Override
+            public ArtifactCard createCard() {
+				return new ArtifactCard(CardName.MOX_PEARL, 0,
+						new ActivatedPermanentAbility() {
+
+							@Override
+							public void executeOnActivation() {
+								// TODO tap, add one white mana
+							}
+				});
+            }
+        });
+        
+        cardImplementations.put(CardName.MOX_RUBY, new CardImplementation() {
+            @Override
+            public ArtifactCard createCard() {
+				return new ArtifactCard(CardName.MOX_RUBY, 0,
+						new ActivatedPermanentAbility() {
+
+							@Override
+							public void executeOnActivation() {
+								// TODO tap, add one red mana
+							}
+				});
+            }
+        });
+        
+        cardImplementations.put(CardName.MOX_SAPPHIRE, new CardImplementation() {
+            @Override
+            public ArtifactCard createCard() {
+				return new ArtifactCard(CardName.MOX_SAPPHIRE, 0,
+						new ActivatedPermanentAbility() {
+
+							@Override
+							public void executeOnActivation() {
+								// TODO tap, add one blue mana
+							}
+				});
+            }
+        });
 
         cardImplementations.put(CardName.NIGHTMARE, new CardImplementation() {
             @Override
@@ -1459,6 +1557,20 @@ public class CardFactory {
             }
         });
         
+        cardImplementations.put(CardName.SOL_RING, new CardImplementation() {
+            @Override
+            public ArtifactCard createCard() {
+				return new ArtifactCard(CardName.SOL_RING, 1,
+						new ActivatedPermanentAbility() {
+
+							@Override
+							public void executeOnActivation() {
+								// TODO tap, add 2 colorless mana
+							}
+				});
+            }
+        });
+        
         cardImplementations.put(CardName.SUNKEN_CITY, new CardImplementation() {
             @Override
             public EnchantmentCard createCard() {
@@ -1554,6 +1666,41 @@ public class CardFactory {
 								}
 							}
 
+				});
+            }
+        });
+        
+        cardImplementations.put(CardName.THE_RACK, new CardImplementation() {
+            @Override
+            public ArtifactCard createCard() {
+				return new ArtifactCard(CardName.THE_RACK, 1,
+						new AutomaticPermanentAbility() {
+					
+							@Override
+							public void executeOnEntering() {
+								gameEventHandler.addListener(this);
+							}
+							
+							@Override
+							public void executeOnExit() {
+								gameEventHandler.removeListener(this);
+							}
+
+							@Override
+							public void executeOnEvent(GameEvent gameEvent) {
+								Player opponent = match.getOpposingPlayerFrom(this.getSourcePermanent().getController());
+								Integer handSize;
+								Integer damage;
+								if(gameEvent.getDescriptor().equals(Event.UPKEEP_STEP)) {
+									if(gameEvent.getObject1() == opponent) {
+										handSize = opponent.getHand().size();
+										if(handSize < 3) {
+											damage = 3 - handSize;
+											opponent.takeDamage(damage);
+										}
+									}
+								}	
+							}
 				});
             }
         });

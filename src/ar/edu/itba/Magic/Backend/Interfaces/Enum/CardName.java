@@ -8,11 +8,11 @@ package ar.edu.itba.Magic.Backend.Interfaces.Enum;
  * Green Cards:		12
  * Blue Cards:		13
  * Black Cards: 	19
- * White Cards:		11
- * Artifacts:		2
+ * White Cards:		12
+ * Artifacts:		9
  * Lands:			5
  * 
- * Total:			76
+ * Total:			84
  */
 public enum CardName {
 	
@@ -35,6 +35,7 @@ public enum CardName {
     CRUSADE("Crusade"),									// White Enchantment
     DARK_RITUAL("Dark Ritual"),							// Black Instant
     DESERT_TWISTER("Desert Twister"),					// Green Sorcery
+    DIVINE_TRANSFORMATION("Divine Transformation"),		// White Enchantment
     DRAIN_POWER("Drain Power"), 						// Blue Sorcery
     DURKWOOD_BOARS("Durkwood Boars"),					// Green Creature
     DWARVEN_DEMOLITION_TEAM("Dwarven Demolition Team"), // Red Creature
@@ -64,6 +65,11 @@ public enum CardName {
     MARSH_GAS("Marsh Gas"),								// Black Instant
     MONSS_GOBLIN_RAIDERS("Mons's Goblin Raiders"),		// Red Creature
     MOUNTAINS("Mountains"),								// Land
+    MOX_EMERALD("Mox Emerald"),							// Artifact
+    MOX_JET("Mox Jet"),									// Artifact
+    MOX_PEARL("Mox Pearl"),								// Artifact
+    MOX_RUBY("Mox Ruby"),								// Artifact
+    MOX_SAPPHIRE("Mox Sapphie"),						// Artifact
     NIGHTMARE("Nightmare"),								// Black Creature
     PARALYZE("Paralyze"),								// Black Enchantment
     PEARLED_UNICORN("Pearled Unicorn"),					// White Creature
@@ -77,9 +83,11 @@ public enum CardName {
     SERRA_ANGEL("Serra Angel"),							// White Creature
     SINDBAD("Sindbad"),									// Blue Creature
     SINKHOLE("Sinkhole"),								// Black Sorcery
+    SOL_RING("Sol Ring"),								// Artifact
     SUNKEN_CITY("Sunken City"),							// Blue Enchantment
     SWAMP("Swamp"),										// Land
     TERROR("Terror"),									// Black Instant
+    THE_RACK("The Rack"), 								// Artifact
     TUNDRA_WOLVES("Tundra Wolves"),						// White Creature
     UNHOLY_STRENGTH("Unholy Strength"),					// Black Enchantment
     UNSTABLE_MUTATION("Unstable Mutation"),				// Blue Enchantment
