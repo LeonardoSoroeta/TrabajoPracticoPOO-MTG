@@ -16,8 +16,8 @@ public class InstantCard extends Card {
     public void playCard() {
         if(this.getAbility().satisfyCastingRequirements()) {
             ((SpellAbility)this.getAbility()).setSourceCard(this);
-            ((SpellAbility)this.getAbility()).sendToStack();
             this.getController().discardCard(this);
+            ((SpellAbility)this.getAbility()).sendToStack();
         }
     }
 }

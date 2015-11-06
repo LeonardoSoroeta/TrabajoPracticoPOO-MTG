@@ -7,33 +7,43 @@ import java.util.LinkedList;
 
 public class GameStack {
 
-    private GameStack instance = this;
-	private LinkedList<GameStackAction> stack = new LinkedList<>();
+    private static GameStack instance = new GameStack();
+	private LinkedList<GameStackAction> gameStack = new LinkedList<>();
 
 	private GameStack() {
-
+		
 	}
 
-    public GameStack getGameStackInstance(){
-        return this;
+    public static GameStack getGameStackInstance(){
+        return instance;
+    }
+    
+    private void initiateSpellChain(GameStackAction gameStackAction) {
+    	boolean actionAdded = true;
+    			
+    	gameStack.push(gameStackAction);
+    	
+    	while(actionAdded) {
+    		// TODO request action to other player, if no action -> actionAdded = false;
+    	}
+    	
+    	while(!gameStack.isEmpty()) {
+    		gameStack.pop().resolveInStack();
+    	}
+    	
     }
 
-	public void stackAction(GameStackAction gameStackAction) {
-        if(gameStackAction == null)
-            throw new IllegalArgumentException("Null object added in stack.");
-        stack.push(gameStackAction);
+	public void addStackAction(GameStackAction gameStackAction) {
+		if(gameStack.isEmpty()) {
+			this.initiateSpellChain(gameStackAction);
+		}
+		else {
+			gameStack.push(gameStackAction);
+		}
     }
-
-    public static void Add(GameStackAction gameStackAction){
-        if(gameStackAction != null)
-            stack.push(gameStackAction);
-    }
-
-    private void CallOtherPlayer(){
-
-    }
-
-
-
+	
+	public void removeStackAction(GameStackAction gameStackAction) {
+		gameStack.remove(gameStackAction);
+	}
 	
 }

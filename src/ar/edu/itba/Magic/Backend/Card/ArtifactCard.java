@@ -17,8 +17,8 @@ public class ArtifactCard extends Card {
             Artifact artifact = new Artifact(this, this.getCardName(), this.getColoredManaCost(), (PermanentAbility)this.getAbility());
             artifact.getAbility().setSourcePermanent(artifact);
             artifact.setController(this.getController());
-            artifact.sendToStack();
             this.getController().discardCard(this);
+            artifact.sendToStack();
         }
     }
 }

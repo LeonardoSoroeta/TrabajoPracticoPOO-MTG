@@ -18,9 +18,8 @@ public class EnchantmentCard extends Card {
             Enchantment enchantment = new Enchantment(this, this.getCardName(), this.getColor(), this.getColoredManaCost(), this.getColorlessManaCost(), (PermanentAbility)this.getAbility());
             enchantment.getAbility().setSourcePermanent(enchantment);
             enchantment.setController(this.getController());
-            enchantment.sendToStack();
             this.getController().getHand().remove(this);
+            enchantment.sendToStack();
         }
-
     }
 }

@@ -1,7 +1,5 @@
 package ar.edu.itba.Magic.Backend.Interfaces;
 
-import javax.smartcardio.Card;
-
 public interface GameStackAction {
 
 	/**

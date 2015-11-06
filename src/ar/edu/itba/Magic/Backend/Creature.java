@@ -1,15 +1,13 @@
 package ar.edu.itba.Magic.Backend;
 import ar.edu.itba.Magic.Backend.Card.Card;
 import ar.edu.itba.Magic.Backend.Interfaces.DamageTaking;
-import ar.edu.itba.Magic.Backend.Interfaces.GameStackAction;
 import ar.edu.itba.Magic.Backend.Interfaces.Enum.Color;
-import ar.edu.itba.Magic.Backend.Interfaces.Enum.Event;
 import ar.edu.itba.Magic.Backend.Interfaces.Enum.Attribute;
 import ar.edu.itba.Magic.Backend.Interfaces.Enum.CardName;
 
 import java.util.List;
 
-public class Creature extends Permanent implements DamageTaking, GameStackAction {
+public class Creature extends Permanent implements DamageTaking {
 	
 	GameEventHandler gameEventHandler = GameEventHandler.getGameEventHandler();
 	private int attack;
@@ -28,20 +26,6 @@ public class Creature extends Permanent implements DamageTaking, GameStackAction
 		this.attack = attack;
 		this.defense = defense;
 		this.damageMarkers = 0;
-	}
-	
-	/**
-	 * Sends the creature to the game stack when it's Card is played.
-	 */
-	public void sendToStack(){
-		// TODO gameStack.add(this);
-	}
-	
-	/**
-	 * Places the creature in play. Notifies the event. Executes the ability's executeOnIntroduction method.
-	 */
-	public void resolveInStack() {
-		this.getController().placePermanentInPlay(this);
 	}
 	
 	public int getAttack(){

@@ -4,6 +4,8 @@ import java.util.*;
 
 import ar.edu.itba.Magic.Backend.Card.Card;
 import ar.edu.itba.Magic.Backend.Interfaces.Enum.Color;
+import ar.edu.itba.Magic.Backend.Stack.GameStack;
+import ar.edu.itba.Magic.Backend.Interfaces.GameStackAction;
 import ar.edu.itba.Magic.Backend.Interfaces.Enum.Attribute;
 import ar.edu.itba.Magic.Backend.Interfaces.Enum.CardName;
 
@@ -11,7 +13,7 @@ import ar.edu.itba.Magic.Backend.Interfaces.Enum.CardName;
  * All objects currently in play are Permanents. These objects may be a Creature, an Enchantment, an Artifact or a Land.
  * Permanents may be affected by LastingEffects from a determined Ability.
  */
-public abstract class Permanent {
+public abstract class Permanent implements GameStackAction {
 	
 	private Card sourceCard;
 	private Player controller;
@@ -20,11 +22,14 @@ public abstract class Permanent {
 	private Integer coloredManacost;
 	private Integer colorlessManacost;
 	private boolean tapped;
+	private boolean legalTarget;
+	private boolean spellState;
 	private PermanentAbility permanentAbility;
 	private List<Attribute> attributes;
 	private List<LastingEffect> appliedLastingEffects = new LinkedList<LastingEffect>();
 	private List<Enchantment> attachedEnchantments = new LinkedList<Enchantment>();
 	GameEventHandler gameEventHandler = GameEventHandler.getGameEventHandler();
+	GameStack gameStack = GameStack.getGameStackInstance();
 	
 	public Permanent(Card sourceCard, CardName name, Color color, List<Attribute> attributes, Integer coloredManaCost, Integer colorlessManaCost, PermanentAbility ability) {
 		this.sourceCard = sourceCard;
@@ -34,6 +39,9 @@ public abstract class Permanent {
 		this.color = color;
 		this.coloredManacost = coloredManaCost;
 		this.colorlessManacost = colorlessManaCost;
+		this.tapped = false;
+		this.legalTarget = true;
+		this.spellState = true;
 	}
 	
 	/**
@@ -269,24 +277,53 @@ public abstract class Permanent {
 		return tapped;
 	}
 	
+	public boolean isStillALegalTarget() {
+		return legalTarget;
+	}
+	
+	public boolean isCurrentlyInSpellState() {
+		return spellState;
+	}
+	
+	public void setSpellState(boolean spellState) {
+		this.spellState = spellState;
+	}
+	
+	public void sendToStack() {
+		gameStack.addStackAction(this);
+	}
+	
+	public void resolveInStack() {
+		spellState = false;
+		this.getController().placePermanentInPlay(this);
+	}
+	
 	/**
 	 * Destroys this permanent. If the permanent contains an ability, executes PermanentAbility's executeOnExit method.
 	 * Destroys any enchantments attached to this permanent. Removes this permanent from controller player's 
 	 * permanentsInPlay and adds this permanent's source Card to controller player's graveyard.
 	 */
 	public void destroy() {
-		//TODO  por ahora solo contempla permanents in play, no in stack
-		
-		if(this.containsAbility()) {
-			this.getAbility().executeOnExit();
+		if(this.isStillALegalTarget()) {
+			if(this.isCurrentlyInSpellState()) {
+				legalTarget = false;
+				gameStack.removeStackAction(this);
+			}
+			else {
+				legalTarget = false;
+				if(this.containsAbility()) {
+					this.getAbility().executeOnExit();
+				}
+				for(Enchantment attachedEnchantment : attachedEnchantments) {
+					attachedEnchantment.destroy();
+				}
+				this.controller.removePermanentFromPlay(this);
+				this.controller.placeCardInGraveyard(sourceCard);
+			}
 		}
-		
-		for(Enchantment enchantment : attachedEnchantments) {
-			enchantment.destroy();
+		else {
+			// TODO capaz tirar un exception tried to destroy an illegal target
 		}
-		
-		this.controller.removePermanentFromPlay(this);
-		this.controller.placeCardInGraveyard(sourceCard);
 	}
 	
 }

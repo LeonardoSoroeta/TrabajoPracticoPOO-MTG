@@ -24,17 +24,4 @@ public class Artifact extends Permanent implements GameStackAction {
 		return attributes;
 	}
 	
-	/**
-	 * Sends the artifact to the game stack when it's Card is played.
-	 */
-	public void sendToStack(){
-		// TODO gameStack.add(this);
-	}
-	
-	/**
-	 * Places the artifact in play. Notifies the event. Executes the ability's executeOnIntroduction method.
-	 */
-	public void resolveInStack() {		
-		this.getController().placePermanentInPlay(this);
-	}
 }

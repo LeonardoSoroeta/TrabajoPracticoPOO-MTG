@@ -24,19 +24,5 @@ public class Enchantment extends Permanent {
 		
 		return attributes;
 	}
-	
-	/**
-	 * Sends the enchantment to the game stack when it's Card is played.
-	 */
-	public void sendToStack(){
-		//TODO gameStack.add(this);
-	}
-	
-	/**
-	 * Places the enchantment in play. Notifies the event. Executes the ability's executeOnIntroduction method.
-	 */
-	public void resolveInStack() {
-		this.getController().placePermanentInPlay(this);
-	}
 
 }
