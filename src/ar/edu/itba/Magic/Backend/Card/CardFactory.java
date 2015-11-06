@@ -7,6 +7,7 @@ import ar.edu.itba.Magic.Backend.Interfaces.Enum.AttributeModifier;
 import ar.edu.itba.Magic.Backend.Interfaces.Enum.CardName;
 import ar.edu.itba.Magic.Backend.Interfaces.Enum.Color;
 import ar.edu.itba.Magic.Backend.Interfaces.Enum.Event;
+import ar.edu.itba.Magic.Backend.Stack.GameStack;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -17,6 +18,7 @@ public class CardFactory {
 	
 	private Match match = Match.getMatch();
 	private GameEventHandler gameEventHandler = GameEventHandler.getGameEventHandler();
+	private GameStack gameStack = GameStack.getGameStackInstance();
 	private HashMap<CardName, CardImplementation> cardImplementations;
 	private static CardFactory instance = new CardFactory();
 	
@@ -286,41 +288,42 @@ public class CardFactory {
 
 							@Override
 							public void sendToStack() {
-								// TODO stack.add(this);
+								gameStack.addStackAction(this);
 							}
 
 							@Override
 							public void resolveInStack() {
-								AutomaticLastingEffect newEffect = new AutomaticLastingEffect(this) {
-									Integer previousTargetDefense;
-
-									@Override
-									public void executeOnEvent(GameEvent gameEvent) {
-										if(gameEvent.getDescriptor().equals(Event.END_OF_TURN)) {
-											this.getTarget().removeLastingEffect(this);
+								if(target.isStillALegalTarget()) {
+									AutomaticLastingEffect newEffect = new AutomaticLastingEffect(this) {
+										Integer previousTargetDefense;
+	
+										@Override
+										public void executeOnEvent(GameEvent gameEvent) {
+											if(gameEvent.getDescriptor().equals(Event.END_OF_TURN)) {
+												this.getTarget().removeLastingEffect(this);
+											}
 										}
-									}
-
-									@Override
-									public void applyEffect() {
-										((Creature)this.getTarget()).increaseAttack(4);
-										previousTargetDefense = ((Creature)this.getTarget()).getDefense();
-										if(previousTargetDefense <= 4) {
-											((Creature)this.getTarget()).setDefense(1);
+	
+										@Override
+										public void applyEffect() {
+											((Creature)this.getTarget()).increaseAttack(4);
+											previousTargetDefense = ((Creature)this.getTarget()).getDefense();
+											if(previousTargetDefense <= 4) {
+												((Creature)this.getTarget()).setDefense(1);
+											}
+											else {
+												((Creature)this.getTarget()).decreaseDefense(4);
+											}
 										}
-										else {
-											((Creature)this.getTarget()).decreaseDefense(4);
+	
+										@Override
+										public void undoEffect() {
+											((Creature)this.getTarget()).decreaseAttack(4);
+											((Creature)this.getTarget()).setDefense(previousTargetDefense);
 										}
-									}
-
-									@Override
-									public void undoEffect() {
-										((Creature)this.getTarget()).decreaseAttack(4);
-										((Creature)this.getTarget()).setDefense(previousTargetDefense);
-									}
-								};
-
-								target.applyLastingEffect(newEffect);
+									};
+									target.applyLastingEffect(newEffect);
+								}
 							}
 				});
             }
@@ -422,14 +425,15 @@ public class CardFactory {
 
 							@Override
 							public void sendToStack() {
-								// TODO gamestack.add(this)
-
+								gameStack.addStackAction(this);
 							}
 
 							@Override
 							public void resolveInStack() {
-								target.destroy();
-								target.getController().increaseHealth(target.getColorlessManaCost());
+								if(target.isStillALegalTarget()) {
+									target.destroy();
+									target.getController().increaseHealth(target.getColorlessManaCost());
+								}
 							}
 				});
             }
@@ -494,7 +498,7 @@ public class CardFactory {
 
 							@Override
 							public void sendToStack() {
-								// TODO gamestack.add(this)
+								gameStack.addStackAction(this);
 							}
 		
 							@Override
@@ -522,13 +526,14 @@ public class CardFactory {
 
 							@Override
 							public void sendToStack() {
-								// TODO gamestack.add(this)
-
+								gameStack.addStackAction(this);
 							}
 
 							@Override
 							public void resolveInStack() {
-								target.destroy();
+								if(target.isStillALegalTarget()) {
+									target.destroy();
+								}
 							}
 				});
             }
@@ -542,8 +547,7 @@ public class CardFactory {
 
 							@Override
 							public void sendToStack() {
-								// TODO Auto-generated method stub
-								
+								gameStack.addStackAction(this);
 							}
 
 							@Override
@@ -634,13 +638,14 @@ public class CardFactory {
 
 							@Override
 							public void sendToStack() {
-								// TODO gamestack.add(this);
-
+								gameStack.addStackAction(this);
 							}
 
 							@Override
 							public void resolveInStack() {
-								target.destroy();
+								if(target.isStillALegalTarget()) {
+									target.destroy();
+								}
 							}
 				});
             }
@@ -663,12 +668,15 @@ public class CardFactory {
 
 							@Override
 							public void executeOnEntering() {
-								target.addAttribute(Attribute.FLYING);
+								LastingEffect newEffect = new StaticAttributeModifier(this, AttributeModifier.ADD, Attribute.FLYING);
+								target.addAttachedEnchantment((Enchantment)this.getSourcePermanent());
+								target.applyLastingEffect(newEffect);
 							}
 							
 							@Override
 							public void executeOnExit() {
-								target.removeAttribute(Attribute.FLYING);
+								target.removeAttachedEnchantment((Enchantment)this.getSourcePermanent());
+								target.removeLastingEffectsFromSourceAbility(this);;
 							}
 				});
             }
@@ -813,13 +821,15 @@ public class CardFactory {
 
 							@Override
 							public void sendToStack() {
-								// TODO gamestack.add(this);
+								gameStack.addStackAction(this);
 							}
 
 							@Override
 							public void resolveInStack() {
-								AutomaticLastingEffect newEffect = new OneTurnStatModifier(this, attackBonus, 0);
-								target.applyLastingEffect(newEffect);
+								if(target.isStillALegalTarget()) {
+									AutomaticLastingEffect newEffect = new OneTurnStatModifier(this, attackBonus, 0);
+									target.applyLastingEffect(newEffect);
+								}
 							}
 
 				});
@@ -875,13 +885,15 @@ public class CardFactory {
 
 							@Override
 							public void sendToStack() {
-								// TODO stack.add(this);
+								gameStack.addStackAction(this);
 							}
 
 							@Override
 							public void resolveInStack() {
-								AutomaticLastingEffect newEffect = new OneTurnAttributeModifier(this, AttributeModifier.ADD, Attribute.FLYING);
-								target.applyLastingEffect(newEffect);
+								if(target.isStillALegalTarget()) {
+									AutomaticLastingEffect newEffect = new OneTurnAttributeModifier(this, AttributeModifier.ADD, Attribute.FLYING);
+									target.applyLastingEffect(newEffect);
+								}
 							}
 				});
             }
@@ -1090,7 +1102,7 @@ public class CardFactory {
 
 							@Override
 							public void sendToStack() {
-								// TODO stack.add(this);
+								gameStack.addStackAction(this);
 							}
 
 							@Override
@@ -1188,7 +1200,7 @@ public class CardFactory {
             }
         });
 
-        /* ver que pasa con esta si la criatura ya no untapeaba en upeep */
+        /* ver que pasa con esta si la criatura ya no untapeaba en upkeep */
         cardImplementations.put(CardName.PARALYZE, new CardImplementation() {
             @Override
             public EnchantmentCard createCard() {
@@ -1268,7 +1280,6 @@ public class CardFactory {
 							public void executeOnActivation() {
 								// TODO target = select target creature with flying, then {
 								AutomaticLastingEffect newEffect = new OneTurnAttributeModifier(this, AttributeModifier.REMOVE, Attribute.FLYING);
-
 								target.applyLastingEffect(newEffect);
 							}
 						});
@@ -1435,12 +1446,14 @@ public class CardFactory {
 
 							@Override
 							public void sendToStack() {
-								// TODO gamestack.add(this);
+								gameStack.addStackAction(this);
 							}
 
 							@Override
 							public void resolveInStack() {
-								target.destroy();
+								if(target.isStillALegalTarget()) {
+									target.destroy();
+								}
 							}
 				});
             }
@@ -1531,13 +1544,14 @@ public class CardFactory {
 
 							@Override
 							public void sendToStack() {
-								// TODO
-								// gamestack.add(this)
+								gameStack.addStackAction(this);
 							}
 
 							@Override
 							public void resolveInStack() {
-								target.destroy();
+								if(target.isStillALegalTarget()) {
+									target.destroy();
+								}
 							}
 
 				});
@@ -1789,7 +1803,7 @@ public class CardFactory {
 
 							@Override
 							public void sendToStack() {
-								// TODO gamestack.add(this)
+								gameStack.addStackAction(this);
 							}
 
 							@Override
@@ -1798,7 +1812,9 @@ public class CardFactory {
                                 allCreatures.addAll(match.getPlayer1().getCreatures());
                                 allCreatures.addAll(match.getPlayer2().getCreatures());
                                 for(Creature creature : allCreatures) {
-                                	creature.destroy();
+                                	if(creature.isStillALegalTarget()) {
+                                    	creature.destroy();
+                                	}
                                 }
 							}
 				});
@@ -1823,7 +1839,7 @@ public class CardFactory {
 	 */
 	public List<Attribute> getDefaultCreatureAttributes() {
 		List<Attribute> attributes = new LinkedList<Attribute>();
-		//agregar
+		// TODO agregar
 	
 		return attributes;
 	}
