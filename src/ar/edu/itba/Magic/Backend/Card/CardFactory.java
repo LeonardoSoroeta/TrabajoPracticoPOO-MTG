@@ -15,11 +15,9 @@ import java.util.List;
 
 public class CardFactory {
 	
+	private Match match = Match.getMatch();
 	private GameEventHandler gameEventHandler = GameEventHandler.getGameEventHandler();
 	private HashMap<CardName, CardImplementation> cardImplementations;
-
-	Match match = Match.getMatch();
-	
 	private static CardFactory instance = new CardFactory();
 	
 	private CardFactory() {
@@ -68,7 +66,6 @@ public class CardFactory {
 							public void executeOnEntering() {
 								previousForests = 0;
 								gameEventHandler.addListener(this);
-								gameEventHandler.triggerGameEvent(new GameEvent(Event.GENERIC_EVENT));
 							}
 							
 							@Override
@@ -105,8 +102,7 @@ public class CardFactory {
                 		new AutomaticPermanentAbility() {
                 	
                             /**
-                             * Adds Bad Moon's automatic ability to the GameEventHandler. Notifies a generic
-                             * game event to get Bad Moon's ability started.
+                             * Adds Bad Moon's automatic ability to the GameEventHandler.
                              */
                             @Override
                             public void executeOnEntering() {
@@ -122,7 +118,7 @@ public class CardFactory {
                                 for(Creature creature : allCreatures) {
                                     if(creature.getColor().equals(Color.BLACK)) {
                                         if(creature.isAffectedByAbility(this)) {
-                                            creature.removeLastingEffectFromSourceAbility(this);
+                                            creature.removeLastingEffectsFromSourceAbility(this);
                                         }
                                     }
                                 }
@@ -158,7 +154,6 @@ public class CardFactory {
                 attributes.add(Attribute.TRAMPLE);
                 attributes.remove(Attribute.SUMMONING_SICKNESS);
                 return new CreatureCard(CardName.BALL_LIGHTNING, Color.RED, attributes, 3, 0, 6, 1);
-
             }
         });
 
@@ -207,14 +202,14 @@ public class CardFactory {
 
                             @Override
                             public void executeOnEntering() {
-                                target.addAttachedEnchantment((Enchantment) this.getSourcePermanent());
+                                target.addAttachedEnchantment((Enchantment)this.getSourcePermanent());
                                 gameEventHandler.addListener(this);
                             }
 
                             @Override
                             public void executeOnExit() {
                                 gameEventHandler.removeListener(this);
-                                target.removeAttachedEnchantment((Enchantment) this.getSourcePermanent());
+                                target.removeAttachedEnchantment((Enchantment)this.getSourcePermanent());
                             }
 
                             @Override
@@ -225,11 +220,8 @@ public class CardFactory {
                                 if (gameEvent.getDescriptor().equals(Event.END_OF_TURN))
                                     if (destroyAtEndOfTurn == true)
                                         target.destroy();
-
                             }
-
                         });
-
             }
         });
 
@@ -318,12 +310,14 @@ public class CardFactory {
 							@Override
 							public void executeOnEntering() {
 								LastingEffect newEffect = new StaticAttributeModifier(this, AttributeModifier.ADD, Attribute.MOUNTAINWALK);
+								target.addAttachedEnchantment((Enchantment)this.getSourcePermanent());
 								target.applyLastingEffect(newEffect);
 							}
 							
 							@Override
 							public void executeOnExit() {
-								target.removeLastingEffectFromSourceAbility(this);
+								target.removeLastingEffectsFromSourceAbility(this);
+								target.removeAttachedEnchantment((Enchantment)this.getSourcePermanent());
 							}
 					});
             }
@@ -351,28 +345,7 @@ public class CardFactory {
 							@Override
 							public void executeOnActivation() {
 								// TODO request pagar 1 de mana colorless, then {
-								AutomaticLastingEffect newEffect = new AutomaticLastingEffect(this) {
-
-									@Override
-									public void executeOnEvent(GameEvent gameEvent) {
-										if(gameEvent.getDescriptor().equals(Event.END_OF_TURN)) {
-											this.getTarget().removeLastingEffect(this);
-										}
-									}
-
-									@Override
-									public void applyEffect() {
-										((Creature)this.getTarget()).increaseAttack(1);
-										((Creature)this.getTarget()).increaseDefense(1);
-									}
-
-									@Override
-									public void undoEffect() {
-										((Creature)this.getTarget()).decreaseAttack(1);
-										((Creature)this.getTarget()).decreaseDefense(1);
-									}
-								};
-
+								AutomaticLastingEffect newEffect = new OneTurnStatModifier(this, 1, 1);
 								this.getSourcePermanent().applyLastingEffect(newEffect);
 							}
 				});
@@ -423,9 +396,9 @@ public class CardFactory {
             public EnchantmentCard createCard() {
                 return new EnchantmentCard(CardName.CRUSADE, Color.WHITE, 2, 0, 
                 		new AutomaticPermanentAbility() {
+                	
                             /**
-                             * Adds Bad Moon's automatic ability to the GameEventHandler. Notifies a generic
-                             * game event to get Bad Moon's ability started.
+                             * Adds Crusade's automatic ability to the GameEventHandler.
                              */
                             @Override
                             public void executeOnEntering() {
@@ -441,7 +414,7 @@ public class CardFactory {
                                 for(Creature creature : allCreatures) {
                                     if(creature.getColor().equals(Color.WHITE)) {
                                         if(creature.isAffectedByAbility(this)) {
-                                            creature.removeLastingEffectFromSourceAbility(this);
+                                            creature.removeLastingEffectsFromSourceAbility(this);
                                         }
                                     }
                                 }
@@ -531,7 +504,7 @@ public class CardFactory {
 
 							@Override
 							public void resolveInStack() {
-								Player opponent = this.getSourceCard().getController().getOpponent();
+								Player opponent = match.getOpposingPlayerFrom(this.getSourceCard().getController());
 								List<Land> opponentLands = opponent.getLands();
 								for(Land opponentLand : opponentLands) {
 									if(!opponentLand.isTapped()) {
@@ -765,11 +738,13 @@ public class CardFactory {
                             
                             public void executeOnEntering() {
                             	LastingEffect newEffect = new StaticStatModifier(this, 1, 2);
+                            	target.addAttachedEnchantment((Enchantment)this.getSourcePermanent());
                             	target.applyLastingEffect(newEffect);
                             }
                             
                             public void executeOnExit() {
-                            	target.removeLastingEffectFromSourceAbility(this);
+                            	target.removeAttachedEnchantment((Enchantment)this.getSourcePermanent());
+                            	target.removeLastingEffectsFromSourceAbility(this);
                             }  
                 });
             }
@@ -788,7 +763,6 @@ public class CardFactory {
 								// TODO seleccionar criatura target
 									//sino return false
 								// TODO pagar extra colorless mana ? hacer asi o sino implementar costo variado
-								//attackBonus += lo que se pago extra
 
 								return true;
 							}
@@ -878,6 +852,16 @@ public class CardFactory {
 				return new CreatureCard(CardName.JUNUN_EFREET, Color.BLACK, attributes, 2, 1, 3, 3,
 						new AutomaticPermanentAbility() {
 
+							@Override 
+							public void executeOnEntering() {
+								gameEventHandler.addListener(this);
+							}
+							
+							@Override
+							public void executeOnExit() {
+								gameEventHandler.removeListener(this);
+							}
+				
 							@Override
 							public void executeOnEvent(GameEvent gameEvent) {
 								if(gameEvent.getDescriptor().equals(Event.UPKEEP_STEP)) {
@@ -897,6 +881,7 @@ public class CardFactory {
             public EnchantmentCard createCard() {
 				return new EnchantmentCard(CardName.KARMA, Color.WHITE, 2, 2,
 						new AutomaticPermanentAbility() {
+					
 							@Override
 							public void executeOnEntering() {
 								gameEventHandler.addListener(this);
@@ -952,7 +937,7 @@ public class CardFactory {
 									if(((Permanent)gameEvent.getObject1()).getController() == targetPlayer){
 										if(gameEvent.getObject1() instanceof Creature ||
 										   gameEvent.getObject1() instanceof Artifact ||
-										   gameEvent.getObject1() instanceof Land	) {
+										   gameEvent.getObject1() instanceof Land		) {
 											((Permanent)gameEvent.getObject1()).tap();
 										}
 									}
@@ -979,12 +964,15 @@ public class CardFactory {
 
 							@Override
 							public void executeOnEntering() {
+								target.addAttachedEnchantment((Enchantment)this.getSourcePermanent());
 								target.addAttribute(Attribute.FIRST_STRIKE);
 							}
 
 							@Override
 							public void executeOnExit() {
 								target.removeAttribute(Attribute.FIRST_STRIKE);
+								target.removeAttachedEnchantment((Enchantment)this.getSourcePermanent());
+
 							}
 				});
             }
@@ -1075,7 +1063,7 @@ public class CardFactory {
 	                                allCreatures.addAll(match.getPlayer2().getCreatures());
 	                                for(Creature creature : allCreatures) {
 	                                	if(creature.isAffectedByAbility(this)) {
-	                                		creature.removeLastingEffectFromSourceAbility(this);
+	                                		creature.removeLastingEffectsFromSourceAbility(this);
 	                                	}
 	                                }
 								}
@@ -1128,13 +1116,11 @@ public class CardFactory {
 						new AutomaticPermanentAbility() {
 
 							/**
-							 * Adds Nightmare's automatic ability to the GameEventHandler. Notifies a generic
-							 * game event to get Nightmare's attack and defense started.
+							 * Adds Nightmare's automatic ability to the GameEventHandler.
 							 */
 							@Override
 							public void executeOnEntering() {
 								gameEventHandler.addListener(this);
-								gameEventHandler.triggerGameEvent(new GameEvent(Event.GENERIC_EVENT));
 							}
 
 							/**
@@ -1158,6 +1144,7 @@ public class CardFactory {
             }
         });
 
+        /* ver que pasa con esta si la criatura ya no untapeaba en upeep */
         cardImplementations.put(CardName.PARALYZE, new CardImplementation() {
             @Override
             public EnchantmentCard createCard() {
@@ -1177,26 +1164,13 @@ public class CardFactory {
 							public void executeOnEntering() {
 								gameEventHandler.addListener(this);
 								target.addAttachedEnchantment((Enchantment)this.getSourcePermanent());
-								LastingEffect newEffect = new LastingEffect(this) {
-
-									@Override
-									public void applyEffect() {
-										target.removeAttribute(Attribute.UNTAPS_DURING_UPKEEP);
-										target.tap();
-									}
-
-									@Override
-									public void undoEffect() {
-										target.addAttribute(Attribute.UNTAPS_DURING_UPKEEP);
-									}
-								};
-
+								LastingEffect newEffect = new StaticAttributeModifier(this, AttributeModifier.REMOVE, Attribute.UNTAPS_DURING_UPKEEP);
 								target.applyLastingEffect(newEffect);
 							}
 
 							@Override
 							public void executeOnExit() {
-								target.removeLastingEffectFromSourceAbility(this);
+								target.removeLastingEffectsFromSourceAbility(this);
 								target.removeAttachedEnchantment((Enchantment)this.getSourcePermanent());
 								gameEventHandler.removeListener(this);
 							}
@@ -1204,7 +1178,7 @@ public class CardFactory {
 							@Override
 							public void executeOnEvent(GameEvent gameEvent) {
 								if(gameEvent.getDescriptor().equals(Event.UNTAP_STEP)) {
-									if(gameEvent.getObject1() == this.getSourcePermanent().getController()) {
+									if(gameEvent.getObject1() == target.getController()) {
 										// TODO pedir si quiere pagar 4 de colorless mana
 										//then untap
 									}
@@ -1249,25 +1223,7 @@ public class CardFactory {
 							@Override
 							public void executeOnActivation() {
 								// TODO target = select target creature with flying, then {
-								AutomaticLastingEffect newEffect = new AutomaticLastingEffect(this) {
-
-									@Override
-									public void executeOnEvent(GameEvent gameEvent) {
-										if(gameEvent.getDescriptor().equals(Event.END_OF_TURN)) {
-											this.getTarget().removeLastingEffect(this);
-										}
-									}
-
-									@Override
-									public void applyEffect() {
-										this.getTarget().removeAttribute(Attribute.FLYING);
-									}
-
-									@Override
-									public void undoEffect() {
-										this.getTarget().addAttribute(Attribute.FLYING);
-									}
-								};
+								AutomaticLastingEffect newEffect = new OneTurnAttributeModifier(this, AttributeModifier.REMOVE, Attribute.FLYING);
 
 								target.applyLastingEffect(newEffect);
 							}
@@ -1301,7 +1257,8 @@ public class CardFactory {
 								if(this.getSourcePermanent().isTapped())
 									System.out.println("cannot tap"); //TODO cambiar esto
 								else {
-									//TODO select target tapped creature
+									//TODO select target tapped creature, then {
+									//this.tap()
 									//target.destroy();
 								}
 							}
@@ -1340,16 +1297,10 @@ public class CardFactory {
 							public void executeOnEvent(GameEvent gameEvent) {
 								boolean destroyThis = true;
 								boolean opponentHasIsland = false;
-								List<Land> lands = this.getSourcePermanent().getController().getLands();
-								for(Land land : lands) {
-									if(land.getName().equals(CardName.ISLAND)) {
-										destroyThis = false;
-									}
-								}
-								if(destroyThis == true) {
-									this.getSourcePermanent().destroy();
-								}
-								lands = this.getSourcePermanent().getController().getOpponent().getLands();
+								List<Land> lands;
+								Player opponent = match.getOpposingPlayerFrom(this.getSourcePermanent().getController());
+								
+								lands = opponent.getLands();
 								for(Land land : lands) {
 									if(land.getName().equals(CardName.ISLAND)) {
 										opponentHasIsland = true;
@@ -1364,6 +1315,16 @@ public class CardFactory {
 									if(this.getSourcePermanent().containsAttribute(Attribute.CAN_ATTACK)) {
 										this.getSourcePermanent().removeAttribute(Attribute.CAN_ATTACK);
 									}
+								}
+								
+								lands = this.getSourcePermanent().getController().getLands();
+								for(Land land : lands) {
+									if(land.getName().equals(CardName.ISLAND)) {
+										destroyThis = false;
+									}
+								}
+								if(destroyThis == true) {
+									this.getSourcePermanent().destroy();
 								}
 							}
 				});
@@ -1407,6 +1368,7 @@ public class CardFactory {
 										this.getSourcePermanent().getController().discardCard(card);
 									}
 								}
+								// TODO else, "cannot activate, sinbad is tapped"
 							}
 				});
             }
@@ -1460,7 +1422,7 @@ public class CardFactory {
                                 for(Creature creature : allCreatures) {
                                     if(creature.getColor().equals(Color.BLUE)) {
                                         if(creature.isAffectedByAbility(this)) {
-                                            creature.removeLastingEffectFromSourceAbility(this);
+                                            creature.removeLastingEffectsFromSourceAbility(this);
                                         }
                                     }
                                 }
@@ -1516,17 +1478,17 @@ public class CardFactory {
 							 */
 							@Override
 							public boolean satisfyCastingRequirements() {
-								//TODO
-								//seleccionar un target
-									//return true
-								//else
+								// TODO
+								// seleccionar un target
+									// return true
+								// else
 								return false;
 							}
 
 							@Override
 							public void sendToStack() {
-								//TODO
-								//gamestack.add(this)
+								// TODO
+								// gamestack.add(this)
 							}
 
 							@Override
@@ -1564,11 +1526,13 @@ public class CardFactory {
                             
                             public void executeOnEntering() {
                             	LastingEffect newEffect = new StaticStatModifier(this, 2, 1);
+                            	target.addAttachedEnchantment((Enchantment)this.getSourcePermanent());
                             	target.applyLastingEffect(newEffect);
                             }
                             
                             public void executeOnExit() {
-                            	target.removeLastingEffectFromSourceAbility(this);
+                            	target.removeLastingEffectsFromSourceAbility(this);
+                            	target.removeAttachedEnchantment((Enchantment)this.getSourcePermanent());
                             }  
                 });
             }
@@ -1631,6 +1595,7 @@ public class CardFactory {
             public CreatureCard createCard() {
 				List<Attribute> attributes = new LinkedList<Attribute>();
 				attributes = getDefaultCreatureAttributes();
+				attributes.add(Attribute.WALL);
 				attributes.remove(Attribute.CAN_ATTACK);
 				return new CreatureCard(CardName.WALL_OF_WATER, Color.BLUE, attributes, 2, 1, 0, 5, 
 						new ActivatedPermanentAbility() {
@@ -1659,12 +1624,24 @@ public class CardFactory {
 								//else
 									return false;
 							}
+							
+							@Override
+							public void executeOnEntering() {
+								target.addAttachedEnchantment((Enchantment)this.getSourcePermanent());
+								gameEventHandler.addListener(this);
+							}
+							
+							@Override
+							public void executeOnExit() {
+								target.removeAttachedEnchantment((Enchantment)this.getSourcePermanent());
+								gameEventHandler.removeListener(this);
+							}
 
 							@Override
 							public void executeOnEvent(GameEvent gameEvent) {
 								if(gameEvent.getDescriptor().equals(Event.UPKEEP_STEP)) {
 									if(gameEvent.getObject1() == target.getController()) {
-										// TODO target.getController().takeDamage(1); o decreaseHealth();
+										target.getController().takeDamage(1);
 									}
 								}
 							}
@@ -1686,12 +1663,24 @@ public class CardFactory {
 								//else
 									return false;
 							}
+							
+							@Override
+							public void executeOnEntering() {
+								target.addAttachedEnchantment((Enchantment)this.getSourcePermanent());
+								gameEventHandler.addListener(this);
+							}
+							
+							@Override
+							public void executeOnExit() {
+								target.removeAttachedEnchantment((Enchantment)this.getSourcePermanent());
+								gameEventHandler.removeListener(this);
+							}
 
 							@Override
 							public void executeOnEvent(GameEvent gameEvent) {
 								if(gameEvent.getDescriptor().equals(Event.UPKEEP_STEP)) {
 									if(gameEvent.getObject1() == target.getController()) {
-										// TODO target.getController().takeDamage(1); o decreaseHealth();
+										target.getController().takeDamage(1);
 									}
 								}
 							}
@@ -1724,11 +1713,13 @@ public class CardFactory {
                             
                             public void executeOnEntering() {
                             	LastingEffect newEffect = new StaticStatModifier(this, -2, -1);
+                            	target.addAttachedEnchantment((Enchantment)this.getSourcePermanent());
                             	target.applyLastingEffect(newEffect);
                             }
                             
                             public void executeOnExit() {
-                            	target.removeLastingEffectFromSourceAbility(this);
+                            	target.removeAttachedEnchantment((Enchantment)this.getSourcePermanent());
+                            	target.removeLastingEffectsFromSourceAbility(this);
                             }  
                 });
             }

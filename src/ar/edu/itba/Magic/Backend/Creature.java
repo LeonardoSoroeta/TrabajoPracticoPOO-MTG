@@ -78,7 +78,7 @@ public class Creature extends Permanent implements DamageTaking, GameStackAction
 		// TODO if defense - damageMarkers <= 0 , then this.destroy();
 	}
 	
-	public void takeDamage(int damage) {		
+	public void takeDamage(Integer damage) {		
 		damageMarkers += damage;
 	}
 	

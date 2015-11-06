@@ -15,9 +15,8 @@ public class Player implements DamageTaking {
 	private List<Card> hand;
 	private List<Permanent> permanentsInPlay;
 	private List<Card> graveyard;
-	private int health;
+	private Integer health;
 	GameEventHandler gameEventHandler = GameEventHandler.getGameEventHandler();
-	Match match = Match.getMatch();
 	
 	public Player(Deck deck) {
 		this.deck = deck;
@@ -30,8 +29,6 @@ public class Player implements DamageTaking {
 	public void setHealth(int health) {
 		this.health = health;
 	}
-	
-	
 	
 	public int getHealth() {
 		return health;
@@ -130,6 +127,8 @@ public class Player implements DamageTaking {
 	}
 	
 	public void removePermanentFromPlay(Permanent permanent) {
+		gameEventHandler.triggerGameEvent(new GameEvent(Event.PERMANENT_LEAVES_PLAY, permanent));
+		
 		if(permanentsInPlay.contains(permanent)) {
 			if(permanent.containsAbility()) {
 				permanent.getAbility().executeOnExit();
@@ -137,7 +136,6 @@ public class Player implements DamageTaking {
 			permanentsInPlay.remove(permanent);
 		}
 		// TODO else throw exception permanent not in play
-		gameEventHandler.triggerGameEvent(new GameEvent(Event.PERMANENT_LEAVES_PLAY, permanent));
 	}
 	
 	public List<Creature> getCreatures() {
@@ -188,15 +186,6 @@ public class Player implements DamageTaking {
 		return enchantments;
 	}
 	
-	public Player getOpponent() {
-		if(this == match.getPlayer1()) {
-			return match.getPlayer2();
-		}
-		else {
-			return match.getPlayer1();
-		}
-	}
-	
 	public boolean containsPermanentsInPlay(Permanent permanent){
 		
 		if(this.permanentsInPlay.contains(permanent)){
@@ -218,7 +207,7 @@ public class Player implements DamageTaking {
 		deck.shuffleDeck();
 	}
 	
-	public void takeDamage(int damage) {
+	public void takeDamage(Integer damage) {
 		if(damage >= 0)
 			health -= damage;
 		throw new IllegalArgumentException();

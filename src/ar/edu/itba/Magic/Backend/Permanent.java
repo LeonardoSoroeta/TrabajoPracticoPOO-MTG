@@ -73,7 +73,7 @@ public abstract class Permanent {
      * 
      * @param ability an Ability that may be applying a LastingEffect on this Permanent.
      */
-    public void removeLastingEffectFromSourceAbility(Ability ability) {
+    public void removeLastingEffectsFromSourceAbility(Ability ability) {
     	for(LastingEffect lastingEffect : appliedLastingEffects) {
     		if(lastingEffect.getSourceAbility() == ability) {
     			lastingEffect.undoEffect();

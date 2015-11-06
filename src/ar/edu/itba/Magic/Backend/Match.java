@@ -40,7 +40,7 @@ public class Match {
 		return player2;
 	}
 	
-	public Player getOpponent(Player player) {
+	public Player getOpposingPlayerFrom(Player player) {
 		if(player == player1) {
 			return player2;
 		}
