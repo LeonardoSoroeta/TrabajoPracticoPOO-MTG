@@ -4,15 +4,15 @@ package ar.edu.itba.Magic.Backend.Interfaces.Enum;
  * Created by Martin on 02/11/2015.
  */
 /*
- * Red Cards:		14
- * Green Cards:		12
+ * Red Cards:		20
+ * Green Cards:		20
  * Blue Cards:		13
- * Black Cards: 	19
+ * Black Cards: 	20
  * White Cards:		12
- * Artifacts:		9
+ * Artifacts:		10
  * Lands:			5
  * 
- * Total:			84
+ * Total:			100
  */
 public enum CardName {
 	
@@ -27,6 +27,7 @@ public enum CardName {
     BLIGHT("Blight"),									// Black Enchantment
     BLOOD_LUST("Blood Lust"),							// Red Instant
     BOG_IMP("Bog Imp"),									// Black Creature
+    BOG_WRAITH("Bog Wraith"),							// Black Creature
     BURROWING("Burrowing"),								// Red Enchantment
     CARNIVOROUS_PLANT("Carnivorous Plant"),				// Green Creature
     CARRION_ANTS("Carrion Ants"),						// Black Creature
@@ -35,6 +36,7 @@ public enum CardName {
     CRUSADE("Crusade"),									// White Enchantment
     DARK_RITUAL("Dark Ritual"),							// Black Instant
     DESERT_TWISTER("Desert Twister"),					// Green Sorcery
+    DINGUS_EGG("Dingus Egg"),							// Artifact
     DIVINE_TRANSFORMATION("Divine Transformation"),		// White Enchantment
     DRAIN_POWER("Drain Power"), 						// Blue Sorcery
     DURKWOOD_BOARS("Durkwood Boars"),					// Green Creature
@@ -49,10 +51,13 @@ public enum CardName {
     FORCE_OF_NATURE("Force of Nature"),					// Green Creature
     FROZEN_SHADE("Frozen Shade"),						// Black Creature
     GRAY_OGRE("Gray Ogre"),								// Red Creature
+    GRANITE_GARGOYLE("Granite Gargoyle"),				// Red Creature
+    GRIZZLY_BEARS("Grizzly Bears"),						// Green Creature
     HOLY_STRENGTH("Holy Strength"),						// White Enchantment
     HOWL_FROM_BEYOND("Howl from Beyond"),				// Black Instant
     HILL_GIANT("Hill Giant"),							// Red Creature
     HURLOON_MINOTAUR("Hurloon Minotaur"),				// Red Creature
+    IRONROOT_TREEFOLK("Ironroot Treefolk"),				// Green Creature
     ISLAND("Island"),									// Land
     JUMP("Jump"),										// Blue Instant
     JUNUN_EFREET("Junun Efreet"),						// Black Creature
@@ -60,6 +65,8 @@ public enum CardName {
     KISMET("Kismet"),									// White Enchantment
     LANCE("Lance"),										// White Enchantment
     LAND_LEECHES("Land Leeches"),						// Green Creature
+    LIGHTNING_BOLT("Lightning Bolt"),					// Red Instant
+    LLANOWAR_ELVES("Llanowar Elves"),					// Green Creature
     LORD_OF_THE_PIT("Lord of the Pit"),					// Black Creature
     LOST_SOUL("Lost Soul"),								// Black Creature
     MARSH_GAS("Marsh Gas"),								// Black Instant
@@ -78,23 +85,32 @@ public enum CardName {
     ROC_OF_KHER_RIDGES("Roc of Kher Ridges"),			// Red Creature
     ROYAL_ASSASIN("Royal Assassin"),					// Black Creature
     SAVANNAH_LIONS("Savannah Lions"),					// White Creature
+    SCRYB_SPRITES("Scryb Sprites"),						// Green Creature
     SEA_SERPENT("Sea Serpent"),							// Blue Creature
     SEGOVIAN_LEVIATHAN("Segovian Leviathan"),			// Blue Creature
     SERRA_ANGEL("Serra Angel"),							// White Creature
+    SHANODIN_DRYADS("Shanodin Dryads"),					// Green Creature
+    SHIVAN_DRAGON("Shivan Dragon"),						// Red Creature
     SINDBAD("Sindbad"),									// Blue Creature
     SINKHOLE("Sinkhole"),								// Black Sorcery
     SOL_RING("Sol Ring"),								// Artifact
+    STONE_RAIN("Stone Rain"),							// Red Sorcery
     SUNKEN_CITY("Sunken City"),							// Blue Enchantment
     SWAMP("Swamp"),										// Land
     TERROR("Terror"),									// Black Instant
     THE_RACK("The Rack"), 								// Artifact
     TUNDRA_WOLVES("Tundra Wolves"),						// White Creature
+    TUNNEL("Tunnel"),									// Red Instant
     UNHOLY_STRENGTH("Unholy Strength"),					// Black Enchantment
     UNSTABLE_MUTATION("Unstable Mutation"),				// Blue Enchantment
+    WALL_OF_FIRE("Wall of Fire"),						// Red Creature
+    WALL_OF_ICE("Wall of Ice"), 						// Green Creature
     WALL_OF_STONE("Wall of Stone"),						// Red Creature
     WALL_OF_SWORDS("Wall of Swords"),					// White Creature
     WALL_OF_WATER("Wall of Water"),						// Blue Creature
+    WALL_OF_WOOD("Wall of Wood"),						// Green Creature
     WANDERLUST("Wanderlust"),							// Green Enchantment
+    WAR_MAMMOTH("War Mammoth"),							// Green Creature
     WARP_ARTIFACT("Warp Artifact"),						// Black Enchantment
     WATER_ELEMENTAL("Water Elemental"),					// Blue Creature
     WEAKNESS("Weakness"),								// Black Enchantment

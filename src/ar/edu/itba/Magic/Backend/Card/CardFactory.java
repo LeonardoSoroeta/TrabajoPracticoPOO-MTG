@@ -2,6 +2,7 @@ package ar.edu.itba.Magic.Backend.Card;
 
 import ar.edu.itba.Magic.Backend.*;
 import ar.edu.itba.Magic.Backend.Interfaces.CardImplementation;
+import ar.edu.itba.Magic.Backend.Interfaces.DamageTaking;
 import ar.edu.itba.Magic.Backend.Interfaces.Enum.Attribute;
 import ar.edu.itba.Magic.Backend.Interfaces.Enum.AttributeModifier;
 import ar.edu.itba.Magic.Backend.Interfaces.Enum.CardName;
@@ -203,7 +204,7 @@ public class CardFactory {
             	List<Attribute> attributes = new LinkedList<Attribute>();
                 attributes = getDefaultCreatureAttributes();
                 attributes.add(Attribute.FLYING);
-                return new CreatureCard(CardName.BIRDS_OF_PARADISE, Color.WHITE, attributes, 1, 2, 1, 2,
+                return new CreatureCard(CardName.BIRDS_OF_PARADISE, Color.GREEN, attributes, 1, 0, 0, 1,
                 		new ActivatedPermanentAbility() {
 
 							@Override
@@ -336,6 +337,16 @@ public class CardFactory {
 				attributes = getDefaultCreatureAttributes();
 				attributes.add(Attribute.FLYING);
 				return new CreatureCard(CardName.BOG_IMP, Color.BLACK, attributes, 1, 1, 1, 1);
+            }
+        });
+        
+        cardImplementations.put(CardName.BOG_WRAITH, new CardImplementation() {
+            @Override
+            public CreatureCard createCard() {
+				List<Attribute> attributes = new LinkedList<Attribute>();
+				attributes = getDefaultCreatureAttributes();
+				attributes.add(Attribute.SWAMPWALK);
+				return new CreatureCard(CardName.BOG_WRAITH, Color.BLACK, attributes, 1, 3, 3, 3);
             }
         });
         
@@ -533,6 +544,32 @@ public class CardFactory {
 							public void resolveInStack() {
 								if(target.isStillALegalTarget()) {
 									target.destroy();
+								}
+							}
+				});
+            }
+        });
+        
+        cardImplementations.put(CardName.DINGUS_EGG, new CardImplementation() {
+            @Override
+            public ArtifactCard createCard() {
+				return new ArtifactCard(CardName.DINGUS_EGG, 4,
+						new AutomaticPermanentAbility() {
+					
+							@Override 
+							public void executeOnEntering() {
+								gameEventHandler.addListener(this);
+							}
+							
+							@Override
+							public void executeOnExit() {
+								gameEventHandler.removeListener(this);
+							}
+					
+							@Override
+							public void executeOnEvent(GameEvent gameEvent) {
+								if(gameEvent.getDescriptor().equals(Event.PERMANENT_LEAVES_PLAY)) {
+									((Permanent)gameEvent.getObject1()).getController().takeDamage(2);
 								}
 							}
 				});
@@ -793,12 +830,40 @@ public class CardFactory {
             }
         });
         
+        cardImplementations.put(CardName.GRANITE_GARGOYLE, new CardImplementation() {
+            @Override
+            public CreatureCard createCard() {
+				List<Attribute> attributes = new LinkedList<Attribute>();
+				attributes = getDefaultCreatureAttributes();
+				attributes.add(Attribute.FLYING);
+				return new CreatureCard(CardName.GRANITE_GARGOYLE, Color.RED, attributes, 1, 2, 2, 2,
+						new ActivatedPermanentAbility() {
+
+							@Override
+							public void executeOnActivation() {
+								// TODO pay 1 red mana, then
+								LastingEffect newEffect = new OneTurnStatModifier(this, 0, 1);
+								this.getSourcePermanent().applyLastingEffect(newEffect);
+							}
+				});
+            }
+        });     
+        
         cardImplementations.put(CardName.GRAY_OGRE, new CardImplementation() {
             @Override
             public CreatureCard createCard() {
 				List<Attribute> attributes = new LinkedList<Attribute>();
 				attributes = getDefaultCreatureAttributes();
 				return new CreatureCard(CardName.GRAY_OGRE, Color.RED, attributes, 1, 2, 2, 2);
+            }
+        });
+        
+        cardImplementations.put(CardName.GRIZZLY_BEARS, new CardImplementation() {
+            @Override
+            public CreatureCard createCard() {
+            	List<Attribute> attributes = new LinkedList<Attribute>();
+                attributes = getDefaultCreatureAttributes();
+                return new CreatureCard(CardName.GRIZZLY_BEARS, Color.GREEN, attributes, 1, 1, 2, 2);
             }
         });
         
@@ -879,6 +944,15 @@ public class CardFactory {
 				List<Attribute> attributes = new LinkedList<Attribute>();
 				attributes = getDefaultCreatureAttributes();
 				return new CreatureCard(CardName.HURLOON_MINOTAUR, Color.RED, attributes, 2, 1, 2, 3);
+            }
+        });
+        
+        cardImplementations.put(CardName.IRONROOT_TREEFOLK, new CardImplementation() {
+            @Override
+            public CreatureCard createCard() {
+            	List<Attribute> attributes = new LinkedList<Attribute>();
+                attributes = getDefaultCreatureAttributes();
+                return new CreatureCard(CardName.IRONROOT_TREEFOLK, Color.GREEN, attributes, 1, 4, 3, 5);
             }
         });
         
@@ -1069,6 +1143,57 @@ public class CardFactory {
 				attributes = getDefaultCreatureAttributes();
 				attributes.add(Attribute.FIRST_STRIKE);
 				return new CreatureCard(CardName.LAND_LEECHES, Color.GREEN, attributes, 2, 1, 2, 2);
+            }
+        });
+        
+        cardImplementations.put(CardName.LIGHTNING_BOLT, new CardImplementation() {
+            @Override
+            public InstantCard createCard() {
+				return new InstantCard(CardName.LIGHTNING_BOLT, Color.RED, 1, 0,
+						new SpellAbility() {
+							DamageTaking target; // Object target ?
+
+							@Override
+							public boolean satisfyCastingRequirements() {
+								// TODO select target
+									// return true;
+								//else
+									return false;
+							}
+
+							@Override
+							public void sendToStack() {
+								gameStack.addStackAction(this);
+							}
+
+							@Override
+							public void resolveInStack() {
+								if(target instanceof Player) {
+									target.takeDamage(3);
+								}
+								else {
+									if(((Permanent)target).isStillALegalTarget()) {
+										target.takeDamage(3);
+								}
+								}
+							}
+				});
+            }
+        });
+        
+        cardImplementations.put(CardName.LLANOWAR_ELVES, new CardImplementation() {
+            @Override
+            public CreatureCard createCard() {
+            	List<Attribute> attributes = new LinkedList<Attribute>();
+                attributes = getDefaultCreatureAttributes();
+                return new CreatureCard(CardName.LLANOWAR_ELVES, Color.GREEN, attributes, 1, 0, 1, 1,
+                		new ActivatedPermanentAbility() {
+
+							@Override
+							public void executeOnActivation() {
+								// TODO if not tapped: add one mana green mana, tap
+							}
+                });
             }
         });
 
@@ -1428,6 +1553,16 @@ public class CardFactory {
             }
         });
         
+        cardImplementations.put(CardName.SCRYB_SPRITES, new CardImplementation() {
+            @Override
+            public CreatureCard createCard() {
+            	List<Attribute> attributes = new LinkedList<Attribute>();
+                attributes = getDefaultCreatureAttributes();
+                attributes.add(Attribute.FLYING);
+                return new CreatureCard(CardName.SCRYB_SPRITES, Color.GREEN, attributes, 1, 0, 1, 1);
+            }
+        });
+        
         cardImplementations.put(CardName.SEA_SERPENT, new CardImplementation() {
             @Override
             public CreatureCard createCard() {
@@ -1504,6 +1639,35 @@ public class CardFactory {
             }
         });
         
+        cardImplementations.put(CardName.SHANODIN_DRYADS, new CardImplementation() {
+            @Override
+            public CreatureCard createCard() {
+            	List<Attribute> attributes = new LinkedList<Attribute>();
+                attributes = getDefaultCreatureAttributes();
+                attributes.add(Attribute.FORESTWALK);
+                return new CreatureCard(CardName.SHANODIN_DRYADS, Color.GREEN, attributes, 1, 0, 1, 1);
+            }
+        });
+        
+        cardImplementations.put(CardName.SHIVAN_DRAGON, new CardImplementation() {
+            @Override
+            public CreatureCard createCard() {
+				List<Attribute> attributes = new LinkedList<Attribute>();
+				attributes = getDefaultCreatureAttributes();
+				attributes.add(Attribute.FLYING);
+				return new CreatureCard(CardName.SHIVAN_DRAGON, Color.RED, attributes, 2, 4, 5, 5,
+						new ActivatedPermanentAbility() {
+
+							@Override
+							public void executeOnActivation() {
+								// TODO pay 1 red mana, then
+								LastingEffect newEffect = new OneTurnStatModifier(this, 1, 0);
+								this.getSourcePermanent().applyLastingEffect(newEffect);
+							}
+				});
+            }
+        });        
+        
         cardImplementations.put(CardName.SINDBAD, new CardImplementation() {
             @Override
             public CreatureCard createCard() {
@@ -1566,6 +1730,36 @@ public class CardFactory {
 							@Override
 							public void executeOnActivation() {
 								// TODO tap, add 2 colorless mana
+							}
+				});
+            }
+        });
+        
+        cardImplementations.put(CardName.STONE_RAIN, new CardImplementation() {
+            @Override
+            public SorceryCard createCard() {
+				return new SorceryCard(CardName.STONE_RAIN, Color.RED, 1, 2,
+						new SpellAbility() {
+							Land target;
+					
+							@Override
+							public boolean satisfyCastingRequirements() {
+								// TODO target = seleccionar target land
+									//return true
+								//else
+									return false;
+							}
+
+							@Override
+							public void sendToStack() {
+								gameStack.addStackAction(this);
+							}
+
+							@Override
+							public void resolveInStack() {
+								if(target.isStillALegalTarget()) {
+									target.destroy();
+								}
 							}
 				});
             }
@@ -1715,6 +1909,36 @@ public class CardFactory {
             }
         });
         
+        cardImplementations.put(CardName.TUNNEL, new CardImplementation() {
+            @Override
+            public InstantCard createCard() {
+				return new InstantCard(CardName.TUNNEL, Color.RED, 1, 0,
+						new SpellAbility() {
+							Creature target;
+					
+							@Override
+							public boolean satisfyCastingRequirements() {
+								// TODO target = seleccionar target wall
+									//return true
+								//else
+									return false;
+							}
+
+							@Override
+							public void sendToStack() {
+								gameStack.addStackAction(this);
+							}
+
+							@Override
+							public void resolveInStack() {
+								if(target.isStillALegalTarget()) {
+									target.destroy();
+								}
+							}
+				});
+            }
+        });
+        
         cardImplementations.put(CardName.UNHOLY_STRENGTH, new CardImplementation() {
             @Override
             public EnchantmentCard createCard() {
@@ -1785,12 +2009,44 @@ public class CardFactory {
             }
         });
         
+        cardImplementations.put(CardName.WALL_OF_FIRE, new CardImplementation() {
+            @Override
+            public CreatureCard createCard() {
+				List<Attribute> attributes = new LinkedList<Attribute>();
+				attributes = getDefaultCreatureAttributes();
+				attributes.add(Attribute.WALL);
+				attributes.remove(Attribute.CAN_ATTACK);
+				return new CreatureCard(CardName.WALL_OF_FIRE, Color.RED, attributes, 2, 1, 0, 5,
+						new ActivatedPermanentAbility() {
+
+							@Override
+							public void executeOnActivation() {
+								// TODO pay 1 red mana, then
+								LastingEffect newEffect = new OneTurnStatModifier(this, 1, 0);
+								this.getSourcePermanent().applyLastingEffect(newEffect);
+							}
+				});
+            }
+        });        
+   
+        cardImplementations.put(CardName.WALL_OF_ICE, new CardImplementation() {
+            @Override
+            public CreatureCard createCard() {
+				List<Attribute> attributes = new LinkedList<Attribute>();
+				attributes = getDefaultCreatureAttributes();
+				attributes.add(Attribute.WALL);
+				attributes.remove(Attribute.CAN_ATTACK);
+				return new CreatureCard(CardName.WALL_OF_ICE, Color.GREEN, attributes, 1, 2, 0, 7);
+            }
+        });
+        
         cardImplementations.put(CardName.WALL_OF_STONE, new CardImplementation() {
             @Override
             public CreatureCard createCard() {
 				List<Attribute> attributes = new LinkedList<Attribute>();
 				attributes = getDefaultCreatureAttributes();
 				attributes.add(Attribute.WALL);
+				attributes.remove(Attribute.CAN_ATTACK);
 				return new CreatureCard(CardName.WALL_OF_STONE, Color.RED, attributes, 2, 1, 0, 8);
             }
         });
@@ -1824,6 +2080,17 @@ public class CardFactory {
 								this.getSourcePermanent().applyLastingEffect(newEffect);
 							}
 				});
+            }
+        });
+        
+        cardImplementations.put(CardName.WALL_OF_WOOD, new CardImplementation() {
+            @Override
+            public CreatureCard createCard() {
+				List<Attribute> attributes = new LinkedList<Attribute>();
+				attributes = getDefaultCreatureAttributes();
+				attributes.add(Attribute.WALL);
+				attributes.remove(Attribute.CAN_ATTACK);
+				return new CreatureCard(CardName.WALL_OF_WOOD, Color.GREEN, attributes, 1, 0, 0, 3);
             }
         });
                 
@@ -1863,6 +2130,16 @@ public class CardFactory {
 								}
 							}
 						});
+            }
+        });
+        
+        cardImplementations.put(CardName.WAR_MAMMOTH, new CardImplementation() {
+            @Override
+            public CreatureCard createCard() {
+				List<Attribute> attributes = new LinkedList<Attribute>();
+				attributes = getDefaultCreatureAttributes();
+				attributes.add(Attribute.TRAMPLE);
+				return new CreatureCard(CardName.WAR_MAMMOTH, Color.GREEN, attributes, 1, 3, 3, 3);
             }
         });
         
