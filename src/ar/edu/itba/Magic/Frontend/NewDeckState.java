@@ -1,12 +1,10 @@
 package ar.edu.itba.Magic.Frontend;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
@@ -18,17 +16,22 @@ import org.newdawn.slick.state.StateBasedGame;
 public class NewDeckState extends BasicGameState {
 	ExtendedImage library;
 	ExtendedImage yourDeck;
+	ExtendedImage save;
+	ExtendedImage back;
 	List<CardUI> cardsUI;
 	DeckUI deckUI;
 	int mouseWheel = 0;
 	int lastCardIndex = 0;
 	boolean wheelMoved = false;
 	Input input;
-	
+	NewGame g;
+
 	public void init(GameContainer gc, StateBasedGame arg1) throws SlickException {
+		library = new ExtendedImage("res/library.png",gc.getWidth()*4/6,gc.getHeight()*5/6);
+		yourDeck = new ExtendedImage("res/yourdeck.png",gc.getWidth()*4/6,gc.getHeight()*5/6);
 		deckUI = new DeckUI();
 		int cardsAmount = 15;
-		cardsUI = new ArrayList<CardUI>();
+		cardsUI = new LinkedList<CardUI>();
 		Integer cardNum = 1;
 		String ref = "res/cards/" + cardNum.toString() + ".jpg";
 		for(int i = 0; i < cardsAmount; i++) {
@@ -36,12 +39,13 @@ public class NewDeckState extends BasicGameState {
 			++cardNum;
 			ref = "res/cards/" + cardNum.toString() + ".jpg";
 		}
+
 	}
 
 	public void update(GameContainer gc, StateBasedGame arg1, int arg2) throws SlickException {
 		input = gc.getInput();
 		float cardWidth = cardsUI.get(0).getImg().getWidth();
-
+		//when the mouse is on the left side of the screen
 		if(input.getMouseX() <= cardWidth) {
 			if(wheelMoved) {
 				for(CardUI each: deckUI.getCards()) {				
@@ -60,6 +64,7 @@ public class NewDeckState extends BasicGameState {
 			}
 		}
 		
+		//when the mouse is on the right side of the screen
 		if(input.getMouseX() >= gc.getWidth()*4/5) {
 			if(wheelMoved) {
 				for(CardUI each: cardsUI) {				
@@ -68,9 +73,10 @@ public class NewDeckState extends BasicGameState {
 				wheelMoved = false;
 			}
 			for(int i = cardsUI.size() - 1; i >= 0; i--) {				
-				if(cardsUI.get(i).mouseLClicked(input)) {
-					int repetitions = 0; 
+				if(cardsUI.get(i).mouseLClicked(input) && cardsUI.size() < 60) {
+					int repetitions = 0;
 					List<CardUI> auxDeck = deckUI.getCards();
+					// see if the card about to add it's not repeated more than 4 times
 					for(int j = 0; j < auxDeck.size(); j++) {
 						if(cardsUI.get(i).equals(auxDeck.get(j))) {
 							repetitions++;
@@ -78,7 +84,12 @@ public class NewDeckState extends BasicGameState {
 					}
 					if(repetitions < 4) {
 						CardUI auxCard = new CardUI(cardsUI.get(i));
-						auxCard.update(0,deckUI.getCards().size()*gc.getHeight()*1/13);
+						float posY;
+						if(deckUI.getCards().isEmpty())
+							posY = 0;
+						else
+							posY = ((LinkedList<CardUI>) deckUI.getCards()).peekLast().getY();
+						auxCard.update(0,posY + gc.getHeight()*1/13);
 						deckUI.add(auxCard);
 					}
 					
@@ -92,6 +103,10 @@ public class NewDeckState extends BasicGameState {
 	}
 	
 	public void render(GameContainer gc, StateBasedGame arg1, Graphics arg2) throws SlickException {
+		library.draw();
+		
+		yourDeck.draw();
+		
 		for(CardUI each: cardsUI) {
 			each.draw();
 		}

@@ -1,6 +1,6 @@
 package ar.edu.itba.Magic.Frontend;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import ar.edu.itba.Magic.Backend.Interfaces.Drawable;
@@ -10,7 +10,7 @@ public class DeckUI implements Drawable {
 	List<CardUI> deckUI;
 	
 	public DeckUI() {
-		deckUI = new ArrayList<CardUI>();
+		deckUI = new LinkedList<CardUI>();
 	}
 	
 	public void draw() {

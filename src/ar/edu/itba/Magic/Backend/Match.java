@@ -1,3 +1,5 @@
+package ar.edu.itba.Magic.Backend;
+
 
 import java.util.LinkedList;
 import java.util.List;
@@ -12,24 +14,23 @@ import ar.edu.itba.Magic.Backend.Card.LandCard;
 
 public class Match {
 	
-	private static Match instance = getMatch();
+	private static Match self = null;
 	
 	GameEventHandler eventHandler = GameEventHandler.getGameEventHandler();
 	
 	private Player player1;
 	private Player player2;
 	private Player activePlayer;
+	private boolean targetRequired = false;
+	private Card cardTaget;
 		
-	private Match() {
-		
-	}
 
-    public Match getMatchInstance(){
-        return this;
-    }
-	
+    
 	public static Match getMatch() {
-		return instance;
+		if(self == null) {
+			self = new Match();
+		}
+		return self;
 	}
 	
 	public Player getPlayer1() {
@@ -214,5 +215,21 @@ public class Match {
 			}
 		}
 		*/
+	
+	//este ejemplo es bastante feo pero es para darse una idea
+	public void sendTarger(Object obj) {
+		if(obj instanceof Card) {
+			cardTaget = obj;
+		}
+	}
+	
+	public void setTargetRequired() {
+		targetRequired = true;
+	}
+	
+	
+	public boolean isTargetRequired() {
+		return targetRequired;
+	}
 
 }
