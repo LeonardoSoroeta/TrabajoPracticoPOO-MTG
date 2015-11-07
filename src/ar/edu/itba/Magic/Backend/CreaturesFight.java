@@ -101,7 +101,7 @@ public class CreaturesFight {
 			for( Land land: defensor.getLands())
 		
 				if (creature.containsAttribute(walk))
-			if( land.getName == walk)
+			if( land.containsAttribute(walk))
 				
 				return true;
 		
