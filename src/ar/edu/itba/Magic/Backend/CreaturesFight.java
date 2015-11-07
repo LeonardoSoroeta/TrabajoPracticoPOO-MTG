@@ -109,6 +109,28 @@ public class CreaturesFight {
 		return false;
 	}
 	
+	public boolean addAttacker(Creature creature,List<Creature> attack){
+		
+		if (creature.isTapped())
+			return false;
+		
+		if( creature.containsAttribute(Attribute.CAN_ATTACK) && !creature.containsAttribute(Attribute.SUMMONING_SICKNESS)){
+			attack.add(creature);
+			return true;
+		}
+			
+		return false;
+	}
+	
+	
+	public boolean addDefender(Creature creature, List<Creature> defense){
+		if ( creature.containsAttribute(Attribute.SUMMONING_SICKNESS) || creature.isTapped())
+			return false;
+		
+		defense.add(creature);
+		return true;
+	}
+	
 	
 	
 	
