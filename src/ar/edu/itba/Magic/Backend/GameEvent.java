@@ -1,6 +1,6 @@
 package ar.edu.itba.Magic.Backend;
 
-import ar.edu.itba.Magic.Backend.Interfaces.Enum.Event;
+import ar.edu.itba.Magic.Backend.Enums.Event;
 
 public class GameEvent {
 	

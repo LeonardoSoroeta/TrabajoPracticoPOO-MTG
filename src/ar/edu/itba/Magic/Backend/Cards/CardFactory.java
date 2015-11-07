@@ -1,4 +1,4 @@
-package ar.edu.itba.Magic.Backend.Card;
+package ar.edu.itba.Magic.Backend.Cards;
 
 import ar.edu.itba.Magic.Backend.*;
 import ar.edu.itba.Magic.Backend.Abilities.ActivatedPermanentAbility;
@@ -8,13 +8,13 @@ import ar.edu.itba.Magic.Backend.Abilities.PermanentAbility;
 import ar.edu.itba.Magic.Backend.Abilities.SpellAbility;
 import ar.edu.itba.Magic.Backend.Effects.AutomaticLastingEffect;
 import ar.edu.itba.Magic.Backend.Effects.LastingEffect;
+import ar.edu.itba.Magic.Backend.Enums.Attribute;
+import ar.edu.itba.Magic.Backend.Enums.AttributeModifier;
+import ar.edu.itba.Magic.Backend.Enums.CardType;
+import ar.edu.itba.Magic.Backend.Enums.Color;
+import ar.edu.itba.Magic.Backend.Enums.Event;
 import ar.edu.itba.Magic.Backend.Interfaces.CardImplementation;
 import ar.edu.itba.Magic.Backend.Interfaces.DamageTaking;
-import ar.edu.itba.Magic.Backend.Interfaces.Enum.Attribute;
-import ar.edu.itba.Magic.Backend.Interfaces.Enum.AttributeModifier;
-import ar.edu.itba.Magic.Backend.Interfaces.Enum.CardType;
-import ar.edu.itba.Magic.Backend.Interfaces.Enum.Color;
-import ar.edu.itba.Magic.Backend.Interfaces.Enum.Event;
 import ar.edu.itba.Magic.Backend.Permanents.Artifact;
 import ar.edu.itba.Magic.Backend.Permanents.Creature;
 import ar.edu.itba.Magic.Backend.Permanents.Enchantment;

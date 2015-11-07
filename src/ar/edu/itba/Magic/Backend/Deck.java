@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-import ar.edu.itba.Magic.Backend.Card.Card;
+import ar.edu.itba.Magic.Backend.Cards.Card;
 
 public class Deck {
 	

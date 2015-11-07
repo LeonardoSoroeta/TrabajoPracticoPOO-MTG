@@ -1,9 +1,9 @@
 package ar.edu.itba.Magic.Backend.Permanents;
 import ar.edu.itba.Magic.Backend.GameEventHandler;
 import ar.edu.itba.Magic.Backend.Abilities.PermanentAbility;
-import ar.edu.itba.Magic.Backend.Card.Card;
+import ar.edu.itba.Magic.Backend.Cards.Card;
+import ar.edu.itba.Magic.Backend.Enums.Attribute;
 import ar.edu.itba.Magic.Backend.Interfaces.DamageTaking;
-import ar.edu.itba.Magic.Backend.Interfaces.Enum.Attribute;
 
 import java.util.LinkedList;
 import java.util.List;

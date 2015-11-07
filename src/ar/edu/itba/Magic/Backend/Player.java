@@ -1,8 +1,8 @@
 package ar.edu.itba.Magic.Backend;
 
-import ar.edu.itba.Magic.Backend.Card.Card;
+import ar.edu.itba.Magic.Backend.Cards.Card;
+import ar.edu.itba.Magic.Backend.Enums.Event;
 import ar.edu.itba.Magic.Backend.Interfaces.DamageTaking;
-import ar.edu.itba.Magic.Backend.Interfaces.Enum.Event;
 import ar.edu.itba.Magic.Backend.Permanents.Artifact;
 import ar.edu.itba.Magic.Backend.Permanents.Creature;
 import ar.edu.itba.Magic.Backend.Permanents.Enchantment;

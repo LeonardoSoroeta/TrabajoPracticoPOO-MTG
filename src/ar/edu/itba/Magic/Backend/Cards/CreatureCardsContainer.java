@@ -1,4 +1,4 @@
-package ar.edu.itba.Magic.Backend.Card;
+package ar.edu.itba.Magic.Backend.Cards;
 import java.util.HashMap;
 
 import java.util.Map;

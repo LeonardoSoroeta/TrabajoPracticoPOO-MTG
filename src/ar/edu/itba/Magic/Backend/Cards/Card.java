@@ -1,8 +1,8 @@
-package ar.edu.itba.Magic.Backend.Card;
+package ar.edu.itba.Magic.Backend.Cards;
 import ar.edu.itba.Magic.Backend.Player;
 import ar.edu.itba.Magic.Backend.Abilities.Ability;
-import ar.edu.itba.Magic.Backend.Interfaces.Enum.CardType;
-import ar.edu.itba.Magic.Backend.Interfaces.Enum.Color;
+import ar.edu.itba.Magic.Backend.Enums.CardType;
+import ar.edu.itba.Magic.Backend.Enums.Color;
 
 /**
  * Created by Martin on 31/10/2015.

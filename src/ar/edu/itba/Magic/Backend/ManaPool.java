@@ -1,7 +1,7 @@
 package ar.edu.itba.Magic.Backend;
 
+import ar.edu.itba.Magic.Backend.Enums.Color;
 import ar.edu.itba.Magic.Backend.Exceptions.NotAvailableManaException;
-import ar.edu.itba.Magic.Backend.Interfaces.Enum.Color;
 
 import java.util.HashMap;
 import java.util.Map;

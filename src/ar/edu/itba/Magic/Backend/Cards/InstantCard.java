@@ -1,8 +1,8 @@
-package ar.edu.itba.Magic.Backend.Card;
+package ar.edu.itba.Magic.Backend.Cards;
 
-import ar.edu.itba.Magic.Backend.Interfaces.Enum.CardType;
 import ar.edu.itba.Magic.Backend.Abilities.Ability;
 import ar.edu.itba.Magic.Backend.Abilities.SpellAbility;
+import ar.edu.itba.Magic.Backend.Enums.CardType;
 
 /**
  * Created by Martin on 31/10/2015.

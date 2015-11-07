@@ -6,14 +6,14 @@ import ar.edu.itba.Magic.Backend.GameEventHandler;
 import ar.edu.itba.Magic.Backend.Player;
 import ar.edu.itba.Magic.Backend.Abilities.Ability;
 import ar.edu.itba.Magic.Backend.Abilities.PermanentAbility;
-import ar.edu.itba.Magic.Backend.Card.Card;
+import ar.edu.itba.Magic.Backend.Cards.Card;
 import ar.edu.itba.Magic.Backend.Effects.AutomaticLastingEffect;
 import ar.edu.itba.Magic.Backend.Effects.LastingEffect;
-import ar.edu.itba.Magic.Backend.Interfaces.Enum.Color;
+import ar.edu.itba.Magic.Backend.Enums.Attribute;
+import ar.edu.itba.Magic.Backend.Enums.CardType;
+import ar.edu.itba.Magic.Backend.Enums.Color;
 import ar.edu.itba.Magic.Backend.Stack.GameStack;
 import ar.edu.itba.Magic.Backend.Interfaces.GameStackAction;
-import ar.edu.itba.Magic.Backend.Interfaces.Enum.Attribute;
-import ar.edu.itba.Magic.Backend.Interfaces.Enum.CardType;
 
 /**
  * All objects currently in play are Permanents. These objects may be a Creature, an Enchantment, an Artifact or a Land.

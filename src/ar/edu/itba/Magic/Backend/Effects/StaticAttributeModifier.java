@@ -1,8 +1,8 @@
 package ar.edu.itba.Magic.Backend.Effects;
 
 import ar.edu.itba.Magic.Backend.Abilities.Ability;
-import ar.edu.itba.Magic.Backend.Interfaces.Enum.Attribute;
-import ar.edu.itba.Magic.Backend.Interfaces.Enum.AttributeModifier;
+import ar.edu.itba.Magic.Backend.Enums.Attribute;
+import ar.edu.itba.Magic.Backend.Enums.AttributeModifier;
 
 public class StaticAttributeModifier extends LastingEffect {
 	AttributeModifier attributeModifier;

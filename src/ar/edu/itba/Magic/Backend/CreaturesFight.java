@@ -1,6 +1,5 @@
 package ar.edu.itba.Magic.Backend;
 
-import ar.edu.itba.Magic.Backend.Interfaces.Enum.Attribute;
 import ar.edu.itba.Magic.Backend.Permanents.Creature;
 import ar.edu.itba.Magic.Backend.Permanents.Land;
 
@@ -8,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ar.edu.itba.Magic.Backend.Player;
+import ar.edu.itba.Magic.Backend.Enums.Attribute;
 
 public class CreaturesFight {
 	

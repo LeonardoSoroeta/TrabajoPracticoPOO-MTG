@@ -5,8 +5,8 @@ import java.util.List;
 
 import ar.edu.itba.Magic.Backend.GameEventHandler;
 import ar.edu.itba.Magic.Backend.Abilities.PermanentAbility;
-import ar.edu.itba.Magic.Backend.Card.Card;
-import ar.edu.itba.Magic.Backend.Interfaces.Enum.Attribute;
+import ar.edu.itba.Magic.Backend.Cards.Card;
+import ar.edu.itba.Magic.Backend.Enums.Attribute;
 
 public class Enchantment extends Permanent {
 	

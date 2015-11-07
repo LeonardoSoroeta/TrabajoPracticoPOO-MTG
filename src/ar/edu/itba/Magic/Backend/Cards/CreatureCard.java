@@ -1,11 +1,11 @@
-package ar.edu.itba.Magic.Backend.Card;
+package ar.edu.itba.Magic.Backend.Cards;
 
 import java.util.List;
 
 import ar.edu.itba.Magic.Backend.Abilities.Ability;
 import ar.edu.itba.Magic.Backend.Abilities.PermanentAbility;
-import ar.edu.itba.Magic.Backend.Interfaces.Enum.Attribute;
-import ar.edu.itba.Magic.Backend.Interfaces.Enum.CardType;
+import ar.edu.itba.Magic.Backend.Enums.Attribute;
+import ar.edu.itba.Magic.Backend.Enums.CardType;
 import ar.edu.itba.Magic.Backend.Permanents.Creature;
 
 /**

@@ -2,7 +2,7 @@ package ar.edu.itba.Magic.Backend.Effects;
 
 import ar.edu.itba.Magic.Backend.GameEvent;
 import ar.edu.itba.Magic.Backend.Abilities.Ability;
-import ar.edu.itba.Magic.Backend.Interfaces.Enum.Event;
+import ar.edu.itba.Magic.Backend.Enums.Event;
 import ar.edu.itba.Magic.Backend.Permanents.Creature;
 
 public class OneTurnStatModifier extends AutomaticLastingEffect {

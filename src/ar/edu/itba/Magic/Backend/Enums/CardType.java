@@ -1,4 +1,4 @@
-package ar.edu.itba.Magic.Backend.Interfaces.Enum;
+package ar.edu.itba.Magic.Backend.Enums;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -7,11 +7,11 @@ import ar.edu.itba.Magic.Backend.GameEvent;
 import ar.edu.itba.Magic.Backend.GameEventHandler;
 import ar.edu.itba.Magic.Backend.Match;
 import ar.edu.itba.Magic.Backend.Abilities.AutomaticPermanentAbility;
-import ar.edu.itba.Magic.Backend.Card.ArtifactCard;
-import ar.edu.itba.Magic.Backend.Card.Card;
-import ar.edu.itba.Magic.Backend.Card.CreatureCard;
-import ar.edu.itba.Magic.Backend.Card.EnchantmentCard;
-import ar.edu.itba.Magic.Backend.Card.SorceryCard;
+import ar.edu.itba.Magic.Backend.Cards.ArtifactCard;
+import ar.edu.itba.Magic.Backend.Cards.Card;
+import ar.edu.itba.Magic.Backend.Cards.CreatureCard;
+import ar.edu.itba.Magic.Backend.Cards.EnchantmentCard;
+import ar.edu.itba.Magic.Backend.Cards.SorceryCard;
 import ar.edu.itba.Magic.Backend.Effects.LastingEffect;
 import ar.edu.itba.Magic.Backend.Effects.StaticStatModifier;
 import ar.edu.itba.Magic.Backend.Permanents.Creature;

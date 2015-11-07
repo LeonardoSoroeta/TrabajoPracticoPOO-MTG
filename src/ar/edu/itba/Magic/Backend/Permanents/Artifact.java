@@ -4,9 +4,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 import ar.edu.itba.Magic.Backend.Abilities.PermanentAbility;
-import ar.edu.itba.Magic.Backend.Card.Card;
+import ar.edu.itba.Magic.Backend.Cards.Card;
+import ar.edu.itba.Magic.Backend.Enums.Attribute;
 import ar.edu.itba.Magic.Backend.Interfaces.GameStackAction;
-import ar.edu.itba.Magic.Backend.Interfaces.Enum.Attribute;
 
 public class Artifact extends Permanent implements GameStackAction {
 	 

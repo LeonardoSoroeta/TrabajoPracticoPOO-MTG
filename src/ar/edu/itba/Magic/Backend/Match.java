@@ -5,16 +5,16 @@ import java.util.LinkedList;
 import java.util.List;
 
 import ar.edu.itba.Magic.Backend.GameEventHandler;
-import ar.edu.itba.Magic.Backend.Interfaces.Enum.Color;
-import ar.edu.itba.Magic.Backend.Interfaces.Enum.Event;
 import ar.edu.itba.Magic.Backend.Permanents.Creature;
 import ar.edu.itba.Magic.Backend.Permanents.Land;
 import ar.edu.itba.Magic.Backend.Permanents.Permanent;
-import ar.edu.itba.Magic.Backend.Interfaces.Enum.Attribute;
 import ar.edu.itba.Magic.Backend.Player;
 import ar.edu.itba.Magic.Backend.Abilities.ActivatedPermanentAbility;
-import ar.edu.itba.Magic.Backend.Card.Card;
-import ar.edu.itba.Magic.Backend.Card.LandCard;
+import ar.edu.itba.Magic.Backend.Cards.Card;
+import ar.edu.itba.Magic.Backend.Cards.LandCard;
+import ar.edu.itba.Magic.Backend.Enums.Attribute;
+import ar.edu.itba.Magic.Backend.Enums.Color;
+import ar.edu.itba.Magic.Backend.Enums.Event;
 
 public class Match {
 	

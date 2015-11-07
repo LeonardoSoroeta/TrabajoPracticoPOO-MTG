@@ -1,6 +1,6 @@
 package ar.edu.itba.Magic.Backend.Abilities;
 
-import ar.edu.itba.Magic.Backend.Card.Card;
+import ar.edu.itba.Magic.Backend.Cards.Card;
 import ar.edu.itba.Magic.Backend.Interfaces.GameStackAction;
 
 /* las habilities adentro de InstantCards y SorceryCards extienden de esta */
