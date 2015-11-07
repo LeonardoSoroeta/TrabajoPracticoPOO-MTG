@@ -1,9 +1,9 @@
 package ar.edu.itba.Magic.Backend.Card;
 
-import ar.edu.itba.Magic.Backend.Ability;
-import ar.edu.itba.Magic.Backend.Artifact;
-import ar.edu.itba.Magic.Backend.PermanentAbility;
+import ar.edu.itba.Magic.Backend.Abilities.Ability;
+import ar.edu.itba.Magic.Backend.Abilities.PermanentAbility;
 import ar.edu.itba.Magic.Backend.Interfaces.Enum.CardType;
+import ar.edu.itba.Magic.Backend.Permanents.Artifact;
 
 public class ArtifactCard extends Card {
 

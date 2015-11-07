@@ -1,8 +1,9 @@
-package ar.edu.itba.Magic.Backend;
+package ar.edu.itba.Magic.Backend.Permanents;
 
 import java.util.LinkedList;
 import java.util.List;
 
+import ar.edu.itba.Magic.Backend.Abilities.PermanentAbility;
 import ar.edu.itba.Magic.Backend.Card.Card;
 import ar.edu.itba.Magic.Backend.Interfaces.GameStackAction;
 import ar.edu.itba.Magic.Backend.Interfaces.Enum.Attribute;

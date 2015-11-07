@@ -1,4 +1,4 @@
-package ar.edu.itba.Magic.Backend;
+package ar.edu.itba.Magic.Backend.Abilities;
 
 /** 
  * This class determines a Card's behaviour. Every Card must contain an Ability, except CreatureCards which may or may not 

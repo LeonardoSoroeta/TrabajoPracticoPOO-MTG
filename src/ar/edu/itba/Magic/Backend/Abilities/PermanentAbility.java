@@ -1,4 +1,6 @@
-package ar.edu.itba.Magic.Backend;
+package ar.edu.itba.Magic.Backend.Abilities;
+
+import ar.edu.itba.Magic.Backend.Permanents.Permanent;
 
 /**
  * All abilities contained by Permanents extend this class. Every time a Permanent that contains an ability enters play, 

@@ -1,5 +1,6 @@
-package ar.edu.itba.Magic.Backend;
+package ar.edu.itba.Magic.Backend.Abilities;
 
+import ar.edu.itba.Magic.Backend.GameEvent;
 import ar.edu.itba.Magic.Backend.Interfaces.GameEventListener;
 import ar.edu.itba.Magic.Backend.Interfaces.GameStackAction;
 

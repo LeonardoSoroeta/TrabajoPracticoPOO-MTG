@@ -1,4 +1,6 @@
-package ar.edu.itba.Magic.Backend;
+package ar.edu.itba.Magic.Backend.Permanents;
+import ar.edu.itba.Magic.Backend.GameEventHandler;
+import ar.edu.itba.Magic.Backend.Abilities.PermanentAbility;
 import ar.edu.itba.Magic.Backend.Card.Card;
 import ar.edu.itba.Magic.Backend.Interfaces.DamageTaking;
 import ar.edu.itba.Magic.Backend.Interfaces.Enum.Attribute;

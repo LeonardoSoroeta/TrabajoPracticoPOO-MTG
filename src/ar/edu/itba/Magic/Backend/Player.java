@@ -3,6 +3,12 @@ package ar.edu.itba.Magic.Backend;
 import ar.edu.itba.Magic.Backend.Card.Card;
 import ar.edu.itba.Magic.Backend.Interfaces.DamageTaking;
 import ar.edu.itba.Magic.Backend.Interfaces.Enum.Event;
+import ar.edu.itba.Magic.Backend.Permanents.Artifact;
+import ar.edu.itba.Magic.Backend.Permanents.Creature;
+import ar.edu.itba.Magic.Backend.Permanents.Enchantment;
+import ar.edu.itba.Magic.Backend.Permanents.Land;
+import ar.edu.itba.Magic.Backend.Permanents.Permanent;
+
 import java.util.LinkedList;
 import java.util.List;
 import java.util.NoSuchElementException;

@@ -1,6 +1,13 @@
 package ar.edu.itba.Magic.Backend.Card;
 
 import ar.edu.itba.Magic.Backend.*;
+import ar.edu.itba.Magic.Backend.Abilities.ActivatedPermanentAbility;
+import ar.edu.itba.Magic.Backend.Abilities.AutomaticPermanentAbility;
+import ar.edu.itba.Magic.Backend.Abilities.AutomaticSpellAbility;
+import ar.edu.itba.Magic.Backend.Abilities.PermanentAbility;
+import ar.edu.itba.Magic.Backend.Abilities.SpellAbility;
+import ar.edu.itba.Magic.Backend.Effects.AutomaticLastingEffect;
+import ar.edu.itba.Magic.Backend.Effects.LastingEffect;
 import ar.edu.itba.Magic.Backend.Interfaces.CardImplementation;
 import ar.edu.itba.Magic.Backend.Interfaces.DamageTaking;
 import ar.edu.itba.Magic.Backend.Interfaces.Enum.Attribute;
@@ -8,6 +15,11 @@ import ar.edu.itba.Magic.Backend.Interfaces.Enum.AttributeModifier;
 import ar.edu.itba.Magic.Backend.Interfaces.Enum.CardType;
 import ar.edu.itba.Magic.Backend.Interfaces.Enum.Color;
 import ar.edu.itba.Magic.Backend.Interfaces.Enum.Event;
+import ar.edu.itba.Magic.Backend.Permanents.Artifact;
+import ar.edu.itba.Magic.Backend.Permanents.Creature;
+import ar.edu.itba.Magic.Backend.Permanents.Enchantment;
+import ar.edu.itba.Magic.Backend.Permanents.Land;
+import ar.edu.itba.Magic.Backend.Permanents.Permanent;
 import ar.edu.itba.Magic.Backend.Stack.GameStack;
 
 import java.util.HashMap;
@@ -2260,194 +2272,4 @@ public class CardFactory {
         });
     }
     
-	/**
-	 * Creates a list of default attributes contained by creatures. 
-	 * @return Returns a list of default attributes contained by creatues.
-	 */
-	public List<Attribute> getDefaultCreatureAttributes() {
-		List<Attribute> attributes = new LinkedList<Attribute>();
-		// TODO agregar
-	
-		return attributes;
-	}
-	
-	/**
-	 * Automatic Lasting Effect that modifies a target creature's attack and/or defense. Stays until 
-	 * end of turn.
-	 */
-	class OneTurnStatModifier extends AutomaticLastingEffect {
-		private Integer attackModifier;
-		private Integer defenseModifier;
-
-		public OneTurnStatModifier(Ability sourceAbility, Integer attackModifier, Integer defenseModifier) {
-			super(sourceAbility);
-			this.attackModifier = attackModifier;
-			this.defenseModifier = defenseModifier;
-		}
-
-		@Override
-		public void executeOnEvent(GameEvent gameEvent) {
-			if(gameEvent.getDescriptor().equals(Event.END_OF_TURN)) {
-				this.getTarget().removeLastingEffect(this);
-			}
-		}
-
-		@Override
-		public void applyEffect() {
-			if(attackModifier < 0) {
-				((Creature)this.getTarget()).decreaseAttack(attackModifier);
-			}
-			else {
-				((Creature)this.getTarget()).increaseAttack(attackModifier);
-			}
-			if(defenseModifier < 0) {
-				((Creature)this.getTarget()).decreaseDefense(defenseModifier);
-			}
-			else {
-				((Creature)this.getTarget()).increaseDefense(defenseModifier);
-			}
-		}
-
-		@Override
-		public void undoEffect() {
-			if(attackModifier < 0) {
-				((Creature)this.getTarget()).increaseAttack(attackModifier);
-			}
-			else {
-				((Creature)this.getTarget()).decreaseAttack(attackModifier);
-			}
-			if(defenseModifier < 0) {
-				((Creature)this.getTarget()).increaseDefense(defenseModifier);
-			}
-			else {
-				((Creature)this.getTarget()).decreaseDefense(defenseModifier);
-			}
-		}
-	}
-	
-	/**
-	 * Lasting Effect that modifies a target creature's attack and/or defense. Lasts indefinitely until removed
-	 * by an external action.
-	 */
-	class StaticStatModifier extends LastingEffect {
-		private Integer attackModifier;
-		private Integer defenseModifier;
-
-		public StaticStatModifier(Ability sourceAbility, Integer attackModifier, Integer defenseModifier) {
-			super(sourceAbility);
-			this.attackModifier = attackModifier;
-			this.defenseModifier = defenseModifier;
-		}
-
-		@Override
-		public void applyEffect() {
-			if(attackModifier < 0) {
-				((Creature)this.getTarget()).decreaseAttack(Math.abs(attackModifier));
-			}
-			else {
-				((Creature)this.getTarget()).increaseAttack(attackModifier);
-			}
-			if(defenseModifier < 0) {
-				((Creature)this.getTarget()).decreaseDefense(Math.abs(defenseModifier));
-			}
-			else {
-				((Creature)this.getTarget()).increaseDefense(defenseModifier);
-			}
-		}
-
-		@Override
-		public void undoEffect() {
-			if(attackModifier < 0) {
-				((Creature)this.getTarget()).increaseAttack(Math.abs(attackModifier));
-			}
-			else {
-				((Creature)this.getTarget()).decreaseAttack(attackModifier);
-			}
-			if(defenseModifier < 0) {
-				((Creature)this.getTarget()).increaseDefense(Math.abs(defenseModifier));
-			}
-			else {
-				((Creature)this.getTarget()).decreaseDefense(defenseModifier);
-			}
-		}
-	}
-	
-	/**
-	 * Lasting Effect that adds or removes an attribute from a target creature. Lasts until end of turn.
-	 */
-	class OneTurnAttributeModifier extends AutomaticLastingEffect {
-		
-		AttributeModifier attributeModifier;
-		Attribute attribute;
-
-		public OneTurnAttributeModifier(Ability sourceAbility, AttributeModifier attributeModifier, Attribute attribute) {
-			super(sourceAbility);
-			this.attributeModifier = attributeModifier;
-			this.attribute = attribute;
-		}
-
-		@Override
-		public void executeOnEvent(GameEvent gameEvent) {
-			if(gameEvent.getDescriptor().equals(Event.END_OF_TURN)) {
-				this.getTarget().removeLastingEffect(this);
-			}
-		}
-
-		@Override
-		public void applyEffect() {
-			if(attributeModifier.equals(AttributeModifier.ADD)) {
-				this.getTarget().addAttribute(attribute);
-			}
-			if(attributeModifier.equals(AttributeModifier.REMOVE)) {
-				this.getTarget().removeAttribute(attribute);
-			}
-		}
-
-		@Override
-		public void undoEffect() {
-			if(attributeModifier.equals(AttributeModifier.ADD)) {
-				this.getTarget().removeAttribute(attribute);
-			}
-			if(attributeModifier.equals(AttributeModifier.REMOVE)) {
-				this.getTarget().addAttribute(attribute);
-			}
-		}
-	}
-	
-	/**
-	 * Lasting Effect that adds or removes an attribute from a target creature. Lasts indefinitely until removed
-	 * by an external action.
-	 */
-	class StaticAttributeModifier extends LastingEffect {
-		
-		AttributeModifier attributeModifier;
-		Attribute attribute;
-
-		public StaticAttributeModifier(Ability sourceAbility, AttributeModifier attributeModifier, Attribute attribute) {
-			super(sourceAbility);
-			this.attributeModifier = attributeModifier;
-			this.attribute = attribute;
-		}
-
-		@Override
-		public void applyEffect() {
-			if(attributeModifier.equals(AttributeModifier.ADD)) {
-				this.getTarget().addAttribute(attribute);
-			}
-			if(attributeModifier.equals(AttributeModifier.REMOVE)) {
-				this.getTarget().removeAttribute(attribute);
-			}
-		}
-
-		@Override
-		public void undoEffect() {
-			if(attributeModifier.equals(AttributeModifier.ADD)) {
-				this.getTarget().removeAttribute(attribute);
-			}
-			if(attributeModifier.equals(AttributeModifier.REMOVE)) {
-				this.getTarget().addAttribute(attribute);
-			}
-		}
-	}
-
 }

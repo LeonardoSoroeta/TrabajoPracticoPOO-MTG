@@ -7,8 +7,12 @@ import java.util.List;
 import ar.edu.itba.Magic.Backend.GameEventHandler;
 import ar.edu.itba.Magic.Backend.Interfaces.Enum.Color;
 import ar.edu.itba.Magic.Backend.Interfaces.Enum.Event;
+import ar.edu.itba.Magic.Backend.Permanents.Creature;
+import ar.edu.itba.Magic.Backend.Permanents.Land;
+import ar.edu.itba.Magic.Backend.Permanents.Permanent;
 import ar.edu.itba.Magic.Backend.Interfaces.Enum.Attribute;
 import ar.edu.itba.Magic.Backend.Player;
+import ar.edu.itba.Magic.Backend.Abilities.ActivatedPermanentAbility;
 import ar.edu.itba.Magic.Backend.Card.Card;
 import ar.edu.itba.Magic.Backend.Card.LandCard;
 
