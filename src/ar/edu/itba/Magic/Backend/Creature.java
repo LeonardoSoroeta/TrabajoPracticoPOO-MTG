@@ -1,10 +1,9 @@
 package ar.edu.itba.Magic.Backend;
 import ar.edu.itba.Magic.Backend.Card.Card;
 import ar.edu.itba.Magic.Backend.Interfaces.DamageTaking;
-import ar.edu.itba.Magic.Backend.Interfaces.Enum.Color;
 import ar.edu.itba.Magic.Backend.Interfaces.Enum.Attribute;
-import ar.edu.itba.Magic.Backend.Interfaces.Enum.CardName;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class Creature extends Permanent implements DamageTaking {
@@ -14,15 +13,15 @@ public class Creature extends Permanent implements DamageTaking {
 	private int defense;
 	private Integer damageMarkers;
 																						
-	public Creature(Card sourceCard, CardName name, Color color, List<Attribute> attributes, Integer coloredManaCost, Integer colorlessManaCost, Integer attack, Integer defense, PermanentAbility ability) {
-		super(sourceCard, name, color, attributes, coloredManaCost, colorlessManaCost, ability);
+	public Creature(Card sourceCard, List<Attribute> attributes, Integer attack, Integer defense, PermanentAbility ability) {
+		super(sourceCard, attributes, ability);
 		this.attack = attack;
 		this.defense = defense;
 		this.damageMarkers = 0;
 	}
 
-	public Creature(Card sourceCard, CardName name, Color color, List<Attribute> attributes, Integer coloredManaCost, Integer colorlessManaCost, Integer attack, Integer defense) {
-		super(sourceCard, name, color, attributes, coloredManaCost, colorlessManaCost, null);
+	public Creature(Card sourceCard, List<Attribute> attributes, Integer attack, Integer defense) {
+		super(sourceCard, attributes, null);
 		this.attack = attack;
 		this.defense = defense;
 		this.damageMarkers = 0;
@@ -73,6 +72,17 @@ public class Creature extends Permanent implements DamageTaking {
 	
 	public void resetDamageMarkers() {
 		damageMarkers = 0;
+	}
+	
+	/**
+	 * Creates a list of default attributes contained by creatures. 
+	 * @return Returns a list of default attributes contained by creatues.
+	 */
+	public static List<Attribute> getDefaultCreatureAttributes() {
+		List<Attribute> attributes = new LinkedList<Attribute>();
+		// TODO agregar
+	
+		return attributes;
 	}
 	
 }

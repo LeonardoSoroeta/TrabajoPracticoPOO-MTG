@@ -1,7 +1,7 @@
 package ar.edu.itba.Magic.Backend.Card;
 import ar.edu.itba.Magic.Backend.Ability;
 import ar.edu.itba.Magic.Backend.Player;
-import ar.edu.itba.Magic.Backend.Interfaces.Enum.CardName;
+import ar.edu.itba.Magic.Backend.Interfaces.Enum.CardType;
 import ar.edu.itba.Magic.Backend.Interfaces.Enum.Color;
 
 /**
@@ -9,17 +9,11 @@ import ar.edu.itba.Magic.Backend.Interfaces.Enum.Color;
  */
 public abstract class Card {
     private Player controller;
-    private CardName cardName;
-    private Color color;
-    private Integer coloredManaCost;
-    private Integer colorlessManaCost;
+    private CardType cardType;
     private Ability ability;
 
-    public Card(CardName cardName, Color color, Integer coloredManaCost, Integer colorlessManaCost, Ability ability) {
-        this.cardName = cardName;
-        this.color = color;
-        this.coloredManaCost = coloredManaCost;
-        this.colorlessManaCost = colorlessManaCost;
+    public Card(CardType cardType, Ability ability) {
+        this.cardType = cardType;
         this.ability = ability;
     }
 
@@ -31,20 +25,20 @@ public abstract class Card {
         return this.controller;
     }
 
-    public CardName getCardName() {
-        return this.cardName;
+    public CardType getCardType() {
+        return this.cardType;
     }
 
     public Color getColor() {
-        return this.color;
+        return this.cardType.getColor();
     }
 
     public Integer getColoredManaCost() {
-        return this.coloredManaCost;
+        return this.cardType.getColoredManaCost();
     }
 
     public Integer getColorlessManaCost() {
-        return this.colorlessManaCost;
+        return this.cardType.getColorlessManaCost();
     }
 
     public Ability getAbility() {

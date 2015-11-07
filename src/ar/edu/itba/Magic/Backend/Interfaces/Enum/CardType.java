@@ -1,5 +1,13 @@
 package ar.edu.itba.Magic.Backend.Interfaces.Enum;
 
+import java.util.LinkedList;
+import java.util.List;
+
+import ar.edu.itba.Magic.Backend.Creature;
+import ar.edu.itba.Magic.Backend.GameEventHandler;
+import ar.edu.itba.Magic.Backend.Card.Card;
+import ar.edu.itba.Magic.Backend.Card.CreatureCard;
+
 /**
  * Created by Martin on 02/11/2015.
  */
@@ -14,9 +22,16 @@ package ar.edu.itba.Magic.Backend.Interfaces.Enum;
  * 
  * Total:			100
  */
-public enum CardName {
+public enum CardType {
 	
-	AIR_ELEMENTAL("Air Elemental"),						// Blue Creature
+	AIR_ELEMENTAL("Air Elemental", Color.BLUE, 2, 3) { public CreatureCard createCard() {
+			List<Attribute> attributes = new LinkedList<Attribute>();
+	        attributes = Creature.getDefaultCreatureAttributes();
+	        attributes.add(Attribute.FLYING);
+			return new CreatureCard(CardType.AIR_ELEMENTAL, attributes, 4, 4);
+		}
+	},
+	
 	ANKH_OF_MISHRA("Ankh of Mishra"),					// Artifact
 	ASPECT_OF_WOLF("Aspect of Wolf"),					// Green Enchantment
     BAD_MOON("Bad Moon"),								// Black Enchantment
@@ -117,16 +132,40 @@ public enum CardName {
     WRATH_OF_GOD("Wrath of God"),						// White Creature
     ZEPHYR_FALCON("Zephyr Falcon");						// Blue Creature
 	
+	GameEventHandler gameEventHandler = GameEventHandler.getGameEventHandler();
+	
 	String cardName;
 	int idNumber;
+	Color color;
+	Integer coloredManaCost;
+	Integer colorlessManaCost;
 	
-	private CardName(String cardName/* , idNumber */) {
+	private CardType(String cardName/* , idNumber */, Color color, Integer coloredManaCost, Integer colorlessManaCost) {
 		this.cardName = cardName;
 		//	this.idNumber = idNumber;		-> colocarlos cuando ya esten todas las cartas
+		this.color = color;
+		this.coloredManaCost = coloredManaCost;
+		this.colorlessManaCost = colorlessManaCost;
 	}
 	
 	public String getCardName() {
 		return cardName;
+	}
+	
+	public Color getColor() {
+		return color;
+	}
+	
+	public Integer getColoredManaCost() {
+		return coloredManaCost;
+	}
+	
+	public Integer getColorlessManaCost() {
+		return colorlessManaCost;
+	}
+	
+	public Card createCard() {
+		return this.createCard();
 	}
 	
 }

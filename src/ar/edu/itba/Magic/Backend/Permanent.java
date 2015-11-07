@@ -7,7 +7,7 @@ import ar.edu.itba.Magic.Backend.Interfaces.Enum.Color;
 import ar.edu.itba.Magic.Backend.Stack.GameStack;
 import ar.edu.itba.Magic.Backend.Interfaces.GameStackAction;
 import ar.edu.itba.Magic.Backend.Interfaces.Enum.Attribute;
-import ar.edu.itba.Magic.Backend.Interfaces.Enum.CardName;
+import ar.edu.itba.Magic.Backend.Interfaces.Enum.CardType;
 
 /**
  * All objects currently in play are Permanents. These objects may be a Creature, an Enchantment, an Artifact or a Land.
@@ -17,10 +17,6 @@ public abstract class Permanent implements GameStackAction {
 	
 	private Card sourceCard;
 	private Player controller;
-	private CardName name;
-	private Color color;
-	private Integer coloredManacost;
-	private Integer colorlessManacost;
 	private boolean tapped;
 	private boolean legalTarget;
 	private boolean spellState;
@@ -31,14 +27,10 @@ public abstract class Permanent implements GameStackAction {
 	GameEventHandler gameEventHandler = GameEventHandler.getGameEventHandler();
 	GameStack gameStack = GameStack.getGameStackInstance();
 	
-	public Permanent(Card sourceCard, CardName name, Color color, List<Attribute> attributes, Integer coloredManaCost, Integer colorlessManaCost, PermanentAbility ability) {
+	public Permanent(Card sourceCard, List<Attribute> attributes, PermanentAbility ability) {
 		this.sourceCard = sourceCard;
-		this.name = name;
 		this.attributes = attributes;
 		this.permanentAbility = ability;
-		this.color = color;
-		this.coloredManacost = coloredManaCost;
-		this.colorlessManacost = colorlessManaCost;
 		this.tapped = false;
 		this.legalTarget = true;
 		this.spellState = true;
@@ -150,12 +142,12 @@ public abstract class Permanent implements GameStackAction {
 	}
 	
 	/**
-	 * Gets this permanent's name.
+	 * Gets this permanent's source card type.
 	 * 
-	 * @return String containing this permanent's name.
+	 * @return String containing this permanent's source card type.
 	 */
-	public CardName getName() {
-		return this.name;
+	public CardType getCardType() {
+		return this.sourceCard.getCardType();
 	}
 	
 	/**
@@ -164,7 +156,7 @@ public abstract class Permanent implements GameStackAction {
 	 * @return This permanent's color.
 	 */
 	public Color getColor() {
-		return color;
+		return this.sourceCard.getCardType().getColor();
 	}
 	
 	/**
@@ -173,7 +165,7 @@ public abstract class Permanent implements GameStackAction {
 	 * @return permanent's colored mana cost.
 	 */
 	public Integer getColoredManaCost() {
-		return coloredManacost;
+		return this.sourceCard.getCardType().getColoredManaCost();
 	}
 	
 	/**
@@ -182,7 +174,7 @@ public abstract class Permanent implements GameStackAction {
 	 * @return permanent's colorless mana cost.
 	 */
 	public Integer getColorlessManaCost() {
-		return colorlessManacost;
+		return this.sourceCard.getCardType().getColorlessManaCost();
 	}
 	
 	/**

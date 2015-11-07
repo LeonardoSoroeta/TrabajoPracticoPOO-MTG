@@ -5,9 +5,8 @@ import java.util.List;
 import ar.edu.itba.Magic.Backend.Ability;
 import ar.edu.itba.Magic.Backend.PermanentAbility;
 import ar.edu.itba.Magic.Backend.Creature;
-import ar.edu.itba.Magic.Backend.Interfaces.Enum.Color;
 import ar.edu.itba.Magic.Backend.Interfaces.Enum.Attribute;
-import ar.edu.itba.Magic.Backend.Interfaces.Enum.CardName;
+import ar.edu.itba.Magic.Backend.Interfaces.Enum.CardType;
 
 /**
  * Created by Martin on 31/10/2015.
@@ -17,15 +16,15 @@ public class CreatureCard extends Card {
     private Integer defencePoints;
     private List<Attribute> attributes;
 
-    public CreatureCard(CardName cardName, Color color, List<Attribute> attributes, Integer coloredManaCost, Integer colorlessManaCost, Integer attackPoints, Integer defencePoints, Ability ability) {
-        super(cardName, color, coloredManaCost, colorlessManaCost, ability);
+    public CreatureCard(CardType cardType, List<Attribute> attributes, Integer attackPoints, Integer defencePoints, Ability ability) {
+        super(cardType, ability);
         this.attackPoints = attackPoints;
         this.defencePoints = defencePoints;
         this.attributes = attributes;
     }
 
-    public CreatureCard(CardName cardName, Color color, List<Attribute> attributes, Integer coloredManaCost, Integer colorlessManaCost, Integer attackPoints, Integer defencePoints) {
-        super(cardName, color, coloredManaCost, colorlessManaCost, (Ability)null);
+    public CreatureCard(CardType cardType, List<Attribute> attributes, Integer attackPoints, Integer defencePoints) {
+        super(cardType, (Ability)null);
         this.attackPoints = attackPoints;
         this.defencePoints = defencePoints;
         this.attributes = attributes;
@@ -35,14 +34,14 @@ public class CreatureCard extends Card {
         Creature creature;
         if(this.containsAbility()) {
             if(this.getAbility().satisfyCastingRequirements()) {
-                creature = new Creature(this, this.getCardName(), this.getColor(), this.attributes, this.getColoredManaCost(), this.getColorlessManaCost(), this.attackPoints, this.defencePoints, (PermanentAbility)this.getAbility());
+                creature = new Creature(this, this.attributes, this.attackPoints, this.defencePoints, (PermanentAbility)this.getAbility());
                 creature.getAbility().setSourcePermanent(creature);
                 creature.setController(this.getController());
                 this.getController().discardCard(this);
                 creature.sendToStack();
             }
         } else {
-            creature = new Creature(this, this.getCardName(), this.getColor(), this.attributes, this.getColoredManaCost(), this.attackPoints, this.defencePoints, this.getColorlessManaCost());
+            creature = new Creature(this, this.attributes, this.attackPoints, this.defencePoints);
             creature.setController(this.getController());
             this.getController().discardCard(this);
             creature.sendToStack();
