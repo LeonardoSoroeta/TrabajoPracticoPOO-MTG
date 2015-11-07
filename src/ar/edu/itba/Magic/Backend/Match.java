@@ -11,10 +11,12 @@ import ar.edu.itba.Magic.Backend.Permanents.Permanent;
 import ar.edu.itba.Magic.Backend.Player;
 import ar.edu.itba.Magic.Backend.Abilities.ActivatedPermanentAbility;
 import ar.edu.itba.Magic.Backend.Cards.Card;
+import ar.edu.itba.Magic.Backend.Cards.InstantCard;
 import ar.edu.itba.Magic.Backend.Cards.LandCard;
 import ar.edu.itba.Magic.Backend.Enums.Attribute;
 import ar.edu.itba.Magic.Backend.Enums.Color;
 import ar.edu.itba.Magic.Backend.Enums.Event;
+import ar.edu.itba.Magic.Backend.Interfaces.Activator;
 
 public class Match {
 	
@@ -27,9 +29,19 @@ public class Match {
 	private Player activePlayer;
 	private boolean targetRequired = false;
 	private Card cardTaget;
-		
-
-    
+	private boolean doneClicking;
+	private Card selectedCard;
+	private Permanent selectedPermanent;
+	private boolean waitCard;
+	private boolean waitPermanent;
+	private boolean landPlayThisTurn;
+	
+    public Match(Player player1, Player player2) {
+    	this.player1 = player1;
+    	this.player2 = player2;
+    }
+	
+	
 	public static Match getMatch() {
 		if(self == null) {
 			self = new Match();
@@ -91,8 +103,9 @@ public class Match {
 		eventHandler.triggerGameEvent(new GameEvent(Event.DRAW_CARD_STEP, activePlayer));
 		//draw card(s)...
 		//players play instants and activated abilities...
+		
 	}
-	
+	//Player
 	public void untapDuringUnkeep(){
 		for(Permanent each : activePlayer.getPermanentsInPlay()){
 			if(each.isTapped() && each.containsAttribute(Attribute.UNTAPS_DURING_UPKEEP)){
@@ -100,36 +113,57 @@ public class Match {
 			}
 		}
 	}	
-	
+	//Player
 	public void drawCard(Player player){
 		Card aux = player.getDeck().getCard();
 		player.getHand().add(aux);
 	}
-	
-	public void setMana(Land permanent, Player player){
-		player.getManaPool().increaseMana(permanent.getColor());
-		player.getPermanentInPlay(permanent).tap();
-	}
-		
-	public void playAbility(Permanent permanent, ActivatedPermanentAbility ablility, Player player){
-		player.getPermanentInPlay(permanent).getAbility().executeOnActivation();
-	}
-	
-	public void playCard(Card card, Player player){
-		player.getHand().remove(card);
-		card.playCard();
-	}
-
+	//Player
 	public void discardCard(Card card, Player player){
-		player.getHand().remove(card);
-		player.getGraveyard().add(card);
+		player.removeCardFromHand(card);
+		player.placeCardInGraveyard(card);
 	}
 	
 	public void mainPhase() {
 		eventHandler.triggerGameEvent(new GameEvent(Event.MAIN_PHASE, activePlayer));
 		//active player casts spells & activated abilities / other players casts instants & activated abilities
 		//active player can play 1 land if not already casted this turn
-
+		while(!this.isDoneClicking()) {
+			if(this.isWaitingForCard()) {
+				this.cardWasSelected();
+				if(selectedCard.getClass().equals(LandCard.class)) {
+					if(this.isLandPlayThisTurn()) {
+						this.setLandPlayThisTurnTrue();
+						this.selectedCard.playCard();
+					}//TODO despues se ve si devuelve algo si no se pudo jugar
+				}else {
+					this.selectedCard.playCard();
+				}
+			}
+			if(this.isWaitingForPermanent()){
+				if(this.selectedPermanent.getAbility() instanceof Activator){
+				((ActivatedPermanentAbility)this.selectedPermanent.getAbility()).executeOnActivation();
+				}	
+			}
+		}
+		this.setDoneClickingFalse();
+		
+		this.getOpposingPlayerFrom(this.activePlayer);
+		while(!this.isDoneClicking()){
+			if(this.isWaitingForCard()) {
+				this.cardWasSelected();
+				if(selectedCard.getClass().equals(InstantCard.class)){
+					this.selectedCard.playCard();
+				}
+			}
+			if(this.isWaitingForPermanent()){
+				if(this.selectedPermanent.getAbility() instanceof Activator){
+					((ActivatedPermanentAbility)this.selectedPermanent.getAbility()).executeOnActivation();
+				}
+			}
+		}
+		this.setDoneClickingFalse();
+		this.getOpposingPlayerFrom(this.activePlayer);
 	}
 	
 	public void combatPhase() {
@@ -190,50 +224,79 @@ public class Match {
 	
 
 			
-		/*
-		public void playCard(Card card,Player player){
-			if(player.getHand().contains(card)){
-				player.getHand().remove(card);
-			
-				// ver como esta implementada Card
-			if (card.isPermanent){
-				player.objectsInPlay.add(card.playCard);
-			}
-			else	
-				player.graveyard.add(card);
-			}	
-		}
 		
-		public void KillObjectInPlay(Permanent obj, Player player){
-			if(player.objectsInPlay.contains(obj)){
-				player.objectsInPlay.remove(obj);
-				player.graveyard.add(obj.dead());
-			}
-		}
-		
-		public void reviveCard(Card card, Player player){
-			if(player.graveyard.contains(card)){
-				player.graveyard.remove(card);
-				//ver como esta implementada Card
-				player.objectsInPlay.add(card.playCard);
-			}
-		}
-		*/
 	
 	//este ejemplo es bastante feo pero es para darse una idea
 	public void sendTarger(Object obj) {
 		if(obj instanceof Card) {
-			cardTaget = obj;
+			this.cardTaget = obj;
 		}
 	}
 	
 	public void setTargetRequired() {
-		targetRequired = true;
+		this.targetRequired = true;
 	}
 	
 	
 	public boolean isTargetRequired() {
-		return targetRequired;
+		return this.targetRequired;
 	}
 
+	public boolean isDoneClicking() {
+		return this.doneClicking;
+	}
+	
+	public void setDoneClickingTrue() {
+		this.doneClicking = true;
+	}
+	
+	public void setDoneClickingFalse() {
+		this.doneClicking = false;
+	}
+	
+	public void setSelectedCard(Card card) {
+		this.selectedCard = card;
+	}
+	
+	public void awaitCardSelection() {
+		this.waitCard = true;
+	}
+	
+	public void cardWasSelected() {
+		this.waitCard = false;
+	}
+	
+	public boolean isWaitingForCard() {
+		return this.waitCard;
+	}
+	
+	public boolean isLandPlayThisTurn() {
+		return this.landPlayThisTurn;
+	}
+	
+	public void setSelectedPermanent(Permanent permanent) {
+		this.selectedPermanent = permanent;
+	}
+	
+	public void awaitPermanentSelection() {
+		this.waitCard = true;
+	}
+	
+	public void PermanentWasSelected() {
+		this.waitCard = false;
+	}
+	
+	public boolean isWaitingForPermanent() {
+		return this.waitCard;
+	}
+		
+	public void setLandPlayThisTurnTrue() {
+		this.landPlayThisTurn = true;
+	}
+	
+	public void setLandPlayThisTurnFalse() {
+		this.landPlayThisTurn = false;
+	}
+	
 }
+
