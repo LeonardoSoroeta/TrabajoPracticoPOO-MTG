@@ -7,7 +7,7 @@ public class CardFactory {
 	private static CardFactory instance = new CardFactory();
 	
 	private CardFactory() {
-        
+       
 	}
 	
 	public static CardFactory getCardFactory() {
@@ -16,7 +16,7 @@ public class CardFactory {
 	
 	public Card getCard(CardType cardType) {
 		
-		return cardType.createCard();  //probando
+		return cardType.createCardOfThisType();  //probando
 		
        /* if(cardName != null)
             cardImplementations.get(cardName).createCard();
