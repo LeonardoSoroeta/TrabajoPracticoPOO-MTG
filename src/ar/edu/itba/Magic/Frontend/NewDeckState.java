@@ -10,6 +10,8 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+import ar.edu.itba.Magic.Backend.Enums.CardType;
+
 /**
  * Class for the deck creation state 
  */
@@ -30,14 +32,13 @@ public class NewDeckState extends BasicGameState {
 		library = new ExtendedImage("res/library.png",gc.getWidth()*4/6,gc.getHeight()*5/6);
 		yourDeck = new ExtendedImage("res/yourdeck.png",gc.getWidth()*4/6,gc.getHeight()*5/6);
 		deckUI = new DeckUI();
-		int cardsAmount = 15;
 		cardsUI = new LinkedList<CardUI>();
-		Integer cardNum = 1;
-		String ref = "res/cards/" + cardNum.toString() + ".jpg";
-		for(int i = 0; i < cardsAmount; i++) {
-			cardsUI.add(new CardUI(i,new ExtendedImage(ref,gc.getWidth()*4/5,i*gc.getHeight()*1/13)  ));
-			++cardNum;
-			ref = "res/cards/" + cardNum.toString() + ".jpg";
+		int cardNum = 0;
+		String ref;
+		for(CardType each : CardType.values()) {
+			ref = "res/cards/" + each.getCardName() + ".jpg";
+			cardsUI.add(new CardUI(each, new ExtendedImage(ref,gc.getWidth()*4/5,cardNum*gc.getHeight()*1/13)  ));
+			cardNum++;
 		}
 
 	}

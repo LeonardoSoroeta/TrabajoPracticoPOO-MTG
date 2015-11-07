@@ -3,19 +3,20 @@ package ar.edu.itba.Magic.Frontend;
 
 import org.newdawn.slick.Input;
 
+import ar.edu.itba.Magic.Backend.Enums.CardType;
 import ar.edu.itba.Magic.Backend.Interfaces.Drawable;
 
 public class CardUI implements Drawable{
-	private int cardNumber;
+	private CardType cardType;
 	private ExtendedImage img;
 	
-	public CardUI (int num, ExtendedImage img) {
-		this.cardNumber = num;
+	public CardUI (CardType cardType, ExtendedImage img) {
+		this.cardType = cardType;
 		this.img = img;
 	}
 	
 	public CardUI (CardUI cardUI) {
-		this.cardNumber = cardUI.getNum();
+		this.cardType = cardUI.getCardType();
 		this.img = new ExtendedImage(cardUI.getImg());
 	}
 	
@@ -60,8 +61,8 @@ public class CardUI implements Drawable{
 	}
 	
 	
-	public int getNum() {
-		return cardNumber;
+	public CardType getCardType() {
+		return cardType;
 	}
 	
 	public ExtendedImage getImg() {
@@ -78,7 +79,7 @@ public class CardUI implements Drawable{
 			return false;
 		
 		CardUI aux = (CardUI)obj;
-		if(this.getNum() != aux.getNum())
+		if(this.getCardType() != aux.getCardType())
 			return false;
 		
 		return true;
