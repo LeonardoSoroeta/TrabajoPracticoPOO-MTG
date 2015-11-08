@@ -258,11 +258,17 @@ public class Match {
 	
 	public Object getSelectedTarget() {
 		Object selectedTarget = this.selectedTarget;
-		this.selectedTarget = null;
-		return selectedTarget;
+		
+		if(selectedTarget != null) {
+			selectedTarget = this.selectedTarget;
+			this.selectedTarget = null;
+			return selectedTarget;
+		} else {
+			return null;
+		}
 	}
 	
-	private void executeNextPhase() {
+	public void executeNextPhase() {
 		if(currentPhase == Phase.BEGINNING_PHASE) {
 			this.currentPhase = Phase.PRE_COMBAT_MAIN_PHASE;
 			this.mainPhase();

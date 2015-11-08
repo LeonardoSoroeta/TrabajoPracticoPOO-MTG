@@ -1,5 +1,6 @@
 package ar.edu.itba.Magic.Backend.Permanents;
 import ar.edu.itba.Magic.Backend.GameEventHandler;
+import ar.edu.itba.Magic.Backend.Player;
 import ar.edu.itba.Magic.Backend.Abilities.PermanentAbility;
 import ar.edu.itba.Magic.Backend.Cards.Card;
 import ar.edu.itba.Magic.Backend.Enums.Attribute;
@@ -61,6 +62,14 @@ public class Creature extends Permanent implements DamageTaking {
 	public void decreaseDefense(int i){
 		this.defense -= i;
 		// TODO if defense - damageMarkers <= 0 , then this.destroy();
+	}
+	
+	public void dealDamageTo(Creature creature) {
+		creature.takeDamage(this.getAttack());
+	}
+	
+	public void dealDamageTo(Player player) {
+		player.takeDamage(this.getAttack());
 	}
 	
 	public void takeDamage(Integer damage) {		
