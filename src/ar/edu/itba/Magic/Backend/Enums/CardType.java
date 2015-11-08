@@ -1311,7 +1311,7 @@ public enum CardType {
 		});
     } },
     
-    MOX_SAPPHIRE("Mox Sapphie", Color.COLORLESS, 0, 0) { public Card createCardOfThisType() {
+    MOX_SAPPHIRE("Mox Sapphire", Color.COLORLESS, 0, 0) { public Card createCardOfThisType() {
     	return new ArtifactCard(CardType.MOX_SAPPHIRE,
 				new ActivatedPermanentAbility() {
 

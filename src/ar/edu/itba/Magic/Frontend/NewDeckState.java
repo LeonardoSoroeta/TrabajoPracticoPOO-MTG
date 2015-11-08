@@ -10,6 +10,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+import ar.edu.itba.Magic.Backend.Deck;
 import ar.edu.itba.Magic.Backend.Enums.CardType;
 
 /**
@@ -25,6 +26,7 @@ public class NewDeckState extends BasicGameState {
 	int mouseWheel = 0;
 	int lastCardIndex = 0;
 	boolean wheelMoved = false;
+	int cardWidth = 312;
 	Input input;
 	NewGame g;
 
@@ -37,15 +39,19 @@ public class NewDeckState extends BasicGameState {
 		String ref;
 		for(CardType each : CardType.values()) {
 			ref = "res/cards/" + each.getCardName() + ".jpg";
-			cardsUI.add(new CardUI(each, new ExtendedImage(ref,gc.getWidth()*4/5,cardNum*gc.getHeight()*1/13)  ));
+			cardsUI.add(new CardUI(each, new ExtendedImage(ref,gc.getWidth() - cardWidth,cardNum*gc.getHeight()*1/13)  ));
 			cardNum++;
+		}
+		
+		Deck deck = new Deck();
+		for(CardUI each: cardsUI) {
+			deck.addCard(each.getCardType().createCardOfThisType());
 		}
 
 	}
 
 	public void update(GameContainer gc, StateBasedGame arg1, int arg2) throws SlickException {
 		input = gc.getInput();
-		float cardWidth = cardsUI.get(0).getImg().getWidth();
 		//when the mouse is on the left side of the screen
 		if(input.getMouseX() <= cardWidth) {
 			if(wheelMoved) {
@@ -74,7 +80,7 @@ public class NewDeckState extends BasicGameState {
 				wheelMoved = false;
 			}
 			for(int i = cardsUI.size() - 1; i >= 0; i--) {				
-				if(cardsUI.get(i).mouseLClicked(input) && cardsUI.size() < 60) {
+				if(cardsUI.get(i).mouseLClicked(input) && deckUI.size() < 60) {
 					int repetitions = 0;
 					List<CardUI> auxDeck = deckUI.getCards();
 					// see if the card about to add it's not repeated more than 4 times

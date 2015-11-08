@@ -26,5 +26,9 @@ public class DeckUI implements Drawable {
 	public void add(CardUI cardUI) {
 		deckUI.add(cardUI);
 	}
+	
+	public int size() {
+		return deckUI.size();
+	}
 
 }
