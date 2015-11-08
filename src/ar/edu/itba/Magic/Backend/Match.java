@@ -5,6 +5,7 @@ import java.util.LinkedList;
 
 import ar.edu.itba.Magic.Backend.GameEventHandler;
 import ar.edu.itba.Magic.Backend.Permanents.Creature;
+import ar.edu.itba.Magic.Backend.Stack.GameStack;
 import ar.edu.itba.Magic.Backend.Player;
 import ar.edu.itba.Magic.Backend.Abilities.Ability;
 import ar.edu.itba.Magic.Backend.Cards.Card;
@@ -17,10 +18,12 @@ public class Match {
 	
 	private static Match self = null;
 	
+	GameStack gameStack = GameStack.getGameStackInstance();
 	GameEventHandler eventHandler = GameEventHandler.getGameEventHandler();
 	
 	private Player player1;
 	private Player player2;
+	private Player turnOwner;
 	private Player activePlayer;
 	private CombatPhase combatPhase;
 	private CardDiscardPhase cardDiscardPhase;
@@ -33,10 +36,6 @@ public class Match {
 	private boolean landPlayThisTurn;
 	private Ability targetRequestingAbility;
 	private Ability manaRequestingAbility;
-	private Color manaPayment;
-	private Creature selectedAttacker;
-	private Creature selectedBlocker;
-	private Card selectedCard;
 	private boolean playerDoneClicking;
 	private String messageToPlayer;
 	private Object selectedTarget;
@@ -62,32 +61,32 @@ public class Match {
 					targetRequestingAbility.resumeExecution();
 				}
 			} else if(matchState.equals(MatchState.REQUESTING_MANA_PAYMENT_BY_ABILITY)) {
-				if(manaPayment != null) {
+				if(selectedTarget != null) {
 					manaRequestingAbility.resumeExecution();
 				}
 			} else if(matchState.equals(MatchState.REQUESTING_MAIN_PHASE_ACTIONS)) {
 				if(playerDoneClicking == true) {
 					this.executeNextPhase();
 				}
+			} else if(matchState.equals(MatchState.REQUESTING_STACK_ACTIONS)) {
+				if(playerDoneClicking == true) {
+					gameStack.continueExecution();
+				}
 			} else if(matchState.equals(MatchState.REQUESTING_ATTACKER_SELECTION)) {
-				if(selectedAttacker != null) {
+				if(selectedTarget != null) {
 					combatPhase.resumeExecution();
-					selectedAttacker = null;
 				}
 			} else if(matchState.equals(MatchState.REQUESTING_BLOCKER_SELECTION)) {
-				if(selectedBlocker != null) {
+				if(selectedTarget != null) {
 					combatPhase.resumeExecution();
-					selectedBlocker = null;
 				}
 			} else if(matchState.equals(MatchState.REQUESTING_ATTACKER_TO_BLOCK_SELECTION)) {
-				if(selectedAttacker != null) {
+				if(selectedTarget != null) {
 					combatPhase.resumeExecution();
-					selectedAttacker = null;
 				}		
 			} else if(matchState.equals(MatchState.REQUESTING_CARD_TO_DISCARD_SELECTION)) {
-				if(selectedCard != null) {
+				if(selectedTarget != null) {
 					cardDiscardPhase.resumeExecution();
-					selectedCard = null;
 				}
 			}
 		} else {
@@ -96,7 +95,8 @@ public class Match {
 	}
 	
 	public void start() {		
-		activePlayer = this.randomPlayer();
+		this.turnOwner = this.randomPlayer();
+		this.activePlayer = this.turnOwner;
 		
 		//TODO roll dice (see who chooses who goes first), shuffle decks, draw cards, players can mulligan
 
@@ -129,7 +129,7 @@ public class Match {
 	
 	public void mainPhase() {
 		eventHandler.triggerGameEvent(new GameEvent(Event.MAIN_PHASE, activePlayer));
-		this.awaitMainPhaseActions("Main Phase: Cast spells, activate abilities.");
+		this.requestMainPhaseActions("Main Phase: Cast spells, activate abilities.");
 	}
 	
 	public void combatPhase() {
@@ -195,7 +195,11 @@ public class Match {
 	}
 	
 	public Player getActivePlayer() {
-		return activePlayer;
+		return this.activePlayer;
+	}
+	
+	public Player getTurnOwner() {
+		return this.turnOwner;
 	}
 	
 	public void changeActivePlayer() {
@@ -223,27 +227,42 @@ public class Match {
 		}
 	}
 	
+	public void requestMainPhaseActions(String messageToPlayer) {
+		this.matchState = MatchState.REQUESTING_MAIN_PHASE_ACTIONS;
+		this.playerDoneClicking = false;
+		this.messageToPlayer = messageToPlayer;
+	}
+	
+	public void requestStackActions(String messageToPlayer) {
+		this.matchState = MatchState.REQUESTING_STACK_ACTIONS;
+		this.playerDoneClicking = false;
+		this.messageToPlayer = messageToPlayer;
+	}
+	
 	public void requestTargetSelectionFromAbility(Ability requestingAbility, String messageToPlayer) {
 		this.targetRequestingAbility = requestingAbility;
-		this.previousMatchState = matchState;
 		this.matchState = MatchState.REQUESTING_TARGET_SELECTION_BY_ABILITY;
 		this.messageToPlayer = messageToPlayer;
 	}
 	
 	public void requestManaPaymentFromAbility(Ability requestingAbility, String messageToPlayer) {
 		this.manaRequestingAbility = requestingAbility;
-		this.previousMatchState = matchState;
 		this.matchState = MatchState.REQUESTING_MANA_PAYMENT_BY_ABILITY;
 		this.messageToPlayer = messageToPlayer;
 	}
 	
-	public void requestTargetSelection() {
-		
+	public void requestAttackerSelection(String messageToPlayer) {
+		this.matchState = MatchState.REQUESTING_ATTACKER_SELECTION;
+		this.messageToPlayer = messageToPlayer;
 	}
-
-	public void awaitMainPhaseActions(String messageToPlayer) {
-		this.matchState = MatchState.REQUESTING_MAIN_PHASE_ACTIONS;
-		this.playerDoneClicking = false;
+	
+	public void requestBlockerSelection(String messageToPlayer) {
+		this.matchState = MatchState.REQUESTING_BLOCKER_SELECTION;
+		this.messageToPlayer = messageToPlayer;
+	}
+	
+	public void requestAttackerToBlockSelection(String messageToPlayer) {
+		this.matchState = MatchState.REQUESTING_ATTACKER_TO_BLOCK_SELECTION;
 		this.messageToPlayer = messageToPlayer;
 	}
 	
@@ -251,12 +270,6 @@ public class Match {
 		Object selectedTarget = this.selectedTarget;
 		this.selectedTarget = null;
 		return selectedTarget;
-	}
-	
-	public Color getManaPayment() {
-		Color manaPayment = this.manaPayment;
-		this.manaPayment = null;
-		return manaPayment;
 	}
 	
 	private void executeNextPhase() {
@@ -277,14 +290,15 @@ public class Match {
 			this.endingPhase();
 		}
 		if(currentPhase == Phase.ENDING_PHASE) {
-			this.changeActivePlayer();
+			this.turnOwner = this.getOpposingPlayerFrom(this.turnOwner);
+			this.activePlayer = this.turnOwner;
 			this.currentPhase = Phase.BEGINNING_PHASE;
 			this.beginningPhase();
 		}
 	}
 
 	/* ******************************************************************************************************* */
-	/*						        DE ACA PARA ABAJO METODOS QUE USA EL FRONT								   */
+	/*						       DE ACA PARA ABAJO METODOS QUE SOLO USA EL FRONT							   */
 	/* ******************************************************************************************************* */
 	
 	public MatchState getMatchState() {

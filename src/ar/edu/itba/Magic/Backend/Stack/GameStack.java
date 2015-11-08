@@ -30,6 +30,9 @@ public class GameStack {
     	while(!gameStack.isEmpty()) {
     		gameStack.pop().resolveInStack();
     	}
+    }
+    
+    public void continueExecution() {
     	
     }
 
