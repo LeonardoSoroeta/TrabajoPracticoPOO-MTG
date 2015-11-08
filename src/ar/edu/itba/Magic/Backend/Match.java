@@ -84,7 +84,19 @@ public class Match {
 		this.activePlayer = this.getOpposingPlayerFrom(this.activePlayer);
 	}
 	
-	public void start() {	
+	public void start() {
+		
+		activePlayer = this.randomPlayer();
+		boolean isFirstTurn = true;
+		
+		/*while(){
+			this.playTurn(activePlayer, isFirstTurn);
+			if(isFirstTurn){
+				isFirstTurn = false;
+			}
+			this.changeActivePlayer();
+		}*/
+		
 		//TODO
 		//roll dice (see who chooses who goes first)
 		//shuffle decks
@@ -94,13 +106,27 @@ public class Match {
 			//playTurn()	(whoever goes first doesnt draw a card)
 	}
 	
+	
 	//public void priority() {}
 	
 	//public void switchPriority() {}
 	
-	public void playTurn() {
+	public Player randomPlayer(){
+		int randomNum = 1 + (int)(Math.random()*2);
+		if(randomNum == 1){
+			return this.player1;
+		} else {
+			return this.player2;
+		}
+	}
+	
+	
+	public void playTurn(Player player, boolean isFirstTurn) {
 		
-		beginningPhase();
+		if(isFirstTurn) {
+			beginningPhase();
+		}
+		
 		mainPhase();
 		combatPhase();
 		mainPhase();
@@ -223,7 +249,7 @@ public class Match {
 			// - Players may then play instants and activated abilities. Once these have all
 		 	//   resolved, combat damage is actually dealt. If a creature tries to deal damage
 			//   to a creature no longer in play, it can't and the damage isn't dealt.
-		
+			this.fight.realizeFight(attackers, deffenders, this.activePlayer, this.getOpposingPlayerFrom(this.activePlayer));
 		eventHandler.triggerGameEvent(new GameEvent(Event.END_OF_COMBAT_PHASE, activePlayer));
 		//players can play instants and activated abilities again
 		
