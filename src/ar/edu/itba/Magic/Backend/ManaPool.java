@@ -55,4 +55,19 @@ public class ManaPool {
 		
 		return aux;
 	}
+	
+	public void resetMana(){
+		for(Color each : manapool.keySet()) {
+			this.setMana(each, this.EMPTY_MANA);
+		}
+	}
+	
+	public void manaBurn(Player player) {
+		for(Color each : manapool.keySet()) {
+			player.takeDamage(this.getMana(each));
+		}
+		this.resetMana();
+	}
+	
+	
 }
