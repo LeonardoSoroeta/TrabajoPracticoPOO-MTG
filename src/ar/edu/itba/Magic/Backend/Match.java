@@ -24,6 +24,8 @@ public class Match {
 	
 	GameEventHandler eventHandler = GameEventHandler.getGameEventHandler();
 	
+	private final int END_OF_TURN_MAX_CARD = 7;
+	
 	private Player player1;
 	private Player player2;
 	private Player activePlayer;
@@ -37,12 +39,24 @@ public class Match {
 	private boolean landPlayThisTurn;
 	private CreaturesFight fight;
 	
+    private Match() {
+    	
+    }
+	
 	
 	public static Match getMatch() {
 		if(self == null) {
 			self = new Match();
 		}
 		return self;
+	}
+	
+	public void setPlayer1(Player player) {
+		this.player1 = player;
+	}
+	
+	public void setPlayer2(Player player) {
+		this.player2 = player;
 	}
 	
 	public Player getPlayer1() {
@@ -96,29 +110,16 @@ public class Match {
 	public void beginningPhase() {
 		eventHandler.triggerGameEvent(new GameEvent(Event.UNTAP_STEP, activePlayer));
 		//for all cards in play that contain attribute can_untap -> untap
-
+		this.activePlayer.untapDuringUnkeep();
 		eventHandler.triggerGameEvent(new GameEvent(Event.UPKEEP_STEP, activePlayer));
 		//players play instants and activated abilities...
 		
 		eventHandler.triggerGameEvent(new GameEvent(Event.DRAW_CARD_STEP, activePlayer));
 		//draw card(s)...
 		//players play instants and activated abilities...
-		
+		this.activePlayer.drawCard();
 	}
-	//Player
-	public void untapDuringUnkeep(){
-		for(Permanent each : activePlayer.getPermanentsInPlay()){
-			if(each.isTapped() && each.containsAttribute(Attribute.UNTAPS_DURING_UPKEEP)){
-				each.untap();
-			}
-		}
-	}	
-	//Player
-	public void drawCard(Player player){
-		Card aux = player.getDeck().getCard();
-		player.getHand().add(aux);
-	}
-	//Player
+	
 	public void discardCard(Card card, Player player){
 		player.removeCardFromHand(card);
 		player.placeCardInGraveyard(card);
@@ -235,13 +236,17 @@ public class Match {
 		eventHandler.triggerGameEvent(new GameEvent(Event.CLEANUP_STEP, activePlayer));
 		//if you have more than 7 cards in your hand -> discard cards
 		
-		//damage on creatures is removed
-		eventHandler.triggerGameEvent(new GameEvent(Event.END_OF_TURN, activePlayer));		
-	}
-	
-
-			
+		while(this.activePlayer.getHand().size() <= this.END_OF_TURN_MAX_CARD) {
+			if(this.isWaitingForCard()) {
+				this.cardWasSelected();
+				this.activePlayer.discardCard(this.selectedCard);
+			}
+		}
 		
+		//damage on creatures is removed
+		eventHandler.triggerGameEvent(new GameEvent(Event.END_OF_TURN, activePlayer));
+		activePlayer.manaBurn();
+	}
 	
 	//este ejemplo es bastante feo pero es para darse una idea
 	public void sendTarget(Object obj) {

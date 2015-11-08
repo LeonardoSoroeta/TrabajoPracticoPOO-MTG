@@ -1,6 +1,7 @@
 package ar.edu.itba.Magic.Backend;
 
 import ar.edu.itba.Magic.Backend.Cards.Card;
+import ar.edu.itba.Magic.Backend.Enums.Attribute;
 import ar.edu.itba.Magic.Backend.Enums.Event;
 import ar.edu.itba.Magic.Backend.Interfaces.DamageTaking;
 import ar.edu.itba.Magic.Backend.Permanents.Artifact;
@@ -225,4 +226,17 @@ public class Player implements DamageTaking {
 			return true;
 		return false;
 	}
+	
+	public void untapDuringUnkeep(){
+		for(Permanent each : this.getPermanentsInPlay()){
+			if(each.isTapped() && each.containsAttribute(Attribute.UNTAPS_DURING_UPKEEP)){
+				each.untap();
+			}
+		}
+	}	
+	
+	public void manaBurn(){
+		this.manaPool.manaBurn(this);
+	}
+	
 }
