@@ -8,8 +8,6 @@ import ar.edu.itba.Magic.Backend.Permanents.Creature;
 import ar.edu.itba.Magic.Backend.Stack.GameStack;
 import ar.edu.itba.Magic.Backend.Player;
 import ar.edu.itba.Magic.Backend.Abilities.Ability;
-import ar.edu.itba.Magic.Backend.Cards.Card;
-import ar.edu.itba.Magic.Backend.Enums.Color;
 import ar.edu.itba.Magic.Backend.Enums.Event;
 import ar.edu.itba.Magic.Backend.Enums.MatchState;
 import ar.edu.itba.Magic.Backend.Enums.Phase;
@@ -20,13 +18,13 @@ public class Match {
 	
 	GameStack gameStack = GameStack.getGameStackInstance();
 	GameEventHandler eventHandler = GameEventHandler.getGameEventHandler();
+	CombatPhase combatPhase = CombatPhase.getCombatPhase();
+	CardDiscardPhase cardDiscardPhase = CardDiscardPhase.getCardDiscardPhase();
 	
 	private Player player1;
 	private Player player2;
 	private Player turnOwner;
 	private Player activePlayer;
-	private CombatPhase combatPhase;
-	private CardDiscardPhase cardDiscardPhase;
 	private Phase currentPhase;
 	private MatchState matchState;
 	private MatchState previousMatchState;
@@ -113,14 +111,6 @@ public class Match {
 		this.beginningPhase();
 	}
 	
-	public void playTurn() {	
-		this.beginningPhase();
-		this.mainPhase();
-		this.combatPhase();
-		this.mainPhase();
-		this.endingPhase();
-	}
-	
 	public void beginningPhase() {
 		eventHandler.triggerGameEvent(new GameEvent(Event.UNTAP_STEP, activePlayer));
 		this.activePlayer.untapDuringUnkeep();
@@ -141,19 +131,8 @@ public class Match {
 		this.requestMainPhaseActions("Main Phase: Cast spells, activate abilities.");
 	}
 	
-	public void combatPhase() {
-		
+	public void combatPhase() {	
 		combatPhase.start();
-
-		eventHandler.triggerGameEvent(new GameEvent(Event.COMBAT_PHASE, activePlayer));
-		
-		eventHandler.triggerGameEvent(new GameEvent(Event.DECLARE_ATTACKERS_STEP, activePlayer));
-		
-		eventHandler.triggerGameEvent(new GameEvent(Event.DECLARE_BLOCKERS_STEP, activePlayer));
-
-		eventHandler.triggerGameEvent(new GameEvent(Event.COMBAT_DAMAGE_STEP, activePlayer));
-
-		eventHandler.triggerGameEvent(new GameEvent(Event.END_OF_COMBAT_PHASE, activePlayer));
 	}
 	
 	public void endingPhase() {
