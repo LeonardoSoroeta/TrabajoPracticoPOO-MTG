@@ -43,10 +43,10 @@ public class NewDeckState extends BasicGameState {
 			cardNum++;
 		}
 		
-		Deck deck = new Deck();
+		/*Deck deck = new Deck();
 		for(CardUI each: cardsUI) {
 			deck.addCard(each.getCardType().createCardOfThisType());
-		}
+		}*/
 
 	}
 

@@ -16,5 +16,9 @@ public abstract class Ability {
 	public boolean satisfyCastingRequirements() {
 		return true;
 	}
+	
+	public void getTargetAndContinueExecution() {
+		
+	}
 
 }
