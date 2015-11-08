@@ -7,7 +7,10 @@ import ar.edu.itba.Magic.Backend.GameEventHandler;
 import ar.edu.itba.Magic.Backend.Permanents.Creature;
 import ar.edu.itba.Magic.Backend.Player;
 import ar.edu.itba.Magic.Backend.Abilities.Ability;
+import ar.edu.itba.Magic.Backend.Cards.Card;
+import ar.edu.itba.Magic.Backend.Enums.Color;
 import ar.edu.itba.Magic.Backend.Enums.Event;
+import ar.edu.itba.Magic.Backend.Enums.MatchState;
 import ar.edu.itba.Magic.Backend.Enums.Phase;
 
 public class Match {
@@ -16,21 +19,25 @@ public class Match {
 	
 	GameEventHandler eventHandler = GameEventHandler.getGameEventHandler();
 	
-	private final int END_OF_TURN_MAX_CARD = 7;
-	
 	private Player player1;
 	private Player player2;
 	private Player activePlayer;
-	private CreaturesFight fight;
+	private CombatPhase combatPhase;
+	private CardDiscardPhase cardDiscardPhase;
 	private Phase currentPhase;
+	private MatchState matchState;
+	private MatchState previousMatchState;
 	private boolean matchStarted;
-	private boolean playerWon;
+	private boolean noWinner = true;
 	private boolean isFirstTurn = true;
 	private boolean landPlayThisTurn;
-	private boolean targetRequested;
 	private Ability targetRequestingAbility;
-	private boolean awaitingActions;
-	private boolean continueExecution;
+	private Ability manaRequestingAbility;
+	private Color manaPayment;
+	private Creature selectedAttacker;
+	private Creature selectedBlocker;
+	private Card selectedCard;
+	private boolean playerDoneClicking;
 	private String messageToPlayer;
 	private Object selectedTarget;
 	
@@ -46,26 +53,45 @@ public class Match {
 	}
 	
 	public void update() {
-		if(this.playerWon == false) {
-			if(this.targetRequested == true) {
+		if(matchStarted == false) {
+			this.matchStarted = true;
+			this.start();
+		} else if(noWinner == true) {
+			if(matchState.equals(MatchState.REQUESTING_TARGET_SELECTION_BY_ABILITY)) {
 				if(selectedTarget != null) {
-					targetRequestingAbility.getTargetAndContinueExecution();
-					targetRequested = false;
-					selectedTarget = null;
+					targetRequestingAbility.resumeExecution();
 				}
-			}
-			else {
-				if(this.matchStarted == false) {
-					this.matchStarted = true;
-					this.start();
-				} else {
-					if(continueExecution == true) {
-						this.executeNextPhase();
-					}
+			} else if(matchState.equals(MatchState.REQUESTING_MANA_PAYMENT_BY_ABILITY)) {
+				if(manaPayment != null) {
+					manaRequestingAbility.resumeExecution();
+				}
+			} else if(matchState.equals(MatchState.REQUESTING_MAIN_PHASE_ACTIONS)) {
+				if(playerDoneClicking == true) {
+					this.executeNextPhase();
+				}
+			} else if(matchState.equals(MatchState.REQUESTING_ATTACKER_SELECTION)) {
+				if(selectedAttacker != null) {
+					combatPhase.resumeExecution();
+					selectedAttacker = null;
+				}
+			} else if(matchState.equals(MatchState.REQUESTING_BLOCKER_SELECTION)) {
+				if(selectedBlocker != null) {
+					combatPhase.resumeExecution();
+					selectedBlocker = null;
+				}
+			} else if(matchState.equals(MatchState.REQUESTING_ATTACKER_TO_BLOCK_SELECTION)) {
+				if(selectedAttacker != null) {
+					combatPhase.resumeExecution();
+					selectedAttacker = null;
+				}		
+			} else if(matchState.equals(MatchState.REQUESTING_CARD_TO_DISCARD_SELECTION)) {
+				if(selectedCard != null) {
+					cardDiscardPhase.resumeExecution();
+					selectedCard = null;
 				}
 			}
 		} else {
-			// TODO hacer lo que haya que hacer cuando termina la partida
+			// TODO hacer lo que haya que hacer cuando PLAYER LOST
 		}
 	}
 	
@@ -98,19 +124,40 @@ public class Match {
 		} else {
 			this.activePlayer.drawCard();
 		}
+		this.executeNextPhase();
 	}
 	
 	public void mainPhase() {
 		eventHandler.triggerGameEvent(new GameEvent(Event.MAIN_PHASE, activePlayer));
-		this.awaitActions();
+		this.awaitMainPhaseActions("Main Phase: Cast spells, activate abilities.");
 	}
 	
 	public void combatPhase() {
 		
+		combatPhase.start();
+
+		eventHandler.triggerGameEvent(new GameEvent(Event.COMBAT_PHASE, activePlayer));
+		
+		eventHandler.triggerGameEvent(new GameEvent(Event.DECLARE_ATTACKERS_STEP, activePlayer));
+		
+		eventHandler.triggerGameEvent(new GameEvent(Event.DECLARE_BLOCKERS_STEP, activePlayer));
+
+		eventHandler.triggerGameEvent(new GameEvent(Event.COMBAT_DAMAGE_STEP, activePlayer));
+
+		eventHandler.triggerGameEvent(new GameEvent(Event.END_OF_COMBAT_PHASE, activePlayer));
 	}
 	
 	public void endingPhase() {
 		
+		eventHandler.triggerGameEvent(new GameEvent(Event.ENDING_PHASE, activePlayer));
+		
+		eventHandler.triggerGameEvent(new GameEvent(Event.CLEANUP_STEP, activePlayer));
+		
+		this.removeAllDamageCounters();
+		
+		cardDiscardPhase.start();
+		
+		eventHandler.triggerGameEvent(new GameEvent(Event.END_OF_TURN, activePlayer));
 	}
 	
 	public Player randomPlayer() {
@@ -176,37 +223,40 @@ public class Match {
 		}
 	}
 	
-	public void receiveTarget(Object target) {
-		this.selectedTarget = target;
-	}
-	
-	public void requestTarget(Ability requestingAbility, String messageToPlayer) {
+	public void requestTargetSelectionFromAbility(Ability requestingAbility, String messageToPlayer) {
 		this.targetRequestingAbility = requestingAbility;
-		this.targetRequested = true;
+		this.previousMatchState = matchState;
+		this.matchState = MatchState.REQUESTING_TARGET_SELECTION_BY_ABILITY;
 		this.messageToPlayer = messageToPlayer;
 	}
 	
-	public boolean isAwaitingTargetSelection() {
-		return this.targetRequested;
-	}
-	
-	public void awaitActions(String messageToPlayer) {
-		this.awaitingActions = true;
-		this.continueExecution = false;
+	public void requestManaPaymentFromAbility(Ability requestingAbility, String messageToPlayer) {
+		this.manaRequestingAbility = requestingAbility;
+		this.previousMatchState = matchState;
+		this.matchState = MatchState.REQUESTING_MANA_PAYMENT_BY_ABILITY;
 		this.messageToPlayer = messageToPlayer;
 	}
 	
-	public void noMoreActions() {
-		this.awaitingActions = false;
-		this.continueExecution = true;
+	public void requestTargetSelection() {
+		
+	}
+
+	public void awaitMainPhaseActions(String messageToPlayer) {
+		this.matchState = MatchState.REQUESTING_MAIN_PHASE_ACTIONS;
+		this.playerDoneClicking = false;
+		this.messageToPlayer = messageToPlayer;
 	}
 	
-	public boolean isAwaitingAction() {
-		return this.awaitingActions;
+	public Object getSelectedTarget() {
+		Object selectedTarget = this.selectedTarget;
+		this.selectedTarget = null;
+		return selectedTarget;
 	}
 	
-	public String getMessageToPlayer() {
-		return this.messageToPlayer;
+	public Color getManaPayment() {
+		Color manaPayment = this.manaPayment;
+		this.manaPayment = null;
+		return manaPayment;
 	}
 	
 	private void executeNextPhase() {
@@ -232,5 +282,26 @@ public class Match {
 			this.beginningPhase();
 		}
 	}
+
+	/* ******************************************************************************************************* */
+	/*						        DE ACA PARA ABAJO METODOS QUE USA EL FRONT								   */
+	/* ******************************************************************************************************* */
+	
+	public MatchState getMatchState() {
+		return this.matchState;
+	}
+	
+	public void playerDoneClicking() {
+		this.playerDoneClicking = true;
+	}
+	
+	public String getMessageToPlayer() {
+		return this.messageToPlayer;
+	}
+	
+	public void returnSelectedTarget(Object selectedTarget) {
+		this.selectedTarget = selectedTarget;
+	}
+	
 	
 }

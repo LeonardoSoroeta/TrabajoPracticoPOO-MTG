@@ -17,7 +17,7 @@ public abstract class Ability {
 		return true;
 	}
 	
-	public void getTargetAndContinueExecution() {
+	public void resumeExecution() {
 		
 	}
 
