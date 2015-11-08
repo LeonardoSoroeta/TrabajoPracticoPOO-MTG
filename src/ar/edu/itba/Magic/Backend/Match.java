@@ -35,6 +35,7 @@ public class Match {
 	private boolean waitCard;
 	private boolean waitPermanent;
 	private boolean landPlayThisTurn;
+	private CreaturesFight fight;
 	
     public Match(Player player1, Player player2) {
     	this.player1 = player1;
@@ -68,6 +69,10 @@ public class Match {
 	
 	public Player getActivePlayer() {
 		return activePlayer;
+	}
+	
+	public void changeActivePlayer(){
+		this.activePlayer = this.getOpposingPlayerFrom(this.activePlayer);
 	}
 	
 	public void start() {	
@@ -148,7 +153,7 @@ public class Match {
 		}
 		this.setDoneClickingFalse();
 		
-		this.getOpposingPlayerFrom(this.activePlayer);
+		this.changeActivePlayer();
 		while(!this.isDoneClicking()){
 			if(this.isWaitingForCard()) {
 				this.cardWasSelected();
@@ -163,15 +168,23 @@ public class Match {
 			}
 		}
 		this.setDoneClickingFalse();
-		this.getOpposingPlayerFrom(this.activePlayer);
+		this.changeActivePlayer();
 	}
 	
 	public void combatPhase() {
-		List<Creature> attackers = new LinkedList<Creature>(); //linked list o lo q sea
-		// Map<Creature, Creature> = new HashMap<Creature, Creature>(); // <blockers, attackers>
+		List<Creature> attackers = new LinkedList<Creature>();
+		List<Creature> deffenders = new LinkedList<Creature>();
 		
 		eventHandler.triggerGameEvent(new GameEvent(Event.COMBAT_PHASE, activePlayer));
 		//players can play instants and activated abilities
+		while(!this.isDoneClicking()) {
+			if(this.isWaitingForPermanent()){
+				if(this.selectedPermanent instanceof Creature){
+					this.fight.addAttacker((Creature)this.selectedPermanent, attackers);
+				}
+			}
+		}
+		this.setDoneClickingFalse();
 		
 		eventHandler.triggerGameEvent(new GameEvent(Event.DECLARE_ATTACKERS_STEP, activePlayer));
 		//active player declares attackers (tap creatures)
@@ -179,7 +192,16 @@ public class Match {
 			//si creature.containsAttribute("taps_on_attack") entonces se la tapea
 		
 		//then players can play instants and activated abilities again
-		
+		this.changeActivePlayer();
+		while(!this.isDoneClicking()) {
+			if(this.isWaitingForPermanent()){
+				if(this.selectedPermanent instanceof Creature){
+					this.fight.addDefender((Creature)this.selectedPermanent, deffenders);
+				}
+			}
+		}
+		this.setDoneClickingFalse();
+		this.changeActivePlayer();
 		eventHandler.triggerGameEvent(new GameEvent(Event.DECLARE_BLOCKERS_STEP, activePlayer));
 		//opponent declares blockers
 			//solo criaturas que no estan tapeadas (y no se las tapea). se las mapea a un atacante cada una
@@ -227,9 +249,9 @@ public class Match {
 		
 	
 	//este ejemplo es bastante feo pero es para darse una idea
-	public void sendTarger(Object obj) {
+	public void sendTarget(Object obj) {
 		if(obj instanceof Card) {
-			this.cardTaget = obj;
+			this.cardTaget = (Card)obj;
 		}
 	}
 	
