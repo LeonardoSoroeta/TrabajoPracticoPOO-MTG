@@ -37,6 +37,7 @@ public class Match {
 	private Ability targetRequestingAbility;
 	private Ability manaRequestingAbility;
 	private boolean playerDoneClicking;
+	private boolean targetSelectionCancelled;
 	private String messageToPlayer;
 	private Object selectedTarget;
 	
@@ -57,7 +58,9 @@ public class Match {
 			this.start();
 		} else if(noWinner == true) {
 			if(matchState.equals(MatchState.REQUESTING_TARGET_SELECTION_BY_ABILITY)) {
-				if(selectedTarget != null) {
+				if(targetSelectionCancelled == true) {
+					targetRequestingAbility.cancelTargetSelection();
+				} else if(selectedTarget != null) {
 					targetRequestingAbility.resumeExecution();
 				}
 			} else if(matchState.equals(MatchState.REQUESTING_MANA_PAYMENT_BY_ABILITY)) {
@@ -73,17 +76,23 @@ public class Match {
 					gameStack.continueExecution();
 				}
 			} else if(matchState.equals(MatchState.REQUESTING_ATTACKER_SELECTION)) {
-				if(selectedTarget != null) {
+				if(playerDoneClicking == true) {
+					combatPhase.playerDoneClicking();
+				} else if(selectedTarget != null) {
 					combatPhase.resumeExecution();
 				}
 			} else if(matchState.equals(MatchState.REQUESTING_BLOCKER_SELECTION)) {
-				if(selectedTarget != null) {
+				if(playerDoneClicking == true) {
+					combatPhase.playerDoneClicking();
+				} else if(selectedTarget != null) {
 					combatPhase.resumeExecution();
 				}
 			} else if(matchState.equals(MatchState.REQUESTING_ATTACKER_TO_BLOCK_SELECTION)) {
-				if(selectedTarget != null) {
+				if(playerDoneClicking == true) {
+					combatPhase.playerDoneClicking();
+				} else if(selectedTarget != null) {
 					combatPhase.resumeExecution();
-				}		
+				}	
 			} else if(matchState.equals(MatchState.REQUESTING_CARD_TO_DISCARD_SELECTION)) {
 				if(selectedTarget != null) {
 					cardDiscardPhase.resumeExecution();
@@ -240,12 +249,14 @@ public class Match {
 	}
 	
 	public void requestTargetSelectionFromAbility(Ability requestingAbility, String messageToPlayer) {
+		this.targetSelectionCancelled = false;
 		this.targetRequestingAbility = requestingAbility;
 		this.matchState = MatchState.REQUESTING_TARGET_SELECTION_BY_ABILITY;
 		this.messageToPlayer = messageToPlayer;
 	}
 	
 	public void requestManaPaymentFromAbility(Ability requestingAbility, String messageToPlayer) {
+		this.targetSelectionCancelled = false;
 		this.manaRequestingAbility = requestingAbility;
 		this.matchState = MatchState.REQUESTING_MANA_PAYMENT_BY_ABILITY;
 		this.messageToPlayer = messageToPlayer;
@@ -307,6 +318,10 @@ public class Match {
 	
 	public void playerDoneClicking() {
 		this.playerDoneClicking = true;
+	}
+	
+	public void cancelTargetSelection() {
+		this.targetSelectionCancelled = true;
 	}
 	
 	public String getMessageToPlayer() {

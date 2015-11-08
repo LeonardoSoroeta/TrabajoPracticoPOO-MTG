@@ -6,6 +6,10 @@ public class CombatPhase {
 		
 	}
 	
+	public void playerDoneClicking() {
+		
+	}
+	
 	public void resumeExecution() {
 		
 	}

@@ -17,6 +17,10 @@ public abstract class Ability {
 		return true;
 	}
 	
+	public void cancelTargetSelection() {
+		
+	}
+	
 	public void resumeExecution() {
 		
 	}
