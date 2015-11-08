@@ -9,7 +9,7 @@ import java.util.Map;
 public class ManaPool {
 	private Map<Color, Integer> manapool;
 
-	public ManaPool(){
+	public ManaPool() {
 		manapool = new HashMap<Color, Integer>();
 		manapool.put(Color.RED, 0);
 		manapool.put(Color.GREEN, 0);
@@ -20,53 +20,58 @@ public class ManaPool {
 		
 	}
 	
-	public int getMana(Color color){
+	public Integer getAvailableManaOfThisColor(Color color) {
 		return manapool.get(color);
-		
 	}
 	
-	public void setMana(Color color, Integer quantity){
+	public void setManaOfThisColor(Color color, Integer quantity) {
 		manapool.put(color, quantity);
 	}
 	
-	public void increaseMana(Color color){
+	public void increaseManaOfThisColorByOne(Color color) {
 		manapool.put(color, manapool.get(color)+1);
 	}
 	
-	public void decreaseMana(Color color) throws NotAvailableManaException{
+	public void decreaseMana(Color color) throws NotAvailableManaException {
 		if(isAvailable(color))
 			manapool.put(color, manapool.get(color)-1);
 		else throw new NotAvailableManaException();
 	}
 
-	private boolean isAvailable(Color color){
+	private boolean isAvailable(Color color) {
 		return manapool.get(color) - 1 >= 0;
 	}
 	
-	public int getColorlessMana(Color color){
-		
-		int aux = 0;
-		
-		for(Color each : manapool.keySet()){
-			if(!each.equals(color)){
-				aux+=manapool.get(each);
-			}
+	public Integer getConvertedManaCost() {
+		Integer total = 0;
+		for(Color each : manapool.keySet()) {
+				total+=manapool.get(each);
 		}
-		
-		return aux;
+		return total;
 	}
 	
 	public void resetMana(){
 		for(Color each : manapool.keySet()) {
-			this.setMana(each, this.EMPTY_MANA);
+			this.setManaOfThisColor(each, 0);
 		}
 	}
 	
 	public void manaBurn(Player player) {
 		for(Color each : manapool.keySet()) {
-			player.takeDamage(this.getMana(each));
+			player.takeDamage(this.getAvailableManaOfThisColor(each));
 		}
 		this.resetMana();
+	}
+	
+	public boolean containsEnoughManaToPay(Color color, Integer coloredManaCost, Integer colorlessManaCost) {
+		Integer convertedManaCost = this.getConvertedManaCost();
+		if(this.getAvailableManaOfThisColor(color) < coloredManaCost) {
+			return false;
+		} else if(convertedManaCost - coloredManaCost < colorlessManaCost) {
+			return false;
+		} else {
+			return true;
+		}
 	}
 	
 	
