@@ -10,6 +10,7 @@ import ar.edu.itba.Magic.Backend.Player;
 import ar.edu.itba.Magic.Backend.Abilities.ActivatedPermanentAbility;
 import ar.edu.itba.Magic.Backend.Abilities.AutomaticPermanentAbility;
 import ar.edu.itba.Magic.Backend.Abilities.AutomaticSpellAbility;
+import ar.edu.itba.Magic.Backend.Abilities.DefaultCreatureAbility;
 import ar.edu.itba.Magic.Backend.Abilities.PermanentAbility;
 import ar.edu.itba.Magic.Backend.Abilities.SpellAbility;
 import ar.edu.itba.Magic.Backend.Cards.ArtifactCard;
@@ -77,7 +78,7 @@ public enum CardType {
 			List<Attribute> attributes = new LinkedList<Attribute>();
 	        attributes = Creature.getDefaultCreatureAttributes();
 	        attributes.add(Attribute.FLYING);
-			return new CreatureCard(CardType.AIR_ELEMENTAL, attributes, 4, 4);
+			return new CreatureCard(CardType.AIR_ELEMENTAL, attributes, 4, 4, new DefaultCreatureAbility());
 	} },
 	
 	ANKH_OF_MISHRA("Ankh of Mishra", Color.COLORLESS, 0, 2) { public Card createCardOfThisType() {
@@ -112,14 +113,6 @@ public enum CardType {
 					Integer previousForests;
 					
 					@Override
-					public boolean satisfyCastingRequirements() {
-						// TODO select target creature
-						// return true
-						// sino
-						return false;
-					}
-					
-					@Override
 					public void executeOnEntering() {
 						previousForests = 0;
 						gameEventHandler.addListener(this);
@@ -152,7 +145,7 @@ public enum CardType {
 		List<Attribute> attributes = new LinkedList<Attribute>();
         attributes = Creature.getDefaultCreatureAttributes();
         attributes.add(Attribute.FLYING);
-		return new CreatureCard(CardType.AZURE_DRAKE, attributes, 2, 4);
+		return new CreatureCard(CardType.AZURE_DRAKE, attributes, 2, 4, new DefaultCreatureAbility());
 	} },
 	
     BAD_MOON("Bad Moon", Color.BLACK, 1, 1) { public Card createCardOfThisType() {
@@ -208,14 +201,14 @@ public enum CardType {
         attributes = Creature.getDefaultCreatureAttributes();
         attributes.add(Attribute.TRAMPLE);
         attributes.remove(Attribute.SUMMONING_SICKNESS);
-        return new CreatureCard(CardType.BALL_LIGHTNING, attributes, 6, 1);
+        return new CreatureCard(CardType.BALL_LIGHTNING, attributes, 6, 1, new DefaultCreatureAbility());
     } },
     
     BIRD_MAIDEN("Bird Maiden", Color.RED, 1, 2) { public Card createCardOfThisType() {
     	List<Attribute> attributes = new LinkedList<Attribute>();
         attributes = Creature.getDefaultCreatureAttributes();
         attributes.add(Attribute.FLYING);
-        return new CreatureCard(CardType.BIRD_MAIDEN, attributes, 1, 2);
+        return new CreatureCard(CardType.BIRD_MAIDEN, attributes, 1, 2, new DefaultCreatureAbility());
     } },	
     
     BIRDS_OF_PARADISE("Birds of Paradise", Color.GREEN, 1, 0) { public Card createCardOfThisType() {
@@ -251,14 +244,7 @@ public enum CardType {
                     Land target;
                     boolean destroyAtEndOfTurn = false;
 
-                    @Override
-                    public boolean satisfyCastingRequirements() {
-                        // TODO seleccionar target Land
-                        //return true
-                        //else
-                        return false;
-                    }
-
+                  
                     @Override
                     public void executeOnEntering() {
                         target.addAttachedEnchantment((Enchantment)this.getSourcePermanent());
@@ -288,13 +274,6 @@ public enum CardType {
 				new SpellAbility() {
 					Creature target;
 
-					@Override
-					public boolean satisfyCastingRequirements() {
-						// TODO target = select target creature
-							// return true;
-						// else
-							return false;
-					}
 
 					@Override
 					public void sendToStack() {
@@ -342,14 +321,14 @@ public enum CardType {
     	List<Attribute> attributes = new LinkedList<Attribute>();
 		attributes = Creature.getDefaultCreatureAttributes();
 		attributes.add(Attribute.FLYING);
-		return new CreatureCard(CardType.BOG_IMP, attributes, 1, 1);
+		return new CreatureCard(CardType.BOG_IMP, attributes, 1, 1, new DefaultCreatureAbility());
     } },								
     
     BOG_WRAITH("Bog Wraith", Color.BLACK, 1, 3) { public Card createCardOfThisType() {
     	List<Attribute> attributes = new LinkedList<Attribute>();
 		attributes = Creature.getDefaultCreatureAttributes();
 		attributes.add(Attribute.SWAMPWALK);
-		return new CreatureCard(CardType.BOG_WRAITH, attributes, 3, 3);
+		return new CreatureCard(CardType.BOG_WRAITH, attributes, 3, 3, new DefaultCreatureAbility());
     } },					
     
     BURROWING("Burrowing", Color.RED, 1, 0) { public Card createCardOfThisType() {
@@ -357,13 +336,7 @@ public enum CardType {
 				new PermanentAbility() {
 					Creature target;
 					
-					@Override
-					public boolean satisfyCastingRequirements() {
-						// TODO target = selec target creature without flying
-							// return true;
-						// else
-							return false;
-					}
+				
 
 					@Override
 					public void executeOnEntering() {
@@ -385,7 +358,7 @@ public enum CardType {
 		attributes = Creature.getDefaultCreatureAttributes();
 		attributes.add(Attribute.WALL);
 		attributes.remove(Attribute.CAN_ATTACK);
-		return new CreatureCard(CardType.CARNIVOROUS_PLANT, attributes, 4, 5);
+		return new CreatureCard(CardType.CARNIVOROUS_PLANT, attributes, 4, 5, new DefaultCreatureAbility());
     } },		
     
     CARRION_ANTS("Carrion Ants", Color.BLACK, 2, 2) { public Card createCardOfThisType() {
@@ -406,7 +379,7 @@ public enum CardType {
     CRAW_WURM("Craw Wurm", Color.GREEN, 2, 4) { public Card createCardOfThisType() {
     	List<Attribute> attributes = new LinkedList<Attribute>();
 		attributes = Creature.getDefaultCreatureAttributes();
-		return new CreatureCard(CardType.CRAW_WURM, attributes, 6, 4);
+		return new CreatureCard(CardType.CRAW_WURM, attributes, 6, 4, new DefaultCreatureAbility());
     } },		
     
     CRUMBLE("Crumble", Color.GREEN, 1, 0) { public Card createCardOfThisType() {
@@ -414,13 +387,6 @@ public enum CardType {
 				new SpellAbility() {
 					Artifact target;
 
-					@Override
-					public boolean satisfyCastingRequirements() {
-						// TODO select target Artifact
-							// return true;
-						//else
-							return false;
-					}
 
 					@Override
 					public void sendToStack() {
@@ -507,14 +473,6 @@ public enum CardType {
 					Permanent target;
 
 					@Override
-					public boolean satisfyCastingRequirements() {
-						// TODO select target Permanent
-							// return true;
-						//else
-							return false;
-					}
-
-					@Override
 					public void sendToStack() {
 						gameStack.addStackAction(this);
 					}
@@ -532,7 +490,7 @@ public enum CardType {
 		List<Attribute> attributes = new LinkedList<Attribute>();
         attributes = Creature.getDefaultCreatureAttributes();
         attributes.add(Attribute.ISLANDWALK);
-		return new CreatureCard(CardType.DEVOURING_DEEP, attributes, 1, 2);
+		return new CreatureCard(CardType.DEVOURING_DEEP, attributes, 1, 2, new DefaultCreatureAbility());
 	} },
     
     DINGUS_EGG("Dingus Egg", Color.COLORLESS, 0, 4) { public Card createCardOfThisType() {
@@ -563,13 +521,7 @@ public enum CardType {
                  new PermanentAbility() {
                      Creature target;
                      
-                     public boolean satisfyCastingRequirements() {
-                     	// TODO seleccionar target Creature
-                         //return true
-                         //else
-                         return false;
-                     }
-                     
+                  
                      public void executeOnEntering() {
                      	LastingEffect newEffect = new StaticStatModifier(this, 3, 3);
                      	target.addAttachedEnchantment((Enchantment)this.getSourcePermanent());
@@ -609,7 +561,7 @@ public enum CardType {
     DURKWOOD_BOARS("Durkwood Boars", Color.GREEN, 1, 4) { public Card createCardOfThisType() {
     	List<Attribute> attributes = new LinkedList<Attribute>();
 		attributes = Creature.getDefaultCreatureAttributes();
-		return new CreatureCard(CardType.DURKWOOD_BOARS, attributes, 4 ,4);
+		return new CreatureCard(CardType.DURKWOOD_BOARS, attributes, 4 ,4, new DefaultCreatureAbility());
     } },
     
     DWARVEN_DEMOLITION_TEAM("Dwarven Demolition Team", Color.RED, 1, 2) { public Card createCardOfThisType() {
@@ -631,14 +583,7 @@ public enum CardType {
     CLEANSE("Cleanse", Color.WHITE, 2, 2) { public Card createCardOfThisType() {
     	return new SorceryCard(CardType.CLEANSE,
 				new SpellAbility() {
-					
-					@Override
-					public boolean satisfyCastingRequirements() {
-						// TODO select target Permanent
-							// return true;
-						//else
-							return false;
-					}
+				
 
 					@Override
 					public void sendToStack() {
@@ -662,20 +607,20 @@ public enum CardType {
     EARTH_ELEMENTAL("Earth Elemental", Color.RED, 2, 3) { public Card createCardOfThisType() {
     	List<Attribute> attributes = new LinkedList<Attribute>();
 		attributes = Creature.getDefaultCreatureAttributes();
-		return new CreatureCard(CardType.EARTH_ELEMENTAL, attributes, 4, 5);
+		return new CreatureCard(CardType.EARTH_ELEMENTAL, attributes, 4, 5, new DefaultCreatureAbility());
     } },
     
     ELVISH_ARCHERS("Elvish Archers", Color.GREEN, 1, 1) { public Card createCardOfThisType() {
     	List<Attribute> attributes = new LinkedList<Attribute>();
 		attributes = Creature.getDefaultCreatureAttributes();
 		attributes.add(Attribute.FIRST_STRIKE);
-		return new CreatureCard(CardType.ELVISH_ARCHERS, attributes, 2, 1);
+		return new CreatureCard(CardType.ELVISH_ARCHERS, attributes, 2, 1, new DefaultCreatureAbility());
     } },
     
     FIRE_ELEMENTAL("Fire Elemental", Color.RED, 2, 3) { public Card createCardOfThisType() {
     	List<Attribute> attributes = new LinkedList<Attribute>();
 		attributes = Creature.getDefaultCreatureAttributes();
-		return new CreatureCard(CardType.FIRE_ELEMENTAL, attributes, 5, 4);
+		return new CreatureCard(CardType.FIRE_ELEMENTAL, attributes, 5, 4, new DefaultCreatureAbility());
     } },
     
     FISSURE("Fissure", Color.RED, 2, 3) { public Card createCardOfThisType() {
@@ -683,13 +628,7 @@ public enum CardType {
 				new SpellAbility() {
 					Permanent target;
 
-					@Override
-					public boolean satisfyCastingRequirements() {
-						// TODO target = selec target land or creature
-							// return true;
-						// else
-							return false;
-					}
+				
 
 					@Override
 					public void sendToStack() {
@@ -710,13 +649,7 @@ public enum CardType {
 				new PermanentAbility() {
 					Creature target;
 					
-					@Override
-					public boolean satisfyCastingRequirements() {
-						// TODO target = selec target creature without flying
-							// return true;
-						// else
-							return false;
-					}
+				
 
 					@Override
 					public void executeOnEntering() {
@@ -755,7 +688,7 @@ public enum CardType {
 		List<Attribute> attributes = new LinkedList<Attribute>();
         attributes = Creature.getDefaultCreatureAttributes();
         attributes.add(Attribute.FLYING);
-		return new CreatureCard(CardType.FLYING_MEN, attributes, 1, 1);
+		return new CreatureCard(CardType.FLYING_MEN, attributes, 1, 1, new DefaultCreatureAbility());
     } },
     
     FOREST("Forest", Color.COLORLESS, 0, 0) { public Card createCardOfThisType() {
@@ -830,13 +763,13 @@ public enum CardType {
     GRAY_OGRE("Gray Ogre", Color.RED, 1, 2) { public Card createCardOfThisType() {
     	List<Attribute> attributes = new LinkedList<Attribute>();
 		attributes = Creature.getDefaultCreatureAttributes();
-		return new CreatureCard(CardType.GRAY_OGRE, attributes, 2, 2);
+		return new CreatureCard(CardType.GRAY_OGRE, attributes, 2, 2, new DefaultCreatureAbility());
     } },
     
     GRIZZLY_BEARS("Grizzly Bears", Color.GREEN, 1, 1) { public Card createCardOfThisType() {
     	List<Attribute> attributes = new LinkedList<Attribute>();
         attributes = Creature.getDefaultCreatureAttributes();
-        return new CreatureCard(CardType.GRIZZLY_BEARS, attributes, 2, 2);
+        return new CreatureCard(CardType.GRIZZLY_BEARS, attributes, 2, 2, new DefaultCreatureAbility());
     } },
     
     HOLY_STRENGTH("Holy Strength", Color.WHITE, 2, 0) { public Card createCardOfThisType() {
@@ -844,13 +777,7 @@ public enum CardType {
                  new PermanentAbility() {
                      Creature target;
                      
-                     public boolean satisfyCastingRequirements() {
-                     	// TODO seleccionar target Creature
-                         //return true
-                         //else
-                         return false;
-                     }
-                     
+                 
                      public void executeOnEntering() {
                      	LastingEffect newEffect = new StaticStatModifier(this, 1, 2);
                      	target.addAttachedEnchantment((Enchantment)this.getSourcePermanent());
@@ -870,14 +797,7 @@ public enum CardType {
 					Integer attackBonus = 1;
 					Creature target;
 
-					@Override
-					public boolean satisfyCastingRequirements() {
-						// TODO seleccionar criatura target
-							//sino return false
-						// TODO pagar extra colorless mana ? hacer asi o sino implementar costo variado
-
-						return true;
-					}
+				
 
 					@Override
 					public void sendToStack() {
@@ -922,19 +842,19 @@ public enum CardType {
     HILL_GIANT("Hill Giant", Color.RED, 1, 3) { public Card createCardOfThisType() {
     	List<Attribute> attributes = new LinkedList<Attribute>();
 		attributes = Creature.getDefaultCreatureAttributes();
-		return new CreatureCard(CardType.HILL_GIANT, attributes, 3, 3);
+		return new CreatureCard(CardType.HILL_GIANT, attributes, 3, 3, new DefaultCreatureAbility());
     } },
     
     HURLOON_MINOTAUR("Hurloon Minotaur", Color.RED, 2, 1) { public Card createCardOfThisType() {
     	List<Attribute> attributes = new LinkedList<Attribute>();
 		attributes = Creature.getDefaultCreatureAttributes();
-		return new CreatureCard(CardType.HURLOON_MINOTAUR, attributes, 2, 3);
+		return new CreatureCard(CardType.HURLOON_MINOTAUR, attributes, 2, 3, new DefaultCreatureAbility());
     } },
     
     IRONROOT_TREEFOLK("Ironroot Treefolk", Color.GREEN, 1, 4) { public Card createCardOfThisType() {
     	List<Attribute> attributes = new LinkedList<Attribute>();
         attributes = Creature.getDefaultCreatureAttributes();
-        return new CreatureCard(CardType.IRONROOT_TREEFOLK, attributes, 3, 5);
+        return new CreatureCard(CardType.IRONROOT_TREEFOLK, attributes, 3, 5, new DefaultCreatureAbility());
     } },
     
     ISLAND("Island", Color.COLORLESS, 0, 0) { public Card createCardOfThisType() {
@@ -953,14 +873,7 @@ public enum CardType {
 				new SpellAbility() {
 					Creature target;
 			
-					@Override
-					public boolean satisfyCastingRequirements() {
-						// TODO target = selec target creature without flying
-						// return true;
-						// else
-						return false;
-					}
-
+				
 					@Override
 					public void sendToStack() {
 						gameStack.addStackAction(this);
@@ -1036,7 +949,7 @@ public enum CardType {
     KEEPERS_OF_THE_FAITH("Keepers of the Faith", Color.WHITE, 2, 1) { public Card createCardOfThisType() {
     	List<Attribute> attributes = new LinkedList<Attribute>();
 		attributes = Creature.getDefaultCreatureAttributes();
-		return new CreatureCard(CardType.RIGHTEOUS_AVENGERS, attributes, 2, 3);
+		return new CreatureCard(CardType.RIGHTEOUS_AVENGERS, attributes, 2, 3, new DefaultCreatureAbility());
     } },
     
     KISMET("Kismet", Color.WHITE, 1, 3) { public Card createCardOfThisType() {
@@ -1044,13 +957,7 @@ public enum CardType {
 				new AutomaticPermanentAbility() {
 					Player targetPlayer;
 
-					@Override
-					public boolean satisfyCastingRequirements() {
-						// TODO select target player
-							// return true;
-						// else
-							return false;
-					}
+				
 
 					@Override
 					public void executeOnEntering() {
@@ -1083,14 +990,6 @@ public enum CardType {
 					Creature target;
 
 					@Override
-					public boolean satisfyCastingRequirements() {
-						// TODO target = seleccionar target creature que no tenga First Strike
-							//return true
-						//else
-							return false;
-					}
-
-					@Override
 					public void executeOnEntering() {
 						target.addAttachedEnchantment((Enchantment)this.getSourcePermanent());
 						target.addAttribute(Attribute.FIRST_STRIKE);
@@ -1109,7 +1008,7 @@ public enum CardType {
     	List<Attribute> attributes = new LinkedList<Attribute>();
 		attributes = Creature.getDefaultCreatureAttributes();
 		attributes.add(Attribute.FIRST_STRIKE);
-		return new CreatureCard(CardType.LAND_LEECHES, attributes, 2, 2);
+		return new CreatureCard(CardType.LAND_LEECHES, attributes, 2, 2, new DefaultCreatureAbility());
     } },
     
     LIGHTNING_BOLT("Lightning Bolt", Color.RED, 1, 0) { public Card createCardOfThisType() {
@@ -1117,13 +1016,7 @@ public enum CardType {
 				new SpellAbility() {
 					DamageTaking target; // Object target ?
 
-					@Override
-					public boolean satisfyCastingRequirements() {
-						// TODO select target
-							// return true;
-						//else
-							return false;
-					}
+				
 
 					@Override
 					public void sendToStack() {
@@ -1198,7 +1091,7 @@ public enum CardType {
     	List<Attribute> attributes = new LinkedList<Attribute>();
 		attributes = Creature.getDefaultCreatureAttributes();
 		attributes.add(Attribute.SWAMPWALK);
-		return new CreatureCard(CardType.LOST_SOUL, attributes, 2, 1);
+		return new CreatureCard(CardType.LOST_SOUL, attributes, 2, 1, new DefaultCreatureAbility());
     } },
     
     MARSH_GAS("Marsh Gas", Color.BLACK, 1, 0) { public Card createCardOfThisType() {
@@ -1247,13 +1140,13 @@ public enum CardType {
     	List<Attribute> attributes = new LinkedList<Attribute>();
 		attributes = Creature.getDefaultCreatureAttributes();
 		attributes.add(Attribute.TRAMPLE);
-		return new CreatureCard(CardType.MOORISH_CAVALRY, attributes, 3, 3);
+		return new CreatureCard(CardType.MOORISH_CAVALRY, attributes, 3, 3, new DefaultCreatureAbility());
     } },
     
     MONSS_GOBLIN_RAIDERS("Mons's Goblin Raiders", Color.RED, 1, 0) { public Card createCardOfThisType() {
     	List<Attribute> attributes = new LinkedList<Attribute>();
 		attributes = Creature.getDefaultCreatureAttributes();
-		return new CreatureCard(CardType.MONSS_GOBLIN_RAIDERS, attributes, 1, 1);
+		return new CreatureCard(CardType.MONSS_GOBLIN_RAIDERS, attributes, 1, 1, new DefaultCreatureAbility());
     } },
     
     MOUNTAINS("Mountains", Color.COLORLESS, 0, 0) { public Card createCardOfThisType() {
@@ -1367,13 +1260,6 @@ public enum CardType {
 				new AutomaticPermanentAbility() {
 					Creature target;
 
-					@Override
-					public boolean satisfyCastingRequirements() {
-						// TODO target = seleccionar target creature
-							//return true
-						//else
-							return false;
-					}
 
 					@Override
 					public void executeOnEntering() {
@@ -1405,7 +1291,7 @@ public enum CardType {
     PEARLED_UNICORN("Pearled Unicorn", Color.WHITE, 1, 2) { public Card createCardOfThisType() {
     	List<Attribute> attributes = new LinkedList<Attribute>();
         attributes = Creature.getDefaultCreatureAttributes();
-        return new CreatureCard(CardType.PEARLED_UNICORN, attributes, 2, 2);
+        return new CreatureCard(CardType.PEARLED_UNICORN, attributes, 2, 2, new DefaultCreatureAbility());
     } },
     
     PLAINS("Plains", Color.COLORLESS, 0, 0) { public Card createCardOfThisType() {
@@ -1439,14 +1325,14 @@ public enum CardType {
     	List<Attribute> attributes = new LinkedList<Attribute>();
 		attributes = Creature.getDefaultCreatureAttributes();
 		attributes.add(Attribute.PLAINSWALK);
-		return new CreatureCard(CardType.RIGHTEOUS_AVENGERS, attributes, 3, 1);
+		return new CreatureCard(CardType.RIGHTEOUS_AVENGERS, attributes, 3, 1, new DefaultCreatureAbility());
     } },
     
     ROC_OF_KHER_RIDGES("Roc of Kher Ridges", Color.RED, 1, 3) { public Card createCardOfThisType() {
     	List<Attribute> attributes = new LinkedList<Attribute>();
 		attributes = Creature.getDefaultCreatureAttributes();
 		attributes.add(Attribute.FLYING);
-		return new CreatureCard(CardType.ROC_OF_KHER_RIDGES, attributes, 3, 3);
+		return new CreatureCard(CardType.ROC_OF_KHER_RIDGES, attributes, 3, 3, new DefaultCreatureAbility());
     } },
     
     ROYAL_ASSASIN("Royal Assassin", Color.BLACK, 2, 1) { public Card createCardOfThisType() {
@@ -1474,14 +1360,14 @@ public enum CardType {
     SAVANNAH_LIONS("Savannah Lions", Color.WHITE, 1, 0) { public Card createCardOfThisType() {
     	List<Attribute> attributes = new LinkedList<Attribute>();
         attributes = Creature.getDefaultCreatureAttributes();
-        return new CreatureCard(CardType.SAVANNAH_LIONS, attributes, 2, 1);
+        return new CreatureCard(CardType.SAVANNAH_LIONS, attributes, 2, 1, new DefaultCreatureAbility());
     } },
     
     SCRYB_SPRITES("Scryb Sprites", Color.GREEN, 1, 0) { public Card createCardOfThisType() {
     	List<Attribute> attributes = new LinkedList<Attribute>();
         attributes = Creature.getDefaultCreatureAttributes();
         attributes.add(Attribute.FLYING);
-        return new CreatureCard(CardType.SCRYB_SPRITES, attributes, 1, 1);
+        return new CreatureCard(CardType.SCRYB_SPRITES, attributes, 1, 1, new DefaultCreatureAbility());
     } },
     
     SEA_SERPENT("Sea Serpent", Color.BLUE, 1, 5) { public Card createCardOfThisType() {
@@ -1541,7 +1427,7 @@ public enum CardType {
     	List<Attribute> attributes = new LinkedList<Attribute>();
 		attributes = Creature.getDefaultCreatureAttributes();
 		attributes.add(Attribute.ISLANDWALK);
-		return new CreatureCard(CardType.SEGOVIAN_LEVIATHAN, attributes, 3, 3);
+		return new CreatureCard(CardType.SEGOVIAN_LEVIATHAN, attributes, 3, 3, new DefaultCreatureAbility());
     } },
     
     SERENDIB_EFREET("Serendib Efreet", Color.BLUE, 1, 2) { public Card createCardOfThisType() {
@@ -1577,7 +1463,7 @@ public enum CardType {
     	List<Attribute> attributes = new LinkedList<Attribute>();
 		attributes = Creature.getDefaultCreatureAttributes();
 		attributes.remove(Attribute.TAPS_ON_ATTACK);
-		return new CreatureCard(CardType.SERRA_ANGEL, attributes, 4, 4);
+		return new CreatureCard(CardType.SERRA_ANGEL, attributes, 4, 4, new DefaultCreatureAbility());
     } },
     
     SERRA_AVIARY("Serra Aviary", Color.WHITE, 1, 3) { public Card createCardOfThisType() {
@@ -1628,7 +1514,7 @@ public enum CardType {
     	List<Attribute> attributes = new LinkedList<Attribute>();
         attributes = Creature.getDefaultCreatureAttributes();
         attributes.add(Attribute.FORESTWALK);
-        return new CreatureCard(CardType.SHANODIN_DRYADS, attributes, 1, 1);
+        return new CreatureCard(CardType.SHANODIN_DRYADS, attributes, 1, 1, new DefaultCreatureAbility());
     } },
     
     SHIELD_WALL("Shield Wall", Color.WHITE, 1, 1) { public Card createCardOfThisType() {
@@ -1693,13 +1579,6 @@ public enum CardType {
 				new SpellAbility() {
 					Land target;
 			
-					@Override
-					public boolean satisfyCastingRequirements() {
-						// TODO target = seleccionar target land
-							//return true
-						//else
-							return false;
-					}
 
 					@Override
 					public void sendToStack() {
@@ -1729,7 +1608,7 @@ public enum CardType {
     SQUIRE("Squire", Color.WHITE, 1, 1) { public Card createCardOfThisType() {
     	List<Attribute> attributes = new LinkedList<Attribute>();
 		attributes = Creature.getDefaultCreatureAttributes();
-		return new CreatureCard(CardType.SQUIRE, attributes, 1, 2);
+		return new CreatureCard(CardType.SQUIRE, attributes, 1, 2, new DefaultCreatureAbility());
     } },
     
     STONE_RAIN("Stone Rain", Color.RED, 1, 2) { public Card createCardOfThisType() {
@@ -1737,13 +1616,7 @@ public enum CardType {
 				new SpellAbility() {
 					Land target;
 			
-					@Override
-					public boolean satisfyCastingRequirements() {
-						// TODO target = seleccionar target land
-							//return true
-						//else
-							return false;
-					}
+				
 
 					@Override
 					public void sendToStack() {
@@ -1822,17 +1695,6 @@ public enum CardType {
 
 					private Creature target;
 
-					/**
-					 * Player must select a target non black non artifact creature.
-					 */
-					@Override
-					public boolean satisfyCastingRequirements() {
-						// TODO
-						// seleccionar un target
-							// return true
-						// else
-						return false;
-					}
 
 					@Override
 					public void sendToStack() {
@@ -1886,14 +1748,14 @@ public enum CardType {
 		attributes = Creature.getDefaultCreatureAttributes();
 		attributes.add(Attribute.FIRST_STRIKE);
 		attributes.add(Attribute.FLYING);
-		return new CreatureCard(CardType.THUNDER_SPIRIT, attributes, 2, 2);
+		return new CreatureCard(CardType.THUNDER_SPIRIT, attributes, 2, 2, new DefaultCreatureAbility());
     } },
     	
     TUNDRA_WOLVES("Tundra Wolves", Color.WHITE, 1, 0) { public Card createCardOfThisType() {
     	List<Attribute> attributes = new LinkedList<Attribute>();
 		attributes = Creature.getDefaultCreatureAttributes();
 		attributes.add(Attribute.FIRST_STRIKE);
-		return new CreatureCard(CardType.TUNDRA_WOLVES, attributes, 1, 1);
+		return new CreatureCard(CardType.TUNDRA_WOLVES, attributes, 1, 1, new DefaultCreatureAbility());
     } },
     
     TUNNEL("Tunnel", Color.RED, 1, 0) { public Card createCardOfThisType() {
@@ -1901,14 +1763,7 @@ public enum CardType {
 				new SpellAbility() {
 					Creature target;
 			
-					@Override
-					public boolean satisfyCastingRequirements() {
-						// TODO target = seleccionar target wall
-							//return true
-						//else
-							return false;
-					}
-
+				
 					@Override
 					public void sendToStack() {
 						gameStack.addStackAction(this);
@@ -1928,13 +1783,7 @@ public enum CardType {
                   new PermanentAbility() {
                       Creature target;
                       
-                      public boolean satisfyCastingRequirements() {
-                      	// TODO seleccionar target Creature
-                          //return true
-                          //else
-                          return false;
-                      }
-                      
+          
                       public void executeOnEntering() {
                       	LastingEffect newEffect = new StaticStatModifier(this, 2, 1);
                       	target.addAttachedEnchantment((Enchantment)this.getSourcePermanent());
@@ -1954,13 +1803,7 @@ public enum CardType {
                       Creature target;
                       LastingEffect startingBuff;
                       
-                      @Override
-                      public boolean satisfyCastingRequirements() {
-                      	// TODO seleccionar target Creature
-                          //return true
-                          //else
-                          return false;
-                      }
+              
                       
                       @Override
                       public void executeOnEntering() {
@@ -1990,7 +1833,7 @@ public enum CardType {
     VODALIAN_SOLDIERS("Vodalian Soldiers", Color.BLUE, 1, 1) { public Card createCardOfThisType() {
 		List<Attribute> attributes = new LinkedList<Attribute>();
         attributes = Creature.getDefaultCreatureAttributes();
-		return new CreatureCard(CardType.VODALIAN_SOLDIERS, attributes, 1, 2);
+		return new CreatureCard(CardType.VODALIAN_SOLDIERS, attributes, 1, 2, new DefaultCreatureAbility());
 	} },
     
     WALL_OF_FIRE("Wall of Fire", Color.RED, 2, 1) { public Card createCardOfThisType() {
@@ -2015,7 +1858,7 @@ public enum CardType {
 		attributes = Creature.getDefaultCreatureAttributes();
 		attributes.add(Attribute.WALL);
 		attributes.remove(Attribute.CAN_ATTACK);
-		return new CreatureCard(CardType.WALL_OF_ICE, attributes, 0, 7);
+		return new CreatureCard(CardType.WALL_OF_ICE, attributes, 0, 7, new DefaultCreatureAbility());
     } },
     
     WALL_OF_STONE("Wall of Stone", Color.RED, 2, 1) { public Card createCardOfThisType() {
@@ -2023,7 +1866,7 @@ public enum CardType {
 		attributes = Creature.getDefaultCreatureAttributes();
 		attributes.add(Attribute.WALL);
 		attributes.remove(Attribute.CAN_ATTACK);
-		return new CreatureCard(CardType.WALL_OF_STONE, attributes, 0, 8);
+		return new CreatureCard(CardType.WALL_OF_STONE, attributes, 0, 8, new DefaultCreatureAbility());
     } },
     
     WALL_OF_SWORDS("Wall of Swords", Color.WHITE, 1, 3) { public Card createCardOfThisType() {
@@ -2032,7 +1875,7 @@ public enum CardType {
 		attributes.add(Attribute.WALL);
 		attributes.remove(Attribute.CAN_ATTACK);
 		attributes.add(Attribute.FLYING);
-		return new CreatureCard(CardType.WALL_OF_SWORDS, attributes, 3, 5);
+		return new CreatureCard(CardType.WALL_OF_SWORDS, attributes, 3, 5, new DefaultCreatureAbility());
     } },
     
     WALL_OF_WATER("Wall of Water", Color.BLUE, 2, 1) { public Card createCardOfThisType() {
@@ -2057,7 +1900,7 @@ public enum CardType {
 		attributes = Creature.getDefaultCreatureAttributes();
 		attributes.add(Attribute.WALL);
 		attributes.remove(Attribute.CAN_ATTACK);
-		return new CreatureCard(CardType.WALL_OF_WOOD, attributes, 0, 3);
+		return new CreatureCard(CardType.WALL_OF_WOOD, attributes, 0, 3, new DefaultCreatureAbility());
     } },
     
     WANDERLUST("Wanderlust", Color.GREEN, 1, 2) { public Card createCardOfThisType() {
@@ -2065,13 +1908,7 @@ public enum CardType {
 				new AutomaticPermanentAbility() {
 					Creature target;
 
-					@Override
-					public boolean satisfyCastingRequirements() {
-						// TODO target = select target creature;
-							//return true;
-						//else
-							return false;
-					}
+				
 					
 					@Override
 					public void executeOnEntering() {
@@ -2100,7 +1937,7 @@ public enum CardType {
     	List<Attribute> attributes = new LinkedList<Attribute>();
 		attributes = Creature.getDefaultCreatureAttributes();
 		attributes.add(Attribute.TRAMPLE);
-		return new CreatureCard(CardType.WAR_MAMMOTH, attributes, 3, 3);
+		return new CreatureCard(CardType.WAR_MAMMOTH, attributes, 3, 3, new DefaultCreatureAbility());
     } },
     
     WARP_ARTIFACT("Warp Artifact", Color.BLACK, 2, 0) { public Card createCardOfThisType() {
@@ -2108,14 +1945,7 @@ public enum CardType {
 				new AutomaticPermanentAbility() {
 					Artifact target;
 
-					@Override
-					public boolean satisfyCastingRequirements() {
-						// TODO target = select target artifact;
-							//return true;
-						//else
-							return false;
-					}
-					
+				
 					@Override
 					public void executeOnEntering() {
 						target.addAttachedEnchantment((Enchantment)this.getSourcePermanent());
@@ -2142,7 +1972,7 @@ public enum CardType {
     WATER_ELEMENTAL("Water Elemental", Color.BLUE, 2, 3) { public Card createCardOfThisType() {
     	List<Attribute> attributes = new LinkedList<Attribute>();
 		attributes = Creature.getDefaultCreatureAttributes();
-		return new CreatureCard(CardType.WATER_ELEMENTAL, attributes, 5, 4);
+		return new CreatureCard(CardType.WATER_ELEMENTAL, attributes, 5, 4, new DefaultCreatureAbility());
     } },
     
     WEAKNESS("Weakness", Color.BLACK, 1, 0) { public Card createCardOfThisType() {
@@ -2150,13 +1980,7 @@ public enum CardType {
                  new PermanentAbility() {
                      Creature target;
                      
-                     public boolean satisfyCastingRequirements() {
-                     	// TODO seleccionar target Creature
-                         //return true
-                         //else
-                         return false;
-                     }
-                     
+                
                      public void executeOnEntering() {
                      	LastingEffect newEffect = new StaticStatModifier(this, -2, -1);
                      	target.addAttachedEnchantment((Enchantment)this.getSourcePermanent());
@@ -2198,7 +2022,7 @@ public enum CardType {
 		attributes = Creature.getDefaultCreatureAttributes();
 		attributes.add(Attribute.FLYING);
 		attributes.remove(Attribute.TAPS_ON_ATTACK);
-		return new CreatureCard(CardType.ZEPHYR_FALCON, attributes, 1, 1);
+		return new CreatureCard(CardType.ZEPHYR_FALCON, attributes, 1, 1, new DefaultCreatureAbility());
     } }
     
     ;						

@@ -11,6 +11,7 @@ import ar.edu.itba.Magic.Backend.Abilities.Ability;
 import ar.edu.itba.Magic.Backend.Enums.Event;
 import ar.edu.itba.Magic.Backend.Enums.MatchState;
 import ar.edu.itba.Magic.Backend.Enums.Phase;
+import ar.edu.itba.Magic.Backend.Interfaces.ManaRequester;
 
 public class Match {
 	
@@ -33,7 +34,7 @@ public class Match {
 	private boolean isFirstTurn = true;
 	private boolean landPlayThisTurn;
 	private Ability targetRequestingAbility;
-	private Ability manaRequestingAbility;
+	private ManaRequester manaRequester;
 	private boolean playerDoneClicking;
 	private boolean targetSelectionCancelled;
 	private String messageToPlayer;
@@ -61,9 +62,9 @@ public class Match {
 				} else if(selectedTarget != null) {
 					targetRequestingAbility.resumeExecution();
 				}
-			} else if(matchState.equals(MatchState.REQUESTING_MANA_PAYMENT_BY_ABILITY)) {
+			} else if(matchState.equals(MatchState.REQUESTING_MANA_PAYMENT)) {
 				if(selectedTarget != null) {
-					manaRequestingAbility.resumeExecution();
+					manaRequester.resumeManaRequesting();
 				}
 			} else if(matchState.equals(MatchState.REQUESTING_MAIN_PHASE_ACTIONS)) {
 				if(playerDoneClicking == true) {
@@ -144,8 +145,6 @@ public class Match {
 		this.removeAllDamageCounters();
 		
 		cardDiscardPhase.start();
-		
-		eventHandler.triggerGameEvent(new GameEvent(Event.END_OF_TURN, activePlayer));
 	}
 	
 	public Player randomPlayer() {
@@ -228,31 +227,40 @@ public class Match {
 	}
 	
 	public void requestTargetSelectionFromAbility(Ability requestingAbility, String messageToPlayer) {
+		this.selectedTarget = null;
 		this.targetSelectionCancelled = false;
 		this.targetRequestingAbility = requestingAbility;
 		this.matchState = MatchState.REQUESTING_TARGET_SELECTION_BY_ABILITY;
 		this.messageToPlayer = messageToPlayer;
 	}
 	
-	public void requestManaPaymentFromAbility(Ability requestingAbility, String messageToPlayer) {
-		this.targetSelectionCancelled = false;
-		this.manaRequestingAbility = requestingAbility;
-		this.matchState = MatchState.REQUESTING_MANA_PAYMENT_BY_ABILITY;
+	public void requestManaPayment(ManaRequester manaRequester, String messageToPlayer) {
+		this.manaRequester = manaRequester;
+		this.matchState = MatchState.REQUESTING_MANA_PAYMENT;
 		this.messageToPlayer = messageToPlayer;
 	}
 	
 	public void requestAttackerSelection(String messageToPlayer) {
+		this.selectedTarget = null;
 		this.matchState = MatchState.REQUESTING_ATTACKER_SELECTION;
 		this.messageToPlayer = messageToPlayer;
 	}
 	
 	public void requestBlockerSelection(String messageToPlayer) {
+		this.selectedTarget = null;
 		this.matchState = MatchState.REQUESTING_BLOCKER_SELECTION;
 		this.messageToPlayer = messageToPlayer;
 	}
 	
 	public void requestAttackerToBlockSelection(String messageToPlayer) {
+		this.selectedTarget = null;
 		this.matchState = MatchState.REQUESTING_ATTACKER_TO_BLOCK_SELECTION;
+		this.messageToPlayer = messageToPlayer;
+	}
+	
+	public void requestCardToDiscardSelection(String messageToPlayer) {
+		this.selectedTarget = null;
+		this.matchState = MatchState.REQUESTING_CARD_TO_DISCARD_SELECTION;
 		this.messageToPlayer = messageToPlayer;
 	}
 	

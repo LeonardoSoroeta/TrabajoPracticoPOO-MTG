@@ -6,7 +6,7 @@ public enum MatchState {
 	// eso se fija el back
 	// nunca se deberia llegar a este estado si el jugador no tiene suficiente mana asi que una vez que el match
 	// esta en este estado el jugador tiene que pagar
-	REQUESTING_MANA_PAYMENT_BY_ABILITY,
+	REQUESTING_MANA_PAYMENT,
 	
 	// el jugador tiene que seleccionar alguna carta o algun permanent o lo que sea, luego se ejecuta
 	// returnSelectedTarget(Object selectedTarget)
