@@ -6,12 +6,11 @@ import java.util.Map;
 
 import ar.edu.itba.Magic.Backend.Enums.Attribute;
 import ar.edu.itba.Magic.Backend.Enums.Event;
-import ar.edu.itba.Magic.Backend.Enums.MatchState;
 import ar.edu.itba.Magic.Backend.Permanents.Creature;
 
 public class CombatPhase {
 	
-	private static CombatPhase self = null;
+	private static CombatPhase self = new CombatPhase();
 	
 	Match match = Match.getMatch();
 	GameEventHandler eventHandler = GameEventHandler.getGameEventHandler();
@@ -28,9 +27,6 @@ public class CombatPhase {
 	}
 	
 	public static CombatPhase getCombatPhase() {
-		if(self == null) {
-			self = new CombatPhase();
-		}
 		return self;
 	}
 	

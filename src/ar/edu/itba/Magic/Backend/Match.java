@@ -15,7 +15,7 @@ import ar.edu.itba.Magic.Backend.Interfaces.ManaRequester;
 
 public class Match {
 	
-	private static Match self = null;
+	private static Match self = new Match();
 	
 	GameStack gameStack = GameStack.getGameStackInstance();
 	GameEventHandler eventHandler = GameEventHandler.getGameEventHandler();
@@ -45,9 +45,6 @@ public class Match {
     }
 	
 	public static Match getMatch() {
-		if(self == null) {
-			self = new Match();
-		}
 		return self;
 	}
 	
