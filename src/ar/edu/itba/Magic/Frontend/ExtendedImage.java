@@ -44,6 +44,7 @@ public class ExtendedImage extends Image {
 	
 	public void drawScaled(float x, float y, float w, float h) {
 		super.draw(x, y, w, h);
+		this.update(x, y);
 	}
 	
 	public boolean mouseOver(int x, int y) {

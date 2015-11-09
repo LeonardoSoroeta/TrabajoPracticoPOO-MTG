@@ -325,5 +325,11 @@ public class Match {
 		this.selectedTarget = selectedTarget;
 	}
 	
+	public int getPlayerPlaying(){
+		if( this.getActivePlayer().equals(player1))
+			return 1;
+		else
+			return 2;
+	}
 	
 }
