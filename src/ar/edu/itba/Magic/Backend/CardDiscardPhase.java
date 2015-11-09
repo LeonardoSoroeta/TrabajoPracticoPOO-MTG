@@ -5,7 +5,7 @@ import ar.edu.itba.Magic.Backend.Enums.Event;
 
 public class CardDiscardPhase {
 	
-	private static CardDiscardPhase self = null;
+	private static CardDiscardPhase self = new CardDiscardPhase();
 	Match match = Match.getMatch();
 	GameEventHandler eventHandler = GameEventHandler.getGameEventHandler();
 	
@@ -16,9 +16,6 @@ public class CardDiscardPhase {
 	}
 	
 	public static CardDiscardPhase getCardDiscardPhase() {
-		if(self == null) {
-			self = new CardDiscardPhase();
-		}
 		return self;
 	}
 	
