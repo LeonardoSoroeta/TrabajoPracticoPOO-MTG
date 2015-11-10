@@ -10,16 +10,16 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+import ar.edu.itba.Magic.Backend.Deck;
 import ar.edu.itba.Magic.Backend.Match;
+import ar.edu.itba.Magic.Backend.Player;
+import ar.edu.itba.Magic.Backend.Cards.Card;
 import ar.edu.itba.Magic.Backend.Enums.Color;
 import ar.edu.itba.Magic.Backend.Enums.MatchState;
 
 public class NewMatchState extends BasicGameState {
 	
 	private Match match;
-	private PlayerUI p1UI, p2UI;
-	private static MatchUI self = null;
-	private boolean selected = false;
 	private Input input;
 	
 	private Image backgroundBL;
@@ -30,9 +30,18 @@ public class NewMatchState extends BasicGameState {
 	private ManaNumber mananumberPL1;
 	private ManaNumber mananumberPL2;
 	
+	private Image abomination;
+	private Image hand;
+	
+	private Player player1;
+	private Player player2;
+	
+	private DeckList decklistpl1;
+	private DeckList decklistpl2;
+	
 	//private ExtendedImage numerito;
 
-	public void init(GameContainer gc, StateBasedGame arg1)
+	public void init(GameContainer gc, StateBasedGame sbg)
 			throws SlickException {
 		
 		backgroundBL = new Image("res/Match/TERR_BLACKpict.bmp"); 
@@ -40,15 +49,29 @@ public class NewMatchState extends BasicGameState {
 		manapool = new Image("res/Match/manapool2.png");
 		backcard = new Image("res/Match/backCard.png");
 		button = new Image("res/Match/button.png");
+		
+		hand = new Image("res/Match/hand.png");
+		
+		
 		mananumberPL1 = new ManaNumber();
 		mananumberPL2 = new ManaNumber();
 		
+		//decklistpl1 = new DeckList(match.getPlayer1().getDeck());
+		//decklistpl2 = new DeckList(match.getPlayer2().getDeck());
+		
+		abomination = new Image("res/tinycards/abomination.jpg");
 		
 		input = gc.getInput();
 		
 		
+		
+		
+		
+		
+		abomination.rotate(90);
+		
 		//numerito = new ExtendedImage("res/Match/numerito.png");
-		//match = Match.getMatch();
+		match = Match.getMatch();
 		
 		//match.start();
 		
@@ -57,6 +80,7 @@ public class NewMatchState extends BasicGameState {
 
 	public void update(GameContainer gc, StateBasedGame arg1, int arg2)
 			throws SlickException {
+		
 		
 		/*
 		if ( match.getMatchState().equals(MatchState.REQUESTING_MANA_PAYMENT)){
@@ -114,6 +138,7 @@ public class NewMatchState extends BasicGameState {
 		
 		*/
 		
+		
 	
 	}
 	
@@ -145,6 +170,32 @@ public class NewMatchState extends BasicGameState {
 		mananumberPL1.getNumber().get(Color.COLORLESS).get(0).draw(gc.getWidth()/64*10, gc.getHeight()/64*66, gc.getWidth()/64, gc.getHeight()/64);
 		
 		
+		abomination.setCenterOfRotation((gc.getWidth()/128*7)/2, (gc.getHeight()/128*15)/2);
+		hand.draw(gc.getWidth()/128*34, gc.getHeight()/128*72, gc.getWidth()/128*18, gc.getHeight()/128*64);
+		abomination.draw(gc.getWidth()/128*35, gc.getHeight()/128*74, gc.getWidth()/128*7, gc.getHeight()/128*15);
+		abomination.draw(gc.getWidth()/128*35, gc.getHeight()/128*89, gc.getWidth()/128*7, gc.getHeight()/128*15);
+		abomination.draw(gc.getWidth()/128*35, gc.getHeight()/128*104, gc.getWidth()/128*7, gc.getHeight()/128*15);
+		abomination.draw(gc.getWidth()/128*35, gc.getHeight()/128*119, gc.getWidth()/128*7, gc.getHeight()/128*15);
+		
+		abomination.draw(gc.getWidth()/128*52, gc.getHeight()/128*74, gc.getWidth()/128*15, gc.getHeight()/128*15);
+		abomination.draw(gc.getWidth()/128*52, gc.getHeight()/128*89, gc.getWidth()/128*15, gc.getHeight()/128*15);
+		abomination.draw(gc.getWidth()/128*52, gc.getHeight()/128*104, gc.getWidth()/128*15, gc.getHeight()/128*15);
+		abomination.draw(gc.getWidth()/128*52, gc.getHeight()/128*119, gc.getWidth()/128*15, gc.getHeight()/128*15);
+		
+		abomination.draw(gc.getWidth()/128*69, gc.getHeight()/128*74, gc.getWidth()/128*15, gc.getHeight()/128*15);
+		abomination.draw(gc.getWidth()/128*69, gc.getHeight()/128*89, gc.getWidth()/128*15, gc.getHeight()/128*15);
+		abomination.draw(gc.getWidth()/128*69, gc.getHeight()/128*104, gc.getWidth()/128*15, gc.getHeight()/128*15);
+		abomination.draw(gc.getWidth()/128*69, gc.getHeight()/128*119, gc.getWidth()/128*15, gc.getHeight()/128*15);
+		
+		abomination.draw(gc.getWidth()/128*86, gc.getHeight()/128*74, gc.getWidth()/128*15, gc.getHeight()/128*15);
+		abomination.draw(gc.getWidth()/128*86, gc.getHeight()/128*89, gc.getWidth()/128*15, gc.getHeight()/128*15);
+		abomination.draw(gc.getWidth()/128*86, gc.getHeight()/128*104, gc.getWidth()/128*15, gc.getHeight()/128*15);
+		abomination.draw(gc.getWidth()/128*86, gc.getHeight()/128*119, gc.getWidth()/128*15, gc.getHeight()/128*15);
+		
+		abomination.draw(gc.getWidth()/128*103, gc.getHeight()/128*74, gc.getWidth()/128*15, gc.getHeight()/128*15);
+		abomination.draw(gc.getWidth()/128*103, gc.getHeight()/128*89, gc.getWidth()/128*15, gc.getHeight()/128*15);
+		abomination.draw(gc.getWidth()/128*103, gc.getHeight()/128*104, gc.getWidth()/128*15, gc.getHeight()/128*15);
+		abomination.draw(gc.getWidth()/128*103, gc.getHeight()/128*119, gc.getWidth()/128*15, gc.getHeight()/128*15);
 		
 		//numerito.draw(gc.getWidth()/64*1, gc.getHeight()/64*1, gc.getWidth()/64*3, gc.getHeight()/64*3);
 		//numerito.draw(gc.getWidth()/64*1, gc.getHeight()/64*62, gc.getWidth()/64*3, gc.getHeight()/64*3);
