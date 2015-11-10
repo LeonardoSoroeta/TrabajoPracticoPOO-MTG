@@ -21,7 +21,7 @@ public class CardDiscardPhase {
 	
 	public void start() {
 		if(match.getTurnOwner().getHand().size() > 7) {
-			match.requestCardToDiscardSelection("You have more than 7 cards in your hand. Select a card to discard: ");
+			match.awaitCardToDiscardSelection("You have more than 7 cards in your hand. Select a card to discard: ");
 		} else {
 			eventHandler.triggerGameEvent(new GameEvent(Event.END_OF_TURN, match.getTurnOwner()));
 			match.executeNextPhase();
@@ -33,7 +33,7 @@ public class CardDiscardPhase {
 		match.getTurnOwner().discardCard((Card)selectedTarget);
 		
 		if(match.getTurnOwner().getHand().size() > 7) {
-			match.requestCardToDiscardSelection("You have more than 7 cards in your hand. Select a card to discard: ");
+			match.awaitCardToDiscardSelection("You have more than 7 cards in your hand. Select a card to discard: ");
 		} else {
 			eventHandler.triggerGameEvent(new GameEvent(Event.END_OF_TURN, match.getTurnOwner()));
 			match.executeNextPhase();

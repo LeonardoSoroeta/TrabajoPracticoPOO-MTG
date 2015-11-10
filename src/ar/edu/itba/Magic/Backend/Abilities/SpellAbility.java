@@ -43,7 +43,7 @@ public abstract class SpellAbility extends Ability implements GameStackAction, M
 				this.finishCasting();
 			}
 		} else if(controllerManaPool.containsEnoughManaToPay(color, coloredManaCost, colorlessManaCost)) {
-			match.requestManaPayment(this, "Pay requested mana cost to cast this card: ");
+			match.awaitManaPayment(this, "Pay requested mana cost to cast this card: ");
 		}
 	}
 	
@@ -59,7 +59,7 @@ public abstract class SpellAbility extends Ability implements GameStackAction, M
     }
     
     /** Must override this method if card requires target on casting */
-	public void resumeExecution() {
+	public void resumeTargetSelecion() {
 
 	}
 	

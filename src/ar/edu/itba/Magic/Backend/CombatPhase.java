@@ -31,15 +31,16 @@ public class CombatPhase {
 	}
 	
 	public void start() {
-		
 		eventHandler.triggerGameEvent(new GameEvent(Event.COMBAT_PHASE, match.getTurnOwner()));	
-		
-		this.combatState = CombatState.DECLARING_ATTACKERS;
+		this.combatState = CombatState.INITIAL_STATE;
 		this.resumeExecution();
 	}
 	
 	public void resumeExecution() {
-		if(combatState.equals(CombatState.DECLARING_ATTACKERS)) {
+		if(combatState.equals(CombatState.INITIAL_STATE)) {
+			this.combatState = CombatState.DECLARING_ATTACKERS;
+			match.awaitAttackerSelection("Select an attacker:");
+		} else if(combatState.equals(CombatState.DECLARING_ATTACKERS)) {
 			this.declareAttackers();
 		} else if(combatState.equals(CombatState.DECLARING_BLOCKERS)) {
 			this.declareBlockers();
@@ -57,26 +58,22 @@ public class CombatPhase {
 	}
 	
 	private void declareAttackers() {
-		if(selectedTarget == null) {
-			match.requestAttackerSelection("Select attacker:");
+		Creature target = (Creature)match.getSelectedTarget();
+		
+		if(attackers.contains(target)) {
+			match.awaitAttackerSelection("You already selected this attacker. Select again: ");
+		} else if(target.containsAttribute(Attribute.SUMMONING_SICKNESS)) {
+			match.awaitAttackerSelection("Selected creature contains summoning sickness. Select again: ");
+		} else if(!target.containsAttribute(Attribute.CAN_ATTACK)) {
+				match.awaitAttackerSelection("Selected creature cannot attack. Select again: ");
+		} else if(target.isTapped()) {
+			match.awaitAttackerSelection("Selected creature is tapped and cannot attack. Select again: ");
 		} else {
-			Creature target = (Creature)match.getSelectedTarget();
-			
-			if(attackers.contains(target)) {
-				match.requestAttackerSelection("You already selected this attacker. Select again: ");
-			} else if(target.containsAttribute(Attribute.SUMMONING_SICKNESS)) {
-				match.requestAttackerSelection("Selected creature contains summoning sickness. Select again: ");
-			} else if(!target.containsAttribute(Attribute.CAN_ATTACK)) {
-					match.requestAttackerSelection("Selected creature cannot attack. Select again: ");
-			} else if(target.isTapped()) {
-				match.requestAttackerSelection("Selected creature is tapped and cannot attack. Select again: ");
-			} else {
-				if(target.containsAttribute(Attribute.TAPS_ON_ATTACK)) {
-					target.tap();
-				}
-				attackers.add(target);
-				match.requestAttackerSelection("Select another attacker:");
+			if(target.containsAttribute(Attribute.TAPS_ON_ATTACK)) {
+				target.tap();
 			}
+			attackers.add(target);
+			match.awaitAttackerSelection("Select another attacker:");
 		}
 	}
 	
@@ -104,6 +101,7 @@ public class CombatPhase {
 	}
 	
 	private enum CombatState {
+		INITIAL_STATE,
 		DECLARING_ATTACKERS,
 		DECLARING_BLOCKERS,
 		DEALING_DAMAGE

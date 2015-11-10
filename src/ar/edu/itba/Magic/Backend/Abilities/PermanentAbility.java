@@ -22,7 +22,7 @@ import ar.edu.itba.Magic.Backend.Permanents.Permanent;
  * All abilities contained by Permanents extend this class. Every time a Permanent that contains an ability enters play, 
  * it's ability's executeOnIntroduction method must be executed.
  */
-public abstract class PermanentAbility extends Ability implements ManaRequester{
+public abstract class PermanentAbility extends Ability implements ManaRequester {
 	
 	Match match = Match.getMatch();
 
@@ -58,14 +58,16 @@ public abstract class PermanentAbility extends Ability implements ManaRequester{
 				this.finishCasting();
 			}
 		} else if(controllerManaPool.containsEnoughManaToPay(color, coloredManaCost, colorlessManaCost)) {
-			match.requestManaPayment(this, "Pay requested mana cost to cast this card: ");
+			match.awaitManaPayment(this, "Pay requested mana cost to cast this card: ");
 		}
 	}
 	
     public void resumeManaRequesting() {
     	this.selectedTarget = match.getSelectedTarget();
+    	// TODO quitar del mana pool, agregar al cache
     	// TODO seguir cobrando el mana bla bla 
-    	// TODO cuando termino de pagar el mana, this.finishCasting();
+    	// TODO cuando termino de pagar el mana, this.finishCasting(); o elegir un target si hace falta
+    	// si cancelo elegir un target, devolverle el mana
     }
 	
 	@Override 
@@ -96,14 +98,19 @@ public abstract class PermanentAbility extends Ability implements ManaRequester{
             this.setSourcePermanent(land);
             land.setController(sourceCard.getController());
             land.setSpellState(false);
-            sourceCard.getController().discardCard(sourceCard);
+            sourceCard.getController().removeCardFromHand(sourceCard);
             sourceCard.getController().placePermanentInPlay(land);
 		}
 	}
 	
 	/** Must override this method if card requires target on casting */
-	public void resumeExecution() {
+	public void resumeTargetSelecion() {
 
+	}
+	
+	/** Must override this method if card requires target on casting */
+	public void cancelTargetSelection() {
+		
 	}
 	
 	/** Must override this method on some Permanents */

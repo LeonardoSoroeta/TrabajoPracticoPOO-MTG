@@ -21,7 +21,7 @@ public abstract class Ability {
 		
 	}
 	
-	public void resumeExecution() {
+	public void resumeTargetSelecion() {
 		
 	}
 
