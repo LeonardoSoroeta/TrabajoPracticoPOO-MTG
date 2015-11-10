@@ -132,10 +132,9 @@ public class Player implements DamageTaking {
 		if(permanentsInPlay.contains(permanent)) {
 			// TODO throw exception permanent already in play
 		}
+		permanent.setSpellState(false);
 		permanentsInPlay.add(permanent);
-		if(permanent.containsAbility()) {
-			permanent.getAbility().executeOnEntering();
-		}
+		permanent.getAbility().executeOnEntering();
 		gameEventHandler.triggerGameEvent(new GameEvent(Event.PERMANENT_ENTERS_PLAY, permanent));
 	}
 	
@@ -143,9 +142,7 @@ public class Player implements DamageTaking {
 		gameEventHandler.triggerGameEvent(new GameEvent(Event.PERMANENT_LEAVES_PLAY, permanent));
 		
 		if(permanentsInPlay.contains(permanent)) {
-			if(permanent.containsAbility()) {
-				permanent.getAbility().executeOnExit();
-			}
+			permanent.getAbility().executeOnExit();
 			permanentsInPlay.remove(permanent);
 		}
 		// TODO else throw exception permanent not in play

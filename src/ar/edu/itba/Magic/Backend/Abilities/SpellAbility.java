@@ -2,6 +2,7 @@ package ar.edu.itba.Magic.Backend.Abilities;
 
 import java.util.HashMap;
 
+import ar.edu.itba.Magic.Backend.GameStack;
 import ar.edu.itba.Magic.Backend.ManaPool;
 import ar.edu.itba.Magic.Backend.Match;
 import ar.edu.itba.Magic.Backend.Cards.Card;
@@ -13,6 +14,7 @@ import ar.edu.itba.Magic.Backend.Interfaces.GameStackObject;
 public abstract class SpellAbility extends Ability implements GameStackObject {
 	
 	Match match = Match.getMatch();
+	GameStack gameStack = GameStack.getGameStackInstance();
 	
 	private ManaPool manaPool = this.getSourceCard().getController().getManaPool();
 	private Card sourceCard;
@@ -112,7 +114,9 @@ public abstract class SpellAbility extends Ability implements GameStackObject {
     	}
 	}
 	
-	public abstract void sendToStack();
+	public final void sendToStack() {
+		gameStack.addStackObject(this);
+	}
 	
 	public abstract void resolveInStack();
 }

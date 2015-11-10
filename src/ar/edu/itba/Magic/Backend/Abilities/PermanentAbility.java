@@ -56,7 +56,7 @@ public abstract class PermanentAbility extends Ability {
 		}
 		if(sourceCard.getColoredManaCost() == 0) {
 			if(sourceCard.getColorlessManaCost() == 0) {
-				this.finishCasting();
+				this.proceedToSelectCastingTarget();
 			}
 		} else {
 			this.coloredManaRequired = sourceCard.getColoredManaCost();
@@ -88,7 +88,7 @@ public abstract class PermanentAbility extends Ability {
 			colorlessManaRequired--;
     	}
     	if(coloredManaRequired == 0 && colorlessManaRequired == 0) {
-    		this.finishCasting();
+    		this.proceedToSelectCastingTarget();
     	} else {
     		match.awaitCastingManaPayment(this, "Pay requested mana cost to cast this card: ");
     	}
@@ -160,7 +160,7 @@ public abstract class PermanentAbility extends Ability {
 		} else {
 			this.coloredManaRequired = coloredManaCost;
 			this.colorlessManaRequired = colorlessManaCost;
-			match.awaitCastingManaPayment(this, message);
+			match.awaitAbilityManaPayment(this, message);
 		}
 	}
 	
@@ -184,9 +184,9 @@ public abstract class PermanentAbility extends Ability {
 			colorlessManaRequired--;
     	}
     	if(coloredManaRequired == 0 && colorlessManaRequired == 0) {
-    		this.finishCasting();
+    		this.executeIfManaPayed();
     	} else {
-    		match.awaitCastingManaPayment(this, "Continue paying mana cost: ");
+    		match.awaitAbilityManaPayment(this, "Continue paying mana cost: ");
     	}
 	}
 	

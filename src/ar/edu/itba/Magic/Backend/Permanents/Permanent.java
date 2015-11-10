@@ -295,12 +295,11 @@ public abstract class Permanent implements GameStackObject {
 			if(this.isCurrentlyInSpellState()) {
 				legalTarget = false;
 				gameStack.removeStackObject(this);
+				this.controller.placeCardInGraveyard(sourceCard);
 			}
 			else {
 				legalTarget = false;
-				if(this.containsAbility()) {
-					this.getAbility().executeOnExit();
-				}
+				this.getAbility().executeOnExit();
 				for(Enchantment attachedEnchantment : attachedEnchantments) {
 					attachedEnchantment.destroy();
 				}

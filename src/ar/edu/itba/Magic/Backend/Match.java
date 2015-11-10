@@ -128,7 +128,7 @@ public class Match {
 		}
 	}
 	
-	public void start() {		
+	private void start() {		
 		this.activePlayer = this.randomPlayer();
 		
 		this.player1.getDeck().shuffleDeck();

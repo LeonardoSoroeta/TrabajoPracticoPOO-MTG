@@ -42,11 +42,6 @@ public enum CardType {
 				new SpellAbility() {
 
 					@Override
-					public void sendToStack() {
-						gameStack.addStackObject(this);
-					}
-
-					@Override
 					public void resolveInStack() {
 						List<Land> lands = new LinkedList<Land>();
 						lands.addAll(match.getPlayer1().getLands());
@@ -137,10 +132,7 @@ public enum CardType {
     BAD_MOON("Bad Moon", Color.BLACK, 1, 1) { public Card createCardOfThisType() {
     	return new EnchantmentCard(CardType.BAD_MOON, 
         		new AutomaticPermanentAbility() {
-        	
-                    /**
-                     * Adds Bad Moon's automatic ability to the GameEventHandler.
-                     */
+
                     @Override
                     public void executeOnEntering() {
                         gameEventHandler.addListener(this);
@@ -161,10 +153,6 @@ public enum CardType {
                         }
                     }
 
-                    /**
-                     * On every GameEvent checks if any black creatures are unaffected by Black Moon and
-                     * in that case applies them a LastingEffect.
-                     */
                     @Override
                     public void executeOnEvent(GameEvent gameEvent) {
                     	List<Creature> allCreatures = new LinkedList<Creature>();
@@ -391,9 +379,6 @@ public enum CardType {
     	 return new EnchantmentCard(CardType.CRUSADE,
          		new AutomaticPermanentAbility() {
          	
-                     /**
-                      * Adds Crusade's automatic ability to the GameEventHandler.
-                      */
                      @Override
                      public void executeOnEntering() {
                          gameEventHandler.addListener(this);
@@ -414,10 +399,6 @@ public enum CardType {
                          }
                      }
 
-                     /**
-                      * On every GameEvent checks if any black creatures are unaffected by Crusade and
-                      * in that case applies them a LastingEffect.
-                      */
                      @Override
                      public void executeOnEvent(GameEvent gameEvent) {
                      	List<Creature> allCreatures = new LinkedList<Creature>();
@@ -435,21 +416,16 @@ public enum CardType {
                    });
     } },
     
-    /*DARK_RITUAL("Dark Ritual", Color.BLACK, 1, 0) { public Card createCardOfThisType() {
+    DARK_RITUAL("Dark Ritual", Color.BLACK, 1, 0) { public Card createCardOfThisType() {
     	return new InstantCard(CardType.DARK_RITUAL,
 				new SpellAbility() {
 
 					@Override
-					public void sendToStack() {
-						gameStack.addStackObject(this);
-					}
-
-					@Override
 					public void resolveInStack() {
-						// TODO add 3 black mana to mana pool
+						this.getSourceCard().getController().getManaPool().addManaOfThisColor(Color.BLACK, 3);
 					}
 		});
-    } },	*/
+    } },	
     
     /*DESERT_TWISTER("Desert Twister", Color.GREEN, 2, 4) { public Card createCardOfThisType() {
     	return new SorceryCard(CardType.DESERT_TWISTER,
@@ -494,7 +470,9 @@ public enum CardType {
 					@Override
 					public void executeOnEvent(GameEvent gameEvent) {
 						if(gameEvent.getDescriptor().equals(Event.PERMANENT_LEAVES_PLAY)) {
-							((Permanent)gameEvent.getObject1()).getController().takeDamage(2);
+							if(gameEvent.getObject1() instanceof Land) {
+								((Permanent)gameEvent.getObject1()).getController().takeDamage(2);
+							}
 						}
 					}
 		});
@@ -567,12 +545,6 @@ public enum CardType {
     CLEANSE("Cleanse", Color.WHITE, 2, 2) { public Card createCardOfThisType() {
     	return new SorceryCard(CardType.CLEANSE,
 				new SpellAbility() {
-				
-
-					@Override
-					public void sendToStack() {
-						gameStack.addStackObject(this);
-					}
 
 					@Override
 					public void resolveInStack() {
@@ -676,6 +648,7 @@ public enum CardType {
 					@Override
 					public void executeOnActivation() {
 						if(!this.getSourcePermanent().isTapped()) {
+							this.getSourcePermanent().tap();
 							this.getSourcePermanent().getController().getManaPool().addOneManaOfThisColor(Color.GREEN);
 						}
 					}
@@ -796,11 +769,6 @@ public enum CardType {
     HOLY_LIGHT("Holy Light", Color.WHITE, 1, 2) { public Card createCardOfThisType() {
     	return new InstantCard(CardType.HOLY_LIGHT,
 				new SpellAbility() {
-	
-					@Override
-					public void sendToStack() {
-						gameStack.addStackObject(this);
-					}
 
 					@Override
 					public void resolveInStack() {
@@ -1519,11 +1487,6 @@ public enum CardType {
     SHIELD_WALL("Shield Wall", Color.WHITE, 1, 1) { public Card createCardOfThisType() {
     	return new InstantCard(CardType.SHIELD_WALL,
 				new SpellAbility() {
-	
-					@Override
-					public void sendToStack() {
-						gameStack.addStackObject(this);
-					}
 
 					@Override
 					public void resolveInStack() {
@@ -1999,11 +1962,6 @@ public enum CardType {
     WRATH_OF_GOD("Wrath of God", Color.WHITE, 2, 2) { public Card createCardOfThisType() {
     	return new SorceryCard(CardType.WRATH_OF_GOD,
 				new SpellAbility() {
-
-					@Override
-					public void sendToStack() {
-						gameStack.addStackObject(this);
-					}
 
 					@Override
 					public void resolveInStack() {
