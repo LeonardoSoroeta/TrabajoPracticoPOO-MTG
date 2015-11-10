@@ -1,4 +1,4 @@
-package ar.edu.itba.Magic.Backend.Stack;
+package ar.edu.itba.Magic.Backend;
 
 import ar.edu.itba.Magic.Backend.Interfaces.GameStackAction;
 

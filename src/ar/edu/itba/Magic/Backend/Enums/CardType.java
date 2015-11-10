@@ -5,6 +5,7 @@ import java.util.List;
 
 import ar.edu.itba.Magic.Backend.GameEvent;
 import ar.edu.itba.Magic.Backend.GameEventHandler;
+import ar.edu.itba.Magic.Backend.GameStack;
 import ar.edu.itba.Magic.Backend.Match;
 import ar.edu.itba.Magic.Backend.Player;
 import ar.edu.itba.Magic.Backend.Abilities.ActivatedPermanentAbility;
@@ -32,7 +33,6 @@ import ar.edu.itba.Magic.Backend.Permanents.Creature;
 import ar.edu.itba.Magic.Backend.Permanents.Enchantment;
 import ar.edu.itba.Magic.Backend.Permanents.Land;
 import ar.edu.itba.Magic.Backend.Permanents.Permanent;
-import ar.edu.itba.Magic.Backend.Stack.GameStack;
 
 /**
  * Created by Martin on 02/11/2015.

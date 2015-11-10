@@ -5,7 +5,6 @@ import java.util.LinkedList;
 
 import ar.edu.itba.Magic.Backend.GameEventHandler;
 import ar.edu.itba.Magic.Backend.Permanents.Creature;
-import ar.edu.itba.Magic.Backend.Stack.GameStack;
 import ar.edu.itba.Magic.Backend.Player;
 import ar.edu.itba.Magic.Backend.Abilities.Ability;
 import ar.edu.itba.Magic.Backend.Abilities.PermanentAbility;

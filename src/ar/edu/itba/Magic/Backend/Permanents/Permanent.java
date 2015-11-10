@@ -3,6 +3,7 @@ package ar.edu.itba.Magic.Backend.Permanents;
 import java.util.*;
 
 import ar.edu.itba.Magic.Backend.GameEventHandler;
+import ar.edu.itba.Magic.Backend.GameStack;
 import ar.edu.itba.Magic.Backend.Player;
 import ar.edu.itba.Magic.Backend.Abilities.Ability;
 import ar.edu.itba.Magic.Backend.Abilities.PermanentAbility;
@@ -12,7 +13,6 @@ import ar.edu.itba.Magic.Backend.Effects.LastingEffect;
 import ar.edu.itba.Magic.Backend.Enums.Attribute;
 import ar.edu.itba.Magic.Backend.Enums.CardType;
 import ar.edu.itba.Magic.Backend.Enums.Color;
-import ar.edu.itba.Magic.Backend.Stack.GameStack;
 import ar.edu.itba.Magic.Backend.Interfaces.GameStackAction;
 
 /**
