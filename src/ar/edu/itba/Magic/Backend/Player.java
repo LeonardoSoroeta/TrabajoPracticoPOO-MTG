@@ -64,8 +64,14 @@ public class Player implements DamageTaking {
 	public Card drawCard() {
 		Card card = deck.getCard();
 		this.placeCardInHand(card);
-		
 		return card;
+	}
+	
+	public void drawCards(Integer ammount) {
+		for(int i = 0 ; i < ammount ; i++) {
+			Card card = deck.getCard();
+			this.placeCardInHand(card);
+		}
 	}
 	
 	public void discardCard(Card card) {

@@ -44,4 +44,12 @@ public class GameStack {
 		gameStack.remove(gameStackObject);
 	}
 	
+	public LinkedList<GameStackObject> getGameStackObjects() {
+		LinkedList<GameStackObject> gameStackObjects = new LinkedList<GameStackObject>();
+		
+		gameStackObjects.addAll(this.gameStack);
+		
+		return gameStackObjects;
+	}
+	
 }

@@ -100,11 +100,32 @@ public class CombatPhase {
 		match.executeNextPhase();
 	}
 	
+	public LinkedList<Creature> getAttackers() {
+		LinkedList<Creature> attackers = new LinkedList<Creature>();
+		
+		attackers.addAll(this.attackers);
+		
+		return attackers;
+	}
+	
+	public LinkedList<Creature> getBlockers() {
+		LinkedList<Creature> blockers = new LinkedList<Creature>();
+		
+		blockers.addAll(this.blockers);
+		
+		return blockers;
+	}
+	
 	private enum CombatState {
 		INITIAL_STATE,
 		DECLARING_ATTACKERS,
 		DECLARING_BLOCKERS,
 		DEALING_DAMAGE
+	}
+	
+	private enum BlockingPhase {
+		SELECTING_BLOCKERS,
+		SELECTING_ATTACKERS_TO_BLOCK
 	}
 
 }

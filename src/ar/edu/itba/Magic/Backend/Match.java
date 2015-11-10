@@ -129,8 +129,12 @@ public class Match {
 	}
 	
 	public void start() {		
-		this.turnOwner = this.randomPlayer();
-		this.activePlayer = this.turnOwner;
+		this.activePlayer = this.randomPlayer();
+		
+		this.player1.getDeck().shuffleDeck();
+		this.player2.getDeck().shuffleDeck();
+		this.player1.drawCards(7);
+		this.player2.drawCards(7);
 		
 		//TODO roll dice (see who chooses who goes first), shuffle decks, draw cards, players can mulligan
 

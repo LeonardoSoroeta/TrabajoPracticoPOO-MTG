@@ -246,24 +246,13 @@ public abstract class Permanent implements GameStackObject {
 		return permanentAbility;
 	}
 	
-	/**
-	 * Taps this permanent, only if it contains CAN_TAP attribute and is not already tapped.
-	 */
+	/** Sets this Permanent's tapped status to true */
 	public void tap() {
-		if(this.containsAttribute(Attribute.CAN_TAP) && this.isTapped() == false)
-			tapped = true;
-		else
-			System.out.println("no se puede tapear!"); //TODO cambiar esto
+		this.tapped = true;
 	}
 	
-	/**
-	 * Untaps this permanent, only if it contains  UNTAPS_DURING_UPKEEP attribute and is already tapped.
-	 */
 	public void untap() {
-		if(this.isTapped() == false)
-			tapped = true;
-		else
-			System.out.println("no se puede untapear!"); //TODO cambiar esto
+		this.tapped = false;
 	}
 	
 	/** 
