@@ -1,5 +1,6 @@
 package ar.edu.itba.Magic.Backend.Abilities;
 
+import java.util.HashMap;
 import java.util.List;
 
 import ar.edu.itba.Magic.Backend.ManaPool;
@@ -11,67 +12,111 @@ import ar.edu.itba.Magic.Backend.Cards.EnchantmentCard;
 import ar.edu.itba.Magic.Backend.Cards.LandCard;
 import ar.edu.itba.Magic.Backend.Enums.Attribute;
 import ar.edu.itba.Magic.Backend.Enums.Color;
-import ar.edu.itba.Magic.Backend.Interfaces.ManaRequester;
 import ar.edu.itba.Magic.Backend.Permanents.Artifact;
 import ar.edu.itba.Magic.Backend.Permanents.Creature;
 import ar.edu.itba.Magic.Backend.Permanents.Enchantment;
 import ar.edu.itba.Magic.Backend.Permanents.Land;
 import ar.edu.itba.Magic.Backend.Permanents.Permanent;
 
-/**
- * All abilities contained by Permanents extend this class. Every time a Permanent that contains an ability enters play, 
- * it's ability's executeOnIntroduction method must be executed.
- */
-public abstract class PermanentAbility extends Ability implements ManaRequester {
+/** All permanents and their source Cards contain a PermanentAbility */
+public abstract class PermanentAbility extends Ability {
 	
 	Match match = Match.getMatch();
-
+	
+	private ManaPool manaPool = this.getSourcePermanent().getController().getManaPool();
 	private Card sourceCard;
 	private Permanent sourcePermanent;
 
-	//private Integer coloredManaCache;
-	//private Integer colorlessManaCache;
+	private Integer coloredManaRequired;
+	private Integer colorlessManaRequired;
+	private HashMap<Color, Integer> manaCache = new HashMap<Color, Integer>();
 	private Object selectedTarget;
-
-	public Permanent getSourcePermanent() {
+	
+	/** Returns the Permanent that contains this ability */
+	public final Permanent getSourcePermanent() {
 		return sourcePermanent;
 	}
-
-	public void setSourcePermanent(Permanent sourcePermanent) {
+	
+	/** If a Permanent is succesfully created by this ability on casting, sets said Permanent as this ability's source */
+	public final void setSourcePermanent(Permanent sourcePermanent) {
 		this.sourcePermanent = sourcePermanent;
 	}
 	
+	/** Called by source Card method playCard() */
 	@Override
-	public void executeOnCasting(Card sourceCard) {
+	public final void executeOnCasting(Card sourceCard) {
 		this.sourceCard = sourceCard;
-		this.requestManaPayment();
+		this.requestCastingManaPayment();
 	}
 	
-	public void requestManaPayment() {
-	    ManaPool controllerManaPool = sourceCard.getController().getManaPool();
-		Color color = sourceCard.getColor();
-		Integer coloredManaCost = sourceCard.getColoredManaCost();
-		Integer colorlessManaCost = sourceCard.getColorlessManaCost();
-		
+	/** Called by local method executeOnCasting */
+	public final void requestCastingManaPayment() {
+		for(Color each : Color.values()) {
+			manaCache.put(each, 0);
+		}
 		if(sourceCard.getColoredManaCost() == 0) {
 			if(sourceCard.getColorlessManaCost() == 0) {
 				this.finishCasting();
 			}
-		} else if(controllerManaPool.containsEnoughManaToPay(color, coloredManaCost, colorlessManaCost)) {
-			match.awaitManaPayment(this, "Pay requested mana cost to cast this card: ");
+		} else {
+			this.coloredManaRequired = sourceCard.getColoredManaCost();
+			this.colorlessManaRequired = sourceCard.getColorlessManaCost();
+			match.awaitCastingManaPayment(this, "Pay requested mana cost to cast this card: ");
 		}
 	}
 	
-    public void resumeManaRequesting() {
+	// pedirle al front que no pase nada si el player hace click en un 0
+	// por ahora asumiendo q el front le pasa un Color object si o si
+	/** Executes on each match update, if currently requesting mana on casting. */
+    public final void resumeCastingManaRequest() {
     	this.selectedTarget = match.getSelectedTarget();
-    	// TODO quitar del mana pool, agregar al cache
-    	// TODO seguir cobrando el mana bla bla 
-    	// TODO cuando termino de pagar el mana, this.finishCasting(); o elegir un target si hace falta
-    	// si cancelo elegir un target, devolverle el mana
+    	Color selectedColor = (Color)selectedTarget;
+    	
+    	if(selectedColor.equals(sourceCard.getColor())) {
+    		if(coloredManaRequired > 0) {
+    			manaCache.put(selectedColor, manaCache.get(selectedColor) +1);
+    			manaPool.removeOneManaOfThisColor(selectedColor);
+    			coloredManaRequired--;
+    		} else {
+    			manaCache.put(selectedColor, manaCache.get(selectedColor) +1);
+    			manaPool.removeOneManaOfThisColor(selectedColor);
+    			colorlessManaRequired--;
+    		}
+    	} else if(colorlessManaRequired > 0){
+    		manaCache.put(selectedColor, manaCache.get(selectedColor) +1);
+			manaPool.removeOneManaOfThisColor(selectedColor);
+			colorlessManaRequired--;
+    	}
+    	if(coloredManaRequired == 0 && colorlessManaRequired == 0) {
+    		this.finishCasting();
+    	} else {
+    		match.awaitCastingManaPayment(this, "Pay requested mana cost to cast this card: ");
+    	}
+    }
+    
+    /** Executes when player presses Cancel button, if currently requesting mana on casting. */
+    public final void cancelCastingManaRequest() {
+    	this.resetManaCache();
     }
 	
+	/** Must override this method if card requires target on casting */
+	public void proceedToSelectCastingTarget() {
+		this.finishCasting();
+	}
+	
+	/** Must override this method if card requires target on casting */
+	public void resumeCastingTargetSelection() {
+
+	}
+	
+	/** Executes when player presses Cancel button, if currently requesting a target on casting. */
+	public final void cancelCastingTargetSelection() {
+		this.resetManaCache();
+	}
+	
+    /** When all casting requirements are met, this method finally creates a permanent and sends it to game stack */
 	@Override 
-	public void finishCasting() {
+	public final void finishCasting() {
 		if(sourceCard instanceof EnchantmentCard) {
 	        Enchantment enchantment = new Enchantment(sourceCard, this);
 	        this.setSourcePermanent(enchantment);
@@ -103,22 +148,81 @@ public abstract class PermanentAbility extends Ability implements ManaRequester 
 		}
 	}
 	
-	/** Must override this method if card requires target on casting */
-	public void resumeTargetSelecion() {
-
+	/** Must use this method if ability requires mana payment */
+	public final void requestAbilityManaPayment(Color color, Integer coloredManaCost, Integer colorlessManaCost, String message) {
+		for(Color each : Color.values()) {
+			manaCache.put(each, 0);
+		}
+		if(coloredManaCost == 0) {
+			if(colorlessManaCost == 0) {
+				this.finishCasting();
+			}
+		} else {
+			this.coloredManaRequired = coloredManaCost;
+			this.colorlessManaRequired = colorlessManaCost;
+			match.awaitCastingManaPayment(this, message);
+		}
 	}
 	
-	/** Must override this method if card requires target on casting */
-	public void cancelTargetSelection() {
+	public final void resumeAbilityManaRequest() {
+		this.selectedTarget = match.getSelectedTarget();
+    	Color selectedColor = (Color)selectedTarget;
+    	
+    	if(selectedColor.equals(sourceCard.getColor())) {
+    		if(coloredManaRequired > 0) {
+    			manaCache.put(selectedColor, manaCache.get(selectedColor) +1);
+    			manaPool.removeOneManaOfThisColor(selectedColor);
+    			coloredManaRequired--;
+    		} else {
+    			manaCache.put(selectedColor, manaCache.get(selectedColor) +1);
+    			manaPool.removeOneManaOfThisColor(selectedColor);
+    			colorlessManaRequired--;
+    		}
+    	} else if(colorlessManaRequired > 0){
+    		manaCache.put(selectedColor, manaCache.get(selectedColor) +1);
+			manaPool.removeOneManaOfThisColor(selectedColor);
+			colorlessManaRequired--;
+    	}
+    	if(coloredManaRequired == 0 && colorlessManaRequired == 0) {
+    		this.finishCasting();
+    	} else {
+    		match.awaitCastingManaPayment(this, "Continue paying mana cost: ");
+    	}
+	}
+	
+	/** Executes when player presses Cancel button, if ability currently requesting mana. */
+	public final void cancelAbilityManaRequest() {
+		this.resetManaCache();
+	}
+	
+	/** Must override this method if ability requires mana payment */
+	public void executeIfManaPayed() {
 		
 	}
 	
-	/** Must override this method on some Permanents */
+	/** Executes when player presses Cancel button, if ability currently requesting a target. */
+	public final void cancelAbilityTargetSelection() {
+		this.resetManaCache();
+	}
+	
+	/** Must override this method if ability requires target selection */
+	public void resumeAbilityTargetSelection() {
+		
+	}
+	
+	/** Empties mana cache */
+	private void resetManaCache() {
+		for(Color each : Color.values()) {
+    		manaPool.addManaOfThisColor(each, manaCache.get(each));
+    	}
+	}
+	
+	/** Must override this method on Permanents that require an action to be executed on entering play */
 	public void executeOnEntering() {
 		
 	}
 	
-	/** Must override this method on some Permanents */
+	/** Must override this method on Permanents that require an action to be executed on leaving play */
 	public void executeOnExit() {
 		
 	}

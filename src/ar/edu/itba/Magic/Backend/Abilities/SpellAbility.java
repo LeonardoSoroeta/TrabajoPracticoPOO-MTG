@@ -1,21 +1,25 @@
 package ar.edu.itba.Magic.Backend.Abilities;
 
+import java.util.HashMap;
+
 import ar.edu.itba.Magic.Backend.ManaPool;
 import ar.edu.itba.Magic.Backend.Match;
 import ar.edu.itba.Magic.Backend.Cards.Card;
 import ar.edu.itba.Magic.Backend.Enums.Color;
 import ar.edu.itba.Magic.Backend.Interfaces.GameStackAction;
-import ar.edu.itba.Magic.Backend.Interfaces.ManaRequester;
 
-/* las habilities adentro de InstantCards y SorceryCards extienden de esta */
-public abstract class SpellAbility extends Ability implements GameStackAction, ManaRequester {
+
+/** All InstantCards and SorceryCards contain a SpellAbility */
+public abstract class SpellAbility extends Ability implements GameStackAction {
 	
 	Match match = Match.getMatch();
 	
+	private ManaPool manaPool = this.getSourceCard().getController().getManaPool();
 	private Card sourceCard;
-	
-	//private Integer coloredManaCache;
-	//private Integer colorlessManaCache;
+
+	private Integer coloredManaRequired;
+	private Integer colorlessManaRequired;
+	private HashMap<Color, Integer> manaCache = new HashMap<Color, Integer>();
 	private Object selectedTarget;
 	
 	public Card getSourceCard() {
@@ -29,38 +33,83 @@ public abstract class SpellAbility extends Ability implements GameStackAction, M
 	@Override
 	public void executeOnCasting(Card sourceCard) {
 		this.sourceCard = sourceCard;
-		this.requestManaPayment();
+		this.requestCastingManaPayment();
 	}
 	
-	public void requestManaPayment() {
-	    ManaPool controllerManaPool = sourceCard.getController().getManaPool();
-		Color color = sourceCard.getColor();
-		Integer coloredManaCost = sourceCard.getColoredManaCost();
-		Integer colorlessManaCost = sourceCard.getColorlessManaCost();
-		
+	public final void requestCastingManaPayment() {
+		for(Color color : Color.values()) {
+			manaCache.put(color, 0);
+		}
 		if(sourceCard.getColoredManaCost() == 0) {
 			if(sourceCard.getColorlessManaCost() == 0) {
-				this.finishCasting();
+				this.proceedToSelectCastingTarget();
 			}
-		} else if(controllerManaPool.containsEnoughManaToPay(color, coloredManaCost, colorlessManaCost)) {
-			match.awaitManaPayment(this, "Pay requested mana cost to cast this card: ");
+		} else {
+			this.coloredManaRequired = sourceCard.getColoredManaCost();
+			this.colorlessManaRequired = sourceCard.getColorlessManaCost();
+			match.awaitCastingManaPayment(this, "Pay requested mana cost to cast this card: ");
 		}
 	}
 	
-    public void resumeManaRequesting() {
+	// pedirle al front que no pase nada si el player hace click en un 0
+	// por ahora asumiendo q el front le pasa un Color object si o si
+    public final void resumeCastingManaRequest() {
     	this.selectedTarget = match.getSelectedTarget();
-    	// TODO seguir cobrando el mana bla bla 
-    	// TODO cuando termino de pagar el mana, this.finishCasting();
+    	Color selectedColor = (Color)selectedTarget;
+    	
+    	if(selectedColor.equals(sourceCard.getColor())) {
+    		if(coloredManaRequired > 0) {
+    			manaCache.put(selectedColor, manaCache.get(selectedColor) +1);
+    			manaPool.removeOneManaOfThisColor(selectedColor);
+    			coloredManaRequired--;
+    		} else {
+    			manaCache.put(selectedColor, manaCache.get(selectedColor) +1);
+    			manaPool.removeOneManaOfThisColor(selectedColor);
+    			colorlessManaRequired--;
+    		}
+    	} else if(colorlessManaRequired > 0){
+    		manaCache.put(selectedColor, manaCache.get(selectedColor) +1);
+			manaPool.removeOneManaOfThisColor(selectedColor);
+			colorlessManaRequired--;
+    	}
+    	if(coloredManaRequired == 0 && colorlessManaRequired == 0) {
+    		this.proceedToSelectCastingTarget();
+    	} else {
+    		match.awaitCastingManaPayment(this, "Pay requested mana cost to cast this card: ");
+    	}
+    }
+    
+    /** Executes when player presses Cancel button, if currently requesting mana on casting. */
+    public final void cancelCastingManaRequest() {
+    	this.resetManaCache();
     }
     
     @Override 
 	public void finishCasting() {
+    	sourceCard.getController().discardCard(sourceCard);
     	this.sendToStack();
     }
     
-    /** Must override this method if card requires target on casting */
-	public void resumeTargetSelecion() {
+    /** By default just finishes casting. If target selection is required, override this method. */
+	public void proceedToSelectCastingTarget() {
+		this.finishCasting();
+	}
+	
+	/** By default does nothing. If target selection is required, override this method. */
+	public void resumeCastingTargetSelection() {
 
+	}
+	
+	/** Executes when player presses Cancel button, if currently requesting a target on casting. */
+	public final void cancelCastingTargetSelection() {
+		this.resetManaCache();
+	}
+	
+	/** Empties mana cache */
+	private void resetManaCache() {
+		for(Color each : Color.values()) {
+    		manaPool.addManaOfThisColor(each, manaCache.get(each));
+    	}
 	}
 	
 	public abstract void sendToStack();

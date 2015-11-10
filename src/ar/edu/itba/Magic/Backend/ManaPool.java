@@ -1,7 +1,8 @@
 package ar.edu.itba.Magic.Backend;
 
 import ar.edu.itba.Magic.Backend.Enums.Color;
-import ar.edu.itba.Magic.Backend.Exceptions.NotAvailableManaException;
+
+//import ar.edu.itba.Magic.Backend.Exceptions.NoAvailableManaException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,7 +18,6 @@ public class ManaPool {
 		manapool.put(Color.BLUE, 0);
 		manapool.put(Color.WHITE, 0);
 		manapool.put(Color.COLORLESS, 0);
-		
 	}
 	
 	public Integer getAvailableManaOfThisColor(Color color) {
@@ -28,18 +28,22 @@ public class ManaPool {
 		manapool.put(color, quantity);
 	}
 	
-	public void increaseManaOfThisColorByOne(Color color) {
+	public void addManaOfThisColor(Color color, Integer ammount) {
+		manapool.put(color, manapool.get(color) +1);
+	}
+	
+	public void addOneManaOfThisColor(Color color) {
 		manapool.put(color, manapool.get(color)+1);
 	}
 	
-	public void decreaseMana(Color color) throws NotAvailableManaException {
-		if(isAvailable(color))
+	public void removeOneManaOfThisColor(Color color) /*throws NoAvailableManaException*/ {
+		if(containsOneManaOfThisColor(color))
 			manapool.put(color, manapool.get(color)-1);
-		else throw new NotAvailableManaException();
+		//else throw new NoAvailableManaException();
 	}
 
-	private boolean isAvailable(Color color) {
-		return manapool.get(color) - 1 >= 0;
+	public boolean containsOneManaOfThisColor(Color color) {
+		return manapool.get(color) > 0;
 	}
 	
 	public Integer getConvertedManaCost() {

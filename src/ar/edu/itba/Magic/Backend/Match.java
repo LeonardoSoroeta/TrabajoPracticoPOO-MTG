@@ -8,10 +8,11 @@ import ar.edu.itba.Magic.Backend.Permanents.Creature;
 import ar.edu.itba.Magic.Backend.Stack.GameStack;
 import ar.edu.itba.Magic.Backend.Player;
 import ar.edu.itba.Magic.Backend.Abilities.Ability;
+import ar.edu.itba.Magic.Backend.Abilities.PermanentAbility;
 import ar.edu.itba.Magic.Backend.Enums.Event;
 import ar.edu.itba.Magic.Backend.Enums.MatchState;
 import ar.edu.itba.Magic.Backend.Enums.Phase;
-import ar.edu.itba.Magic.Backend.Interfaces.ManaRequester;
+
 
 public class Match {
 	
@@ -32,9 +33,10 @@ public class Match {
 	private boolean isFirstTurn = true;
 	private boolean landPlayedThisTurn;
 	private Ability targetRequestingAbility;
-	private ManaRequester manaRequester;
+	private Ability manaRequestingAbility;
 	private boolean playerDoneClicking;
 	private boolean targetSelectionCancelled;
+	private boolean manaPaymentCancelled;
 	private String messageToPlayer;
 	private Object selectedTarget;
 	
@@ -55,21 +57,37 @@ public class Match {
 				this.executeNextPhase();
 			}
 			
-		} else if(matchState.equals(MatchState.AWAITING_MANA_PAYMENT)) {
-			if(selectedTarget != null) {
-				manaRequester.resumeManaRequesting();
+		} else if(matchState.equals(MatchState.AWAITING_CASTING_MANA_PAYMENT)) {
+			if(manaPaymentCancelled == true) {
+				manaRequestingAbility.cancelCastingManaRequest();
+			} else if(selectedTarget != null) {
+				manaRequestingAbility.resumeCastingManaRequest();
+			}
+			
+		} else if(matchState.equals(MatchState.AWAITING_ABILITY_MANA_PAYMENT)) {
+			if(manaPaymentCancelled == true) {
+				((PermanentAbility)manaRequestingAbility).cancelAbilityManaRequest();
+			} else if(selectedTarget != null) {
+				((PermanentAbility)manaRequestingAbility).resumeAbilityManaRequest();
+			}
+			
+		} else if(matchState.equals(MatchState.AWAITING_CASTING_TARGET_SELECTION)) {
+			if(targetSelectionCancelled == true) {
+				targetRequestingAbility.cancelCastingTargetSelection();
+			} else if(selectedTarget != null) {
+				targetRequestingAbility.resumeCastingTargetSelection();
+			}
+			
+		} else if(matchState.equals(MatchState.AWAITING_ABILITY_TARGET_SELECTION)) {
+			if(targetSelectionCancelled == true) {
+				((PermanentAbility)manaRequestingAbility).cancelAbilityTargetSelection();
+			} else if(selectedTarget != null) {
+				((PermanentAbility)manaRequestingAbility).resumeAbilityTargetSelection();
 			}
 			
 		} else if(matchState.equals(MatchState.AWAITING_STACK_ACTIONS)) {
 			if(playerDoneClicking == true) {
 				gameStack.continueExecution();
-			}
-			
-		} else if(matchState.equals(MatchState.ABILITY_AWAITING_TARGET_SELECTION)) {
-			if(targetSelectionCancelled == true) {
-				targetRequestingAbility.cancelTargetSelection();
-			} else if(selectedTarget != null) {
-				targetRequestingAbility.resumeTargetSelecion();
 			}
 			
 		} else if(matchState.equals(MatchState.AWAITING_ATTACKER_SELECTION)) {
@@ -229,18 +247,35 @@ public class Match {
 		this.messageToPlayer = messageToPlayer;
 	}
 	
-	public void awaitTargetSelectionFromAbility(Ability requestingAbility, String messageToPlayer) {
+	public void awaitCastingTargetSelection(Ability requestingAbility, String messageToPlayer) {
 		this.selectedTarget = null;
 		this.targetSelectionCancelled = false;
 		this.targetRequestingAbility = requestingAbility;
-		this.matchState = MatchState.ABILITY_AWAITING_TARGET_SELECTION;
+		this.matchState = MatchState.AWAITING_CASTING_TARGET_SELECTION;
 		this.messageToPlayer = messageToPlayer;
 	}
 	
-	public void awaitManaPayment(ManaRequester manaRequester, String messageToPlayer) {
-		this.manaRequester = manaRequester;
+	public void awaitCastingManaPayment(Ability requestingAbility, String messageToPlayer) {
 		this.selectedTarget = null;
-		this.matchState = MatchState.AWAITING_MANA_PAYMENT;
+		this.manaPaymentCancelled = false;
+		this.manaRequestingAbility = requestingAbility;
+		this.matchState = MatchState.AWAITING_CASTING_MANA_PAYMENT;
+		this.messageToPlayer = messageToPlayer;
+	}
+	
+	public void awaitAbilityTargetSelection(Ability requestingAbility, String messageToPlayer) {
+		this.selectedTarget = null;
+		this.targetSelectionCancelled = false;
+		this.targetRequestingAbility = requestingAbility;
+		this.matchState = MatchState.AWAITING_ABILITY_TARGET_SELECTION;
+		this.messageToPlayer = messageToPlayer;
+	}
+	
+	public void awaitAbilityManaPayment(Ability requestingAbility, String messageToPlayer) {
+		this.selectedTarget = null;
+		this.manaPaymentCancelled = false;
+		this.manaRequestingAbility = requestingAbility;
+		this.matchState = MatchState.AWAITING_ABILITY_MANA_PAYMENT;
 		this.messageToPlayer = messageToPlayer;
 	}
 	
@@ -319,6 +354,10 @@ public class Match {
 	
 	public void cancelTargetSelection() {
 		this.targetSelectionCancelled = true;
+	}
+	
+	public void cancelManaRequest() {
+		this.manaPaymentCancelled = true;
 	}
 	
 	public String getMessageToPlayer() {
