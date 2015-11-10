@@ -6,9 +6,9 @@ import java.util.List;
 import ar.edu.itba.Magic.Backend.Abilities.PermanentAbility;
 import ar.edu.itba.Magic.Backend.Cards.Card;
 import ar.edu.itba.Magic.Backend.Enums.Attribute;
-import ar.edu.itba.Magic.Backend.Interfaces.GameStackAction;
+import ar.edu.itba.Magic.Backend.Interfaces.GameStackObject;
 
-public class Artifact extends Permanent implements GameStackAction {
+public class Artifact extends Permanent implements GameStackObject {
 	 
 	public Artifact(Card sourceCard, PermanentAbility ability) {
 		super(sourceCard, getDefaultArtifactAttributes(), ability);

@@ -53,6 +53,7 @@ public class Match {
 			
 		} else if(matchState.equals(MatchState.AWAITING_MAIN_PHASE_ACTIONS)) {
 			if(playerDoneClicking == true) {
+				this.playerDoneClicking = false;
 				this.executeNextPhase();
 			}
 			
@@ -86,11 +87,13 @@ public class Match {
 			
 		} else if(matchState.equals(MatchState.AWAITING_STACK_ACTIONS)) {
 			if(playerDoneClicking == true) {
-				gameStack.continueExecution();
+				this.playerDoneClicking = false;
+				gameStack.playerDoneClicking();
 			}
 			
 		} else if(matchState.equals(MatchState.AWAITING_ATTACKER_SELECTION)) {
 			if(playerDoneClicking == true) {
+				this.playerDoneClicking = false;
 				combatPhase.playerDoneClicking();
 			} else if(selectedTarget != null) {
 				combatPhase.resumeExecution();
@@ -98,6 +101,7 @@ public class Match {
 			
 		} else if(matchState.equals(MatchState.AWAITING_BLOCKER_SELECTION)) {
 			if(playerDoneClicking == true) {
+				this.playerDoneClicking = false;
 				combatPhase.playerDoneClicking();
 			} else if(selectedTarget != null) {
 				combatPhase.resumeExecution();
@@ -105,6 +109,7 @@ public class Match {
 			
 		} else if(matchState.equals(MatchState.AWAITING_ATTACKER_TO_BLOCK_SELECTION)) {
 			if(playerDoneClicking == true) {
+				this.playerDoneClicking = false;
 				combatPhase.playerDoneClicking();
 			} else if(selectedTarget != null) {
 				combatPhase.resumeExecution();
@@ -117,6 +122,7 @@ public class Match {
 			
 		} else if(matchState.equals(MatchState.GAME_OVER)) {
 			if(playerDoneClicking == true) {
+				this.playerDoneClicking = false;
 				// TODO salir del match
 			}
 		}
@@ -203,6 +209,10 @@ public class Match {
 	
 	public Player getActivePlayer() {
 		return this.activePlayer;
+	}
+	
+	public void setActivePlayer(Player activePlayer) {
+		this.activePlayer = activePlayer;
 	}
 	
 	public Player getTurnOwner() {
@@ -338,14 +348,26 @@ public class Match {
 			this.beginningPhase();
 		}
 	}
-
-	/* ******************************************************************************************************* */
-	/*						       DE ACA PARA ABAJO METODOS QUE SOLO USA EL FRONT							   */
-	/* ******************************************************************************************************* */
+	
+	public void setPreviousMatchState(MatchState matchState) {
+		this.previousMatchState = matchState;
+	}
+	
+	public MatchState getPreviousMatchState() {
+		return this.previousMatchState;
+	}
+	
+	public void setMatchState(MatchState matchState) {
+		this.matchState = matchState;
+	}
 	
 	public MatchState getMatchState() {
 		return this.matchState;
 	}
+
+	/* ******************************************************************************************************** */
+	/*								DE ACA PARA ABAJO METODOS QUE SOLO USA EL FRONT								*/
+	/* ******************************************************************************************************** */
 	
 	public void playerDoneClicking() {
 		this.playerDoneClicking = true;

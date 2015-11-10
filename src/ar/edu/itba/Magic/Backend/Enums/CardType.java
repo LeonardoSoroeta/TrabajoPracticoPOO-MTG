@@ -57,7 +57,7 @@ public enum CardType {
 
 					@Override
 					public void sendToStack() {
-						gameStack.addStackAction(this);
+						gameStack.addStackObject(this);
 					}
 
 					@Override
@@ -277,7 +277,7 @@ public enum CardType {
 
 					@Override
 					public void sendToStack() {
-						gameStack.addStackAction(this);
+						gameStack.addStackObject(this);
 					}
 
 					@Override
@@ -390,7 +390,7 @@ public enum CardType {
 
 					@Override
 					public void sendToStack() {
-						gameStack.addStackAction(this);
+						gameStack.addStackObject(this);
 					}
 
 					@Override
@@ -457,7 +457,7 @@ public enum CardType {
 
 					@Override
 					public void sendToStack() {
-						gameStack.addStackAction(this);
+						gameStack.addStackObject(this);
 					}
 
 					@Override
@@ -474,7 +474,7 @@ public enum CardType {
 
 					@Override
 					public void sendToStack() {
-						gameStack.addStackAction(this);
+						gameStack.addStackObject(this);
 					}
 
 					@Override
@@ -541,7 +541,7 @@ public enum CardType {
 
 					@Override
 					public void sendToStack() {
-						gameStack.addStackAction(this);
+						gameStack.addStackObject(this);
 					}
 
 					@Override
@@ -587,7 +587,7 @@ public enum CardType {
 
 					@Override
 					public void sendToStack() {
-						gameStack.addStackAction(this);
+						gameStack.addStackObject(this);
 					}
 
 					@Override
@@ -632,7 +632,7 @@ public enum CardType {
 
 					@Override
 					public void sendToStack() {
-						gameStack.addStackAction(this);
+						gameStack.addStackObject(this);
 					}
 
 					@Override
@@ -801,7 +801,7 @@ public enum CardType {
 
 					@Override
 					public void sendToStack() {
-						gameStack.addStackAction(this);
+						gameStack.addStackObject(this);
 					}
 
 					@Override
@@ -821,7 +821,7 @@ public enum CardType {
 	
 					@Override
 					public void sendToStack() {
-						gameStack.addStackAction(this);
+						gameStack.addStackObject(this);
 					}
 
 					@Override
@@ -876,7 +876,7 @@ public enum CardType {
 				
 					@Override
 					public void sendToStack() {
-						gameStack.addStackAction(this);
+						gameStack.addStackObject(this);
 					}
 
 					@Override
@@ -1020,7 +1020,7 @@ public enum CardType {
 
 					@Override
 					public void sendToStack() {
-						gameStack.addStackAction(this);
+						gameStack.addStackObject(this);
 					}
 
 					@Override
@@ -1100,7 +1100,7 @@ public enum CardType {
 
 						@Override
 						public void sendToStack() {
-							gameStack.addStackAction(this);
+							gameStack.addStackObject(this);
 						}
 
 						@Override
@@ -1523,7 +1523,7 @@ public enum CardType {
 	
 					@Override
 					public void sendToStack() {
-						gameStack.addStackAction(this);
+						gameStack.addStackObject(this);
 					}
 
 					@Override
@@ -1582,7 +1582,7 @@ public enum CardType {
 
 					@Override
 					public void sendToStack() {
-						gameStack.addStackAction(this);
+						gameStack.addStackObject(this);
 					}
 
 					@Override
@@ -1620,7 +1620,7 @@ public enum CardType {
 
 					@Override
 					public void sendToStack() {
-						gameStack.addStackAction(this);
+						gameStack.addStackObject(this);
 					}
 
 					@Override
@@ -1698,7 +1698,7 @@ public enum CardType {
 
 					@Override
 					public void sendToStack() {
-						gameStack.addStackAction(this);
+						gameStack.addStackObject(this);
 					}
 
 					@Override
@@ -1766,7 +1766,7 @@ public enum CardType {
 				
 					@Override
 					public void sendToStack() {
-						gameStack.addStackAction(this);
+						gameStack.addStackObject(this);
 					}
 
 					@Override
@@ -2000,7 +2000,7 @@ public enum CardType {
 
 					@Override
 					public void sendToStack() {
-						gameStack.addStackAction(this);
+						gameStack.addStackObject(this);
 					}
 
 					@Override

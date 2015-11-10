@@ -1,14 +1,16 @@
 package ar.edu.itba.Magic.Backend;
 
-import ar.edu.itba.Magic.Backend.Interfaces.GameStackAction;
+import ar.edu.itba.Magic.Backend.Enums.MatchState;
+import ar.edu.itba.Magic.Backend.Interfaces.GameStackObject;
 
-import java.util.EmptyStackException;
 import java.util.LinkedList;
 
 public class GameStack {
+	
+	 Match match = Match.getMatch();
 
     private static GameStack instance = new GameStack();
-	private LinkedList<GameStackAction> gameStack = new LinkedList<>();
+	private LinkedList<GameStackObject> gameStack = new LinkedList<>();
 
 	private GameStack() {
 		
@@ -18,35 +20,28 @@ public class GameStack {
         return instance;
     }
     
-    private void initiateSpellChain(GameStackAction gameStackAction) {
-    	boolean actionAdded = true;
-    			
-    	gameStack.push(gameStackAction);
-    	
-    	while(actionAdded) {
-    		// TODO request action to other player, if no action -> actionAdded = false;
-    	}
-    	
+    public void initiateSpellChain() {
+    	match.setPreviousMatchState(match.getMatchState());
+    	match.setMatchState(MatchState.AWAITING_STACK_ACTIONS);
+    }
+    
+    public void playerDoneClicking() {
     	while(!gameStack.isEmpty()) {
     		gameStack.pop().resolveInStack();
     	}
-    }
-    
-    public void continueExecution() {
-    	
+    	match.setMatchState(match.getPreviousMatchState());
     }
 
-	public void addStackAction(GameStackAction gameStackAction) {
+	public void addStackObject(GameStackObject gameStackObject) {
 		if(gameStack.isEmpty()) {
-			this.initiateSpellChain(gameStackAction);
+			gameStack.push(gameStackObject);
+			this.initiateSpellChain();
 		}
-		else {
-			gameStack.push(gameStackAction);
-		}
+		gameStack.push(gameStackObject);
     }
 	
-	public void removeStackAction(GameStackAction gameStackAction) {
-		gameStack.remove(gameStackAction);
+	public void removeStackObject(GameStackObject gameStackObject) {
+		gameStack.remove(gameStackObject);
 	}
 	
 }

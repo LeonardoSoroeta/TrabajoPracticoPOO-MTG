@@ -13,13 +13,13 @@ import ar.edu.itba.Magic.Backend.Effects.LastingEffect;
 import ar.edu.itba.Magic.Backend.Enums.Attribute;
 import ar.edu.itba.Magic.Backend.Enums.CardType;
 import ar.edu.itba.Magic.Backend.Enums.Color;
-import ar.edu.itba.Magic.Backend.Interfaces.GameStackAction;
+import ar.edu.itba.Magic.Backend.Interfaces.GameStackObject;
 
 /**
  * All objects currently in play are Permanents. These objects may be a Creature, an Enchantment, an Artifact or a Land.
  * Permanents may be affected by LastingEffects from a determined Ability.
  */
-public abstract class Permanent implements GameStackAction {
+public abstract class Permanent implements GameStackObject {
 	
 	private Card sourceCard;
 	private Player controller;
@@ -288,7 +288,7 @@ public abstract class Permanent implements GameStackAction {
 	}
 	
 	public void sendToStack() {
-		gameStack.addStackAction(this);
+		gameStack.addStackObject(this);
 	}
 	
 	public void resolveInStack() {
@@ -305,7 +305,7 @@ public abstract class Permanent implements GameStackAction {
 		if(this.isStillALegalTarget()) {
 			if(this.isCurrentlyInSpellState()) {
 				legalTarget = false;
-				gameStack.removeStackAction(this);
+				gameStack.removeStackObject(this);
 			}
 			else {
 				legalTarget = false;

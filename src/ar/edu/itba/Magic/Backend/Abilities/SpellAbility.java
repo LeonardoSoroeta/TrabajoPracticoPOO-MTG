@@ -6,11 +6,11 @@ import ar.edu.itba.Magic.Backend.ManaPool;
 import ar.edu.itba.Magic.Backend.Match;
 import ar.edu.itba.Magic.Backend.Cards.Card;
 import ar.edu.itba.Magic.Backend.Enums.Color;
-import ar.edu.itba.Magic.Backend.Interfaces.GameStackAction;
+import ar.edu.itba.Magic.Backend.Interfaces.GameStackObject;
 
 
 /** All InstantCards and SorceryCards contain a SpellAbility */
-public abstract class SpellAbility extends Ability implements GameStackAction {
+public abstract class SpellAbility extends Ability implements GameStackObject {
 	
 	Match match = Match.getMatch();
 	
