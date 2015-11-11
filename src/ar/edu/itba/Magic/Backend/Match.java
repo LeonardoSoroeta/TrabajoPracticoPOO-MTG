@@ -118,7 +118,7 @@ public class Match {
 		} else if(matchState.equals(MatchState.AWAITING_ATTACKER_TO_BLOCK_SELECTION)) {
 			if(targetSelectionCancelled == true) {
 				this.targetSelectionCancelled = false;
-				combatPhase.playerDoneClicking(); // cambiar esto
+				combatPhase.cancelAttackerToBlockSelection();
 			} else if(selectedTarget != null) {
 				combatPhase.resumeExecution();
 			}	
@@ -153,6 +153,7 @@ public class Match {
 	public void beginningPhase() {
 		gameEventHandler.triggerGameEvent(new GameEvent(Event.UNTAP_STEP, activePlayer));
 		this.activePlayer.untapDuringUnkeep();
+		this.activePlayer.removeAllSummoningSickness();
 		
 		gameEventHandler.triggerGameEvent(new GameEvent(Event.UPKEEP_STEP, activePlayer));
 

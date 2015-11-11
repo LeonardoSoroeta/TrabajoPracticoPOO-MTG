@@ -160,8 +160,8 @@ public class Player implements DamageTaking {
 		return creatures;
 	}
 	
-	public List<Land> getLands() {
-		List<Land> lands = new LinkedList<Land>();
+	public LinkedList<Land> getLands() {
+		LinkedList<Land> lands = new LinkedList<Land>();
 		
 		for(Permanent permanent : permanentsInPlay) {
 			if(permanent instanceof Land) {
@@ -238,6 +238,12 @@ public class Player implements DamageTaking {
 			}
 		}
 	}	
+	
+	public void removeAllSummoningSickness() {
+		for(Creature each : this.getCreatures()) {
+			each.removeAttribute(Attribute.SUMMONING_SICKNESS);
+		}
+	}
 	
 	public boolean manaBurn() {
 		return this.manaPool.manaBurn(this);

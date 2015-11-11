@@ -67,6 +67,9 @@ public class Creature extends Permanent implements DamageTaking {
 	
 	public void takeDamage(Integer damage) {		
 		damageMarkers += damage;
+		if(damageMarkers >= this.defense) {
+			this.destroy();
+		}
 	}
 	
 	public int getDamageMarker() {		
