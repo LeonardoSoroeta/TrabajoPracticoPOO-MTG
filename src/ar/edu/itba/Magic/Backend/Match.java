@@ -353,7 +353,7 @@ public class Match {
 		}
 	}
 	
-	public void executeNextPhase() {
+	public void executeNextPhase() {		
 		if(currentPhase.equals(Phase.BEGINNING_PHASE)) {
 			this.currentPhase = Phase.PRE_COMBAT_MAIN_PHASE;
 			this.mainPhase();

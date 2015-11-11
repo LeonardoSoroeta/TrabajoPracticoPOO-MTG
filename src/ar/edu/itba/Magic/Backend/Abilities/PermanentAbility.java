@@ -55,8 +55,8 @@ public abstract class PermanentAbility extends Ability {
 		for(Color each : Color.values()) {
 			manaCache.put(each, 0);
 		}
-		if(sourceCard.getColoredManaCost() == 0) {
-			if(sourceCard.getColorlessManaCost() == 0) {
+		if(sourceCard.getColoredManaCost().equals(0)) {
+			if(sourceCard.getColorlessManaCost().equals(0)) {
 				this.proceedToSelectCastingTarget();
 			}
 		} else {
@@ -88,7 +88,7 @@ public abstract class PermanentAbility extends Ability {
 			manaPool.removeOneManaOfThisColor(selectedColor);
 			colorlessManaRequired--;
     	}
-    	if(coloredManaRequired == 0 && colorlessManaRequired == 0) {
+    	if(coloredManaRequired.equals(0) && colorlessManaRequired.equals(0)) {
     		this.proceedToSelectCastingTarget();
     	} else {
     		match.awaitCastingManaPayment(this, "Pay requested mana cost to cast this card: ");
@@ -155,8 +155,8 @@ public abstract class PermanentAbility extends Ability {
 		for(Color each : Color.values()) {
 			manaCache.put(each, 0);
 		}
-		if(coloredManaCost == 0) {
-			if(colorlessManaCost == 0) {
+		if(coloredManaCost.equals(0)) {
+			if(colorlessManaCost.equals(0)) {
 				this.finishCasting();
 			}
 		} else {
@@ -185,7 +185,7 @@ public abstract class PermanentAbility extends Ability {
 			manaPool.removeOneManaOfThisColor(selectedColor);
 			colorlessManaRequired--;
     	}
-    	if(coloredManaRequired == 0 && colorlessManaRequired == 0) {
+    	if(coloredManaRequired.equals(0) && colorlessManaRequired.equals(0)) {
     		this.executeIfManaPayed();
     	} else {
     		match.awaitAbilityManaPayment(this, "Continue paying mana cost: ");
