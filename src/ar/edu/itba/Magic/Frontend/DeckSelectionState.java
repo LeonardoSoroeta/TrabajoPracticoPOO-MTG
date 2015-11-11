@@ -36,6 +36,7 @@ public class DeckSelectionState extends BasicGameState {
 			sbg.enterState(3);
 		}
 		else if(editExistingDeck.mouseLClicked(input)) {
+			EditDeckState.load();
 			sbg.enterState(4);
 		}
 		if(gc.getInput().isKeyPressed(Input.KEY_ESCAPE)){

@@ -26,8 +26,9 @@ public class EditDeckState extends BasicGameState {
 	int mouseWheel = 0;
 	boolean wheelMoved = false;
 	boolean askForDeck = false;
+	static boolean load = false;
 	DeckUI ref = null;
-	
+		
 	public void init(GameContainer gc, StateBasedGame sbg)
 			throws SlickException {
 		setp1 = new ExtendedImage("res/setp1.png",gc.getWidth()*1/2,gc.getHeight()*1/2);
@@ -35,23 +36,30 @@ public class EditDeckState extends BasicGameState {
 		edit = new ExtendedImage("res/edit2.png",gc.getWidth()*4/8,gc.getHeight()*1/4);
 		back = new ExtendedImage("res/back.png",gc.getWidth()*4/8,gc.getHeight()*1/7);
 		decksUI = new LinkedList<DeckUI>();
-		decks = Deck.loadDecks();
-		if(decks != null) {
-			int counter = 0;
-			for(Deck each: decks) {
-				DeckUI aux = new DeckUI(each);
-				aux.generateCardsImg(gc);
-				// sets the position of the deck, with it's first card
-				aux.setFirstCard(counter*gc.getWidth()*1/5,gc.getHeight()*1/4);
-				decksUI.add(aux);
-				counter++;
-			}
-		}
+		
 	}
 
 	public void update(GameContainer gc, StateBasedGame sbg, int arg2)
 			throws SlickException {
 		input = gc.getInput();
+		
+		if(load) {
+			System.out.println("assaf");
+			decks = Deck.loadDecks();
+			if(decks != null) {
+				int counter = 0;
+				for(Deck each: decks) {
+					DeckUI aux = new DeckUI(each);
+					aux.generateCardsImg(gc);
+					//aux.generateCardsImg(gc);
+					// sets the position of the deck, with it's first card
+					aux.setFirstCard(counter*gc.getWidth()*1/5,gc.getHeight()*1/4);
+					decksUI.add(aux);
+					counter++;
+				}
+			}
+			load = false;
+		}
 		
 		if(askForDeck) {
 			if(setp1.mouseLClicked(input)) {
@@ -112,6 +120,10 @@ public class EditDeckState extends BasicGameState {
 			edit.draw();
 		}
 		
+	}
+	
+	public static void load() {
+		load = true;
 	}
 	
 	public void mouseWheelMoved(int value) {

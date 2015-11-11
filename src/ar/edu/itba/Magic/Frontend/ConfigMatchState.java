@@ -33,6 +33,7 @@ public class ConfigMatchState extends BasicGameState {
 			throws SlickException {
 		input = gc.getInput();
 		if(chooseDeck.mouseLClicked(input)) {
+			EditDeckState.load();
 			sbg.enterState(4);
 		}
 		if(start.mouseLClicked(input)) {

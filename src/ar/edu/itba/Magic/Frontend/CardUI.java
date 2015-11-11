@@ -9,6 +9,9 @@ import ar.edu.itba.Magic.Backend.Interfaces.Drawable;
 public class CardUI implements Drawable{
 	private CardType cardType;
 	private ExtendedImage img;
+	private ExtendedImage tinyImg;
+	private String name;
+	
 	
 	public CardUI (CardType cardType, ExtendedImage img) {
 		this.cardType = cardType;

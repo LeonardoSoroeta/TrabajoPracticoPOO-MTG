@@ -75,7 +75,6 @@ public class NewDeckState extends BasicGameState {
 				deckUI.writeDeck();
 				sbg.enterState(1);
 			}
-;
 		}
 		
 		//when the mouse is on the left side of the screen
