@@ -210,6 +210,10 @@ public abstract class Permanent implements GameStackObject {
 		return sourceCard;
 	}
 	
+	public String getName() {
+		return sourceCard.getCardType().getCardName();
+	}
+	
 	/**
 	 * Whether this Permanent contains an Ability. Only Creature Permanents may not contain an Ability.
 	 * 
