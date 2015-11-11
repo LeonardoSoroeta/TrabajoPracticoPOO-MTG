@@ -11,6 +11,7 @@ import ar.edu.itba.Magic.Backend.Abilities.PermanentAbility;
 import ar.edu.itba.Magic.Backend.Enums.Event;
 import ar.edu.itba.Magic.Backend.Enums.MatchState;
 import ar.edu.itba.Magic.Backend.Enums.Phase;
+import ar.edu.itba.Magic.Backend.Exceptions.UninitializedPlayersException;
 
 
 public class Match {
@@ -27,7 +28,7 @@ public class Match {
 	private Player turnOwner;
 	private Player activePlayer;
 	private Phase currentPhase;
-	private MatchState matchState = MatchState.INITIAL_STATE;
+	private MatchState matchState = MatchState.GAME_OVER;
 	private MatchState previousMatchState;
 	private boolean isFirstTurn = true;
 	private boolean landPlayedThisTurn;
@@ -48,8 +49,12 @@ public class Match {
 	}
 
 	public void update() {
-		if(matchState.equals(MatchState.INITIAL_STATE)) {
-			this.start();
+		if(matchState.equals(MatchState.GAME_OVER)) {
+			if(player1 == null || player2 == null) {
+				throw new UninitializedPlayersException();
+			} else {
+				this.start();
+			}
 			
 		} else if(matchState.equals(MatchState.AWAITING_MAIN_PHASE_ACTIONS)) {
 			if(playerDoneClicking == true) {
@@ -374,10 +379,29 @@ public class Match {
 	}
 	
 	public void endMatch() {
+		this.resetData();
 		gameStack.resetData();
 		combatPhase.resetData();
 		gameEventHandler.resetData();
-		this.matchState = MatchState.GAME_OVER;
+	}
+	
+	public void resetData() {
+		player1 = null;
+		player2 = null;
+		turnOwner = null;
+		activePlayer = null;
+		currentPhase = null;
+		matchState = MatchState.GAME_OVER;
+		previousMatchState = null;
+		isFirstTurn = true;
+		landPlayedThisTurn = false;
+		targetRequestingAbility = null;
+		manaRequestingAbility = null;
+		playerDoneClicking = false;
+		targetSelectionCancelled = false;
+		manaPaymentCancelled = false;
+		messageToPlayer = null;
+		selectedTarget = null;
 	}
 	
 	public void setPreviousMatchState(MatchState matchState) {

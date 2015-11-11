@@ -2,7 +2,7 @@ package ar.edu.itba.Magic.Backend.Enums;
 
 public enum MatchState {
 	// el estado antes del primer update()
-	INITIAL_STATE,
+	GAME_OVER,
 	
 	// el jugador solo puede clickear en uno de los botones de mana a la izquierda. luego se ejecuta
 	// match.returnSelectedTarget(Color manaSelected); ayudaria si el front no hace nada si el jugador
@@ -49,6 +49,4 @@ public enum MatchState {
 	
 	// muestra imagen de mana burn espera q el chabon haga click en Done
 	AWAITING_MANA_BURN_ACKNOWLEDGEMENT,
-	
-	GAME_OVER
 }
