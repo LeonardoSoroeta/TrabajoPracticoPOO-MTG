@@ -111,7 +111,7 @@ public class NewDeckState extends BasicGameState {
 					List<CardUI> auxDeck = deckUI.getCards();
 					// see if the card about to add it's not repeated more than 4 times
 					CardType aux = cardsUI.get(i).getCardType();
-					if(aux.equals(CardType.SWAMP) || aux.equals(CardType.FOREST) || aux.equals(CardType.ISLAND) || aux.equals(CardType.MOUNTAINS) || aux.equals(CardType.PLAINS)) {
+					if(!(aux.equals(CardType.SWAMP) || aux.equals(CardType.FOREST) || aux.equals(CardType.ISLAND) || aux.equals(CardType.MOUNTAINS) || aux.equals(CardType.PLAINS))) {
 						for(int j = 0; j < auxDeck.size(); j++) {
 							if(cardsUI.get(i).equals(auxDeck.get(j))) {
 								repetitions++;
