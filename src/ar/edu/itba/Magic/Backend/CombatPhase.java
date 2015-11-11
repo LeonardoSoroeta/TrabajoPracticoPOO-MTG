@@ -50,7 +50,11 @@ public class CombatPhase {
 	}
 	
 	public void playerDoneClicking() {
-		if(combatState.equals(CombatState.DECLARING_ATTACKERS)) {
+		if(combatState.equals(CombatState.DECLARING_ATTACKERS) && attackers.isEmpty()) {
+			eventHandler.triggerGameEvent(new GameEvent(Event.END_OF_COMBAT_PHASE,  match.getTurnOwner()));
+			this.resetData();
+			match.executeNextPhase();
+		} else if(combatState.equals(CombatState.DECLARING_ATTACKERS)) {
 			combatState = CombatState.DECLARING_BLOCKERS;
 		} else if(combatState.equals(CombatState.DECLARING_BLOCKERS)) {
 			combatState = CombatState.DEALING_DAMAGE;
