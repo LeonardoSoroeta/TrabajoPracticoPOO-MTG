@@ -51,7 +51,7 @@ public abstract class PermanentAbility extends Ability {
 	
 	/** Called by local method executeOnCasting */
 	public final void requestCastingManaPayment() {
-		this.manaPool = this.getSourcePermanent().getController().getManaPool();
+		this.manaPool = sourceCard.getController().getManaPool();
 		for(Color each : Color.values()) {
 			manaCache.put(each, 0);
 		}
@@ -219,13 +219,18 @@ public abstract class PermanentAbility extends Ability {
     	}
 	}
 	
-	/** Must override this method on Permanents that require an action to be executed on entering play */
+	/** Must override this method on Permanents that require an action to be executed on entering play. */
 	public void executeOnEntering() {
 		
 	}
 	
-	/** Must override this method on Permanents that require an action to be executed on leaving play */
+	/** Must override this method on Permanents that require an action to be executed on leaving play. */
 	public void executeOnExit() {
+		
+	}
+	
+	/** Must override this method on Permanents that contain an activated ability. */
+	public void executeOnActivation() {
 		
 	}
 

@@ -39,7 +39,7 @@ public abstract class SpellAbility extends Ability implements GameStackObject {
 	}
 	
 	public final void requestCastingManaPayment() {
-		this.manaPool = this.sourceCard.getController().getManaPool();
+		this.manaPool = sourceCard.getController().getManaPool();
 		for(Color color : Color.values()) {
 			manaCache.put(color, 0);
 		}

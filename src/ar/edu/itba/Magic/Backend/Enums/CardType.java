@@ -8,7 +8,6 @@ import ar.edu.itba.Magic.Backend.GameEventHandler;
 import ar.edu.itba.Magic.Backend.GameStack;
 import ar.edu.itba.Magic.Backend.Match;
 import ar.edu.itba.Magic.Backend.Player;
-import ar.edu.itba.Magic.Backend.Abilities.ActivatedPermanentAbility;
 import ar.edu.itba.Magic.Backend.Abilities.AutomaticPermanentAbility;
 import ar.edu.itba.Magic.Backend.Abilities.AutomaticSpellAbility;
 import ar.edu.itba.Magic.Backend.Abilities.DefaultCreatureAbility;
@@ -643,7 +642,7 @@ public enum CardType {
     
     FOREST("Forest", Color.COLORLESS, 0, 0) { public Card createCardOfThisType() {
     	return new LandCard(CardType.FOREST, 
-				new ActivatedPermanentAbility() {
+				new PermanentAbility() {
 
 					@Override
 					public void executeOnActivation() {
@@ -805,7 +804,7 @@ public enum CardType {
     
     ISLAND("Island", Color.COLORLESS, 0, 0) { public Card createCardOfThisType() {
     	return new LandCard(CardType.ISLAND, 
-				new ActivatedPermanentAbility() {
+				new PermanentAbility() {
 
 					@Override
 					public void executeOnActivation() {
@@ -987,7 +986,7 @@ public enum CardType {
     	List<Attribute> attributes = new LinkedList<Attribute>();
         attributes = Creature.getDefaultCreatureAttributes();
         return new CreatureCard(CardType.LLANOWAR_ELVES, attributes, 1, 1,
-        		new ActivatedPermanentAbility() {
+        		new PermanentAbility() {
 
 					@Override
 					public void executeOnActivation() {
@@ -1093,7 +1092,7 @@ public enum CardType {
     
     MOUNTAINS("Mountains", Color.COLORLESS, 0, 0) { public Card createCardOfThisType() {
     	return new LandCard(CardType.MOUNTAINS, 
-				new ActivatedPermanentAbility() {
+				new PermanentAbility() {
 
 					@Override
 					public void executeOnActivation() {
@@ -1107,7 +1106,7 @@ public enum CardType {
     
     MOX_EMERALD("Mox Emerald", Color.COLORLESS, 0, 0) { public Card createCardOfThisType() {
     	return new ArtifactCard(CardType.MOX_EMERALD,
-				new ActivatedPermanentAbility() {
+				new PermanentAbility() {
 
 					@Override
 					public void executeOnActivation() {
@@ -1121,7 +1120,7 @@ public enum CardType {
     
     MOX_JET("Mox Jet", Color.COLORLESS, 0, 0) { public Card createCardOfThisType() {
     	return new ArtifactCard(CardType.MOX_JET,
-				new ActivatedPermanentAbility() {
+				new PermanentAbility() {
 
 					@Override
 					public void executeOnActivation() {
@@ -1135,7 +1134,7 @@ public enum CardType {
     
     MOX_PEARL("Mox Pearl", Color.COLORLESS, 0, 0) { public Card createCardOfThisType() {
     	return new ArtifactCard(CardType.MOX_PEARL,
-				new ActivatedPermanentAbility() {
+				new PermanentAbility() {
 
 					@Override
 					public void executeOnActivation() {
@@ -1149,7 +1148,7 @@ public enum CardType {
     
     MOX_RUBY("Mox Ruby", Color.COLORLESS, 0, 0) { public Card createCardOfThisType() {
     	return new ArtifactCard(CardType.MOX_RUBY,
-				new ActivatedPermanentAbility() {
+				new PermanentAbility() {
 
 					@Override
 					public void executeOnActivation() {
@@ -1163,7 +1162,7 @@ public enum CardType {
     
     MOX_SAPPHIRE("Mox Sapphire", Color.COLORLESS, 0, 0) { public Card createCardOfThisType() {
     	return new ArtifactCard(CardType.MOX_SAPPHIRE,
-				new ActivatedPermanentAbility() {
+				new PermanentAbility() {
 
 					@Override
 					public void executeOnActivation() {
@@ -1249,7 +1248,7 @@ public enum CardType {
     
     PLAINS("Plains", Color.COLORLESS, 0, 0) { public Card createCardOfThisType() {
     	return new LandCard(CardType.PLAINS, 
-				new ActivatedPermanentAbility() {
+				new PermanentAbility() {
 
 					@Override
 					public void executeOnActivation() {
@@ -1508,7 +1507,7 @@ public enum CardType {
     	List<Attribute> attributes = new LinkedList<Attribute>();
 		attributes = Creature.getDefaultCreatureAttributes();
 		return new CreatureCard(CardType.SINDBAD, attributes, 1, 1,
-				new ActivatedPermanentAbility() {
+				new PermanentAbility() {
 
 					@Override
 					public void executeOnActivation() {
@@ -1545,7 +1544,7 @@ public enum CardType {
     
     SOL_RING("Sol Ring", Color.COLORLESS, 0, 1) { public Card createCardOfThisType() {
     	return new ArtifactCard(CardType.SOL_RING,
-				new ActivatedPermanentAbility() {
+				new PermanentAbility() {
 
 					@Override
 					public void executeOnActivation() {
@@ -1633,7 +1632,7 @@ public enum CardType {
     
     SWAMP("Swamp", Color.COLORLESS, 0, 0) { public Card createCardOfThisType() {
     	return new LandCard(CardType.SWAMP, 
-				new ActivatedPermanentAbility() {
+				new PermanentAbility() {
 
 					@Override
 					public void executeOnActivation() {
