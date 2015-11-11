@@ -48,4 +48,8 @@ public class GameEventHandler {
 		listeners.remove(listener);
 	}
 	
+	public void resetData() {
+		listeners.clear();
+	}
+	
 }

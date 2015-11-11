@@ -16,14 +16,14 @@ import java.util.NoSuchElementException;
 
 public class Player implements DamageTaking {
 
-    private String name;
 	private ManaPool manaPool;
 	private Deck deck;
 	private List<Card> hand;
 	private List<Permanent> permanentsInPlay;
 	private List<Card> graveyard;
 	private Integer health;
-	GameEventHandler gameEventHandler = GameEventHandler.getGameEventHandler();
+	private Match match = Match.getMatch();
+	private GameEventHandler gameEventHandler = GameEventHandler.getGameEventHandler();
 	
 	public Player(Deck deck) {
 		this.deck = deck;
@@ -220,8 +220,9 @@ public class Player implements DamageTaking {
 	public void takeDamage(Integer damage) {
 		if(damage >= 0)
 			health -= damage;
-		throw new IllegalArgumentException();
-		// if (health <= 0) then pierde la partida etc etc
+		if(this.lost()) {
+			match.endMatch();
+		}
 	}
 
 	public boolean lost(){

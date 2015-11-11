@@ -97,6 +97,7 @@ public class CombatPhase {
 		}
 		
 		eventHandler.triggerGameEvent(new GameEvent(Event.END_OF_COMBAT_PHASE,  match.getTurnOwner()));
+		this.resetData();
 		match.executeNextPhase();
 	}
 	
@@ -114,6 +115,13 @@ public class CombatPhase {
 		blockers.addAll(this.blockers);
 		
 		return blockers;
+	}
+	
+	public void resetData() {
+		attackers.clear();
+		blockers.clear();
+		creaturePairs.clear();
+		combatState = CombatState.INITIAL_STATE;
 	}
 	
 	private enum CombatState {

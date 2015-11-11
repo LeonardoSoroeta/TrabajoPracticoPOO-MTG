@@ -23,7 +23,7 @@ public abstract class PermanentAbility extends Ability {
 	
 	Match match = Match.getMatch();
 	
-	private ManaPool manaPool = this.getSourcePermanent().getController().getManaPool();
+	private ManaPool manaPool;
 	private Card sourceCard;
 	private Permanent sourcePermanent;
 
@@ -51,6 +51,7 @@ public abstract class PermanentAbility extends Ability {
 	
 	/** Called by local method executeOnCasting */
 	public final void requestCastingManaPayment() {
+		this.manaPool = this.getSourcePermanent().getController().getManaPool();
 		for(Color each : Color.values()) {
 			manaCache.put(each, 0);
 		}
@@ -150,6 +151,7 @@ public abstract class PermanentAbility extends Ability {
 	
 	/** Must use this method if ability requires mana payment */
 	public final void requestAbilityManaPayment(Color color, Integer coloredManaCost, Integer colorlessManaCost, String message) {
+		this.manaPool = this.getSourcePermanent().getController().getManaPool();
 		for(Color each : Color.values()) {
 			manaCache.put(each, 0);
 		}

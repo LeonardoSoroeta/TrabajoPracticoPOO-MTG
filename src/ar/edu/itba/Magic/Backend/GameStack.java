@@ -59,4 +59,8 @@ public class GameStack {
 		
 		return gameStackObjects;
 	}
+	
+	public void resetData() {
+		gameStack.clear();
+	}
 }

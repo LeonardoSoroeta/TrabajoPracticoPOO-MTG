@@ -18,7 +18,7 @@ public class Match {
 	private static Match self = new Match();
 	
 	GameStack gameStack = GameStack.getGameStackInstance();
-	GameEventHandler eventHandler = GameEventHandler.getGameEventHandler();
+	GameEventHandler gameEventHandler = GameEventHandler.getGameEventHandler();
 	CombatPhase combatPhase = CombatPhase.getCombatPhase();
 	CardDiscardPhase cardDiscardPhase = CardDiscardPhase.getCardDiscardPhase();
 	
@@ -59,29 +59,37 @@ public class Match {
 			
 		} else if(matchState.equals(MatchState.AWAITING_CASTING_MANA_PAYMENT)) {
 			if(manaPaymentCancelled == true) {
+				matchState = previousMatchState;
 				manaRequestingAbility.cancelCastingManaRequest();
 			} else if(selectedTarget != null) {
+				matchState = previousMatchState;
 				manaRequestingAbility.resumeCastingManaRequest();
 			}
 			
 		} else if(matchState.equals(MatchState.AWAITING_ABILITY_MANA_PAYMENT)) {
 			if(manaPaymentCancelled == true) {
+				matchState = previousMatchState;
 				((PermanentAbility)manaRequestingAbility).cancelAbilityManaRequest();
 			} else if(selectedTarget != null) {
+				matchState = previousMatchState;
 				((PermanentAbility)manaRequestingAbility).resumeAbilityManaRequest();
 			}
 			
 		} else if(matchState.equals(MatchState.AWAITING_CASTING_TARGET_SELECTION)) {
 			if(targetSelectionCancelled == true) {
+				matchState = previousMatchState;
 				targetRequestingAbility.cancelCastingTargetSelection();
 			} else if(selectedTarget != null) {
+				matchState = previousMatchState;
 				targetRequestingAbility.resumeCastingTargetSelection();
 			}
 			
 		} else if(matchState.equals(MatchState.AWAITING_ABILITY_TARGET_SELECTION)) {
 			if(targetSelectionCancelled == true) {
+				matchState = previousMatchState;
 				((PermanentAbility)manaRequestingAbility).cancelAbilityTargetSelection();
 			} else if(selectedTarget != null) {
+				matchState = previousMatchState;
 				((PermanentAbility)manaRequestingAbility).resumeAbilityTargetSelection();
 			}
 			
@@ -108,9 +116,9 @@ public class Match {
 			}
 			
 		} else if(matchState.equals(MatchState.AWAITING_ATTACKER_TO_BLOCK_SELECTION)) {
-			if(playerDoneClicking == true) {
-				this.playerDoneClicking = false;
-				combatPhase.playerDoneClicking();
+			if(targetSelectionCancelled == true) {
+				this.targetSelectionCancelled = false;
+				combatPhase.playerDoneClicking(); // cambiar esto
 			} else if(selectedTarget != null) {
 				combatPhase.resumeExecution();
 			}	
@@ -125,12 +133,7 @@ public class Match {
 				cardDiscardPhase.finishCardDiscardPhase();
 			}
 			
-		} else if(matchState.equals(MatchState.GAME_OVER)) {
-			if(playerDoneClicking == true) {
-				this.playerDoneClicking = false;
-				// TODO salir del match
-			}
-		}
+		} 
 	}
 	
 	private void start() {		
@@ -148,12 +151,12 @@ public class Match {
 	}
 	
 	public void beginningPhase() {
-		eventHandler.triggerGameEvent(new GameEvent(Event.UNTAP_STEP, activePlayer));
+		gameEventHandler.triggerGameEvent(new GameEvent(Event.UNTAP_STEP, activePlayer));
 		this.activePlayer.untapDuringUnkeep();
 		
-		eventHandler.triggerGameEvent(new GameEvent(Event.UPKEEP_STEP, activePlayer));
+		gameEventHandler.triggerGameEvent(new GameEvent(Event.UPKEEP_STEP, activePlayer));
 
-		eventHandler.triggerGameEvent(new GameEvent(Event.DRAW_CARD_STEP, activePlayer));
+		gameEventHandler.triggerGameEvent(new GameEvent(Event.DRAW_CARD_STEP, activePlayer));
 		if(this.isFirstTurn)  {
 			this.isFirstTurn = false;
 		} else {
@@ -163,7 +166,7 @@ public class Match {
 	}
 	
 	public void mainPhase() {
-		eventHandler.triggerGameEvent(new GameEvent(Event.MAIN_PHASE, activePlayer));
+		gameEventHandler.triggerGameEvent(new GameEvent(Event.MAIN_PHASE, activePlayer));
 		this.awaitMainPhaseActions("Main Phase: Cast spells, activate abilities.");
 	}
 	
@@ -173,9 +176,9 @@ public class Match {
 	
 	public void endingPhase() {
 		
-		eventHandler.triggerGameEvent(new GameEvent(Event.ENDING_PHASE, activePlayer));
+		gameEventHandler.triggerGameEvent(new GameEvent(Event.ENDING_PHASE, activePlayer));
 		
-		eventHandler.triggerGameEvent(new GameEvent(Event.CLEANUP_STEP, activePlayer));
+		gameEventHandler.triggerGameEvent(new GameEvent(Event.CLEANUP_STEP, activePlayer));
 		
 		this.removeAllDamageCounters();
 		
@@ -269,6 +272,7 @@ public class Match {
 		this.selectedTarget = null;
 		this.targetSelectionCancelled = false;
 		this.targetRequestingAbility = requestingAbility;
+		this.previousMatchState = this.matchState;
 		this.matchState = MatchState.AWAITING_CASTING_TARGET_SELECTION;
 		this.messageToPlayer = messageToPlayer;
 	}
@@ -277,6 +281,7 @@ public class Match {
 		this.selectedTarget = null;
 		this.manaPaymentCancelled = false;
 		this.manaRequestingAbility = requestingAbility;
+		this.previousMatchState = this.matchState;
 		this.matchState = MatchState.AWAITING_CASTING_MANA_PAYMENT;
 		this.messageToPlayer = messageToPlayer;
 	}
@@ -285,6 +290,7 @@ public class Match {
 		this.selectedTarget = null;
 		this.targetSelectionCancelled = false;
 		this.targetRequestingAbility = requestingAbility;
+		this.previousMatchState = this.matchState;
 		this.matchState = MatchState.AWAITING_ABILITY_TARGET_SELECTION;
 		this.messageToPlayer = messageToPlayer;
 	}
@@ -293,6 +299,7 @@ public class Match {
 		this.selectedTarget = null;
 		this.manaPaymentCancelled = false;
 		this.manaRequestingAbility = requestingAbility;
+		this.previousMatchState = this.matchState;
 		this.matchState = MatchState.AWAITING_ABILITY_MANA_PAYMENT;
 		this.messageToPlayer = messageToPlayer;
 	}
@@ -363,6 +370,13 @@ public class Match {
 			this.currentPhase = Phase.BEGINNING_PHASE;
 			this.beginningPhase();
 		}
+	}
+	
+	public void endMatch() {
+		gameStack.resetData();
+		combatPhase.resetData();
+		gameEventHandler.resetData();
+		this.matchState = MatchState.GAME_OVER;
 	}
 	
 	public void setPreviousMatchState(MatchState matchState) {
