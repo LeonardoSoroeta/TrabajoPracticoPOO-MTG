@@ -24,6 +24,10 @@ public class CardUI implements Drawable{
 		img.draw();
 	}
 	
+	public void draw(float x, float y) {
+		img.draw(x, y);
+	}
+	
 	/**
 	 * Updates the position of the image
 	 */

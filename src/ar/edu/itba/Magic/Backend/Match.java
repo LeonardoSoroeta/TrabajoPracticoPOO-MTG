@@ -120,6 +120,11 @@ public class Match {
 				cardDiscardPhase.resumeExecution();
 			}
 			
+		} else if(matchState.equals(MatchState.AWAITING_MANA_BURN_ACKNOWLEDGEMENT)) {
+			if(playerDoneClicking == true) {
+				cardDiscardPhase.finishCardDiscardPhase();
+			}
+			
 		} else if(matchState.equals(MatchState.GAME_OVER)) {
 			if(playerDoneClicking == true) {
 				this.playerDoneClicking = false;
@@ -294,12 +299,14 @@ public class Match {
 	
 	public void awaitAttackerSelection(String messageToPlayer) {
 		this.selectedTarget = null;
+		this.playerDoneClicking = false;
 		this.matchState = MatchState.AWAITING_ATTACKER_SELECTION;
 		this.messageToPlayer = messageToPlayer;
 	}
 	
 	public void awaitBlockerSelection(String messageToPlayer) {
 		this.selectedTarget = null;
+		this.playerDoneClicking = false;
 		this.matchState = MatchState.AWAITING_BLOCKER_SELECTION;
 		this.messageToPlayer = messageToPlayer;
 	}
@@ -314,6 +321,11 @@ public class Match {
 		this.selectedTarget = null;
 		this.matchState = MatchState.AWAITING_CARD_TO_DISCARD_SELECTION;
 		this.messageToPlayer = messageToPlayer;
+	}
+	
+	public void giveManaBurnNotice() {
+		this.playerDoneClicking = false;
+		this.matchState = MatchState.AWAITING_MANA_BURN_ACKNOWLEDGEMENT;
 	}
 	
 	public Object getSelectedTarget() {

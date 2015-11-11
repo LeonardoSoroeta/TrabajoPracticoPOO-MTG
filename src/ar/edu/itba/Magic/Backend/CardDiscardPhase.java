@@ -35,9 +35,19 @@ public class CardDiscardPhase {
 		if(match.getTurnOwner().getHand().size() > 7) {
 			match.awaitCardToDiscardSelection("You have more than 7 cards in your hand. Select a card to discard: ");
 		} else {
-			eventHandler.triggerGameEvent(new GameEvent(Event.END_OF_TURN, match.getTurnOwner()));
-			match.executeNextPhase();
+			this.manaBurnStep();
+		}
+	}
+	
+	public void manaBurnStep() {
+		if( match.getPlayer1().manaBurn() || match.getPlayer2().manaBurn()) {
+			match.giveManaBurnNotice();
 		}
 	}
 
+	public void finishCardDiscardPhase() {
+		eventHandler.triggerGameEvent(new GameEvent(Event.END_OF_TURN, match.getTurnOwner()));
+		match.executeNextPhase();
+	}
+	
 }

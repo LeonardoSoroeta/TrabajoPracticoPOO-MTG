@@ -11,6 +11,8 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 import ar.edu.itba.Magic.Backend.Deck;
+import ar.edu.itba.Magic.Backend.Cards.Card;
+import ar.edu.itba.Magic.Backend.Cards.CreatureCard;
 import ar.edu.itba.Magic.Backend.Enums.CardType;
 
 /**
@@ -21,18 +23,24 @@ public class NewDeckState extends BasicGameState {
 	ExtendedImage yourDeck;
 	ExtendedImage save;
 	ExtendedImage back;
+	ExtendedImage alert;
+	// the total list of cards of the game
 	List<CardUI> cardsUI;
-	DeckUI deckUI;
+	// deck that it's going to be built
+	static DeckUI deckUI;
 	int mouseWheel = 0;
 	int lastCardIndex = 0;
 	boolean wheelMoved = false;
+	boolean setAlert = false;
 	int cardWidth = 312;
 	Input input;
-	NewGame g;
 
-	public void init(GameContainer gc, StateBasedGame arg1) throws SlickException {
-		library = new ExtendedImage("res/library.png",gc.getWidth()*4/6,gc.getHeight()*5/6);
-		yourDeck = new ExtendedImage("res/yourdeck.png",gc.getWidth()*4/6,gc.getHeight()*5/6);
+	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
+		library = new ExtendedImage("res/library.png",gc.getWidth() - cardWidth*3/2,gc.getHeight()*5/6);
+		yourDeck = new ExtendedImage("res/yourdeck.png",cardWidth + 10,gc.getHeight()*5/6);
+		save = new ExtendedImage("res/save.png",gc.getWidth()*4/8,gc.getHeight()*1/2);
+		back = new ExtendedImage("res/back.png",gc.getWidth()*4/8,gc.getHeight()*2/3);
+		alert = new ExtendedImage("res/alert.png",gc.getWidth()*1/3,gc.getHeight()*1/2);
 		deckUI = new DeckUI();
 		cardsUI = new LinkedList<CardUI>();
 		int cardNum = 0;
@@ -42,16 +50,34 @@ public class NewDeckState extends BasicGameState {
 			cardsUI.add(new CardUI(each, new ExtendedImage(ref,gc.getWidth() - cardWidth,cardNum*gc.getHeight()*1/13)  ));
 			cardNum++;
 		}
-		
-		/*Deck deck = new Deck();
-		for(CardUI each: cardsUI) {
-			deck.addCard(each.getCardType().createCardOfThisType());
-		}*/
-
 	}
 
-	public void update(GameContainer gc, StateBasedGame arg1, int arg2) throws SlickException {
+	public void update(GameContainer gc, StateBasedGame sbg, int arg2) throws SlickException {
 		input = gc.getInput();
+		if(setAlert) {
+			if(alert.mouseLClicked(input)) {
+				setAlert = false;
+			}
+		}
+		
+		if(back.mouseLClicked(input)) {
+			sbg.enterState(1);
+		}
+		
+		if(save.mouseLClicked(input)) {
+			if(deckUI.size() < 60) {
+				setAlert = true;
+				return;
+			}
+			else {
+				//saves the deck and goes back to the prev state
+				deckUI.generateDeck();
+				deckUI.writeDeck();
+				sbg.enterState(1);
+			}
+;
+		}
+		
 		//when the mouse is on the left side of the screen
 		if(input.getMouseX() <= cardWidth) {
 			if(wheelMoved) {
@@ -84,11 +110,14 @@ public class NewDeckState extends BasicGameState {
 					int repetitions = 0;
 					List<CardUI> auxDeck = deckUI.getCards();
 					// see if the card about to add it's not repeated more than 4 times
-					for(int j = 0; j < auxDeck.size(); j++) {
-						if(cardsUI.get(i).equals(auxDeck.get(j))) {
-							repetitions++;
+					CardType aux = cardsUI.get(i).getCardType();
+					if(aux.equals(CardType.SWAMP) || aux.equals(CardType.FOREST) || aux.equals(CardType.ISLAND) || aux.equals(CardType.MOUNTAINS) || aux.equals(CardType.PLAINS)) {
+						for(int j = 0; j < auxDeck.size(); j++) {
+							if(cardsUI.get(i).equals(auxDeck.get(j))) {
+								repetitions++;
+							}
 						}
-					}
+					}	
 					if(repetitions < 4) {
 						CardUI auxCard = new CardUI(cardsUI.get(i));
 						float posY;
@@ -111,15 +140,22 @@ public class NewDeckState extends BasicGameState {
 	
 	public void render(GameContainer gc, StateBasedGame arg1, Graphics arg2) throws SlickException {
 		library.draw();
-		
 		yourDeck.draw();
+		save.draw();
+		back.draw();		
+		
+		if(setAlert) {
+			alert.draw();
+		}
 		
 		for(CardUI each: cardsUI) {
 			each.draw();
 		}
-		 
-		deckUI.draw();
 		
+		for(CardUI each: deckUI.getCards()) {
+			each.draw();
+		}
+		 
 		for(CardUI each: cardsUI) {
 			if(each.mouseOver(gc.getInput())) {
 				each.draw();
@@ -131,12 +167,7 @@ public class NewDeckState extends BasicGameState {
 				each.draw();
 			}
 		}
-		
-		
-		/*for(CardUI each: cardsUI) {
-			each.draw();
-		}*/
-		
+
 	}
 
 	public void mouseWheelMoved(int value) {
@@ -144,6 +175,10 @@ public class NewDeckState extends BasicGameState {
 		wheelMoved = true;
 	}
 
+	public static void setEditingDeck(DeckUI d) {
+		deckUI = d;
+	}
+	
 	public int getID() {
 		return 3;
 	}

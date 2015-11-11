@@ -12,7 +12,6 @@ public class NewGame {
 	
 	public static void main(String[] args)
 	{	
-		
 		try
 		{
 			AppGameContainer appgc;
@@ -25,7 +24,4 @@ public class NewGame {
 			Logger.getLogger(StatesGame.class.getName()).log(Level.SEVERE, null, ex);
 		}
 	}
-	
-	
-
 }

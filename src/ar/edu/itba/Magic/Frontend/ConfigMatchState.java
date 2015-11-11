@@ -10,30 +10,36 @@ import org.newdawn.slick.state.StateBasedGame;
 import ar.edu.itba.Magic.Backend.Match;
 
 public class ConfigMatchState extends BasicGameState {
+	ExtendedImage backGround;
+	ExtendedImage magicLogo;
 	ExtendedImage chooseDeck;
 	ExtendedImage start;
 	ExtendedImage back;
 	Input input;
-	DeckUI p1, p2;
-	MatchUI matchUI;
+	DeckUI p1, p2;;
 	Match match;
 	
-	public void init(GameContainer arg0, StateBasedGame arg1)
+	public void init(GameContainer gc, StateBasedGame sbg)
 			throws SlickException {
-		chooseDeck = new ExtendedImage("res/choosedeck.png");
-		start = new ExtendedImage("res/newmatch.png");
-		back = new ExtendedImage("res/back.png");
+		backGround = new ExtendedImage("res/background.png",0,0);
+		magicLogo = new ExtendedImage("res/magic.png",gc.getWidth()*1/4,gc.getHeight()*1/10);
+		chooseDeck = new ExtendedImage("res/choosedecks.png",gc.getWidth()*2/9,gc.getHeight()*3/4);
+		start = new ExtendedImage("res/snm.png",gc.getWidth()*2/9,gc.getHeight()*2/3);
+		back = new ExtendedImage("res/back.png",gc.getWidth()*2/9,gc.getHeight()*5/6);
 		match = Match.getMatch();
 	}
 
-	public void update(GameContainer gc, StateBasedGame arg1, int arg2)
+	public void update(GameContainer gc, StateBasedGame sbg, int arg2)
 			throws SlickException {
 		input = gc.getInput();
 		if(chooseDeck.mouseLClicked(input)) {
 			sbg.enterState(4);
 		}
 		if(start.mouseLClicked(input)) {
-			if(match.getPlayer1() == null || match.getPlayer2() == null) {
+			if(match.getPlayer1() == null) {
+				
+			}
+			else if(match.getPlayer2() == null){
 				
 			}
 			else {
@@ -41,8 +47,7 @@ public class ConfigMatchState extends BasicGameState {
 			}
 		}
 		if(back.mouseLClicked(input)) {
-			//sbg.enterState(0);
-			gc.exit();
+			sbg.enterState(0);
 		}
 		
 		if(gc.getInput().isKeyPressed(Input.KEY_ESCAPE)){
@@ -52,6 +57,8 @@ public class ConfigMatchState extends BasicGameState {
 	
 	public void render(GameContainer gc, StateBasedGame arg1, Graphics arg2)
 			throws SlickException {
+		backGround.drawScaled(gc.getWidth(),gc.getHeight());
+		magicLogo.draw(0.5f);
 		chooseDeck.draw();
 		start.draw();
 		back.draw();

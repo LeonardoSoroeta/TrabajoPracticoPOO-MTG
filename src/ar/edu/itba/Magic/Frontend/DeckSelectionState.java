@@ -9,7 +9,9 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 
-
+/**
+ * Class for the deck menu state 
+ */
 public class DeckSelectionState extends BasicGameState {
 	ExtendedImage backGround;
 	ExtendedImage back;
@@ -27,13 +29,15 @@ public class DeckSelectionState extends BasicGameState {
 	public void update(GameContainer gc, StateBasedGame sbg, int arg2) throws SlickException {
 		input = gc.getInput();
 		
-		if(back.mouseLClicked(input))
+		if(back.mouseLClicked(input)) {
 			sbg.enterState(0);
-		else if(createNewDeck.mouseLClicked(input))
+		}
+		else if(createNewDeck.mouseLClicked(input)) {
 			sbg.enterState(3);
-		else if(editExistingDeck.mouseLClicked(input))
-			gc.exit();
-		
+		}
+		else if(editExistingDeck.mouseLClicked(input)) {
+			sbg.enterState(4);
+		}
 		if(gc.getInput().isKeyPressed(Input.KEY_ESCAPE)){
 			gc.exit();
 		}		

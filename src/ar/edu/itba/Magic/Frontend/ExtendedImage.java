@@ -4,7 +4,13 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 
-public class ExtendedImage extends Image {
+import ar.edu.itba.Magic.Backend.Interfaces.Drawable;
+
+/*
+ *  class extended from Image (Slick2d) with added behavior
+ *  like input interaction
+ */
+public class ExtendedImage extends Image implements Drawable {
 	private float x, y;
 	
 	public ExtendedImage(Image other) {
@@ -21,6 +27,9 @@ public class ExtendedImage extends Image {
 		this(ref, 0f, 0f);
 	}
 	
+	/*
+	 * changes the position of the image on the screen
+	 */
 	public void update(float x, float y) {
 		this.x = x;
 		this.y = y;
@@ -44,7 +53,6 @@ public class ExtendedImage extends Image {
 	
 	public void drawScaled(float x, float y, float w, float h) {
 		super.draw(x, y, w, h);
-		this.update(x, y);
 	}
 	
 	public boolean mouseOver(int x, int y) {
@@ -61,7 +69,7 @@ public class ExtendedImage extends Image {
 	 */
 	public boolean mouseLClicked(Input input) {
 		if(mouseOver(input)) {
-			if(input.isMousePressed(TOP_LEFT))
+			if(input.isMousePressed(Input.MOUSE_LEFT_BUTTON))
 				return true;
 		}
 		return false;
@@ -70,7 +78,7 @@ public class ExtendedImage extends Image {
 	
 	public boolean mouseRClicked(Input input) {
 		if(mouseOver(input)) {
-			if(input.isMousePressed(TOP_RIGHT))
+			if(input.isMousePressed(Input.MOUSE_RIGHT_BUTTON))
 				return true;
 		}
 		return false;

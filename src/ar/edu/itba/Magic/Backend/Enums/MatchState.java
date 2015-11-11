@@ -47,5 +47,8 @@ public enum MatchState {
 	// match.returnSelectedTarget(selectedCreature)
 	AWAITING_CARD_TO_DISCARD_SELECTION,
 	
+	// muestra imagen de mana burn espera q el chabon haga click en Done
+	AWAITING_MANA_BURN_ACKNOWLEDGEMENT,
+	
 	GAME_OVER
 }

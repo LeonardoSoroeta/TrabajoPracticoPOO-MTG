@@ -238,8 +238,8 @@ public class Player implements DamageTaking {
 		}
 	}	
 	
-	public void manaBurn(){
-		this.manaPool.manaBurn(this);
+	public boolean manaBurn() {
+		return this.manaPool.manaBurn(this);
 	}
 	
 }

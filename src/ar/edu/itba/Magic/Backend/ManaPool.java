@@ -60,11 +60,16 @@ public class ManaPool {
 		}
 	}
 	
-	public void manaBurn(Player player) {
+	public boolean manaBurn(Player player) {
+		boolean hadMana = false;
 		for(Color each : manapool.keySet()) {
-			player.takeDamage(this.getAvailableManaOfThisColor(each));
+			player.takeDamage(manapool.get(each));
+			if(manapool.get(each) != 0) {
+				hadMana = true;
+			}
 		}
 		this.resetMana();
+		return hadMana;
 	}
 	
 	public boolean containsEnoughManaToPay(Color color, Integer coloredManaCost, Integer colorlessManaCost) {

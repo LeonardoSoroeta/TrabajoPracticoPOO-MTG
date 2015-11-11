@@ -1,15 +1,124 @@
 package ar.edu.itba.Magic.Backend;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.TreeMap;
 
 import ar.edu.itba.Magic.Backend.Cards.Card;
+import ar.edu.itba.Magic.Backend.Enums.CardType;
 
-public class Deck {
+public class Deck implements Serializable{
 	
+	private static final long serialVersionUID = 1L;
 	private LinkedList<Card> deck;
+	
+	/*
+	 * deserialize a list of objects and returns a list of decks
+	 */
+   public static LinkedList<Deck> deserialize() throws IOException, ClassNotFoundException {
+		FileInputStream fis = new FileInputStream("Decks.out");
+		ObjectInputStream ois = new ObjectInputStream(fis);
+
+		LinkedList<LinkedList<CardType>> listT = (LinkedList<LinkedList<CardType>>) ois.readObject();
+		
+		LinkedList<Deck> decks = new LinkedList<Deck>();
+		//System.out.println(listT.get(0).get(0).getCardName());
+		for(LinkedList<CardType> each1: listT) {
+			Deck aux = new Deck();
+			for(CardType each2: each1) {
+				aux.addCard(each2.createCardOfThisType());
+				//System.out.println(" llegooo ");
+			}
+			decks.add(aux);
+		}
+		
+		ois.close();
+		return decks;
+    }
+    
+    public void serialize(Deck d) throws IOException {
+    	
+    	/*LinkedList<CardType> listC = new LinkedList<CardType>();
+		for(Card each: d.getCards()) {
+			listC.add(each.getCardType());
+		}
+		
+		LinkedList<LinkedList<CardType>> listT = new LinkedList<LinkedList<CardType>>();
+		
+    	LinkedList<Deck> decks = loadDecks();
+    	if(decks == null) {
+    		decks = new LinkedList<Deck>();
+    	}
+    	else {
+			for(Deck each1: decks) {
+				LinkedList<CardType> aux = new LinkedList<CardType>();
+				for(Card each2: each1.getCards()) {
+					aux.add(each2.getCardType());
+				}
+				listT.add(aux);
+			}
+    	}
+		
+		listT.add(listC);*/
+    	LinkedList<LinkedList<CardType>> listT = new LinkedList<LinkedList<CardType>>();
+    	
+    	LinkedList<Deck> decks = loadDecks();
+    	if(decks == null) {
+    		decks = new LinkedList<Deck>();
+    	}
+    	else {
+			for(Deck each1: decks) {
+				LinkedList<CardType> aux = new LinkedList<CardType>();
+				for(Card each2: each1.getCards()) {
+					aux.add(each2.getCardType());
+				}
+				listT.add(aux);
+			}
+    	}
+    	
+    	
+    	LinkedList<CardType> aux = new LinkedList<CardType>();
+		for(Card each: d.getCards()) {
+			aux.add(each.getCardType());
+		}
+		listT.add(aux);
+    	
+        FileOutputStream fos = new FileOutputStream("Decks.out");
+        ObjectOutputStream oos = new ObjectOutputStream(fos);
+        LinkedList<CardType> ct = new LinkedList<CardType>();
+        
+        oos.writeObject(listT);
+        fos.close();
+    }
+	
+	public void writeDeck(){
+	    try {
+	        serialize(this);
+	    } catch (IOException e) {
+	    	System.out.println("error writing decks");
+	        return;
+	    }
+	}
+	
+	@SuppressWarnings("finally")
+	public static LinkedList<Deck> loadDecks(){
+		LinkedList<Deck> decks = null;
+		try {
+		    decks = (LinkedList<Deck>) deserialize();
+		} catch (ClassNotFoundException | IOException e) {
+			System.out.println("error loading decks");
+		} finally{
+			return decks;
+		}
+	}
 	
 	public Deck(){
 		deck = new LinkedList<Card>();
@@ -20,44 +129,53 @@ public class Deck {
     }
 
 	public void addCard(Card card){
-		if(card != null)
+		if(card != null) {
 			deck.add(card);
-		throw new IllegalArgumentException();
+		}
+		else
+			throw new IllegalArgumentException();
 	}
 	
-	public void removeCard(Card card){
-		if(deck.contains(card))
+	public void removeCard(Card card) {
+		if(deck.contains(card)) {
 			deck.remove(card);
+		}
 	}
 
-    public void shuffleDeck(){
+    public void shuffleDeck() {
         Collections.shuffle(deck);
     }
 	
-	public void clearDeck(){
+	public void clearDeck() {
 		deck.clear();
 	}
 	
 	public Card getCard(){
 		if(this.getSize() > 0){
 			return deck.pop();
-		}else{
+		}
+		else {
 			throw new NoSuchElementException();
 		}
 	}
 	
-	public boolean containsCard(Card card){
+	public boolean containsCard(Card card) {
 		return deck.contains(card);
 	}
 	
-	public Card getCard(Card card){
-		if(containsCard(card)){
+	public Card getCard(Card card) {
+		if(containsCard(card)) {
 			deck.remove(card);
 			return card;
-		}else{
+		}
+		else {
 			throw new NoSuchElementException();
 		}
 		 
+	}
+	
+	public LinkedList<Card> getCards() {
+		return deck;
 	}
 	/*estaria bueno que tenga metodos como estos dos para las habilidades raras
 	public List<Card> getTypeCard(Card card){

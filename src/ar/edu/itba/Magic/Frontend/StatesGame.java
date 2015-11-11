@@ -19,8 +19,8 @@ public class StatesGame extends StateBasedGame
 		this.addState(new MenuState());
 		this.addState(new DeckSelectionState());
 		this.addState(new NewDeckState());
+		this.addState(new EditDeckState());
+		this.addState(new ConfigMatchState());
 	}
-	
-	
 	
 }

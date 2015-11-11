@@ -11,6 +11,8 @@ public class GameStack {
 
     private static GameStack instance = new GameStack();
 	private LinkedList<GameStackObject> gameStack = new LinkedList<>();
+	
+	private boolean playerDidSomething;
 
 	private GameStack() {
 		
@@ -26,13 +28,19 @@ public class GameStack {
     }
     
     public void playerDoneClicking() {
-    	while(!gameStack.isEmpty()) {
-    		gameStack.pop().resolveInStack();
+    	if(playerDidSomething == false) {
+	    	while(!gameStack.isEmpty()) {
+	    		gameStack.pop().resolveInStack();
+	    	}
+	    	match.setMatchState(match.getPreviousMatchState());
+    	} else {
+	    	match.setActivePlayer(match.getOpposingPlayerFrom(match.getActivePlayer()));
+	    	this.playerDidSomething = false;
     	}
-    	match.setMatchState(match.getPreviousMatchState());
     }
 
 	public void addStackObject(GameStackObject gameStackObject) {
+		this.playerDidSomething = true;
 		if(gameStack.isEmpty()) {
 			gameStack.push(gameStackObject);
 			this.initiateSpellChain();
@@ -51,5 +59,4 @@ public class GameStack {
 		
 		return gameStackObjects;
 	}
-	
 }

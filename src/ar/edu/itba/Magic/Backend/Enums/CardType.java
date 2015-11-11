@@ -1046,11 +1046,6 @@ public enum CardType {
          		new AutomaticSpellAbility() {
 
 						@Override
-						public void sendToStack() {
-							gameStack.addStackObject(this);
-						}
-
-						@Override
 						public void resolveInStack() {
 							gameEventHandler.addListener(this);
 						}
@@ -1187,9 +1182,6 @@ public enum CardType {
 		return new CreatureCard(CardType.NIGHTMARE, attributes, 1, 1,
 				new AutomaticPermanentAbility() {
 
-					/**
-					 * Adds Nightmare's automatic ability to the GameEventHandler.
-					 */
 					@Override
 					public void executeOnEntering() {
 						gameEventHandler.addListener(this);
@@ -1200,10 +1192,6 @@ public enum CardType {
 						gameEventHandler.removeListener(this);
 					}
 
-					/**
-					 * Activates on every game event. Sets Nightmare's attack and defense equal to
-					 * the ammount of Swamps it's controller has in play.
-					 */
 					@Override
 					public void executeOnEvent(GameEvent gameEvent) {
 						Integer swamps = 0;
@@ -1868,15 +1856,14 @@ public enum CardType {
 		attributes.add(Attribute.WALL);
 		attributes.remove(Attribute.CAN_ATTACK);
 		return new CreatureCard(CardType.WALL_OF_WOOD, attributes, 0, 3, new DefaultCreatureAbility());
-    } },
+    } }, 
     
-    WANDERLUST("Wanderlust", Color.GREEN, 1, 2) { public Card createCardOfThisType() {
+    /// atachea a una criatura
+    /*WANDERLUST("Wanderlust", Color.GREEN, 1, 2) { public Card createCardOfThisType() {
     	return new EnchantmentCard(CardType.WANDERLUST,
 				new AutomaticPermanentAbility() {
 					Creature target;
-
-				
-					
+	
 					@Override
 					public void executeOnEntering() {
 						target.addAttachedEnchantment((Enchantment)this.getSourcePermanent());
@@ -1898,7 +1885,7 @@ public enum CardType {
 						}
 					}
 				});
-    } },
+    } },	*/
     
     WAR_MAMMOTH("War Mammoth", Color.GREEN, 1, 3) { public Card createCardOfThisType() {
     	List<Attribute> attributes = new LinkedList<Attribute>();
@@ -1969,9 +1956,7 @@ public enum CardType {
                         allCreatures.addAll(match.getPlayer1().getCreatures());
                         allCreatures.addAll(match.getPlayer2().getCreatures());
                         for(Creature creature : allCreatures) {
-                        	if(creature.isStillALegalTarget()) {
-                            	creature.destroy();
-                        	}
+                        	creature.destroy();
                         }
 					}
 		});
