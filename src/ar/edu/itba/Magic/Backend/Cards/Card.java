@@ -16,9 +16,9 @@ public abstract class Card {
         this.cardType = cardType;
         this.ability = ability;
     }
-
+    
     public void setController(Player controller) {
-        this.controller = controller;
+    	this.controller = controller;
     }
 
     public Player getController() {
