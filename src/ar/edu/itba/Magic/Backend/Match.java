@@ -354,23 +354,19 @@ public class Match {
 	}
 	
 	public void executeNextPhase() {
-		if(currentPhase == Phase.BEGINNING_PHASE) {
+		if(currentPhase.equals(Phase.BEGINNING_PHASE)) {
 			this.currentPhase = Phase.PRE_COMBAT_MAIN_PHASE;
 			this.mainPhase();
-		}
-		if(currentPhase == Phase.PRE_COMBAT_MAIN_PHASE) {
+		} else if(currentPhase.equals(Phase.PRE_COMBAT_MAIN_PHASE)) {
 			this.currentPhase = Phase.COMBAT_PHASE;
 			this.combatPhase();
-		}
-		if(currentPhase == Phase.COMBAT_PHASE) {
+		} else if(currentPhase.equals(Phase.COMBAT_PHASE)) {
 			this.currentPhase = Phase.POST_COMBAT_MAIN_PHASE;
 			this.mainPhase();
-		}
-		if(currentPhase == Phase.POST_COMBAT_MAIN_PHASE) {
+		} else if(currentPhase.equals(Phase.POST_COMBAT_MAIN_PHASE)) {
 			this.currentPhase = Phase.ENDING_PHASE;
 			this.endingPhase();
-		}
-		if(currentPhase == Phase.ENDING_PHASE) {
+		} else if(currentPhase.equals(Phase.ENDING_PHASE)) {
 			this.turnOwner = this.getOpposingPlayerFrom(this.turnOwner);
 			this.activePlayer = this.turnOwner;
 			this.currentPhase = Phase.BEGINNING_PHASE;
