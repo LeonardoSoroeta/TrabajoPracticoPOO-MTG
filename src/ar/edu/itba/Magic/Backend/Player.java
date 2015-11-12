@@ -123,12 +123,21 @@ public class Player implements DamageTaking {
 	
 	public List<Permanent> getPermanentsInPlay() {
 		List<Permanent> permanents = new LinkedList<Permanent>();
-		permanents.addAll(permanentsInPlay);
+		//permanents.addAll(permanentsInPlay);
+		
+		for (Permanent each: this.permanentsInPlay)
+		{
+		  if (!permanents.contains(each)) 
+		  {
+		    permanents.add(each);
+		  }
+		 }
 		
 		return permanents;
 	}
 	
 	public void placePermanentInPlay(Permanent permanent) {
+		permanent.setSpellState(false);
 		permanentsInPlay.add(permanent);
 		permanent.getAbility().executeOnEntering();
 		gameEventHandler.triggerGameEvent(new GameEvent(Event.PERMANENT_ENTERS_PLAY, permanent));
