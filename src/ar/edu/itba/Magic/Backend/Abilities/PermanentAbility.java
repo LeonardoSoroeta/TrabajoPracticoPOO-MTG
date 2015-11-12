@@ -91,12 +91,12 @@ public abstract class PermanentAbility extends Ability {
 				manaPool.removeOneManaOfThisColor(selectedColor);
 				colorlessManaRequired--;
 	    	}
-    	}
     	
-    	if(coloredManaRequired.equals(0) && colorlessManaRequired.equals(0)) {
-    		this.proceedToSelectCastingTarget();
-    	} else {
-    		match.awaitCastingManaPayment(this, "Pay requested mana cost to cast this card: ");
+	    	if(coloredManaRequired.equals(0) && colorlessManaRequired.equals(0)) {
+	    		this.proceedToSelectCastingTarget();
+	    	} else {
+	    		match.awaitCastingManaPayment(this, "Pay requested mana cost to cast this card: ");
+	    	}
     	}
     }
     
@@ -193,12 +193,12 @@ public abstract class PermanentAbility extends Ability {
 				manaPool.removeOneManaOfThisColor(selectedColor);
 				colorlessManaRequired--;
 	    	}
-    	}
     	
-    	if(coloredManaRequired.equals(0) && colorlessManaRequired.equals(0)) {
-    		this.executeIfManaPayed();
-    	} else {
-    		match.awaitAbilityManaPayment(this, "Continue paying mana cost: ");
+	    	if(coloredManaRequired.equals(0) && colorlessManaRequired.equals(0)) {
+	    		this.executeIfManaPayed();
+	    	} else {
+	    		match.awaitAbilityManaPayment(this, "Continue paying mana cost: ");
+	    	}
     	}
 	}
 	
