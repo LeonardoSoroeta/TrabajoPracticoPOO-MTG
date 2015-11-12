@@ -9,6 +9,7 @@ import ar.edu.itba.Magic.Backend.Enums.Attribute;
 import ar.edu.itba.Magic.Backend.Enums.CardType;
 import ar.edu.itba.Magic.Backend.Permanents.Creature;
 import ar.edu.itba.Magic.Backend.Permanents.Land;
+import ar.edu.itba.Magic.Backend.Permanents.Permanent;
 
 public class CombatPhase {
 	
@@ -63,22 +64,29 @@ public class CombatPhase {
 	}
 	
 	private void declareAttackers() {
-		Creature attacker = (Creature)Match.getMatch().getSelectedTarget();
+		Permanent permanent;
+		Creature attacker;
+		permanent = (Permanent)Match.getMatch().getSelectedTarget();
 		
-		if(attackers.contains(attacker)) {
-			Match.getMatch().awaitAttackerSelection("You already selected this attacker. Select again: ");
-		} else if(attacker.containsAttribute(Attribute.SUMMONING_SICKNESS)) {
-			Match.getMatch().awaitAttackerSelection("Selected creature contains summoning sickness. Select again: ");
-		} else if(!attacker.containsAttribute(Attribute.CAN_ATTACK)) {
-			Match.getMatch().awaitAttackerSelection("Selected creature cannot attack. Select again: ");
-		} else if(attacker.isTapped()) {
-			Match.getMatch().awaitAttackerSelection("Selected creature is tapped and cannot attack. Select again: ");
+		if(!(permanent instanceof Creature)) {
+			Match.getMatch().awaitAttackerSelection("Select a creature attacker:");
 		} else {
-			if(attacker.containsAttribute(Attribute.TAPS_ON_ATTACK)) {
-				attacker.tap();
+			attacker = (Creature)permanent;
+			if(attackers.contains(attacker)) {
+				Match.getMatch().awaitAttackerSelection("You already selected this attacker. Select again: ");
+			} else if(attacker.containsAttribute(Attribute.SUMMONING_SICKNESS)) {
+				Match.getMatch().awaitAttackerSelection("Selected creature contains summoning sickness. Select again: ");
+			} else if(!attacker.containsAttribute(Attribute.CAN_ATTACK)) {
+				Match.getMatch().awaitAttackerSelection("Selected creature cannot attack. Select again: ");
+			} else if(attacker.isTapped()) {
+				Match.getMatch().awaitAttackerSelection("Selected creature is tapped and cannot attack. Select again: ");
+			} else {
+				if(attacker.containsAttribute(Attribute.TAPS_ON_ATTACK)) {
+					attacker.tap();
+				}
+				attackers.add(attacker);
+				Match.getMatch().awaitAttackerSelection("Select another attacker:");
 			}
-			attackers.add(attacker);
-			Match.getMatch().awaitAttackerSelection("Select another attacker:");
 		}
 	}
 	
