@@ -640,14 +640,14 @@ public enum CardType {
 						if(gameEvent.getDescriptor().equals(Event.UPKEEP_STEP)) {
 							List<Land> lands = new LinkedList<Land>();
 							lands = ((Player)gameEvent.getObject1()).getLands();
-							//for(Land land : lands) {
-								//if(land.getCardType().equals(CardType
-								//land.getController().takeDamage(1);
-							//}
+							for(Land land : lands) {
+								if(land.getCardType().equals(CardType.sw)
+								land.getController().takeDamage(1);
+							}
 						}
 					}
 		});
-    } },*/
+    } }, */
     
     KEEPERS_OF_THE_FAITH("Keepers of the Faith", Color.WHITE, 2, 1) { public Card createCardOfThisType() {
     	List<Attribute> attributes = new LinkedList<Attribute>();
@@ -1155,21 +1155,27 @@ public enum CardType {
 		});
     } },
     
-    /*SHIVAN_DRAGON("Shivan Dragon", Color.RED, 2, 4) { public Card createCardOfThisType() {
+    
+    // TODO probar esta
+    SHIVAN_DRAGON("Shivan Dragon", Color.RED, 2, 4) { public Card createCardOfThisType() {
     	List<Attribute> attributes = new LinkedList<Attribute>();
 		attributes = Creature.getDefaultCreatureAttributes();
 		attributes.add(Attribute.FLYING);
 		return new CreatureCard(CardType.SHIVAN_DRAGON, attributes, 5, 5,
-				new ActivatedPermanentAbility() {
+				new PermanentAbility() {
 
-					@Override
-					public void executeOnActivation() {
-						// TODO pay 1 red mana, then
-						LastingEffect newEffect = new OneTurnStatModifier(this, 1, 0);
-						this.getSourcePermanent().applyLastingEffect(newEffect);
-					}
+				@Override
+				public void executeOnActivation() {
+					this.requestAbilityManaPayment(Color.RED, 1, 0, "Pay 1 red mana");
+				}
+				
+				@Override
+				public void executeIfManaPayed() {
+					AutomaticLastingEffect newEffect = new OneTurnStatModifier(this, 1, 0);
+					this.getSourcePermanent().applyLastingEffect(newEffect);
+				}
 		});
-    } },	*/
+    } },
     
     SINDBAD("Sindbad", Color.BLUE, 1, 1) { public Card createCardOfThisType() {
     	List<Attribute> attributes = new LinkedList<Attribute>();
@@ -1407,22 +1413,27 @@ public enum CardType {
 		return new CreatureCard(CardType.VODALIAN_SOLDIERS, attributes, 1, 2, new DefaultCreatureAbility());
 	} },
     
-    /* WALL_OF_FIRE("Wall of Fire", Color.RED, 2, 1) { public Card createCardOfThisType() {
+    //TODO probar esta
+    WALL_OF_FIRE("Wall of Fire", Color.RED, 2, 1) { public Card createCardOfThisType() {
     	List<Attribute> attributes = new LinkedList<Attribute>();
 		attributes = Creature.getDefaultCreatureAttributes();
 		attributes.add(Attribute.WALL);
 		attributes.remove(Attribute.CAN_ATTACK);
 		return new CreatureCard(CardType.WALL_OF_FIRE, attributes, 0, 5,
-				new ActivatedPermanentAbility() {
+				new PermanentAbility() {
 
-					@Override
-					public void executeOnActivation() {
-						// TODO pay 1 red mana, then
-						LastingEffect newEffect = new OneTurnStatModifier(this, 1, 0);
-						this.getSourcePermanent().applyLastingEffect(newEffect);
-					}
+			@Override
+			public void executeOnActivation() {
+				this.requestAbilityManaPayment(Color.RED, 1, 0, "Pay 1 red mana");
+			}
+			
+			@Override
+			public void executeIfManaPayed() {
+				AutomaticLastingEffect newEffect = new OneTurnStatModifier(this, 1, 0);
+				this.getSourcePermanent().applyLastingEffect(newEffect);
+			}
 		});
-    } },	*/
+    } },
     
     WALL_OF_ICE("Wall of Ice", Color.GREEN, 1, 2) { public Card createCardOfThisType() {
     	List<Attribute> attributes = new LinkedList<Attribute>();
