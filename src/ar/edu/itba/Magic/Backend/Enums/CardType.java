@@ -29,7 +29,10 @@ import ar.edu.itba.Magic.Backend.Permanents.Creature;
 import ar.edu.itba.Magic.Backend.Permanents.Land;
 import ar.edu.itba.Magic.Backend.Permanents.Permanent;
 
-
+/** 
+ * This enum contains the implementations of all Cards available in the game. Card enums contain the card's
+ * specific name, color, casting mana costs, and the cards Ability implementation.
+ */
 public enum CardType {
 	
 	ACID_RAIN("Acid Rain", Color.BLUE, 1, 3) { public Card createCardOfThisType() {

@@ -24,10 +24,12 @@ public abstract class SpellAbility extends Ability implements GameStackObject {
 	private HashMap<Color, Integer> manaCache = new HashMap<Color, Integer>();
 	private Object selectedTarget;
 	
+	/** Returns the card that contains this ability */
 	public Card getSourceCard() {
 		return sourceCard;
 	}
-
+	
+	/** Sets the card that contains this ability */
 	public void setSourceCard(Card sourceCard) {
 		this.sourceCard = sourceCard;
 	}
@@ -38,6 +40,7 @@ public abstract class SpellAbility extends Ability implements GameStackObject {
 		this.requestCastingManaPayment();
 	}
 	
+	/** Called by local method executeOnCasting */
 	public final void requestCastingManaPayment() {
 		this.manaPool = sourceCard.getController().getManaPool();
 		for(Color color : Color.values()) {
@@ -54,8 +57,7 @@ public abstract class SpellAbility extends Ability implements GameStackObject {
 		}
 	}
 	
-	// pedirle al front que no pase nada si el player hace click en un 0
-	// por ahora asumiendo q el front le pasa un Color object si o si
+	/** Executes on each match update, if currently requesting mana on casting. */
     public final void resumeCastingManaRequest() {
     	this.selectedTarget = match.getSelectedTarget();
     	Color selectedColor = (Color)selectedTarget;
@@ -93,6 +95,7 @@ public abstract class SpellAbility extends Ability implements GameStackObject {
     	Match.getMatch().newMessageToPlayer("Mana payment cancelled. Mana reimbursed.");
     }
     
+    /** Removes the source card from controllers hand and sends the spell to the stack */
     @Override 
 	public void finishCasting() {
     	sourceCard.getController().discardCard(sourceCard);
@@ -121,9 +124,11 @@ public abstract class SpellAbility extends Ability implements GameStackObject {
     	}
 	}
 	
+	/** Sends spell to stack */
 	public final void sendToStack() {
 		gameStack.addStackObject(this);
 	}
 	
+	/** Responsible for finally executing the spells action */
 	public abstract void resolveInStack();
 }

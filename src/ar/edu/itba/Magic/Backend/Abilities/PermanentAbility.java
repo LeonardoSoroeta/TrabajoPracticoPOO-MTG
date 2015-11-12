@@ -66,8 +66,6 @@ public abstract class PermanentAbility extends Ability {
 		}
 	}
 	
-	// pedirle al front que no pase nada si el player hace click en un 0
-	// por ahora asumiendo q el front le pasa un Color object si o si
 	/** Executes on each match update, if currently requesting mana on casting. */
     public final void resumeCastingManaRequest() {
     	this.selectedTarget = match.getSelectedTarget();
@@ -178,6 +176,7 @@ public abstract class PermanentAbility extends Ability {
 		}
 	}
 	
+	/** Executes on each match update, if currently requesting mana from an ability. */
 	public final void resumeAbilityManaRequest() {
 		this.selectedTarget = match.getSelectedTarget();
     	Color selectedColor = (Color)selectedTarget;

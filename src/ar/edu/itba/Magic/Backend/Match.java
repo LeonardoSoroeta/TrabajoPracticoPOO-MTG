@@ -13,7 +13,10 @@ import ar.edu.itba.Magic.Backend.Enums.MatchState;
 import ar.edu.itba.Magic.Backend.Enums.Phase;
 import ar.edu.itba.Magic.Backend.Exceptions.UninitializedPlayersException;
 
-
+/**
+ * This class is responsible for the match's game logic. It executes on every game update cycle, and always 
+ * stops executing in a specific Match State, awaiting a player action.
+ */
 public class Match {
 	
 	private static Match self = new Match();
@@ -50,7 +53,8 @@ public class Match {
 	public static Match getMatch() {
 		return self;
 	}
-
+	
+	/** Must execute this method whenever the player does an action */
 	public void update() {
 		if(matchState.equals(MatchState.GAME_OVER)) {
 			if(player1 == null || player2 == null) {
@@ -146,6 +150,7 @@ public class Match {
 		}
 	}
 	
+	/** Starts the match */
 	private void start() {		
 		this.activePlayer = this.randomPlayer();
 		//this.turnOwner= this.activePlayer;
@@ -159,6 +164,7 @@ public class Match {
 		startingPhase.start();
 	}
 	
+	/** Current player turn's beginning phase */
 	public void beginningPhase() {
 		gameEventHandler.triggerGameEvent(new GameEvent(Event.UNTAP_STEP, activePlayer));
 		this.activePlayer.untapDuringUnkeep();
@@ -176,15 +182,18 @@ public class Match {
 		this.executeNextPhase();
 	}
 	
+	/** Executes on current player's pre and post combat main phase */
 	public void mainPhase() {
 		gameEventHandler.triggerGameEvent(new GameEvent(Event.MAIN_PHASE, activePlayer));
 		this.awaitMainPhaseActions("Main Phase: Cast spells, activate abilities.");
 	}
 	
+	/** Executes on current player's combat phase */
 	public void combatPhase() {	
 		combatPhase.start();
 	}
 	
+	/** Removes damage counters from creatures and starts the card discard phase */
 	public void endingPhase() {
 		
 		gameEventHandler.triggerGameEvent(new GameEvent(Event.ENDING_PHASE, activePlayer));
@@ -196,6 +205,7 @@ public class Match {
 		cardDiscardPhase.start();
 	}
 	
+	/** Returns a random player */
 	public Player randomPlayer() {
 		int randomNum = 1 + (int)(Math.random()*2);
 		if(randomNum == 1){
@@ -205,22 +215,27 @@ public class Match {
 		}
 	}
 	
+	/** Sets player 1 */
 	public void setPlayer1(Player player) {
 		this.player1 = player;
 	}
 	
+	/** Sets player 2 */
 	public void setPlayer2(Player player) {
 		this.player2 = player;
 	}
 	
+	/** Gets player 1 */
 	public Player getPlayer1() {
 		return player1;
 	}
 	
+	/** Gets player 2 */
 	public Player getPlayer2() {
 		return player2;
 	}
 	
+	/** Given a specific player, returns the other one */
 	public Player getOpposingPlayerFrom(Player player) {
 		if(player == player1) {
 			return player2;
@@ -230,18 +245,22 @@ public class Match {
 		}
 	}
 	
+	/** Gets the player that is currently active */
 	public Player getActivePlayer() {
 		return this.activePlayer;
 	}
 	
+	/** Sets the currently active player */
 	public void setActivePlayer(Player activePlayer) {
 		this.activePlayer = activePlayer;
 	}
 	
+	/** Sets the player to whom the turn belongs */
 	public void setTurnOwner(Player player) {
 		this.turnOwner = player;
 	}
 	
+	/** Gets the player to whom the turn belongs */
 	public Player getTurnOwner() {
 		return this.turnOwner;
 	}
