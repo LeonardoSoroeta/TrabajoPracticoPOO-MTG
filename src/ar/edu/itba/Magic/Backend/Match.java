@@ -142,9 +142,9 @@ public class Match {
 			
 		} else if(matchState.equals(MatchState.AWAITING_STARTING_PHASE_YES_OR_NO_CONFIRMATION)) {
 			if(playerSelectedYes) {
-				
+				startingPhase.playerSelectedYes();
 			} else if(playerSelectedNo) {
-				
+				startingPhase.playerSelectedNo();
 			}
 		
 		}
@@ -427,7 +427,6 @@ public class Match {
 		this.resetData();
 		gameStack.resetData();
 		combatPhase.resetData();
-		startingPhase.resetData();
 		gameEventHandler.resetData();
 	}
 	
@@ -484,6 +483,10 @@ public class Match {
 	/** Returns the match's combat phase singleton instance */
 	public CombatPhase getCombatPhase() {
 		return combatPhase;
+	}
+	
+	public GameStack getGameStack() {
+		return gameStack;
 	}
 
 	/** Executed by the front end to signal the player clicking on the Done button */

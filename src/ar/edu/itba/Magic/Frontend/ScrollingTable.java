@@ -3,8 +3,12 @@ package ar.edu.itba.Magic.Frontend;
 import java.util.List;
 
 import org.newdawn.slick.Input;
+import org.newdawn.slick.SlickException;
 
+import ar.edu.itba.Magic.Backend.Abilities.SpellAbility;
 import ar.edu.itba.Magic.Backend.Cards.Card;
+import ar.edu.itba.Magic.Backend.Interfaces.GameStackObject;
+import ar.edu.itba.Magic.Backend.Permanents.Creature;
 import ar.edu.itba.Magic.Backend.Permanents.Permanent;
 
 public class ScrollingTable {
@@ -14,25 +18,37 @@ public class ScrollingTable {
 	float w;
 	float h;
 	
+	float xStart;
+	
 	float xb = 0;
 	float yb = 0;
 	float wb = 0;
 	float hb = 0;
+	private ExtendedImage backcard;
 	
 	
 	
-	public ScrollingTable(float x,float y){
-		
+	public ScrollingTable(float x,float y) throws SlickException{
+		this.backcard= new ExtendedImage("res/Match/backCard.png");
 		this.x = x;
 		this.y = y;
+		this.xStart = x;
 	}
 	
 	
-	public void drawPermanents( List<Permanent> permanents, DeckList dl, float w, float h, Input input){
 	
+	public void drawPermanents( List<Permanent> permanents, DeckList dl, float w, float h, Input input){
+		
+		this.w = w;
+		
 		for ( Permanent permanent: permanents){
 			
+			
+			if((x+(permanents.indexOf(permanent)*w)) >= xStart){
+			
 			dl.getTinyCard(permanent).draw(x+(permanents.indexOf(permanent)*w), y, w, h);
+			
+			}
 			
 			if( dl.getTinyCard(permanent).mouseOver(input))
 				dl.getBigCard(permanent).draw(xb, yb, wb, hb);
@@ -51,17 +67,29 @@ public class ScrollingTable {
 			if( dl.getTinyCard(card).mouseOver(input))
 			dl.getBigCard(card).draw(xb, yb, wb, hb);
 		}
-		
-		
 	}
 	
+	
+	public void hideCards(List<Card> cards, DeckList dl, float w, float h, Input input){
+for( Card card: cards){
+			
+			backcard.draw(x+(cards.indexOf(card)*w), y, w, h);
+			
+			
+		}
+		
+	}
+		
+		
+	
+	
 	public void updateLeft(){
-		this.x +=1;
+		this.x -= this.w;
 	}
 	
 	public void updateRight(){
 		
-		this.x-=1;
+		this.x+=this.w;
 		
 	}
 	
@@ -72,6 +100,46 @@ public class ScrollingTable {
 		this.wb = w;
 		this.hb = h;
 	}
-	
 
+
+
+	public void drawCards(List<Creature> creatures, DeckList dl, int w, int h, Input input){
+	
+		for ( Creature creature: creatures){
+			
+			dl.getTinyCard((Permanent)creature).draw(x+(creatures.indexOf(creature)*w), y, w, h);
+			
+			if( dl.getTinyCard(creature).mouseOver(input)){
+				dl.getBigCard(creature).draw(xb, yb, wb, hb);
+			}
+		}
+		
+	}
+	
+	
+	public void drawObject(List<GameStackObject> objects, DeckList dl, int w, int h, Input input){
+		for ( GameStackObject object: objects){
+			
+			if(object instanceof Permanent ){
+			dl.getTinyCard((Permanent)object).draw(x+(objects.indexOf(objects)*w), y, w, h);
+			
+			}
+		
+		else if(object instanceof SpellAbility ){
+			dl.getTinyCard(((SpellAbility)object).getSourceCard()).draw(x+(objects.indexOf(objects)*w), y, w, h);
+		
+			}
+			
+				if( dl.getTinyStackCard(object).mouseOver(input)){
+					dl.getBigStackCard(object).draw(xb, yb, wb, hb);
+				}
+			
+			
+			
+			
+		}
+		
+		
+	}	
+			
 }

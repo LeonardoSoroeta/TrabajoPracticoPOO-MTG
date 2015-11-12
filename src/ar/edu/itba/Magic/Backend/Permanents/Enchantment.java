@@ -8,6 +8,7 @@ import ar.edu.itba.Magic.Backend.Abilities.PermanentAbility;
 import ar.edu.itba.Magic.Backend.Cards.Card;
 import ar.edu.itba.Magic.Backend.Enums.Attribute;
 
+/** Enchantments are colored permanents that are not a creature */
 public class Enchantment extends Permanent {
 	
 	GameEventHandler gameEventHandler = GameEventHandler.getGameEventHandler();

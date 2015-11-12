@@ -1,10 +1,13 @@
 package ar.edu.itba.Magic.Backend;
 
+import ar.edu.itba.Magic.Backend.Abilities.SpellAbility;
 import ar.edu.itba.Magic.Backend.Enums.MatchState;
 import ar.edu.itba.Magic.Backend.Interfaces.GameStackObject;
+import ar.edu.itba.Magic.Backend.Permanents.Permanent;
 
 import java.util.LinkedList;
 
+/** The game stack contains a list of spells being currently casted, that have not yet had its action */
 public class GameStack {
 	
     private static GameStack instance = new GameStack();
@@ -62,6 +65,43 @@ public class GameStack {
 		
 		return gameStackObjects;
 	}
+	
+	public LinkedList<GameStackObject> getPlayer1STackObjects() {
+		LinkedList<GameStackObject> gameStackObjects = new LinkedList<GameStackObject>();
+		
+		for(GameStackObject each : gameStack) {
+			if(each instanceof SpellAbility) {
+				if(((SpellAbility)each).getSourceCard().getController().equals(Match.getMatch().getPlayer1())) {
+					gameStackObjects.add(each);
+				}
+			} else if (each instanceof Permanent) {
+				if(((Permanent)each).getSourceCard().getController().equals(Match.getMatch().getPlayer1())) {
+					gameStackObjects.add(each);
+				}
+			}
+		}
+		
+		return gameStackObjects;
+	}
+	
+	public LinkedList<GameStackObject> getPlayer2StackObjects() {
+		LinkedList<GameStackObject> gameStackObjects = new LinkedList<GameStackObject>();
+		
+		for(GameStackObject each : gameStack) {
+			if(each instanceof SpellAbility) {
+				if(((SpellAbility)each).getSourceCard().getController().equals(Match.getMatch().getPlayer2())) {
+					gameStackObjects.add(each);
+				}
+			} else if (each instanceof Permanent) {
+				if(((Permanent)each).getSourceCard().getController().equals(Match.getMatch().getPlayer2())) {
+					gameStackObjects.add(each);
+				}
+			}
+		}
+		
+		return gameStackObjects;
+	}
+	
 	
 	public void resetData() {
 		gameStack.clear();

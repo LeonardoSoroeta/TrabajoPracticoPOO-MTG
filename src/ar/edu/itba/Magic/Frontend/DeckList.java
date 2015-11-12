@@ -6,7 +6,10 @@ import java.util.Map;
 import org.newdawn.slick.SlickException;
 
 import ar.edu.itba.Magic.Backend.Deck;
+import ar.edu.itba.Magic.Backend.Abilities.SpellAbility;
 import ar.edu.itba.Magic.Backend.Cards.Card;
+import ar.edu.itba.Magic.Backend.Interfaces.GameStackObject;
+import ar.edu.itba.Magic.Backend.Permanents.Creature;
 import ar.edu.itba.Magic.Backend.Permanents.Permanent;
 
 public class DeckList {
@@ -47,6 +50,13 @@ public class DeckList {
 		
 		return tinycard.get(permanent.getSourceCard()) ;
 	}
+    
+   
+public ExtendedImage getTinyCard(Creature creature){
+		
+		return tinycard.get(creature.getSourceCard()) ;
+	}
+
 
     public ExtendedImage getTinyCard(Card card){
     	
@@ -61,5 +71,34 @@ public class DeckList {
     }
     
     
-    
+ public ExtendedImage getTinyStackCard(GameStackObject object){
+ 	
+	 
+	 
+	 if(object instanceof Permanent )		
+ 	return tinycard.get((Permanent)object);
+	 
+	
+ 	if(object instanceof SpellAbility )
+ 		return tinycard.get(((SpellAbility)object).getSourceCard());
+ 	
+ 	return tinycard.get((Card)object);
+ }
+ 
+ 		
+ 		
+ 		
+ 		
+public ExtendedImage getBigStackCard(GameStackObject object){
+	 
+	 
+	 if(object instanceof Permanent )		
+	return bigcard.get((Permanent)object);
+	 
+	
+	if(object instanceof SpellAbility )
+		return bigcard.get(((SpellAbility)object).getSourceCard());
+	
+	return bigcard.get((Card)object);
+}
 }
