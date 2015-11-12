@@ -5,6 +5,7 @@ import java.util.List;
 
 import ar.edu.itba.Magic.Backend.Cards.Card;
 import ar.edu.itba.Magic.Backend.Cards.LandCard;
+import ar.edu.itba.Magic.Backend.Enums.Phase;
 
 public class StartingPhase {
 	
@@ -30,9 +31,21 @@ public class StartingPhase {
 	}
 	
 	public void mulliganStep() {
-		Match.getMatch().setActivePlayer(Match.getMatch().getOpposingPlayerFrom(Match.getMatch().getActivePlayer()));
-		if(!this.containsLandCards(Match.getMatch().getActivePlayer().getHand())) {
+		if(innerPhase.equals(InnerPhase.ASKING_PLAYER_ONE_MULLIGAN)) {
+			if(!this.containsLandCards(Match.getMatch().getActivePlayer().getHand())) {
+				Match.getMatch().startingPhaseYesOrNoPrompt("Would you like draw again?");
+			} else {
+				Match.getMatch().setActivePlayer(Match.getMatch().getOpposingPlayerFrom(Match.getMatch().getActivePlayer()));
+				innerPhase = InnerPhase.ASKING_PLAYER_TWO_MULLIGAN;
+			}
 			
+		} else if(innerPhase.equals(InnerPhase.ASKING_PLAYER_TWO_MULLIGAN)) {
+			if(!this.containsLandCards(Match.getMatch().getActivePlayer().getHand())) {
+				Match.getMatch().startingPhaseYesOrNoPrompt("Would you like draw again?");
+			} else {
+				Match.getMatch().setCurrentPhase(Phase.BEGINNING_PHASE);
+				Match.getMatch().beginningPhase();
+			}
 		}
 	}
 	
@@ -45,6 +58,12 @@ public class StartingPhase {
 			Match.getMatch().setTurnOwner(Match.getMatch().getActivePlayer());
 			this.innerPhase = InnerPhase.ASKING_PLAYER_ONE_MULLIGAN;
 			this.mulliganStep();
+		
+		} else if(innerPhase.equals(InnerPhase.ASKING_PLAYER_ONE_MULLIGAN)) {
+			
+		
+		} else if(innerPhase.equals(InnerPhase.ASKING_PLAYER_TWO_MULLIGAN)) {
+			
 		}
 	}
 	
@@ -54,6 +73,12 @@ public class StartingPhase {
 			Match.getMatch().setTurnOwner(Match.getMatch().getActivePlayer());
 			this.innerPhase = InnerPhase.ASKING_PLAYER_ONE_MULLIGAN;
 			this.mulliganStep();
+		
+		} else if(innerPhase.equals(InnerPhase.ASKING_PLAYER_ONE_MULLIGAN)) {
+			
+		
+		} else if(innerPhase.equals(InnerPhase.ASKING_PLAYER_TWO_MULLIGAN)) {
+			
 		}
 	}
 	
