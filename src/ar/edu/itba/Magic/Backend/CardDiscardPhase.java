@@ -39,16 +39,10 @@ public class CardDiscardPhase {
 		}
 	}
 	
-	public void manaBurnStep() {
-		if( Match.getMatch().getPlayer1().manaBurn() || Match.getMatch().getPlayer2().manaBurn()) {
-			Match.getMatch().giveManaBurnNotice();
-		} else {
-			this.finishCardDiscardPhase();
-		}
-	}
-
 	public void finishCardDiscardPhase() {
 		eventHandler.triggerGameEvent(new GameEvent(Event.END_OF_TURN, Match.getMatch().getTurnOwner()));
+		Match.getMatch().getPlayer1().getManaPool().resetMana();
+		Match.getMatch().getPlayer2().getManaPool().resetMana();
 		Match.getMatch().executeNextPhase();
 	}
 	

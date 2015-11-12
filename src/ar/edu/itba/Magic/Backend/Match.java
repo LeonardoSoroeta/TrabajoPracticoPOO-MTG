@@ -136,11 +136,6 @@ public class Match {
 				cardDiscardPhase.resumeExecution();
 			}
 			
-		} else if(matchState.equals(MatchState.AWAITING_MANA_BURN_ACKNOWLEDGEMENT)) {
-			if(playerDoneClicking == true) {
-				cardDiscardPhase.finishCardDiscardPhase();
-			}
-			
 		} else if(matchState.equals(MatchState.AWAITING_STARTING_PHASE_YES_OR_NO_CONFIRMATION)) {
 			if(playerSelectedYes) {
 				
@@ -148,14 +143,7 @@ public class Match {
 				
 			}
 		
-		} else if(matchState.equals(MatchState.AWAITING_SAVE_GAME_YES_OR_NO_CONFIRMATION)) {
-			if(playerSelectedYes) {
-				
-			} else if(playerSelectedNo) {
-				
-			}
 		}
-		
 	}
 	
 	private void start() {		
@@ -364,18 +352,6 @@ public class Match {
 		this.messageToPlayer = messageToPlayer;
 	}
 	
-	public void savingPhaseYesOrNoPrompt(String messageToPlayer) {
-		this.playerSelectedNo = false;
-		this.playerSelectedYes = false;
-		this.matchState = MatchState.AWAITING_SAVE_GAME_YES_OR_NO_CONFIRMATION;
-		this.messageToPlayer = messageToPlayer;
-	}
-	
-	public void giveManaBurnNotice() {
-		this.playerDoneClicking = false;
-		this.matchState = MatchState.AWAITING_MANA_BURN_ACKNOWLEDGEMENT;
-	}
-	
 	public Object getSelectedTarget() {
 		Object selectedTarget = this.selectedTarget;
 		
@@ -497,7 +473,7 @@ public class Match {
 	}
 	
 	public int getPlayerPlaying(){
-		if( this.getTurnOwner().equals(player1))
+		if( this.activePlayer.equals(player1))
 			return 1;
 		else
 			return 2;
