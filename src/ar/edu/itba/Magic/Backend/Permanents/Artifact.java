@@ -16,7 +16,7 @@ public class Artifact extends Permanent implements GameStackObject {
 	
 	private static List<Attribute> getDefaultArtifactAttributes() {
 		List<Attribute> attributes = new LinkedList<Attribute>();
-			// TODO agregar
+		attributes.add(Attribute.UNTAPS_DURING_UPKEEP);
 		
 		return attributes;
 	}
