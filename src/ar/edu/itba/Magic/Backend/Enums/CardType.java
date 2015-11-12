@@ -185,20 +185,25 @@ public enum CardType {
 		return new CreatureCard(CardType.CARNIVOROUS_PLANT, attributes, 4, 5, new DefaultCreatureAbility());
     } },		
     
-    /*CARRION_ANTS("Carrion Ants", Color.BLACK, 2, 2) { public Card createCardOfThisType() {
+    // TODO probar esta
+    CARRION_ANTS("Carrion Ants", Color.BLACK, 2, 2) { public Card createCardOfThisType() {
     	List<Attribute> attributes = new LinkedList<Attribute>();
 		attributes = Creature.getDefaultCreatureAttributes();
 		return new CreatureCard(CardType.CARRION_ANTS, attributes, 1, 1,
-				new ActivatedPermanentAbility() {
+				new PermanentAbility() {
 
 					@Override
 					public void executeOnActivation() {
-						// TODO request pagar 1 de mana colorless, then {
+						this.requestAbilityManaPayment(Color.COLORLESS, 0, 1, "Pay 1 colorless mana");
+					}
+					
+					@Override
+					public void executeIfManaPayed() {
 						AutomaticLastingEffect newEffect = new OneTurnStatModifier(this, 1, 1);
 						this.getSourcePermanent().applyLastingEffect(newEffect);
 					}
 		});
-    } },*/
+    } },
     
     CRAW_WURM("Craw Wurm", Color.GREEN, 2, 4) { public Card createCardOfThisType() {
     	List<Attribute> attributes = new LinkedList<Attribute>();
@@ -467,19 +472,25 @@ public enum CardType {
 		});
     } },	
     
-    /*FROZEN_SHADE("Frozen Shade", Color.BLACK, 1, 2) { public Card createCardOfThisType() {
+    //TODO probar esta
+    FROZEN_SHADE("Frozen Shade", Color.BLACK, 1, 2) { public Card createCardOfThisType() {
     	List<Attribute> attributes = new LinkedList<Attribute>();
         attributes = Creature.getDefaultCreatureAttributes();
         return new CreatureCard(CardType.FROZEN_SHADE, attributes, 0, 1, 
-        		new ActivatedPermanentAbility() {
+        		new PermanentAbility() {
 
 					@Override
 					public void executeOnActivation() {
-						LastingEffect newEffect = new OneTurnStatModifier(this, 1, 1);
+						this.requestAbilityManaPayment(Color.BLACK, 1, 0, "Pay 1 black mana");
+					}
+					
+					@Override
+					public void executeIfManaPayed() {
+						AutomaticLastingEffect newEffect = new OneTurnStatModifier(this, 1, 1);
 						this.getSourcePermanent().applyLastingEffect(newEffect);
 					}
         });
-    } },	*/
+    } },
     
     /*GRANITE_GARGOYLE("Granite Gargoyle", Color.RED, 1, 2) { public Card createCardOfThisType() {
     	List<Attribute> attributes = new LinkedList<Attribute>();
@@ -1301,16 +1312,16 @@ public enum CardType {
 		});
     } },
     
-    /*TERROR("Terror", Color.BLACK, 1, 1) { public Card createCardOfThisType() {
+    /*//TODO probar esta
+    TERROR("Terror", Color.BLACK, 1, 1) { public Card createCardOfThisType() {
     	return new InstantCard(CardType.TERROR,
 				new SpellAbility() {
 
 					private Creature target;
 
-
 					@Override
-					public void sendToStack() {
-						gameStack.addStackObject(this);
+					public void proceedToSelectCastingTarget() {
+						
 					}
 
 					@Override
@@ -1321,7 +1332,7 @@ public enum CardType {
 					}
 
 		});
-    } },	*/
+    } }, */
     
     THE_RACK("The Rack", Color.COLORLESS, 0, 1) { public Card createCardOfThisType() {
     	return new ArtifactCard(CardType.THE_RACK,
@@ -1396,7 +1407,7 @@ public enum CardType {
 		return new CreatureCard(CardType.VODALIAN_SOLDIERS, attributes, 1, 2, new DefaultCreatureAbility());
 	} },
     
-    /*WALL_OF_FIRE("Wall of Fire", Color.RED, 2, 1) { public Card createCardOfThisType() {
+    /* WALL_OF_FIRE("Wall of Fire", Color.RED, 2, 1) { public Card createCardOfThisType() {
     	List<Attribute> attributes = new LinkedList<Attribute>();
 		attributes = Creature.getDefaultCreatureAttributes();
 		attributes.add(Attribute.WALL);
