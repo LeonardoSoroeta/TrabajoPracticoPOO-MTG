@@ -87,6 +87,7 @@ public class Creature extends Permanent implements DamageTaking {
 	 */
 	public static List<Attribute> getDefaultCreatureAttributes() {
 		List<Attribute> attributes = new LinkedList<Attribute>();
+		attributes.add(Attribute.SUMMONING_SICKNESS);
 		attributes.add(Attribute.UNTAPS_DURING_UPKEEP);
 		attributes.add(Attribute.CAN_ATTACK);
 		attributes.add(Attribute.CAN_BLOCK);
