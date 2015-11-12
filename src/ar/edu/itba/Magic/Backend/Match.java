@@ -29,7 +29,7 @@ public class Match {
 	
 	private Player player1;
 	private Player player2;
-	private Player turnOwner;
+	private Player turnOwner = player1;
 	private Player activePlayer;
 	private Phase currentPhase;
 	private MatchState matchState = MatchState.GAME_OVER;
