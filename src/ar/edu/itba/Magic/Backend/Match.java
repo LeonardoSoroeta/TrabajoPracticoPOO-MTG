@@ -526,7 +526,7 @@ public class Match {
 	
 	/** Gets the player currently playing */
 	public int getPlayerPlaying(){
-		if( this.activePlayer.equals(player1))
+		if( this.getTurnOwner().equals(player1))
 			return 1;
 		else
 			return 2;
