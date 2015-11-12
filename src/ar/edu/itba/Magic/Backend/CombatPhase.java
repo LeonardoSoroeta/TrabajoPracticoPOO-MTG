@@ -93,36 +93,49 @@ public class CombatPhase {
 	private void declareBlockers() {
 		
 		if(blockingPhase.equals(BlockingPhase.SELECTING_BLOCKERS)) {
-			blocker = (Creature)Match.getMatch().getSelectedTarget();
-			if(blockers.contains(blocker)) {
-				Match.getMatch().awaitBlockerSelection("You already selected this blocker. Select again: ");
-			} else if(!blocker.containsAttribute(Attribute.CAN_BLOCK)) {
-				Match.getMatch().awaitBlockerSelection("Selected creature cannot block. Select again: ");
-			} else if(blocker.isTapped()) {
-				Match.getMatch().awaitBlockerSelection("Selected creature is tapped and cannot block. Select again: ");
+			Permanent permanent;
+			permanent = (Permanent)Match.getMatch().getSelectedTarget();
+			
+			if(!(permanent instanceof Creature)) {
+				Match.getMatch().awaitBlockerSelection("Select a creature blocker: ");
 			} else {
-				blockingPhase = BlockingPhase.SELECTING_ATTACKERS_TO_BLOCK;
-				Match.getMatch().awaitAttackerToBlockSelection("Select an attacker to block with this creature: ");
+				blocker = (Creature)permanent;
+				if(blockers.contains(blocker)) {
+					Match.getMatch().awaitBlockerSelection("You already selected this blocker. Select again: ");
+				} else if(!blocker.containsAttribute(Attribute.CAN_BLOCK)) {
+					Match.getMatch().awaitBlockerSelection("Selected creature cannot block. Select again: ");
+				} else if(blocker.isTapped()) {
+					Match.getMatch().awaitBlockerSelection("Selected creature is tapped and cannot block. Select again: ");
+				} else {
+					blockingPhase = BlockingPhase.SELECTING_ATTACKERS_TO_BLOCK;
+					Match.getMatch().awaitAttackerToBlockSelection("Select an attacker to block with this creature: ");
+				}
 			}
 			
 		} else if(blockingPhase.equals(BlockingPhase.SELECTING_ATTACKERS_TO_BLOCK)) {
-			attackerToBlock = (Creature)Match.getMatch().getSelectedTarget();
-			if(this.attackerLandwalks(attackerToBlock)) {
-				Match.getMatch().awaitAttackerToBlockSelection("Selected attacker landwalks. Select another: ");
-			} else if(creaturePairs.containsKey(attackerToBlock)) {
-				Match.getMatch().awaitAttackerToBlockSelection("Selected attacker is already being blocked. Select another: ");
-			} else if(attackerToBlock.containsAttribute(Attribute.FLYING)) {
-				if(!blocker.containsAttribute(Attribute.FLYING)) {
-					Match.getMatch().awaitAttackerToBlockSelection("Selected attacker flies. Select another: ");
-				}
+			Permanent permanent;
+			permanent = (Permanent)Match.getMatch().getSelectedTarget();
+			
+			if(!(permanent instanceof Creature)) {
+				Match.getMatch().awaitBlockerSelection("Select a creature blocker: ");
 			} else {
-				blockers.add(blocker);
-				creaturePairs.put(attackerToBlock, blocker);
-				blockingPhase = BlockingPhase.SELECTING_BLOCKERS;
-				Match.getMatch().awaitBlockerSelection("Select a blocker: ");
+				attackerToBlock = (Creature)permanent;
+				if(this.attackerLandwalks(attackerToBlock)) {
+					Match.getMatch().awaitAttackerToBlockSelection("Selected attacker landwalks. Select another: ");
+				} else if(creaturePairs.containsKey(attackerToBlock)) {
+					Match.getMatch().awaitAttackerToBlockSelection("Selected attacker is already being blocked. Select another: ");
+				} else if(attackerToBlock.containsAttribute(Attribute.FLYING)) {
+					if(!blocker.containsAttribute(Attribute.FLYING)) {
+						Match.getMatch().awaitAttackerToBlockSelection("Selected attacker flies. Select another: ");
+					}
+				} else {
+					blockers.add(blocker);
+					creaturePairs.put(attackerToBlock, blocker);
+					blockingPhase = BlockingPhase.SELECTING_BLOCKERS;
+					Match.getMatch().awaitBlockerSelection("Select a blocker: ");
+				}
 			}
 		}
-
 	}
 	
 	public void cancelAttackerToBlockSelection() {
