@@ -33,13 +33,13 @@ public class StartingPhase {
 	}
 
 	public void playerSelectedYes() {
-			Match.getMatch().setTurnOwner(Match.getMatch().getActivePlayer());
-			this.finish();
+		Match.getMatch().setTurnOwner(Match.getMatch().getActivePlayer());
+		this.finish();
 	}
 	
 	public void playerSelectedNo() {
-			Match.getMatch().setActivePlayer(Match.getMatch().getOpposingPlayerFrom(Match.getMatch().getActivePlayer()));
-			Match.getMatch().setTurnOwner(Match.getMatch().getActivePlayer());
-			this.finish();
+		Match.getMatch().setActivePlayer(Match.getMatch().getOpposingPlayerFrom(Match.getMatch().getActivePlayer()));
+		Match.getMatch().setTurnOwner(Match.getMatch().getActivePlayer());
+		this.finish();
 	}
 }
