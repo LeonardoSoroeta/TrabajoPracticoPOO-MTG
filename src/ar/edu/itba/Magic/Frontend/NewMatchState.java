@@ -168,12 +168,10 @@ public class NewMatchState extends BasicGameState {
 		if (match.getMatchState().equals(MatchState.AWAITING_STARTING_PHASE_YES_OR_NO_CONFIRMATION)){
 			if(input.isKeyPressed(input.KEY_Y)){
 			match.playerSelectedYes();
-			System.out.println("YYESSSS");
 			match.update();
 			}
 			if(input.isKeyPressed(input.KEY_N)){
 				match.playerSelectedNo();
-				System.out.println("NNOOOOOOO");
 				match.update();
 				}
 			
@@ -187,11 +185,9 @@ public class NewMatchState extends BasicGameState {
 		if(movePermanentpl1.mouseOver(input)){
 		if(input.isKeyPressed(input.KEY_LEFT)){
 			stpermanentpl1.updateLeft();
-			System.out.println("updateo");
 		}
 		
 			if(input.isKeyPressed(input.KEY_RIGHT)){
-				System.out.println("updateo");
 				stpermanentpl1.updateRight();
 			}
 			
@@ -222,7 +218,6 @@ public class NewMatchState extends BasicGameState {
 				for ( Color color: Color.values()){
 					if (mananumberPL1.getNumber().get(color).get(0).mouseLClicked(input)){
 						match.returnSelectedTarget(color);
-						System.out.println(" P1 TE ESTOY DANDO MANA DE COLOR " + color.toString());
 						match.update();
 					}
 				}
@@ -232,7 +227,6 @@ public class NewMatchState extends BasicGameState {
 				for ( Color color: Color.values()){
 					if (mananumberPL2.getNumber().get(color).get(0).mouseLClicked(input)){	
 					match.returnSelectedTarget(color);
-					System.out.println(" P2 TE ESTOY DANDO MANA DE COLOR " + color.toString());
 					match.update();
 					}
 				}
@@ -240,7 +234,6 @@ public class NewMatchState extends BasicGameState {
 			
 			if (cancelbutton.mouseLClicked(input)){
 				match.cancelManaRequest();
-				System.out.println("DONE MANA" );
 				match.update();
 			
 			}
@@ -321,7 +314,6 @@ public class NewMatchState extends BasicGameState {
 				for(Permanent permanent: player1.getPermanentsInPlay()){
 				
 					if( decklistpl1.getTinyCard(permanent).mouseLClicked(input)){
-						System.out.println(" SELECCIONA ATACKER P1"+permanent.getSourceCard().getCardType().getCardName());
 						match.returnSelectedTarget(permanent);
 						match.update();
 					}
@@ -332,7 +324,6 @@ public class NewMatchState extends BasicGameState {
 				for(Permanent permanent: player2.getPermanentsInPlay()){
 				
 					if( decklistpl2.getTinyCard(permanent).mouseLClicked(input)){
-						System.out.println("SELECCIONA ATACKER P2" +permanent.getSourceCard().getCardType().getCardName());
 						match.returnSelectedTarget(permanent);
 						match.update();
 					}
@@ -341,7 +332,6 @@ public class NewMatchState extends BasicGameState {
 			
 			if (cancelbutton.mouseLClicked(input) && match.getMatchState().equals(MatchState.AWAITING_ATTACKER_SELECTION)){
 				match.playerDoneClicking();
-				System.out.println("DONE SELECCIONA ATACKER, permanents:" +  player1.getPermanentsInPlay().toString() + " ATACKERS" + match.getCombatPhase().getAttackers().toString());
 				match.update();
 			}
 		}
