@@ -83,7 +83,7 @@ public class GameStack {
 		return gameStackObjects;
 	}
 	
-	public LinkedList<GameStackObject> getPlayer2GameStackObjects() {
+	public LinkedList<GameStackObject> getPlayer2StackObjects() {
 		LinkedList<GameStackObject> gameStackObjects = new LinkedList<GameStackObject>();
 		
 		for(GameStackObject each : gameStack) {
