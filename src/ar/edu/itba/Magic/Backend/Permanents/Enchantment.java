@@ -22,7 +22,7 @@ public class Enchantment extends Permanent {
 	 */
 	private static List<Attribute> getDefaultEnchantmentAttributes() {
 		List<Attribute> attributes = new LinkedList<Attribute>();
-			//TODO agregar
+		attributes.add(Attribute.UNTAPS_DURING_UPKEEP);
 		
 		return attributes;
 	}

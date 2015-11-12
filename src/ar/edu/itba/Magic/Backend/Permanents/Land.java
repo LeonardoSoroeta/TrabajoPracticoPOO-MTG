@@ -16,7 +16,7 @@ public class Land extends Permanent {
 	
 	private static List<Attribute> getDefaultLandAttributes() {
 		List<Attribute> attributes = new LinkedList<Attribute>();
-			// TODO agregar
+		attributes.add(Attribute.UNTAPS_DURING_UPKEEP);
 		
 		return attributes;
 	}

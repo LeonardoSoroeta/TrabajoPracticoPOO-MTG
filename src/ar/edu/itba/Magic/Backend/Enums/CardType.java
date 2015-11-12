@@ -184,19 +184,22 @@ public enum CardType {
         return new CreatureCard(CardType.BIRD_MAIDEN, attributes, 1, 2, new DefaultCreatureAbility());
     } },	
     
-    /*BIRDS_OF_PARADISE("Birds of Paradise", Color.GREEN, 1, 0) { public Card createCardOfThisType() {
+    BIRDS_OF_PARADISE("Birds of Paradise", Color.GREEN, 1, 0) { public Card createCardOfThisType() {
     	List<Attribute> attributes = new LinkedList<Attribute>();
         attributes = Creature.getDefaultCreatureAttributes();
         attributes.add(Attribute.FLYING);
         return new CreatureCard(CardType.BIRDS_OF_PARADISE, attributes, 0, 1,
-        		new ActivatedPermanentAbility() {
+        		new PermanentAbility() {
 
 					@Override
 					public void executeOnActivation() {
-						// TODO if not tapped: add one mana of player's choice, tap
+						if(!this.getSourcePermanent().isTapped()) {
+							this.getSourcePermanent().tap();
+							this.getSourcePermanent().getController().getManaPool().addOneManaOfThisColor(Color.GREEN);
+						}
 					}
         });
-    } },	*/
+    } },
     
     /*BLACK_LOTUS("Black Lotus", Color.COLORLESS, 0, 0) { public Card createCardOfThisType() {
     	return new ArtifactCard(CardType.BLACK_LOTUS,

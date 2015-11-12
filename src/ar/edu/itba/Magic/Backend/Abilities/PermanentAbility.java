@@ -241,7 +241,7 @@ public abstract class PermanentAbility extends Ability {
 	
 	/** Must override this method on Permanents that contain an activated ability. */
 	public void executeOnActivation() {
-		
+		Match.getMatch().newMessageToPlayer("This permanent does not have an activated ability.");
 	}
 
 }

@@ -432,6 +432,10 @@ public class Match {
 		selectedTarget = null;
 	}
 	
+	public void newMessageToPlayer(String message) {
+		this.messageToPlayer = message;
+	}
+	
 	public void setCurrentPhase(Phase phase) {
 		this.currentPhase = phase;
 	}
