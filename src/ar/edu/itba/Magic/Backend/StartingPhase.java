@@ -6,6 +6,10 @@ import ar.edu.itba.Magic.Backend.Cards.Card;
 import ar.edu.itba.Magic.Backend.Cards.LandCard;
 import ar.edu.itba.Magic.Backend.Enums.Phase;
 
+/** 
+ * The starting phase is responsible for asking which player goes first, and offering players the chance to draw 
+ * another hand if their first hand did not contain any lands.
+ */
 public class StartingPhase {
 	
 	InnerPhase innerPhase = InnerPhase.ASKING_WHO_GOES_FIRST;

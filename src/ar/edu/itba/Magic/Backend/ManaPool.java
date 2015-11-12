@@ -1,6 +1,7 @@
 package ar.edu.itba.Magic.Backend;
 
 import ar.edu.itba.Magic.Backend.Enums.Color;
+import ar.edu.itba.Magic.Backend.Exceptions.NoAvailableManaException;
 
 //import ar.edu.itba.Magic.Backend.Exceptions.NoAvailableManaException;
 
@@ -36,10 +37,10 @@ public class ManaPool {
 		manapool.put(color, manapool.get(color)+1);
 	}
 	
-	public void removeOneManaOfThisColor(Color color) /*throws NoAvailableManaException*/ {
+	public void removeOneManaOfThisColor(Color color) {
 		if(containsOneManaOfThisColor(color))
 			manapool.put(color, manapool.get(color)-1);
-		//else throw new NoAvailableManaException();
+		else throw new NoAvailableManaException();
 	}
 
 	public boolean containsOneManaOfThisColor(Color color) {
