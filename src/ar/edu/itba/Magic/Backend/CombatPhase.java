@@ -6,16 +6,12 @@ import java.util.Map;
 
 import ar.edu.itba.Magic.Backend.Enums.Attribute;
 import ar.edu.itba.Magic.Backend.Enums.CardType;
-import ar.edu.itba.Magic.Backend.Enums.Event;
 import ar.edu.itba.Magic.Backend.Permanents.Creature;
 import ar.edu.itba.Magic.Backend.Permanents.Land;
 
 public class CombatPhase {
 	
 	private static CombatPhase self = new CombatPhase();
-	
-	Match match = Match.getMatch();
-	GameEventHandler eventHandler = GameEventHandler.getGameEventHandler();
 	
 	private LinkedList<Creature> attackers = new LinkedList<Creature>();
 	private LinkedList<Creature> blockers = new LinkedList<Creature>();
@@ -35,7 +31,6 @@ public class CombatPhase {
 	}
 	
 	public void start() {
-		eventHandler.triggerGameEvent(new GameEvent(Event.COMBAT_PHASE, match.getTurnOwner()));	
 		this.combatState = CombatState.INITIAL_STATE;
 		this.resumeExecution();
 	}
@@ -43,7 +38,7 @@ public class CombatPhase {
 	public void resumeExecution() {
 		if(combatState.equals(CombatState.INITIAL_STATE)) {
 			this.combatState = CombatState.DECLARING_ATTACKERS;
-			match.awaitAttackerSelection("Select an attacker:");
+			Match.getMatch().awaitAttackerSelection("Select an attacker:");
 		} else if(combatState.equals(CombatState.DECLARING_ATTACKERS)) {
 			this.declareAttackers();
 		} else if(combatState.equals(CombatState.DECLARING_BLOCKERS)) {
@@ -55,68 +50,67 @@ public class CombatPhase {
 	
 	public void playerDoneClicking() {
 		if(combatState.equals(CombatState.DECLARING_ATTACKERS) && attackers.isEmpty()) {
-			eventHandler.triggerGameEvent(new GameEvent(Event.END_OF_COMBAT_PHASE,  match.getTurnOwner()));
 			this.resetData();
-			match.executeNextPhase();
+			Match.getMatch().executeNextPhase();
 		} else if(combatState.equals(CombatState.DECLARING_ATTACKERS)) {
 			combatState = CombatState.DECLARING_BLOCKERS;
-			match.setActivePlayer(match.getOpposingPlayerFrom(match.getActivePlayer()));
-			match.awaitBlockerSelection("Select a blocker: ");
+			Match.getMatch().setActivePlayer(Match.getMatch().getOpposingPlayerFrom(Match.getMatch().getActivePlayer()));
+			Match.getMatch().awaitBlockerSelection("Select a blocker: ");
 		} else if(combatState.equals(CombatState.DECLARING_BLOCKERS)) {
 			combatState = CombatState.DEALING_DAMAGE;
 		} 
 	}
 	
 	private void declareAttackers() {
-		Creature attacker = (Creature)match.getSelectedTarget();
+		Creature attacker = (Creature)Match.getMatch().getSelectedTarget();
 		
 		if(attackers.contains(attacker)) {
-			match.awaitAttackerSelection("You already selected this attacker. Select again: ");
+			Match.getMatch().awaitAttackerSelection("You already selected this attacker. Select again: ");
 		} else if(attacker.containsAttribute(Attribute.SUMMONING_SICKNESS)) {
-			match.awaitAttackerSelection("Selected creature contains summoning sickness. Select again: ");
+			Match.getMatch().awaitAttackerSelection("Selected creature contains summoning sickness. Select again: ");
 		} else if(!attacker.containsAttribute(Attribute.CAN_ATTACK)) {
-			match.awaitAttackerSelection("Selected creature cannot attack. Select again: ");
+			Match.getMatch().awaitAttackerSelection("Selected creature cannot attack. Select again: ");
 		} else if(attacker.isTapped()) {
-			match.awaitAttackerSelection("Selected creature is tapped and cannot attack. Select again: ");
+			Match.getMatch().awaitAttackerSelection("Selected creature is tapped and cannot attack. Select again: ");
 		} else {
 			if(attacker.containsAttribute(Attribute.TAPS_ON_ATTACK)) {
 				attacker.tap();
 			}
 			attackers.add(attacker);
-			match.awaitAttackerSelection("Select another attacker:");
+			Match.getMatch().awaitAttackerSelection("Select another attacker:");
 		}
 	}
 	
 	private void declareBlockers() {
 		
 		if(blockingPhase.equals(BlockingPhase.SELECTING_BLOCKERS)) {
-			blocker = (Creature)match.getSelectedTarget();
+			blocker = (Creature)Match.getMatch().getSelectedTarget();
 			if(blockers.contains(blocker)) {
-				match.awaitBlockerSelection("You already selected this blocker. Select again: ");
+				Match.getMatch().awaitBlockerSelection("You already selected this blocker. Select again: ");
 			} else if(!blocker.containsAttribute(Attribute.CAN_BLOCK)) {
-				match.awaitBlockerSelection("Selected creature cannot block. Select again: ");
+				Match.getMatch().awaitBlockerSelection("Selected creature cannot block. Select again: ");
 			} else if(blocker.isTapped()) {
-				match.awaitBlockerSelection("Selected creature is tapped and cannot block. Select again: ");
+				Match.getMatch().awaitBlockerSelection("Selected creature is tapped and cannot block. Select again: ");
 			} else {
 				blockingPhase = BlockingPhase.SELECTING_ATTACKERS_TO_BLOCK;
-				match.awaitAttackerToBlockSelection("Select an attacker to block with this creature: ");
+				Match.getMatch().awaitAttackerToBlockSelection("Select an attacker to block with this creature: ");
 			}
 			
 		} else if(blockingPhase.equals(BlockingPhase.SELECTING_ATTACKERS_TO_BLOCK)) {
-			attackerToBlock = (Creature)match.getSelectedTarget();
+			attackerToBlock = (Creature)Match.getMatch().getSelectedTarget();
 			if(this.attackerLandwalks(attackerToBlock)) {
-				match.awaitAttackerToBlockSelection("Selected attacker landwalks. Select another: ");
+				Match.getMatch().awaitAttackerToBlockSelection("Selected attacker landwalks. Select another: ");
 			} else if(creaturePairs.containsKey(attackerToBlock)) {
-				match.awaitAttackerToBlockSelection("Selected attacker is already being blocked. Select another: ");
+				Match.getMatch().awaitAttackerToBlockSelection("Selected attacker is already being blocked. Select another: ");
 			} else if(attackerToBlock.containsAttribute(Attribute.FLYING)) {
 				if(!blocker.containsAttribute(Attribute.FLYING)) {
-					match.awaitAttackerToBlockSelection("Selected attacker flies. Select another: ");
+					Match.getMatch().awaitAttackerToBlockSelection("Selected attacker flies. Select another: ");
 				}
 			} else {
 				blockers.add(blocker);
 				creaturePairs.put(attackerToBlock, blocker);
 				blockingPhase = BlockingPhase.SELECTING_BLOCKERS;
-				match.awaitBlockerSelection("Select a blocker: ");
+				Match.getMatch().awaitBlockerSelection("Select a blocker: ");
 			}
 		}
 
@@ -124,7 +118,7 @@ public class CombatPhase {
 	
 	public void cancelAttackerToBlockSelection() {
 		blockingPhase = BlockingPhase.SELECTING_BLOCKERS;
-		match.awaitBlockerSelection("Select blockers: ");
+		Match.getMatch().awaitBlockerSelection("Select blockers: ");
 	}
 	
 	private void dealDamage() {
@@ -158,14 +152,13 @@ public class CombatPhase {
 		
 		for(Creature attacker : attackers) {
 			if(!creaturePairs.containsKey(attacker)) {
-				attacker.dealDamageTo(match.getOpposingPlayerFrom(match.getTurnOwner()));
+				attacker.dealDamageTo(Match.getMatch().getOpposingPlayerFrom(Match.getMatch().getTurnOwner()));
 			}
 		}
 		
-		eventHandler.triggerGameEvent(new GameEvent(Event.END_OF_COMBAT_PHASE,  match.getTurnOwner()));
 		this.resetData();
-		match.setActivePlayer(match.getTurnOwner());
-		match.executeNextPhase();
+		Match.getMatch().setActivePlayer(Match.getMatch().getTurnOwner());
+		Match.getMatch().executeNextPhase();
 	}
 	
 	public LinkedList<Creature> getAttackers() {
@@ -184,6 +177,10 @@ public class CombatPhase {
 		return blockers;
 	}
 	
+	public HashMap<Creature, Creature> getAttackerBlockerPairs() {
+		return creaturePairs;
+	}
+	
 	public void trample(Creature attacker, Creature blocker) {
 		if(attacker.containsAttribute(Attribute.TRAMPLE)) {
 			if(attacker.getAttack() > blocker.getDefense())	{
@@ -193,7 +190,7 @@ public class CombatPhase {
 	}
 	
 	private boolean attackerLandwalks(Creature attacker) {
-		LinkedList<Land> lands = match.getOpposingPlayerFrom(match.getTurnOwner()).getLands();
+		LinkedList<Land> lands = Match.getMatch().getOpposingPlayerFrom(Match.getMatch().getTurnOwner()).getLands();
 		
 		if(attacker.containsAttribute(Attribute.SWAMPWALK)) {
 			for(Land each : lands) {

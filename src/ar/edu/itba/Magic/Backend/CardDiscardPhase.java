@@ -6,7 +6,7 @@ import ar.edu.itba.Magic.Backend.Enums.Event;
 public class CardDiscardPhase {
 	
 	private static CardDiscardPhase self = new CardDiscardPhase();
-	Match match = Match.getMatch();
+	
 	GameEventHandler eventHandler = GameEventHandler.getGameEventHandler();
 	
 	Object selectedTarget;
@@ -20,34 +20,36 @@ public class CardDiscardPhase {
 	}
 	
 	public void start() {
-		if(match.getTurnOwner().getHand().size() > 7) {
-			match.awaitCardToDiscardSelection("You have more than 7 cards in your hand. Select a card to discard: ");
+		if(Match.getMatch().getTurnOwner().getHand().size() > 7) {
+			Match.getMatch().awaitCardToDiscardSelection("You have more than 7 cards in your hand. Select a card to discard: ");
 		} else {
-			eventHandler.triggerGameEvent(new GameEvent(Event.END_OF_TURN, match.getTurnOwner()));
-			match.executeNextPhase();
+			eventHandler.triggerGameEvent(new GameEvent(Event.END_OF_TURN, Match.getMatch().getTurnOwner()));
+			Match.getMatch().executeNextPhase();
 		}
 	}
 	
 	public void resumeExecution() {
-		this.selectedTarget = match.getSelectedTarget();
-		match.getTurnOwner().discardCard((Card)selectedTarget);
+		this.selectedTarget = Match.getMatch().getSelectedTarget();
+		Match.getMatch().getTurnOwner().discardCard((Card)selectedTarget);
 		
-		if(match.getTurnOwner().getHand().size() > 7) {
-			match.awaitCardToDiscardSelection("You have more than 7 cards in your hand. Select a card to discard: ");
+		if(Match.getMatch().getTurnOwner().getHand().size() > 7) {
+			Match.getMatch().awaitCardToDiscardSelection("You have more than 7 cards in your hand. Select a card to discard: ");
 		} else {
 			this.manaBurnStep();
 		}
 	}
 	
 	public void manaBurnStep() {
-		if( match.getPlayer1().manaBurn() || match.getPlayer2().manaBurn()) {
-			match.giveManaBurnNotice();
+		if( Match.getMatch().getPlayer1().manaBurn() || Match.getMatch().getPlayer2().manaBurn()) {
+			Match.getMatch().giveManaBurnNotice();
+		} else {
+			this.finishCardDiscardPhase();
 		}
 	}
 
 	public void finishCardDiscardPhase() {
-		eventHandler.triggerGameEvent(new GameEvent(Event.END_OF_TURN, match.getTurnOwner()));
-		match.executeNextPhase();
+		eventHandler.triggerGameEvent(new GameEvent(Event.END_OF_TURN, Match.getMatch().getTurnOwner()));
+		Match.getMatch().executeNextPhase();
 	}
 	
 }

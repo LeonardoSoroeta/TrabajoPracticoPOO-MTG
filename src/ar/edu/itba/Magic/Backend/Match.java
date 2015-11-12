@@ -22,6 +22,7 @@ public class Match {
 	GameEventHandler gameEventHandler = GameEventHandler.getGameEventHandler();
 	CombatPhase combatPhase = CombatPhase.getCombatPhase();
 	CardDiscardPhase cardDiscardPhase = CardDiscardPhase.getCardDiscardPhase();
+	StartingPhase startingPhase = StartingPhase.getStartingPhase();
 	
 	private Player player1;
 	private Player player2;
@@ -34,6 +35,8 @@ public class Match {
 	private boolean landPlayedThisTurn;
 	private Ability targetRequestingAbility;
 	private Ability manaRequestingAbility;
+	private boolean playerSelectedYes;
+	private boolean playerSelectedNo;
 	private boolean playerDoneClicking;
 	private boolean targetSelectionCancelled;
 	private boolean manaPaymentCancelled;
@@ -55,7 +58,7 @@ public class Match {
 			} else {
 				this.start();
 			}
-			
+
 		} else if(matchState.equals(MatchState.AWAITING_MAIN_PHASE_ACTIONS)) {
 			if(playerDoneClicking == true) {
 				this.playerDoneClicking = false;
@@ -138,21 +141,34 @@ public class Match {
 				cardDiscardPhase.finishCardDiscardPhase();
 			}
 			
-		} 
+		} else if(matchState.equals(MatchState.AWAITING_STARTING_PHASE_YES_OR_NO_CONFIRMATION)) {
+			if(playerSelectedYes) {
+				
+			} else if(playerSelectedNo) {
+				
+			}
+		
+		} else if(matchState.equals(MatchState.AWAITING_SAVE_GAME_YES_OR_NO_CONFIRMATION)) {
+			if(playerSelectedYes) {
+				
+			} else if(playerSelectedNo) {
+				
+			}
+		}
+		
 	}
 	
 	private void start() {		
 		this.activePlayer = this.randomPlayer();
 		
-		this.player1.getDeck().shuffleDeck();
-		this.player2.getDeck().shuffleDeck();
-		this.player1.drawCards(7);
-		this.player2.drawCards(7);
+		this.getPlayer1().getDeck().shuffleDeck();
+		this.getPlayer2().getDeck().shuffleDeck();
+		this.getPlayer1().drawCards(7);
+		this.getPlayer2().drawCards(7);
 		
-		//TODO roll dice (see who chooses who goes first), shuffle decks, draw cards, players can mulligan
-
 		this.currentPhase = Phase.BEGINNING_PHASE;
 		this.beginningPhase();
+		//startingPhase.start();
 	}
 	
 	public void beginningPhase() {
@@ -336,6 +352,20 @@ public class Match {
 		this.messageToPlayer = messageToPlayer;
 	}
 	
+	public void startingPhaseYesOrNoPrompt(String messageToPlayer) {
+		this.playerSelectedNo = false;
+		this.playerSelectedYes = false;
+		this.matchState = MatchState.AWAITING_STARTING_PHASE_YES_OR_NO_CONFIRMATION;
+		this.messageToPlayer = messageToPlayer;
+	}
+	
+	public void savingPhaseYesOrNoPrompt(String messageToPlayer) {
+		this.playerSelectedNo = false;
+		this.playerSelectedYes = false;
+		this.matchState = MatchState.AWAITING_SAVE_GAME_YES_OR_NO_CONFIRMATION;
+		this.messageToPlayer = messageToPlayer;
+	}
+	
 	public void giveManaBurnNotice() {
 		this.playerDoneClicking = false;
 		this.matchState = MatchState.AWAITING_MANA_BURN_ACKNOWLEDGEMENT;
@@ -378,6 +408,7 @@ public class Match {
 		this.resetData();
 		gameStack.resetData();
 		combatPhase.resetData();
+		startingPhase.resetData();
 		gameEventHandler.resetData();
 	}
 	
@@ -400,6 +431,10 @@ public class Match {
 		selectedTarget = null;
 	}
 	
+	public void setCurrentPhase(Phase phase) {
+		this.currentPhase = phase;
+	}
+	
 	public void setPreviousMatchState(MatchState matchState) {
 		this.previousMatchState = matchState;
 	}
@@ -414,6 +449,10 @@ public class Match {
 	
 	public MatchState getMatchState() {
 		return this.matchState;
+	}
+	
+	public CombatPhase getCombatPhase() {
+		return combatPhase;
 	}
 
 	/* ******************************************************************************************************** */
@@ -434,6 +473,14 @@ public class Match {
 	
 	public String getMessageToPlayer() {
 		return this.messageToPlayer;
+	}
+	
+	public void playerSelectedYes() {
+		this.playerSelectedYes = true;
+	}
+	
+	public void playerSelectedNo() {
+		this.playerSelectedNo = true;
 	}
 	
 	public void returnSelectedTarget(Object selectedTarget) {
