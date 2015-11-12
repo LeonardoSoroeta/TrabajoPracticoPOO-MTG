@@ -427,7 +427,6 @@ public class Match {
 		this.resetData();
 		gameStack.resetData();
 		combatPhase.resetData();
-		startingPhase.resetData();
 		gameEventHandler.resetData();
 	}
 	
