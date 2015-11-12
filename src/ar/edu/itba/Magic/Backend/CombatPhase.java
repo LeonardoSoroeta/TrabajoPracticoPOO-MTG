@@ -128,6 +128,11 @@ public class CombatPhase {
 				} else if(attackerToBlock.containsAttribute(Attribute.FLYING)) {
 					if(!blocker.containsAttribute(Attribute.FLYING)) {
 						Match.getMatch().awaitAttackerToBlockSelection("Selected attacker flies. Select another: ");
+					} else {
+						blockers.add(blocker);
+						creaturePairs.put(attackerToBlock, blocker);
+						blockingPhase = BlockingPhase.SELECTING_BLOCKERS;
+						Match.getMatch().awaitBlockerSelection("Select a blocker: ");
 					}
 				} else {
 					blockers.add(blocker);
