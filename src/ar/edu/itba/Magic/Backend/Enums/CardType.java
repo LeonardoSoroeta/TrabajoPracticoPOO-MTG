@@ -212,7 +212,7 @@ public enum CardType {
 						this.getSourcePermanent().destroy();
 					}
         });
-    } },	*/			
+    } },	*/
     
     /*BLIGHT("Blight", Color.BLACK, 2, 0) { public Card createCardOfThisType() {
     	return new EnchantmentCard(CardType.BLIGHT,
@@ -361,10 +361,9 @@ public enum CardType {
 				new SpellAbility() {
 					Artifact target;
 
-
 					@Override
-					public void sendToStack() {
-						gameStack.addStackObject(this);
+					public void proceedToSelectCastingTarget() {
+						
 					}
 
 					@Override
@@ -532,7 +531,7 @@ public enum CardType {
     	List<Attribute> attributes = new LinkedList<Attribute>();
 		attributes = Creature.getDefaultCreatureAttributes();
 		return new CreatureCard(CardType.DWARVEN_DEMOLITION_TEAM, attributes, 1, 1, 
-				new ActivatedPermanentAbility() {
+				new PermanentAbility() {
 
 					@Override
 					public void executeOnActivation() {
@@ -542,7 +541,7 @@ public enum CardType {
 					}
 			
 		});
-    } },	*/
+    } },*/
     
     CLEANSE("Cleanse", Color.WHITE, 2, 2) { public Card createCardOfThisType() {
     	return new SorceryCard(CardType.CLEANSE,
@@ -1835,22 +1834,26 @@ public enum CardType {
 		return new CreatureCard(CardType.WALL_OF_SWORDS, attributes, 3, 5, new DefaultCreatureAbility());
     } },
     
-    /*WALL_OF_WATER("Wall of Water", Color.BLUE, 2, 1) { public Card createCardOfThisType() {
+    WALL_OF_WATER("Wall of Water", Color.BLUE, 2, 1) { public Card createCardOfThisType() {
     	List<Attribute> attributes = new LinkedList<Attribute>();
 		attributes = Creature.getDefaultCreatureAttributes();
 		attributes.add(Attribute.WALL);
 		attributes.remove(Attribute.CAN_ATTACK);
 		return new CreatureCard(CardType.WALL_OF_WATER, attributes, 0, 5, 
-				new ActivatedPermanentAbility() {
+				new PermanentAbility() {
 
 					@Override
 					public void executeOnActivation() {
-						// TODO pay 1 blue mana, then
-						LastingEffect newEffect = new OneTurnStatModifier(this, 1, 0);
+						this.requestAbilityManaPayment(Color.BLUE, 1, 0, "Pay 1 blue mana: ");
+					}
+					
+					@Override
+					public void executeIfManaPayed() {
+						AutomaticLastingEffect newEffect = new OneTurnStatModifier(this, 1, 0);
 						this.getSourcePermanent().applyLastingEffect(newEffect);
 					}
 		});
-    } },	*/
+    } },	
     
     WALL_OF_WOOD("Wall of Wood", Color.GREEN, 1, 0) { public Card createCardOfThisType() {
     	List<Attribute> attributes = new LinkedList<Attribute>();

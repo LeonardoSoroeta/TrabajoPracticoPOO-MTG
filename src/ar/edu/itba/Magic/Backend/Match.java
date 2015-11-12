@@ -250,6 +250,10 @@ public class Match {
 		this.activePlayer = activePlayer;
 	}
 	
+	public void setTurnOwner(Player player) {
+		this.turnOwner = player;
+	}
+	
 	public Player getTurnOwner() {
 		return this.turnOwner;
 	}

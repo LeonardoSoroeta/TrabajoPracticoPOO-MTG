@@ -128,13 +128,17 @@ public abstract class PermanentAbility extends Ability {
 	        this.setSourcePermanent(enchantment);
 	        enchantment.setController(sourceCard.getController());
 	        sourceCard.getController().removeCardFromHand(sourceCard);
+	        Match.getMatch().newMessageToPlayer("Main Phase: Cast spells, activate abilities.");
 	        enchantment.sendToStack();	
+	        
 		} else if(sourceCard instanceof ArtifactCard) {
 	        Artifact artifact = new Artifact(sourceCard, this);
 	        this.setSourcePermanent(artifact);
 	        artifact.setController(sourceCard.getController());
 	        sourceCard.getController().removeCardFromHand(sourceCard);
+	        Match.getMatch().newMessageToPlayer("Main Phase: Cast spells, activate abilities.");
 	        artifact.sendToStack();	
+	        
 		} else if(sourceCard instanceof CreatureCard) {
 			Integer attackPoints =  ((CreatureCard)sourceCard).getAttackPoints();
 			Integer defencePoints =  ((CreatureCard)sourceCard).getDefencePoints();
@@ -143,7 +147,9 @@ public abstract class PermanentAbility extends Ability {
 	        this.setSourcePermanent(creature);
 	        creature.setController(sourceCard.getController());
 	        sourceCard.getController().removeCardFromHand(sourceCard);
+	        Match.getMatch().newMessageToPlayer("Main Phase: Cast spells, activate abilities.");
 	        creature.sendToStack();	
+	        
 		} else if(sourceCard instanceof LandCard) {
             Land land = new Land(sourceCard, this);
             this.setSourcePermanent(land);
