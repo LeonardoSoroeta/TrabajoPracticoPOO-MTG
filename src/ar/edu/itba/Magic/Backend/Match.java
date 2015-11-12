@@ -175,6 +175,7 @@ public class Match {
 		gameEventHandler.triggerGameEvent(new GameEvent(Event.UNTAP_STEP, activePlayer));
 		this.activePlayer.untapDuringUnkeep();
 		this.activePlayer.removeAllSummoningSickness();
+		this.landPlayedThisTurn = false;
 		
 		gameEventHandler.triggerGameEvent(new GameEvent(Event.UPKEEP_STEP, activePlayer));
 
