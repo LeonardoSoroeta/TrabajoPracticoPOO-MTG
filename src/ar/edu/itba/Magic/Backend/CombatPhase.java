@@ -2,6 +2,7 @@ package ar.edu.itba.Magic.Backend;
 
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import ar.edu.itba.Magic.Backend.Enums.Attribute;
@@ -161,23 +162,23 @@ public class CombatPhase {
 		Match.getMatch().executeNextPhase();
 	}
 	
-	public LinkedList<Creature> getAttackers() {
-		LinkedList<Creature> attackers = new LinkedList<Creature>();
+	public List<Creature> getAttackers() {
+		List<Creature> attackers = new LinkedList<Creature>();
 		
 		attackers.addAll(this.attackers);
 		
 		return attackers;
 	}
 	
-	public LinkedList<Creature> getBlockers() {
-		LinkedList<Creature> blockers = new LinkedList<Creature>();
+	public List<Creature> getBlockers() {
+		List<Creature> blockers = new LinkedList<Creature>();
 		
 		blockers.addAll(this.blockers);
 		
 		return blockers;
 	}
 	
-	public HashMap<Creature, Creature> getAttackerBlockerPairs() {
+	public Map<Creature, Creature> getAttackerBlockerPairs() {
 		return creaturePairs;
 	}
 	
