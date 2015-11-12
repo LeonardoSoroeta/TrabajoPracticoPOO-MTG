@@ -160,7 +160,7 @@ public class Match {
 	
 	private void start() {		
 		this.activePlayer = this.randomPlayer();
-		
+		this.turnOwner= this.activePlayer;
 		this.getPlayer1().getDeck().shuffleDeck();
 		this.getPlayer2().getDeck().shuffleDeck();
 		this.getPlayer1().drawCards(7);

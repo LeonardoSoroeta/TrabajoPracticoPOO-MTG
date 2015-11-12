@@ -35,7 +35,7 @@ public class CardDiscardPhase {
 		if(Match.getMatch().getTurnOwner().getHand().size() > 7) {
 			Match.getMatch().awaitCardToDiscardSelection("You have more than 7 cards in your hand. Select a card to discard: ");
 		} else {
-			this.manaBurnStep();
+			this.finishCardDiscardPhase();
 		}
 	}
 	

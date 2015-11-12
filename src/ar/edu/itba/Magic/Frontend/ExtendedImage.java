@@ -11,7 +11,7 @@ import ar.edu.itba.Magic.Backend.Interfaces.Drawable;
  *  like input interaction
  */
 public class ExtendedImage extends Image implements Drawable {
-	private float x, y;
+	private float x, y, w, h;
 	
 	public ExtendedImage(Image other) {
 		super(other);
@@ -21,6 +21,8 @@ public class ExtendedImage extends Image implements Drawable {
 		super(ref);
 		this.x = x;
 		this.y = y;
+		this.w = this.getWidth();
+		this.h = this.getHeight();
 	}
 	
 	public ExtendedImage(String ref) throws SlickException {
@@ -52,6 +54,7 @@ public class ExtendedImage extends Image implements Drawable {
 	}
 	
 	public void drawScaled(float x, float y, float w, float h) {
+		
 		super.draw(x, y, w, h);
 	}
 	
@@ -63,6 +66,24 @@ public class ExtendedImage extends Image implements Drawable {
 		}
 		return false;
 	}
+	
+	public void draw(float x, float y, float w, float h){
+		super.draw(x, y, w, h);
+		update(x,y);
+		this.setWeight(w);
+		this.setHeight(h);
+		
+	}
+	
+	public boolean mouseOver(float x, float y,float w,float h) {
+		if(x >= this.x && y >= this.y) {
+			if(x <= this.x + w && y <= this.y + h) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	
 	/**
 	 * See if the mouse click is pressed over the image 
@@ -88,7 +109,7 @@ public class ExtendedImage extends Image implements Drawable {
 	 * See if the mouse is over the image 
 	 */
 	public boolean mouseOver(Input input) {
-		return mouseOver(input.getMouseX(), input.getMouseY());
+		return mouseOver(input.getMouseX(), input.getMouseY(), w, h);
 	}
 
 	public float getX() {
@@ -97,6 +118,17 @@ public class ExtendedImage extends Image implements Drawable {
 	
 	public float getY() {
 		return y;
+	}
+	
+	
+	
+	
+	public void setWeight(float w){
+		this.w = w;
+	}
+	
+	public void setHeight(float h){
+		this.h = h;
 	}
 	
 }
