@@ -142,9 +142,9 @@ public class Match {
 			
 		} else if(matchState.equals(MatchState.AWAITING_STARTING_PHASE_YES_OR_NO_CONFIRMATION)) {
 			if(playerSelectedYes) {
-				
+				startingPhase.playerSelectedYes();
 			} else if(playerSelectedNo) {
-				
+				startingPhase.playerSelectedNo();
 			}
 		
 		}
