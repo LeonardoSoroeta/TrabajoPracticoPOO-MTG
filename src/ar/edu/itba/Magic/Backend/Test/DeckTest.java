@@ -8,22 +8,28 @@ import ar.edu.itba.Magic.Backend.Match;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.NoSuchElementException;
+
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by Martin on 12/11/2015.
  */
 public class DeckTest {
 
-    Deck deck;
-    Match match;
-    Card card;
+    private Deck deck;
+    private Match match;
+    private Card card;
+    private Card card2;
 
     @Before
     public void initializeDeck(){
         deck = new Deck();
         match = Match.getMatch();
         card = CardType.ACID_RAIN.createCardOfThisType();
+        card2 = CardType.AZURE_DRAKE.createCardOfThisType();
     }
 
 
@@ -32,13 +38,28 @@ public class DeckTest {
         deck.addCard(null);
     }
 
+    @Test
     public void AddCreatureTest(){
         deck.addCard(card);
     }
 
+    @Test
+    public void getCardTest(){
+        deck.addCard(card);
+        assertEquals(deck.getCard(), card);
+    }
+
+    @Test(expected = NoSuchElementException.class)
     public void EndOfGameTest(){
         deck.getCard();
         assertEquals(match.getMatchState(), MatchState.GAME_OVER);
+    }
+
+    @Test
+    public void ContainsCardTest(){
+        deck.addCard(card);
+        assertTrue(deck.containsCard(card));
+        assertFalse(deck.containsCard(card2));
     }
 
 }
