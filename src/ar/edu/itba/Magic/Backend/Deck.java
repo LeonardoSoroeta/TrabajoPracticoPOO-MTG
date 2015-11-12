@@ -139,6 +139,8 @@ public class Deck implements Serializable{
 	public void removeCard(Card card) {
 		if(deck.contains(card)) {
 			deck.remove(card);
+		} else {
+			Match.getMatch().endMatch();
 		}
 	}
 

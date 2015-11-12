@@ -30,7 +30,8 @@ public class Player implements DamageTaking {
 		this.hand = new LinkedList<Card>();
 		this.permanentsInPlay = new LinkedList<Permanent>();
 		this.graveyard = new LinkedList<Card>();
-		this.manaPool = new ManaPool();		
+		this.manaPool = new ManaPool();	
+		this.health = 20;
 	}
 	
 	public void setHealth(int health) {
