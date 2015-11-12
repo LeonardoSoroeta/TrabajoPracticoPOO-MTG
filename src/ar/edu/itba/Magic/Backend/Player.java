@@ -87,18 +87,16 @@ public class Player implements DamageTaking {
 		return hand;
 	}
 	
+	//public void returnHandToDeck() {
+	//	LinkedList<Card> 
+	//}
+	
 	public void placeCardInHand(Card card) {
-		if(hand.contains(card)) {
-			// throw exception card already in hand
-		}
 		hand.add(card);
 	}
 	
 	public void removeCardFromHand(Card card) {
-		if(hand.contains(card)) {
 			hand.remove(card);
-		}
-		// else throw card not in hand exception
 	}
 	
 	public List<Card> getGraveyard() {
@@ -109,30 +107,16 @@ public class Player implements DamageTaking {
 	}
 	
 	public void placeCardInGraveyard(Card card) {
-		if(graveyard.contains(card)) {
-			// throw exception card already in graveyard
-		}
 		graveyard.add(card);
 	}
 	
 	public void removeCardFromGraveyard(Card card) {
-		if(graveyard.contains(card)) {
 			graveyard.remove(card);
-		}
-		// else throw exception card not in graveyard
 	}
 	
 	public List<Permanent> getPermanentsInPlay() {
 		List<Permanent> permanents = new LinkedList<Permanent>();
 		permanents.addAll(permanentsInPlay);
-		
-		/*for (Permanent each: this.permanentsInPlay)
-		{
-			  if (!permanents.contains(each)) 
-			  {
-			    permanents.add(each);
-			  }
-		}*/
 		
 		return permanents;
 	}

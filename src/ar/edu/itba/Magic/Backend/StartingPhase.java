@@ -36,21 +36,16 @@ public class StartingPhase {
 				Match.getMatch().startingPhaseYesOrNoPrompt("Would you like draw again?");
 			} else {
 				Match.getMatch().setActivePlayer(Match.getMatch().getOpposingPlayerFrom(Match.getMatch().getActivePlayer()));
-				innerPhase = InnerPhase.ASKING_PLAYER_TWO_MULLIGAN;
-			}
-			
-		} else if(innerPhase.equals(InnerPhase.ASKING_PLAYER_TWO_MULLIGAN)) {
-			if(!this.containsLandCards(Match.getMatch().getActivePlayer().getHand())) {
 				Match.getMatch().startingPhaseYesOrNoPrompt("Would you like draw again?");
-			} else {
-				Match.getMatch().setCurrentPhase(Phase.BEGINNING_PHASE);
-				Match.getMatch().beginningPhase();
+				innerPhase = InnerPhase.ASKING_PLAYER_TWO_MULLIGAN;
 			}
 		}
 	}
 	
 	public void finish() {
-		
+		Match.getMatch().setActivePlayer(Match.getMatch().getTurnOwner());
+		Match.getMatch().setCurrentPhase(Phase.BEGINNING_PHASE);
+		Match.getMatch().beginningPhase();
 	}
 
 	public void playerSelectedYes() {
@@ -60,7 +55,7 @@ public class StartingPhase {
 			this.mulliganStep();
 		
 		} else if(innerPhase.equals(InnerPhase.ASKING_PLAYER_ONE_MULLIGAN)) {
-			
+			Match.getMatch().getActivePlayer().get
 		
 		} else if(innerPhase.equals(InnerPhase.ASKING_PLAYER_TWO_MULLIGAN)) {
 			

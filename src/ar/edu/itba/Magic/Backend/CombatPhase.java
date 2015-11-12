@@ -118,7 +118,7 @@ public class CombatPhase {
 			permanent = (Permanent)Match.getMatch().getSelectedTarget();
 			
 			if(!(permanent instanceof Creature)) {
-				Match.getMatch().awaitBlockerSelection("Select a creature blocker: ");
+				Match.getMatch().awaitBlockerSelection("Select a creature attacker: ");
 			} else {
 				attackerToBlock = (Creature)permanent;
 				if(this.attackerLandwalks(attackerToBlock)) {
