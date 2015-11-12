@@ -55,7 +55,8 @@ public class StartingPhase {
 		if(innerPhase.equals(InnerPhase.ASKING_WHO_GOES_FIRST)) {
 			Match.getMatch().setTurnOwner(Match.getMatch().getActivePlayer());
 			this.innerPhase = InnerPhase.ASKING_PLAYER_ONE_MULLIGAN;
-			this.mulliganStep();
+			//this.mulliganStep();
+			this.finish();
 		
 		} else if(innerPhase.equals(InnerPhase.ASKING_PLAYER_ONE_MULLIGAN)) {
 			Match.getMatch().getActivePlayer().returnHandToDeckAndShuffle();
@@ -79,9 +80,9 @@ public class StartingPhase {
 		if(innerPhase.equals(InnerPhase.ASKING_WHO_GOES_FIRST)) {
 			Match.getMatch().setActivePlayer(Match.getMatch().getOpposingPlayerFrom(Match.getMatch().getActivePlayer()));
 			Match.getMatch().setTurnOwner(Match.getMatch().getActivePlayer());
-			this.innerPhase = InnerPhase.ASKING_PLAYER_ONE_MULLIGAN;
-			this.mulliganStep();
-		
+			//this.innerPhase = InnerPhase.ASKING_PLAYER_ONE_MULLIGAN;
+			//this.mulliganStep();
+			this.finish();
 		} else if(innerPhase.equals(InnerPhase.ASKING_PLAYER_ONE_MULLIGAN)) {
 			Match.getMatch().setActivePlayer(Match.getMatch().getOpposingPlayerFrom(Match.getMatch().getActivePlayer()));
 			if(!this.containsLandCards(Match.getMatch().getActivePlayer().getHand())) {
