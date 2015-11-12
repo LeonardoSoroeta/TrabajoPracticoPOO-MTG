@@ -148,15 +148,15 @@ public class Match {
 	
 	private void start() {		
 		this.activePlayer = this.randomPlayer();
-		this.turnOwner= this.activePlayer;
-		this.getPlayer1().getDeck().shuffleDeck();
-		this.getPlayer2().getDeck().shuffleDeck();
-		this.getPlayer1().drawCards(7);
-		this.getPlayer2().drawCards(7);
+		//this.turnOwner= this.activePlayer;
+		//this.getPlayer1().getDeck().shuffleDeck();
+		///this.getPlayer2().getDeck().shuffleDeck();
+		//this.getPlayer1().drawCards(7);
+		//this.getPlayer2().drawCards(7);
 		
-		this.currentPhase = Phase.BEGINNING_PHASE;
-		this.beginningPhase();
-		//startingPhase.start();
+		//this.currentPhase = Phase.BEGINNING_PHASE;
+		//this.beginningPhase();
+		startingPhase.start();
 	}
 	
 	public void beginningPhase() {
