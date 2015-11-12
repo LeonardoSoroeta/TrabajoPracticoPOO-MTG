@@ -29,7 +29,7 @@ public class ManaPool {
 	}
 	
 	public void addManaOfThisColor(Color color, Integer ammount) {
-		manapool.put(color, manapool.get(color) +1);
+		manapool.put(color, manapool.get(color) + ammount);
 	}
 	
 	public void addOneManaOfThisColor(Color color) {
