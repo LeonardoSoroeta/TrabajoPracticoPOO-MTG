@@ -2,6 +2,7 @@ package ar.edu.itba.Magic.Frontend;
 
 import java.util.List;
 
+import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 
@@ -37,7 +38,7 @@ public class ScrollingTable {
 	
 	
 	
-	public void drawPermanents( List<Permanent> permanents, DeckList dl, float w, float h, Input input){
+	public void drawPermanents( List<Permanent> permanents, DeckList dl, float w, float h, Input input, Graphics g){
 		
 		this.w = w;
 		
@@ -47,6 +48,12 @@ public class ScrollingTable {
 			if((x+(permanents.indexOf(permanent)*w)) >= xStart){
 			
 			dl.getTinyCard(permanent).draw(x+(permanents.indexOf(permanent)*w), y, w, h);
+			
+			if( permanent instanceof Creature){
+				
+				g.drawString(((Creature)permanent).getAttack().toString()+ "/" + ((Creature)permanent).getDefense().toString() , x+(permanents.indexOf(permanent)*w), y);
+			}
+			
 			
 			}
 			
@@ -117,10 +124,12 @@ for( Card card: cards){
 	}
 	
 	
-	public void drawObject(List<GameStackObject> objects, DeckList dl, int w, int h, Input input){
+	public void drawObject(List<GameStackObject> objects, DeckList dl, float w, float h, Input input){
 		for ( GameStackObject object: objects){
 			
 			if(object instanceof Permanent ){
+				
+				
 			dl.getTinyCard((Permanent)object).draw(x+(objects.indexOf(objects)*w), y, w, h);
 			
 			}
@@ -130,9 +139,7 @@ for( Card card: cards){
 		
 			}
 			
-				if( dl.getTinyStackCard(object).mouseOver(input)){
-					dl.getBigStackCard(object).draw(xb, yb, wb, hb);
-				}
+				
 			
 			
 			

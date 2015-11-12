@@ -64,6 +64,8 @@ public class NewMatchState extends BasicGameState {
 	private Boolean hidecardspl1 = false;
 	private Boolean hidecardspl2 = false;
 	
+	private Boolean setplayers = false; 
+	
 	
 	public void init(GameContainer gc, StateBasedGame sbg)
 			throws SlickException {
@@ -91,112 +93,39 @@ public class NewMatchState extends BasicGameState {
 		input = gc.getInput();
 		match = Match.getMatch();
 		
-		// E S T O    E S   D E     D E C K     S E L E C T I O N
-		//
-		//
-		//
-		//
-		//
-		
-		deckpl1 = new Deck();
-			
-			deckpl1.addCard(CardType.FOREST.createCardOfThisType());
-			deckpl1.addCard(CardType.FOREST.createCardOfThisType());
-			deckpl1.addCard(CardType.FOREST.createCardOfThisType());
-			deckpl1.addCard(CardType.FOREST.createCardOfThisType());
-			deckpl1.addCard(CardType.FOREST.createCardOfThisType());
-			deckpl1.addCard(CardType.FOREST.createCardOfThisType());
-			deckpl1.addCard(CardType.FOREST.createCardOfThisType());
-			deckpl1.addCard(CardType.FOREST.createCardOfThisType());
-			deckpl1.addCard(CardType.BIRDS_OF_PARADISE.createCardOfThisType());
-			deckpl1.addCard(CardType.BIRDS_OF_PARADISE.createCardOfThisType());
-			deckpl1.addCard(CardType.CRAW_WURM.createCardOfThisType());
-			deckpl1.addCard(CardType.CRAW_WURM.createCardOfThisType());
-			deckpl1.addCard(CardType.CARNIVOROUS_PLANT.createCardOfThisType());
-			deckpl1.addCard(CardType.CARNIVOROUS_PLANT.createCardOfThisType());
-			deckpl1.addCard(CardType.SCRYB_SPRITES.createCardOfThisType());
-			deckpl1.addCard(CardType.SCRYB_SPRITES.createCardOfThisType());
-			
-			
-		
-		player1 = new Player(deckpl1);
-		
-		for(Card card: deckpl1.getCards()){
-			
-			card.setController(player1);
-			
-		}
-		
-		decklistpl1 = new DeckList(deckpl1, gc.getWidth()/128*7, gc.getHeight()/128*14);
-		
-		//
+	
 		sthandpl1 = new ScrollingTable(gc.getWidth()/128*35, gc.getHeight()/128*112);
 		sthandpl1.setBigCard(gc.getWidth()/64, (gc.getHeight()/4),gc.getWidth()/16*3, (gc.getHeight()/4)*2);
+		
 		stpermanentpl1 = new ScrollingTable( gc.getWidth()/128*35, gc.getHeight()/128*92);
 		stpermanentpl1.setBigCard(gc.getWidth()/64, (gc.getHeight()/4),gc.getWidth()/16*3, (gc.getHeight()/4)*2);
+		
 		stattackpl1 = new ScrollingTable(gc.getWidth()/128*35, gc.getHeight()/128*72);
 		stattackpl1.setBigCard(gc.getWidth()/64, (gc.getHeight()/4),gc.getWidth()/16*3, (gc.getHeight()/4)*2);
 		
-		deckpl2 = new Deck();
+		ststackpl1 = new ScrollingTable(gc.getWidth()/128*35, gc.getHeight()/128*72);
+		ststackpl1.setBigCard(gc.getWidth()/64, (gc.getHeight()/4),gc.getWidth()/16*3, (gc.getHeight()/4)*2);
 		
-		deckpl2.addCard(CardType.SWAMP.createCardOfThisType());
-		deckpl2.addCard(CardType.SWAMP.createCardOfThisType());
-		deckpl2.addCard(CardType.SWAMP.createCardOfThisType());
-		deckpl2.addCard(CardType.SWAMP.createCardOfThisType());
-		deckpl2.addCard(CardType.SWAMP.createCardOfThisType());
-		deckpl2.addCard(CardType.SWAMP.createCardOfThisType());
-		deckpl2.addCard(CardType.SWAMP.createCardOfThisType());
-		deckpl2.addCard(CardType.SWAMP.createCardOfThisType());
-		deckpl2.addCard(CardType.NIGHTMARE.createCardOfThisType());
-		deckpl2.addCard(CardType.NIGHTMARE.createCardOfThisType());
-		deckpl2.addCard(CardType.NIGHTMARE.createCardOfThisType());
-		deckpl2.addCard(CardType.BOG_IMP.createCardOfThisType());
-		deckpl2.addCard(CardType.BOG_IMP.createCardOfThisType());
-		deckpl2.addCard(CardType.BOG_WRAITH.createCardOfThisType());
-		deckpl2.addCard(CardType.BOG_WRAITH.createCardOfThisType());
-		deckpl2.addCard(CardType.MOX_JET.createCardOfThisType());
-		deckpl2.addCard(CardType.MOX_JET.createCardOfThisType());
-		deckpl2.addCard(CardType.BAD_MOON.createCardOfThisType());
-		deckpl2.addCard(CardType.BAD_MOON.createCardOfThisType());
+		
+		
 
-
+	
 		
-		player2 = new Player(deckpl2);
-		
-		
-		
-		for(Card card: deckpl2.getCards()){
 			
-				card.setController(player2);
 			
-			}
-		
-			decklistpl2 = new DeckList(deckpl2, gc.getWidth()/128*7, gc.getHeight()/128*14);
-		
-			//TODO SETEAR BIEN EL CONSTRUCTOR
 			sthandpl2 = new ScrollingTable(gc.getWidth()/128*35, gc.getHeight()/128*6);
 			sthandpl2.setBigCard(gc.getWidth()/64, (gc.getHeight()/4),gc.getWidth()/16*3, (gc.getHeight()/4)*2);
+			
 			stpermanentpl2 = new ScrollingTable( gc.getWidth()/128*35, gc.getHeight()/128*26);
 			stpermanentpl2.setBigCard(gc.getWidth()/64, (gc.getHeight()/4),gc.getWidth()/16*3, (gc.getHeight()/4)*2);
+			
 			stattackpl2 = new ScrollingTable(gc.getWidth()/128*35, gc.getHeight()/128*46);
 			stattackpl2.setBigCard(gc.getWidth()/64, (gc.getHeight()/4),gc.getWidth()/16*3, (gc.getHeight()/4)*2);
-			//ststackpl1 = new ScrollingTable(gc.getWidth()/128*35, gc.getHeight()/128*46);
-			//ststackpl1.setBigCard(gc.getWidth()/64, (gc.getHeight()/4),gc.getWidth()/16*3, (gc.getHeight()/4)*2);
-			//ststackpl2 = new ScrollingTable(gc.getWidth()/128*35, gc.getHeight()/128*46);
-			//ststackpl2.setBigCard(gc.getWidth()/64, (gc.getHeight()/4),gc.getWidth()/16*3, (gc.getHeight()/4)*2);
 			
-			match.setPlayer1(player1);
-			match.setPlayer2(player2);
-		///
-		////
-		///	
-		///
-		
-		//
-		//
-		//
-		//
-			match.update();
+			
+			ststackpl2 = new ScrollingTable(gc.getWidth()/128*35, gc.getHeight()/128*46);
+			ststackpl2.setBigCard(gc.getWidth()/64, (gc.getHeight()/4),gc.getWidth()/16*3, (gc.getHeight()/4)*2);
+			
 		
 	}
 
@@ -205,18 +134,46 @@ public class NewMatchState extends BasicGameState {
 		
 		input = gc.getInput();
 		
+		if (setplayers.equals(false)){
+			player1 = match.getPlayer1();
+			deckpl1 = match.getPlayer1().getDeck();
+			deckpl2 = match.getPlayer2().getDeck();
+			player2 = match.getPlayer2();
+			decklistpl2 = new DeckList(deckpl2, gc.getWidth()/128*7, gc.getHeight()/128*14);
+			decklistpl1 = new DeckList(deckpl1, gc.getWidth()/128*7, gc.getHeight()/128*14);
+			setplayers = true;
+			for(Card card: deckpl1.getCards()){
+				
+				card.setController(player1);
+				
+			}
+			
+			for(Card card: deckpl2.getCards()){
+			
+			card.setController(player2);
+		
+			}
+			match.update();
+		}
+		
+		
+		
 		if (match.getMatchState().equals(MatchState.GAME_OVER)){
 			sbg.enterState(0);
 		}
 		
 		
+		
+		
 		if (match.getMatchState().equals(MatchState.AWAITING_STARTING_PHASE_YES_OR_NO_CONFIRMATION)){
 			if(input.isKeyPressed(input.KEY_Y)){
 			match.playerSelectedYes();
+			System.out.println("YYESSSS");
 			match.update();
 			}
 			if(input.isKeyPressed(input.KEY_N)){
 				match.playerSelectedNo();
+				System.out.println("NNOOOOOOO");
 				match.update();
 				}
 			
@@ -497,7 +454,10 @@ public class NewMatchState extends BasicGameState {
 		}
 		
 		if ( match.getMatchState().equals(MatchState.AWAITING_STACK_ACTIONS)){
-			if ( match.getPlayerPlaying() == 1){
+			
+			
+			
+			if ( match.getActivePlayer().equals(player1)){
 				for( Card card: player1.getHand()){
 					
 					if (decklistpl1.getTinyCard(card).mouseLClicked(input)){
@@ -507,7 +467,7 @@ public class NewMatchState extends BasicGameState {
 				}
 			}
 			
-			if ( match.getPlayerPlaying() == 2){
+			if ( match.getActivePlayer().equals(player2)){
 				for( Card card: player2.getHand()){
 					
 					if (decklistpl2.getTinyCard(card).mouseLClicked(input)){
@@ -517,7 +477,7 @@ public class NewMatchState extends BasicGameState {
 				}
 			}
 			
-			if ( match.getPlayerPlaying() == 1){
+			if ( match.getActivePlayer().equals(player1)){
 				for(Permanent permanent: player1.getPermanentsInPlay()){
 				
 					if( decklistpl1.getTinyCard(permanent).mouseLClicked(input)){
@@ -526,7 +486,7 @@ public class NewMatchState extends BasicGameState {
 				}
 			}
 			
-			else if ( match.getPlayerPlaying() == 2){
+			else if ( match.getActivePlayer().equals(player2)){
 				for(Permanent permanent: player2.getPermanentsInPlay()){
 				
 					if( decklistpl2.getTinyCard(permanent).mouseLClicked(input)){
@@ -626,7 +586,7 @@ public class NewMatchState extends BasicGameState {
 			sthandpl1.hideCards(player1.getHand(), decklistpl1,gc.getWidth()/128*7, gc.getHeight()/128*14, input );
 		
 		
-		stpermanentpl1.drawPermanents(player1.getPermanentsInPlay(), decklistpl1,gc.getWidth()/128*7, gc.getHeight()/128*14, input);
+		stpermanentpl1.drawPermanents(player1.getPermanentsInPlay(), decklistpl1,gc.getWidth()/128*7, gc.getHeight()/128*14, input, g);
 		
 		   
 		if(hidecardspl2 == true)
@@ -634,7 +594,7 @@ public class NewMatchState extends BasicGameState {
 		else
 			sthandpl2.hideCards(player2.getHand(), decklistpl2,gc.getWidth()/128*7, gc.getHeight()/128*14 , input );
 		
-		stpermanentpl2.drawPermanents(player2.getPermanentsInPlay(), decklistpl2,gc.getWidth()/128*7, gc.getHeight()/128*14, input);		
+		stpermanentpl2.drawPermanents(player2.getPermanentsInPlay(), decklistpl2,gc.getWidth()/128*7, gc.getHeight()/128*14, input, g);		
 		
 		
 		if(match.getPlayerPlaying() == 1){
@@ -656,8 +616,8 @@ public class NewMatchState extends BasicGameState {
 		movePermanentpl2.draw(gc.getWidth()/128*33, gc.getHeight()/128*26,gc.getWidth()/128*2, gc.getHeight()/128*14);
 		
 	
-		//ststackpl1.drawObject(, decklistpl1, gc.getWidth()/128*7, gc.getHeight()/128*14, input);
-		//stattackpl2.drawObject(, decklistpl2, (gc.getWidth()/128*7), (gc.getHeight()/128*14), input);
+		ststackpl1.drawObject( match.getGameStack().getPlayer1STackObjects(), decklistpl1, gc.getWidth()/128*7, gc.getHeight()/128*14, input);
+		stattackpl2.drawObject(match.getGameStack().getPlayer2StackObjects(), decklistpl2, (gc.getWidth()/128*7), (gc.getHeight()/128*14), input);
 		
 		
 		
