@@ -60,6 +60,7 @@ public class CombatPhase {
 			Match.getMatch().awaitBlockerSelection("Select a blocker: ");
 		} else if(combatState.equals(CombatState.DECLARING_BLOCKERS)) {
 			combatState = CombatState.DEALING_DAMAGE;
+			this.dealDamage();
 		} 
 	}
 	
