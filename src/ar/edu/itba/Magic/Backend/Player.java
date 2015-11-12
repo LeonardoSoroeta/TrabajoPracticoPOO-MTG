@@ -123,15 +123,15 @@ public class Player implements DamageTaking {
 	
 	public List<Permanent> getPermanentsInPlay() {
 		List<Permanent> permanents = new LinkedList<Permanent>();
-		//permanents.addAll(permanentsInPlay);
+		permanents.addAll(permanentsInPlay);
 		
-		for (Permanent each: this.permanentsInPlay)
+		/*for (Permanent each: this.permanentsInPlay)
 		{
-		  if (!permanents.contains(each)) 
-		  {
-		    permanents.add(each);
-		  }
-		 }
+			  if (!permanents.contains(each)) 
+			  {
+			    permanents.add(each);
+			  }
+		}*/
 		
 		return permanents;
 	}

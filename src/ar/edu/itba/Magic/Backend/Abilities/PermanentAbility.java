@@ -103,6 +103,7 @@ public abstract class PermanentAbility extends Ability {
     /** Executes when player presses Cancel button, if currently requesting mana on casting. */
     public final void cancelCastingManaRequest() {
     	this.resetManaCache();
+    	Match.getMatch().newMessageToPlayer("Mana payment cancelled. Mana reimbursed.");
     }
 	
 	/** Must override this method if card requires target on casting */
@@ -211,6 +212,7 @@ public abstract class PermanentAbility extends Ability {
 	/** Executes when player presses Cancel button, if ability currently requesting mana. */
 	public final void cancelAbilityManaRequest() {
 		this.resetManaCache();
+		Match.getMatch().newMessageToPlayer("Mana payment cancelled. Mana reimbursed.");
 	}
 	
 	/** Must override this method if ability requires mana payment */

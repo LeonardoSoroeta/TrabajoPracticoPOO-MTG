@@ -22,6 +22,9 @@ public class GameStack {
     
     public void initiateSpellChain() {
     	Match.getMatch().setPreviousMatchState(Match.getMatch().getMatchState());
+    	Match.getMatch().setActivePlayer(Match.getMatch().getOpposingPlayerFrom(Match.getMatch().getActivePlayer()));
+    	this.playerDidSomething = false;
+    	Match.getMatch().newMessageToPlayer("Fast actions: Instant cards, Abilities:");
     	Match.getMatch().setMatchState(MatchState.AWAITING_STACK_ACTIONS);
     }
     
@@ -30,6 +33,7 @@ public class GameStack {
 	    	while(!gameStack.isEmpty()) {
 	    		gameStack.pop().resolveInStack();
 	    	}
+	    	Match.getMatch().setActivePlayer(Match.getMatch().getTurnOwner());
 	    	Match.getMatch().setMatchState(Match.getMatch().getPreviousMatchState());
     	} else {
     		Match.getMatch().setActivePlayer(Match.getMatch().getOpposingPlayerFrom(Match.getMatch().getActivePlayer()));
@@ -38,12 +42,13 @@ public class GameStack {
     }
 
 	public void addStackObject(GameStackObject gameStackObject) {
-		this.playerDidSomething = true;
 		if(gameStack.isEmpty()) {
 			gameStack.push(gameStackObject);
 			this.initiateSpellChain();
+		} else {
+			gameStack.push(gameStackObject);
+			this.playerDidSomething = true;
 		}
-		gameStack.push(gameStackObject);
     }
 	
 	public void removeStackObject(GameStackObject gameStackObject) {

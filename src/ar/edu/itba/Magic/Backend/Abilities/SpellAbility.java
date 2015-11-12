@@ -90,6 +90,7 @@ public abstract class SpellAbility extends Ability implements GameStackObject {
     /** Executes when player presses Cancel button, if currently requesting mana on casting. */
     public final void cancelCastingManaRequest() {
     	this.resetManaCache();
+    	Match.getMatch().newMessageToPlayer("Mana payment cancelled. Mana reimbursed.");
     }
     
     @Override 
