@@ -151,7 +151,7 @@ public class Player implements DamageTaking {
 			permanent.getAbility().executeOnExit();
 			permanentsInPlay.remove(permanent);
 		}
-		// TODO else throw exception permanent not in play
+
 	}
 	
 	public List<Creature> getCreatures() {
