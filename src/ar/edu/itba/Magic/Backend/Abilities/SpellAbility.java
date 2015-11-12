@@ -60,21 +60,26 @@ public abstract class SpellAbility extends Ability implements GameStackObject {
     	this.selectedTarget = match.getSelectedTarget();
     	Color selectedColor = (Color)selectedTarget;
     	
-    	if(selectedColor.equals(sourceCard.getColor())) {
-    		if(coloredManaRequired > 0) {
-    			manaCache.put(selectedColor, manaCache.get(selectedColor) +1);
-    			manaPool.removeOneManaOfThisColor(selectedColor);
-    			coloredManaRequired--;
-    		} else {
-    			manaCache.put(selectedColor, manaCache.get(selectedColor) +1);
-    			manaPool.removeOneManaOfThisColor(selectedColor);
-    			colorlessManaRequired--;
-    		}
-    	} else if(colorlessManaRequired > 0){
-    		manaCache.put(selectedColor, manaCache.get(selectedColor) +1);
-			manaPool.removeOneManaOfThisColor(selectedColor);
-			colorlessManaRequired--;
+    	if(!manaPool.containsOneManaOfThisColor(selectedColor)) {
+    		match.awaitCastingManaPayment(this, "Pay requested mana cost to cast this card: ");
+    	} else {
+	    	if(selectedColor.equals(sourceCard.getColor())) {
+	    		if(coloredManaRequired > 0) {
+	    			manaCache.put(selectedColor, manaCache.get(selectedColor) +1);
+	    			manaPool.removeOneManaOfThisColor(selectedColor);
+	    			coloredManaRequired--;
+	    		} else {
+	    			manaCache.put(selectedColor, manaCache.get(selectedColor) +1);
+	    			manaPool.removeOneManaOfThisColor(selectedColor);
+	    			colorlessManaRequired--;
+	    		}
+	    	} else if(colorlessManaRequired > 0){
+	    		manaCache.put(selectedColor, manaCache.get(selectedColor) +1);
+				manaPool.removeOneManaOfThisColor(selectedColor);
+				colorlessManaRequired--;
+	    	}
     	}
+    	
     	if(coloredManaRequired.equals(0) && colorlessManaRequired.equals(0)) {
     		this.proceedToSelectCastingTarget();
     	} else {
