@@ -3,16 +3,12 @@ package ar.edu.itba.Magic.Backend.Exceptions;
 /**
  * Created by Martin on 31/10/2015.
  */
-public class NoAvailableManaException extends Exception {
+public class NoAvailableManaException extends RuntimeException {
 
-    public NoAvailableManaException(){
-        super();
-    }
-
-    public NoAvailableManaException(String msg){
-        super(msg);
-    }
-
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 
 }

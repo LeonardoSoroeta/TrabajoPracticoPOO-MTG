@@ -1,6 +1,5 @@
 package ar.edu.itba.Magic.Backend.Cards;
 
-import ar.edu.itba.Magic.Backend.Player;
 import ar.edu.itba.Magic.Backend.Abilities.Ability;
 import ar.edu.itba.Magic.Backend.Enums.CardType;
 

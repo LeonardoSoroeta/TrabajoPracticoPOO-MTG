@@ -13,7 +13,10 @@ import ar.edu.itba.Magic.Backend.Enums.MatchState;
 import ar.edu.itba.Magic.Backend.Enums.Phase;
 import ar.edu.itba.Magic.Backend.Exceptions.UninitializedPlayersException;
 
-
+/**
+ * This class is responsible for the match's game logic. It executes on every game update cycle, and always 
+ * stops executing in a specific Match State, awaiting a player action.
+ */
 public class Match {
 	
 	private static Match self = new Match();
@@ -50,7 +53,8 @@ public class Match {
 	public static Match getMatch() {
 		return self;
 	}
-
+	
+	/** Must execute this method whenever the player does an action */
 	public void update() {
 		if(matchState.equals(MatchState.GAME_OVER)) {
 			if(player1 == null || player2 == null) {
@@ -136,11 +140,6 @@ public class Match {
 				cardDiscardPhase.resumeExecution();
 			}
 			
-		} else if(matchState.equals(MatchState.AWAITING_MANA_BURN_ACKNOWLEDGEMENT)) {
-			if(playerDoneClicking == true) {
-				cardDiscardPhase.finishCardDiscardPhase();
-			}
-			
 		} else if(matchState.equals(MatchState.AWAITING_STARTING_PHASE_YES_OR_NO_CONFIRMATION)) {
 			if(playerSelectedYes) {
 				
@@ -148,29 +147,24 @@ public class Match {
 				
 			}
 		
-		} else if(matchState.equals(MatchState.AWAITING_SAVE_GAME_YES_OR_NO_CONFIRMATION)) {
-			if(playerSelectedYes) {
-				
-			} else if(playerSelectedNo) {
-				
-			}
 		}
-		
 	}
 	
+	/** Starts the match */
 	private void start() {		
 		this.activePlayer = this.randomPlayer();
-		this.turnOwner= this.activePlayer;
-		this.getPlayer1().getDeck().shuffleDeck();
-		this.getPlayer2().getDeck().shuffleDeck();
-		this.getPlayer1().drawCards(7);
-		this.getPlayer2().drawCards(7);
+		//this.turnOwner= this.activePlayer;
+		//this.getPlayer1().getDeck().shuffleDeck();
+		///this.getPlayer2().getDeck().shuffleDeck();
+		//this.getPlayer1().drawCards(7);
+		//this.getPlayer2().drawCards(7);
 		
-		this.currentPhase = Phase.BEGINNING_PHASE;
-		this.beginningPhase();
-		//startingPhase.start();
+		//this.currentPhase = Phase.BEGINNING_PHASE;
+		//this.beginningPhase();
+		startingPhase.start();
 	}
 	
+	/** Current player turn's beginning phase */
 	public void beginningPhase() {
 		gameEventHandler.triggerGameEvent(new GameEvent(Event.UNTAP_STEP, activePlayer));
 		this.activePlayer.untapDuringUnkeep();
@@ -188,15 +182,18 @@ public class Match {
 		this.executeNextPhase();
 	}
 	
+	/** Executes on current player's pre and post combat main phase */
 	public void mainPhase() {
 		gameEventHandler.triggerGameEvent(new GameEvent(Event.MAIN_PHASE, activePlayer));
 		this.awaitMainPhaseActions("Main Phase: Cast spells, activate abilities.");
 	}
 	
+	/** Executes on current player's combat phase */
 	public void combatPhase() {	
 		combatPhase.start();
 	}
 	
+	/** Removes damage counters from creatures and starts the card discard phase */
 	public void endingPhase() {
 		
 		gameEventHandler.triggerGameEvent(new GameEvent(Event.ENDING_PHASE, activePlayer));
@@ -208,6 +205,7 @@ public class Match {
 		cardDiscardPhase.start();
 	}
 	
+	/** Returns a random player */
 	public Player randomPlayer() {
 		int randomNum = 1 + (int)(Math.random()*2);
 		if(randomNum == 1){
@@ -217,22 +215,27 @@ public class Match {
 		}
 	}
 	
+	/** Sets player 1 */
 	public void setPlayer1(Player player) {
 		this.player1 = player;
 	}
 	
+	/** Sets player 2 */
 	public void setPlayer2(Player player) {
 		this.player2 = player;
 	}
 	
+	/** Gets player 1 */
 	public Player getPlayer1() {
 		return player1;
 	}
 	
+	/** Gets player 2 */
 	public Player getPlayer2() {
 		return player2;
 	}
 	
+	/** Given a specific player, returns the other one */
 	public Player getOpposingPlayerFrom(Player player) {
 		if(player == player1) {
 			return player2;
@@ -242,38 +245,47 @@ public class Match {
 		}
 	}
 	
+	/** Gets the player that is currently active */
 	public Player getActivePlayer() {
 		return this.activePlayer;
 	}
 	
+	/** Sets the currently active player */
 	public void setActivePlayer(Player activePlayer) {
 		this.activePlayer = activePlayer;
 	}
 	
+	/** Sets the player to whom the turn belongs */
 	public void setTurnOwner(Player player) {
 		this.turnOwner = player;
 	}
 	
+	/** Gets the player to whom the turn belongs */
 	public Player getTurnOwner() {
 		return this.turnOwner;
 	}
 	
+	/** Switches the active player */
 	public void changeActivePlayer() {
 		this.activePlayer = this.getOpposingPlayerFrom(this.activePlayer);
 	}
 	
+	/** Returns true if a land has already been played this turn */
 	public boolean isLandPlayThisTurn() {
 		return this.landPlayedThisTurn;
 	}
 		
+	/** Sets if a land has already been played this turn to true */
 	public void setLandPlayThisTurnTrue() {
 		this.landPlayedThisTurn = true;
 	}
 	
+	/** Sets if a land has already been played this turn to false */
 	public void setLandPlayThisTurnFalse() {
 		this.landPlayedThisTurn = false;
 	}
 	
+	/** Removes al damage counters from creatures. Must execute this at the end of each turn */
 	public void removeAllDamageCounters() {
 		LinkedList<Creature> creatures = new LinkedList<Creature>();
 		creatures.addAll(this.getPlayer1().getCreatures());
@@ -283,18 +295,21 @@ public class Match {
 		}
 	}
 	
+	/** Halts the match in AWAITING_MAIN_PHASE_ACTIONS state */
 	public void awaitMainPhaseActions(String messageToPlayer) {
 		this.matchState = MatchState.AWAITING_MAIN_PHASE_ACTIONS;
 		this.playerDoneClicking = false;
 		this.messageToPlayer = messageToPlayer;
 	}
 	
+	/** Halts the match in AWAITING_STACK_ACTIONS state */
 	public void awaitStackActions(String messageToPlayer) {
 		this.matchState = MatchState.AWAITING_STACK_ACTIONS;
 		this.playerDoneClicking = false;
 		this.messageToPlayer = messageToPlayer;
 	}
 	
+	/** Halts the match in AWAITING_CASTING_TARGET_SELECTION state */
 	public void awaitCastingTargetSelection(Ability requestingAbility, String messageToPlayer) {
 		this.selectedTarget = null;
 		this.targetSelectionCancelled = false;
@@ -304,6 +319,7 @@ public class Match {
 		this.messageToPlayer = messageToPlayer;
 	}
 	
+	/** Halts the match in AWAITING_CASTING_MANA_PAYMENT state */
 	public void awaitCastingManaPayment(Ability requestingAbility, String messageToPlayer) {
 		this.selectedTarget = null;
 		this.manaPaymentCancelled = false;
@@ -313,6 +329,7 @@ public class Match {
 		this.messageToPlayer = messageToPlayer;
 	}
 	
+	/** Halts the match in AWAITING_ABILITY_TARGET_SELECTION state */
 	public void awaitAbilityTargetSelection(Ability requestingAbility, String messageToPlayer) {
 		this.selectedTarget = null;
 		this.targetSelectionCancelled = false;
@@ -322,6 +339,7 @@ public class Match {
 		this.messageToPlayer = messageToPlayer;
 	}
 	
+	/** Halts the match in AWAITING_ABILITY_MANA_PAYMENT state */
 	public void awaitAbilityManaPayment(Ability requestingAbility, String messageToPlayer) {
 		this.selectedTarget = null;
 		this.manaPaymentCancelled = false;
@@ -331,6 +349,7 @@ public class Match {
 		this.messageToPlayer = messageToPlayer;
 	}
 	
+	/** Halts the match in AWAITING_ATTACKER_SELECTION state */
 	public void awaitAttackerSelection(String messageToPlayer) {
 		this.selectedTarget = null;
 		this.playerDoneClicking = false;
@@ -338,6 +357,7 @@ public class Match {
 		this.messageToPlayer = messageToPlayer;
 	}
 	
+	/** Halts the match in AWAITING_BLOCKER_SELECTION state */
 	public void awaitBlockerSelection(String messageToPlayer) {
 		this.selectedTarget = null;
 		this.playerDoneClicking = false;
@@ -345,18 +365,21 @@ public class Match {
 		this.messageToPlayer = messageToPlayer;
 	}
 	
+	/** Halts the match in AWAITING_ATTACKER_TO_BLOCK_SELECTION state */
 	public void awaitAttackerToBlockSelection(String messageToPlayer) {
 		this.selectedTarget = null;
 		this.matchState = MatchState.AWAITING_ATTACKER_TO_BLOCK_SELECTION;
 		this.messageToPlayer = messageToPlayer;
 	}
 	
+	/** Halts the match in AWAITING_CARD_TO_DISCARD_SELECTION state */
 	public void awaitCardToDiscardSelection(String messageToPlayer) {
 		this.selectedTarget = null;
 		this.matchState = MatchState.AWAITING_CARD_TO_DISCARD_SELECTION;
 		this.messageToPlayer = messageToPlayer;
 	}
 	
+	/** Halts the match in AWAITING_STARTING_PHASE_YES_OR_NO_CONFIRMATION state */
 	public void startingPhaseYesOrNoPrompt(String messageToPlayer) {
 		this.playerSelectedNo = false;
 		this.playerSelectedYes = false;
@@ -364,18 +387,7 @@ public class Match {
 		this.messageToPlayer = messageToPlayer;
 	}
 	
-	public void savingPhaseYesOrNoPrompt(String messageToPlayer) {
-		this.playerSelectedNo = false;
-		this.playerSelectedYes = false;
-		this.matchState = MatchState.AWAITING_SAVE_GAME_YES_OR_NO_CONFIRMATION;
-		this.messageToPlayer = messageToPlayer;
-	}
-	
-	public void giveManaBurnNotice() {
-		this.playerDoneClicking = false;
-		this.matchState = MatchState.AWAITING_MANA_BURN_ACKNOWLEDGEMENT;
-	}
-	
+	/** Gets the target Object placed by the game's front end controller */
 	public Object getSelectedTarget() {
 		Object selectedTarget = this.selectedTarget;
 		
@@ -388,6 +400,7 @@ public class Match {
 		}
 	}
 	
+	/** Executes the next phase of the current player's turn */
 	public void executeNextPhase() {		
 		if(currentPhase.equals(Phase.BEGINNING_PHASE)) {
 			this.currentPhase = Phase.PRE_COMBAT_MAIN_PHASE;
@@ -409,6 +422,7 @@ public class Match {
 		}
 	}
 	
+	/** Ends the match */
 	public void endMatch() {
 		this.resetData();
 		gameStack.resetData();
@@ -417,6 +431,7 @@ public class Match {
 		gameEventHandler.resetData();
 	}
 	
+	/** Resets all data related to the match */
 	public void resetData() {
 		player1 = null;
 		player2 = null;
@@ -436,68 +451,79 @@ public class Match {
 		selectedTarget = null;
 	}
 	
+	/** Specifies a message for the active player */
 	public void newMessageToPlayer(String message) {
 		this.messageToPlayer = message;
 	}
 	
+	/** Sets the current players turn phase */
 	public void setCurrentPhase(Phase phase) {
 		this.currentPhase = phase;
 	}
 	
+	/** Sets previousMatchState variable to a specific MatchState */
 	public void setPreviousMatchState(MatchState matchState) {
 		this.previousMatchState = matchState;
 	}
 	
+	/** Gets the previous match state */
 	public MatchState getPreviousMatchState() {
 		return this.previousMatchState;
 	}
 	
+	/** Sets the match's current state */
 	public void setMatchState(MatchState matchState) {
 		this.matchState = matchState;
 	}
 	
+	/** Gets the match's current state */
 	public MatchState getMatchState() {
 		return this.matchState;
 	}
 	
+	/** Returns the match's combat phase singleton instance */
 	public CombatPhase getCombatPhase() {
 		return combatPhase;
 	}
 
-	/* ******************************************************************************************************** */
-	/*								DE ACA PARA ABAJO METODOS QUE SOLO USA EL FRONT								*/
-	/* ******************************************************************************************************** */
-	
+	/** Executed by the front end to signal the player clicking on the Done button */
 	public void playerDoneClicking() {
 		this.playerDoneClicking = true;
 	}
 	
+	/** Executed by the front end to signal the player cancelling a target selection */
 	public void cancelTargetSelection() {
 		this.targetSelectionCancelled = true;
 	}
 	
+	/** Executed by the front end to signal the player cancelling a mana payment */
 	public void cancelManaRequest() {
 		this.manaPaymentCancelled = true;
 	}
 	
+	/** Gets the current message to player */
 	public String getMessageToPlayer() {
 		return this.messageToPlayer;
 	}
 	
+	/** Executed by the front end to signal the player selecting yes */
 	public void playerSelectedYes() {
 		this.playerSelectedYes = true;
 	}
 	
+	/** Executed by the front end to signal the player selecting no */
 	public void playerSelectedNo() {
 		this.playerSelectedNo = true;
 	}
 	
+	/** Executed by the front end to return a target selected by a player */
 	public void returnSelectedTarget(Object selectedTarget) {
 		this.selectedTarget = selectedTarget;
 	}
 	
+	/** Gets the player currently playing */
 	public int getPlayerPlaying(){
-		if( this.getTurnOwner().equals(player1))
+		if( this.activePlayer.equals(player1))
 			return 1;
 		else
 			return 2;

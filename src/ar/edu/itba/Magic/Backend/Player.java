@@ -87,9 +87,14 @@ public class Player implements DamageTaking {
 		return hand;
 	}
 	
-	//public void returnHandToDeck() {
-	//	LinkedList<Card> 
-	//}
+	public void returnHandToDeckAndShuffle() {
+		for(Card each : this.hand) {
+			this.deck.addCard(each);
+			this.hand.remove(each);
+		}
+		
+		this.deck.shuffleDeck();
+	}
 	
 	public void placeCardInHand(Card card) {
 		hand.add(card);

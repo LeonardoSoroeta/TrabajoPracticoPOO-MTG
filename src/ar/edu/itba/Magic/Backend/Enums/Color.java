@@ -1,7 +1,7 @@
 package ar.edu.itba.Magic.Backend.Enums;
 
 /**
- * Created by Martin on 29/10/2015.
+ * This enum represents the 6 different color types in the game.
  */
 public enum Color {
 

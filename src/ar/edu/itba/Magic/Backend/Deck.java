@@ -8,9 +8,7 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.TreeMap;
 
 import ar.edu.itba.Magic.Backend.Cards.Card;
 import ar.edu.itba.Magic.Backend.Enums.CardType;
@@ -30,12 +28,10 @@ public class Deck implements Serializable{
 		LinkedList<LinkedList<CardType>> listT = (LinkedList<LinkedList<CardType>>) ois.readObject();
 		
 		LinkedList<Deck> decks = new LinkedList<Deck>();
-		//System.out.println(listT.get(0).get(0).getCardName());
 		for(LinkedList<CardType> each1: listT) {
 			Deck aux = new Deck();
 			for(CardType each2: each1) {
 				aux.addCard(each2.createCardOfThisType());
-				//System.out.println(" llegooo ");
 			}
 			decks.add(aux);
 		}
@@ -46,28 +42,6 @@ public class Deck implements Serializable{
     
     public void serialize(Deck d) throws IOException {
     	
-    	/*LinkedList<CardType> listC = new LinkedList<CardType>();
-		for(Card each: d.getCards()) {
-			listC.add(each.getCardType());
-		}
-		
-		LinkedList<LinkedList<CardType>> listT = new LinkedList<LinkedList<CardType>>();
-		
-    	LinkedList<Deck> decks = loadDecks();
-    	if(decks == null) {
-    		decks = new LinkedList<Deck>();
-    	}
-    	else {
-			for(Deck each1: decks) {
-				LinkedList<CardType> aux = new LinkedList<CardType>();
-				for(Card each2: each1.getCards()) {
-					aux.add(each2.getCardType());
-				}
-				listT.add(aux);
-			}
-    	}
-		
-		listT.add(listC);*/
     	LinkedList<LinkedList<CardType>> listT = new LinkedList<LinkedList<CardType>>();
     	
     	LinkedList<Deck> decks = loadDecks();
@@ -179,27 +153,6 @@ public class Deck implements Serializable{
 	public LinkedList<Card> getCards() {
 		return deck;
 	}
-	/*estaria bueno que tenga metodos como estos dos para las habilidades raras
-	public List<Card> getTypeCard(Card card){
-		List<Card> listCardType = new LinkedList<Card>(); 
-		for(Card each : deck){
-			if(each.getCardType().equals(card.getCardType())){
-				listCardType.add(each);
-			}
-		}
-		return listCardType;
-	}
-	
-	public List<Card> getColorCard(Card card){
-		List<Card> listCardColor = new LinkedList<Card>(); 
-		for(Card each : deck){
-			if(each.getColor().equals(card.getColor())){
-				listCardColor.add(each);
-			}
-		}
-		return listCardColor;
-	}
-	*/
 	
 	public int getSize(){
 		return deck.size();

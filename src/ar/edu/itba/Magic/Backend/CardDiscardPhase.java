@@ -3,6 +3,10 @@ package ar.edu.itba.Magic.Backend;
 import ar.edu.itba.Magic.Backend.Cards.Card;
 import ar.edu.itba.Magic.Backend.Enums.Event;
 
+/**
+ * This phase is responsible for checking if the current player has more than 7 cards in his hand. In that case,
+ * it prompts the player to choose a card to discard until he has only 7.
+ */
 public class CardDiscardPhase {
 	
 	private static CardDiscardPhase self = new CardDiscardPhase();
@@ -39,16 +43,10 @@ public class CardDiscardPhase {
 		}
 	}
 	
-	public void manaBurnStep() {
-		if( Match.getMatch().getPlayer1().manaBurn() || Match.getMatch().getPlayer2().manaBurn()) {
-			Match.getMatch().giveManaBurnNotice();
-		} else {
-			this.finishCardDiscardPhase();
-		}
-	}
-
 	public void finishCardDiscardPhase() {
 		eventHandler.triggerGameEvent(new GameEvent(Event.END_OF_TURN, Match.getMatch().getTurnOwner()));
+		Match.getMatch().getPlayer1().getManaPool().resetMana();
+		Match.getMatch().getPlayer2().getManaPool().resetMana();
 		Match.getMatch().executeNextPhase();
 	}
 	
