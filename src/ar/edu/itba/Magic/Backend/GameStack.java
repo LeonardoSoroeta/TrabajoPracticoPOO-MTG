@@ -7,8 +7,6 @@ import java.util.LinkedList;
 
 public class GameStack {
 	
-	 Match match = Match.getMatch();
-
     private static GameStack instance = new GameStack();
 	private LinkedList<GameStackObject> gameStack = new LinkedList<>();
 	
@@ -23,8 +21,8 @@ public class GameStack {
     }
     
     public void initiateSpellChain() {
-    	match.setPreviousMatchState(match.getMatchState());
-    	match.setMatchState(MatchState.AWAITING_STACK_ACTIONS);
+    	Match.getMatch().setPreviousMatchState(Match.getMatch().getMatchState());
+    	Match.getMatch().setMatchState(MatchState.AWAITING_STACK_ACTIONS);
     }
     
     public void playerDoneClicking() {
@@ -32,9 +30,9 @@ public class GameStack {
 	    	while(!gameStack.isEmpty()) {
 	    		gameStack.pop().resolveInStack();
 	    	}
-	    	match.setMatchState(match.getPreviousMatchState());
+	    	Match.getMatch().setMatchState(Match.getMatch().getPreviousMatchState());
     	} else {
-	    	match.setActivePlayer(match.getOpposingPlayerFrom(match.getActivePlayer()));
+    		Match.getMatch().setActivePlayer(Match.getMatch().getOpposingPlayerFrom(Match.getMatch().getActivePlayer()));
 	    	this.playerDidSomething = false;
     	}
     }
