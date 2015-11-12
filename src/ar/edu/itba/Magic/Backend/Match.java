@@ -497,7 +497,7 @@ public class Match {
 	}
 	
 	public int getPlayerPlaying(){
-		if( this.getActivePlayer().equals(player1))
+		if( this.getTurnOwner().equals(player1))
 			return 1;
 		else
 			return 2;
