@@ -37,7 +37,7 @@ public class Player implements DamageTaking {
 		this.health = health;
 	}
 	
-	public int getHealth() {
+	public Integer getHealth() {
 		return health;
 	}
 	

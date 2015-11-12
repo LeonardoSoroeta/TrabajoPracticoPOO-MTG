@@ -348,7 +348,7 @@ public enum CardType {
 						this.getSourcePermanent().applyLastingEffect(newEffect);
 					}
 		});
-    } },	*/
+    } },*/
     
     CRAW_WURM("Craw Wurm", Color.GREEN, 2, 4) { public Card createCardOfThisType() {
     	List<Attribute> attributes = new LinkedList<Attribute>();
