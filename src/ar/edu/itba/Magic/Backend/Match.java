@@ -485,6 +485,10 @@ public class Match {
 	public CombatPhase getCombatPhase() {
 		return combatPhase;
 	}
+	
+	public GameStack getGameStack() {
+		return gameStack;
+	}
 
 	/** Executed by the front end to signal the player clicking on the Done button */
 	public void playerDoneClicking() {

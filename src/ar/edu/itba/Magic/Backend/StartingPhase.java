@@ -30,7 +30,7 @@ public class StartingPhase {
 		Match.getMatch().getPlayer1().drawCards(7);
 		Match.getMatch().getPlayer2().drawCards(7);
 		
-		Match.getMatch().startingPhaseYesOrNoPrompt("Would you like to go play first?");
+		Match.getMatch().startingPhaseYesOrNoPrompt("Would you like to play first?");
 	}
 	
 	public void mulliganStep() {
