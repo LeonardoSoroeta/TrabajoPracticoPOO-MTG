@@ -7,6 +7,7 @@ import ar.edu.itba.Magic.Backend.Abilities.PermanentAbility;
 import ar.edu.itba.Magic.Backend.Cards.Card;
 import ar.edu.itba.Magic.Backend.Enums.Attribute;
 
+/** A Land is a special permanent responsible for generating mana */
 public class Land extends Permanent {
 	
 	public Land(Card sourceCard, PermanentAbility ability) {

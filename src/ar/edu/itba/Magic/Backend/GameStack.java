@@ -7,6 +7,7 @@ import ar.edu.itba.Magic.Backend.Permanents.Permanent;
 
 import java.util.LinkedList;
 
+/** The game stack contains a list of spells being currently casted, that have not yet had its action */
 public class GameStack {
 	
     private static GameStack instance = new GameStack();

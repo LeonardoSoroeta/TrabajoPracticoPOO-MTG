@@ -8,6 +8,7 @@ import ar.edu.itba.Magic.Backend.Cards.Card;
 import ar.edu.itba.Magic.Backend.Enums.Attribute;
 import ar.edu.itba.Magic.Backend.Interfaces.GameStackObject;
 
+/** Artifacts are colorless permanents */
 public class Artifact extends Permanent implements GameStackObject {
 	 
 	public Artifact(Card sourceCard, PermanentAbility ability) {

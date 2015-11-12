@@ -9,6 +9,7 @@ import ar.edu.itba.Magic.Backend.Interfaces.DamageTaking;
 import java.util.LinkedList;
 import java.util.List;
 
+/** Creatures are a type of permanent that can attack and defend */
 public class Creature extends Permanent implements DamageTaking {
 	
 	GameEventHandler gameEventHandler = GameEventHandler.getGameEventHandler();
