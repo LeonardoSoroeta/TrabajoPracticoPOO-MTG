@@ -7,9 +7,7 @@ import ar.edu.itba.Magic.Backend.Enums.MatchState;
 import ar.edu.itba.Magic.Backend.Match;
 import org.junit.Before;
 import org.junit.Test;
-
 import java.util.NoSuchElementException;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -39,11 +37,6 @@ public class DeckTest {
     }
 
     @Test
-    public void AddCreatureTest(){
-        deck.addCard(card);
-    }
-
-    @Test
     public void getCardTest(){
         deck.addCard(card);
         assertEquals(deck.getCard(), card);
@@ -59,6 +52,8 @@ public class DeckTest {
     public void ContainsCardTest(){
         deck.addCard(card);
         assertTrue(deck.containsCard(card));
+        deck.addCard(card2);
+        deck.removeCard(card2);
         assertFalse(deck.containsCard(card2));
     }
 
