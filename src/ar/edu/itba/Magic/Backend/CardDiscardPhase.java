@@ -28,7 +28,7 @@ public class CardDiscardPhase {
 			Match.getMatch().awaitCardToDiscardSelection("You have more than 7 cards in your hand. Select a card to discard: ");
 		} else {
 			eventHandler.triggerGameEvent(new GameEvent(Event.END_OF_TURN, Match.getMatch().getTurnOwner()));
-			Match.getMatch().executeNextPhase();
+			this.finishCardDiscardPhase();
 		}
 	}
 	
