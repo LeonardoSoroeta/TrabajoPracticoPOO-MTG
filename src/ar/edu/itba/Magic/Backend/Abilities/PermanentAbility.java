@@ -55,10 +55,8 @@ public abstract class PermanentAbility extends Ability {
 		for(Color each : Color.values()) {
 			manaCache.put(each, 0);
 		}
-		if(sourceCard.getColoredManaCost().equals(0)) {
-			if(sourceCard.getColorlessManaCost().equals(0)) {
+		if(sourceCard.getColoredManaCost().equals(0) && sourceCard.getColorlessManaCost().equals(0)) {
 				this.proceedToSelectCastingTarget();
-			}
 		} else {
 			this.coloredManaRequired = sourceCard.getColoredManaCost();
 			this.colorlessManaRequired = sourceCard.getColorlessManaCost();
@@ -165,10 +163,8 @@ public abstract class PermanentAbility extends Ability {
 		for(Color each : Color.values()) {
 			manaCache.put(each, 0);
 		}
-		if(coloredManaCost.equals(0)) {
-			if(colorlessManaCost.equals(0)) {
-				this.finishCasting();
-			}
+		if(sourceCard.getColoredManaCost().equals(0) && sourceCard.getColorlessManaCost().equals(0)) {
+			this.proceedToSelectCastingTarget();
 		} else {
 			this.coloredManaRequired = coloredManaCost;
 			this.colorlessManaRequired = colorlessManaCost;

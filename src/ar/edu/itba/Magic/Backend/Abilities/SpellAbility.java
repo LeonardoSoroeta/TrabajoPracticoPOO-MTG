@@ -46,10 +46,8 @@ public abstract class SpellAbility extends Ability implements GameStackObject {
 		for(Color color : Color.values()) {
 			manaCache.put(color, 0);
 		}
-		if(sourceCard.getColoredManaCost().equals(0)) {
-			if(sourceCard.getColorlessManaCost().equals(0)) {
-				this.proceedToSelectCastingTarget();
-			}
+		if(sourceCard.getColoredManaCost().equals(0) && sourceCard.getColorlessManaCost().equals(0)) {
+			this.proceedToSelectCastingTarget();
 		} else {
 			this.coloredManaRequired = sourceCard.getColoredManaCost();
 			this.colorlessManaRequired = sourceCard.getColorlessManaCost();
