@@ -85,7 +85,7 @@ public class DeckUI implements Drawable {
 	 *  in the edit deck state
 	 */
 	public boolean mouseRClicked(Input input) {
-		if(input.getMouseX() > this.getX() && input.getMouseY() > this.getY()) {
+		if(input.getMouseX() > this.getX() && input.getMouseY() > this.getY() && input.getMouseX() < this.getX() + deckUI.get(0).getImg().getWidth() && input.getMouseY() < this.getY() + deckUI.get(0).getImg().getHeight() ) {
 			if(input.isMousePressed(Input.MOUSE_RIGHT_BUTTON))
 				return true;
 		}

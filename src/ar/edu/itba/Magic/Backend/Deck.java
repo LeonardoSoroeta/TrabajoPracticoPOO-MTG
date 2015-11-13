@@ -154,7 +154,7 @@ public class Deck implements Serializable{
 		return deck;
 	}
 	
-	public int getSize(){
+	public Integer getSize(){
 		return deck.size();
 	}
 }
