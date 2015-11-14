@@ -40,7 +40,7 @@ public class CombatPhase {
 	public void resumeExecution() {
 		if(combatState.equals(CombatState.INITIAL_STATE)) {
 			this.combatState = CombatState.DECLARING_ATTACKERS;
-			Match.getMatch().awaitAttackerSelection("Select an attacker:");
+			Match.getMatch().awaitAttackerSelection("COMBAT PHASE: Select an attacker:");
 		} else if(combatState.equals(CombatState.DECLARING_ATTACKERS)) {
 			this.declareAttackers();
 		} else if(combatState.equals(CombatState.DECLARING_BLOCKERS)) {
@@ -57,7 +57,7 @@ public class CombatPhase {
 		} else if(combatState.equals(CombatState.DECLARING_ATTACKERS)) {
 			combatState = CombatState.DECLARING_BLOCKERS;
 			Match.getMatch().setActivePlayer(Match.getMatch().getOpposingPlayerFrom(Match.getMatch().getActivePlayer()));
-			Match.getMatch().awaitBlockerSelection("Select a blocker: ");
+			Match.getMatch().awaitBlockerSelection("COMBAT PHASE: Select a blocker: ");
 		} else if(combatState.equals(CombatState.DECLARING_BLOCKERS)) {
 			combatState = CombatState.DEALING_DAMAGE;
 			this.dealDamage();

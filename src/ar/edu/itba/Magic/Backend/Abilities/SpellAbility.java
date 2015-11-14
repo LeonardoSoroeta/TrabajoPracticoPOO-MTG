@@ -90,7 +90,7 @@ public abstract class SpellAbility extends Ability implements GameStackObject {
     /** Executes when player presses Cancel button, if currently requesting mana on casting. */
     public final void cancelCastingManaRequest() {
     	this.resetManaCache();
-    	Match.getMatch().newMessageToPlayer("Casting " + sourceCard.getCardType().getCardName() + " cancelled. Mana reimbursed.");
+    	Match.getMatch().newMessageToPlayer("MAIN PHASE: Cast spells, activate abilities.");
     }
     
     /** Removes the source card from controllers hand and sends the spell to the stack */

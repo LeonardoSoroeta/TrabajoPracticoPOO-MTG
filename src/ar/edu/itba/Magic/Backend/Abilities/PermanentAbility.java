@@ -99,7 +99,7 @@ public abstract class PermanentAbility extends Ability {
     /** Executes when player presses Cancel button, if currently requesting mana on casting. */
     public final void cancelCastingManaRequest() {
     	this.resetManaCache();
-    	Match.getMatch().newMessageToPlayer("Casting " + sourceCard.getCardType().getCardName() + " cancelled. Mana reimbursed.");
+    	Match.getMatch().newMessageToPlayer("MAIN PHASE: Cast spells, activate abilities.");
     }
 	
 	/** Must override this method if card requires target on casting */

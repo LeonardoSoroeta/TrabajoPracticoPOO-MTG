@@ -185,7 +185,7 @@ public class Match {
 	/** Executes on current player's pre and post combat main phase */
 	public void mainPhase() {
 		gameEventHandler.triggerGameEvent(new GameEvent(Event.MAIN_PHASE, activePlayer));
-		this.awaitMainPhaseActions("Main Phase: Cast spells, activate abilities.");
+		this.awaitMainPhaseActions("MAIN PHASE: Cast spells, activate abilities.");
 	}
 	
 	/** Executes on current player's combat phase */
