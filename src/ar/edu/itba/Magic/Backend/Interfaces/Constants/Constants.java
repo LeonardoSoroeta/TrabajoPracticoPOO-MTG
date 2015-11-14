@@ -7,5 +7,5 @@ public interface Constants {
 	public static final float ASPECT_RATIO = (float)VIRTUAL_WIDTH/(float)VIRTUAL_HEIGHT;
 	public static final Integer START_HEALTH = 20;
 	public static final String MAIN_PHASE_PROMPT = "MAIN PHASE: Cast spells, activate abilities.";
-	public static final String SPELL_STACK_PROMPT = "SPELL CHAIN: Fast actions?";
+	public static final String SPELL_STACK_PROMPT = "SPELL CHAIN: Fast actions? (Instant Cards, abilities)";
 }

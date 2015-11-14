@@ -42,7 +42,7 @@ public class Creature extends Permanent implements DamageTaking {
 	
 	public void setBaseDefense(Integer baseDefense){
 		this.baseDefense = baseDefense;
-		if(baseDefense + defenseModifier > 0) {
+		if(baseDefense + defenseModifier < 0) {
 			this.destroy();
 		}
 	}
@@ -53,7 +53,7 @@ public class Creature extends Permanent implements DamageTaking {
 	
 	public void modifyDefense(Integer modifier){
 		this.defenseModifier += modifier;
-		if(baseDefense + defenseModifier > 0) {
+		if(baseDefense + defenseModifier < 0) {
 			this.destroy();
 		}
 	}

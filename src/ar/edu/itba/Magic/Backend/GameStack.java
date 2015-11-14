@@ -27,8 +27,8 @@ public class GameStack {
     	Match.getMatch().setPreviousMatchState(Match.getMatch().getMatchState());
     	Match.getMatch().setActivePlayer(Match.getMatch().getOpposingPlayerFrom(Match.getMatch().getActivePlayer()));
     	this.playerDidSomething = false;
-    	Match.getMatch().newMessageToPlayer("Fast actions: Instant cards, Abilities:");
     	Match.getMatch().setMatchState(MatchState.AWAITING_STACK_ACTIONS);
+    	Match.getMatch().resetPlayerMessage();
     }
     
     public void playerDoneClicking() {
@@ -38,6 +38,7 @@ public class GameStack {
 	    	}
 	    	Match.getMatch().setActivePlayer(Match.getMatch().getTurnOwner());
 	    	Match.getMatch().setMatchState(Match.getMatch().getPreviousMatchState());
+	    	Match.getMatch().resetPlayerMessage();
     	} else {
     		Match.getMatch().setActivePlayer(Match.getMatch().getOpposingPlayerFrom(Match.getMatch().getActivePlayer()));
 	    	this.playerDidSomething = false;
