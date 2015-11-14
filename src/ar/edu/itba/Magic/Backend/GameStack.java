@@ -25,7 +25,7 @@ public class GameStack {
     
     public void initiateSpellChain() {
     	Match.getMatch().setPreviousMatchState(Match.getMatch().getMatchState());
-    	Match.getMatch().setActivePlayer(Match.getMatch().getOpposingPlayerFrom(Match.getMatch().getActivePlayer()));
+    	Match.getMatch().changeActivePlayer();
     	this.playerDidSomething = false;
     	Match.getMatch().setMatchState(MatchState.AWAITING_STACK_ACTIONS);
     	Match.getMatch().resetPlayerMessage();
@@ -40,7 +40,7 @@ public class GameStack {
 	    	Match.getMatch().setMatchState(Match.getMatch().getPreviousMatchState());
 	    	Match.getMatch().resetPlayerMessage();
     	} else {
-    		Match.getMatch().setActivePlayer(Match.getMatch().getOpposingPlayerFrom(Match.getMatch().getActivePlayer()));
+    		Match.getMatch().changeActivePlayer();
 	    	this.playerDidSomething = false;
     	}
     }

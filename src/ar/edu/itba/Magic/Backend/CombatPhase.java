@@ -55,9 +55,14 @@ public class CombatPhase {
 			this.resetData();
 			Match.getMatch().executeNextPhase();
 		} else if(combatState.equals(CombatState.DECLARING_ATTACKERS)) {
-			combatState = CombatState.DECLARING_BLOCKERS;
-			Match.getMatch().setActivePlayer(Match.getMatch().getOpposingPlayerFrom(Match.getMatch().getActivePlayer()));
-			Match.getMatch().awaitBlockerSelection("COMBAT PHASE: Select a blocker: ");
+			if(Match.getMatch().getOpposingPlayerFrom(Match.getMatch().getTurnOwner()).getCreatures().isEmpty()) {
+				combatState = CombatState.DEALING_DAMAGE;
+				this.dealDamage();
+			} else {
+				combatState = CombatState.DECLARING_BLOCKERS;
+				Match.getMatch().changeActivePlayer();
+				Match.getMatch().awaitBlockerSelection("COMBAT PHASE: Select a blocker: ");
+			}
 		} else if(combatState.equals(CombatState.DECLARING_BLOCKERS)) {
 			combatState = CombatState.DEALING_DAMAGE;
 			this.dealDamage();
