@@ -12,6 +12,7 @@ import ar.edu.itba.Magic.Backend.Enums.Event;
 import ar.edu.itba.Magic.Backend.Enums.MatchState;
 import ar.edu.itba.Magic.Backend.Enums.Phase;
 import ar.edu.itba.Magic.Backend.Exceptions.UninitializedPlayersException;
+import ar.edu.itba.Magic.Backend.Interfaces.Constants.Constants;
 
 /**
  * This class is responsible for the match's game logic. It executes on every game update cycle, and always 
@@ -154,13 +155,7 @@ public class Match {
 	private void start() {		
 		this.activePlayer = this.randomPlayer();
 		this.turnOwner= this.activePlayer;
-		//this.getPlayer1().getDeck().shuffleDeck();
-		///this.getPlayer2().getDeck().shuffleDeck();
-		//this.getPlayer1().drawCards(7);
-		//this.getPlayer2().drawCards(7);
-		
-		//this.currentPhase = Phase.BEGINNING_PHASE;
-		//this.beginningPhase();
+
 		startingPhase.start();
 	}
 	
@@ -453,6 +448,14 @@ public class Match {
 	/** Specifies a message for the active player */
 	public void newMessageToPlayer(String message) {
 		this.messageToPlayer = message;
+	}
+	
+	public void resetPlayerMessage() {
+		if(matchState.equals(MatchState.AWAITING_MAIN_PHASE_ACTIONS)) {
+			this.newMessageToPlayer(Constants.MAIN_PHASE_PROMPT);
+		} else if(matchState.equals(MatchState.AWAITING_STACK_ACTIONS)) {
+			this.newMessageToPlayer(Constants.SPELL_STACK_PROMPT);
+		}
 	}
 	
 	/** Sets the current players turn phase */

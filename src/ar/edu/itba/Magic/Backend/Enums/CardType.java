@@ -188,7 +188,6 @@ public enum CardType {
 		return new CreatureCard(CardType.CARNIVOROUS_PLANT, attributes, 4, 5, new DefaultCreatureAbility());
     } },		
     
-    // TODO probar esta
     CARRION_ANTS("Carrion Ants", Color.BLACK, 2, 2) { public Card createCardOfThisType() {
     	List<Attribute> attributes = new LinkedList<Attribute>();
 		attributes = Creature.getDefaultCreatureAttributes();
@@ -362,7 +361,6 @@ public enum CardType {
 		});
     } },	
     
-    //TODO probar esta
     FROZEN_SHADE("Frozen Shade", Color.BLACK, 1, 2) { public Card createCardOfThisType() {
     	List<Attribute> attributes = new LinkedList<Attribute>();
         attributes = Creature.getDefaultCreatureAttributes();
@@ -378,6 +376,7 @@ public enum CardType {
 					public void executeIfManaPayed() {
 						AutomaticLastingEffect newEffect = new OneTurnStatModifier(this, 1, 1);
 						this.getSourcePermanent().applyLastingEffect(newEffect);
+						Match.getMatch().resetPlayerMessage();
 					}
         });
     } },
@@ -518,7 +517,8 @@ public enum CardType {
 						@Override
 						public void resolveInStack() {
 							gameEventHandler.addListener(this);
-							gameEventHandler.triggerGameEvent(new GameEvent(Event.GENERIC_EVENT));
+							Match.getMatch().resetPlayerMessage();
+							gameEventHandler.refreshListeners();
 						}
 
 						@Override
@@ -885,12 +885,11 @@ public enum CardType {
                         	AutomaticLastingEffect newEffect = new OneTurnStatModifier(this, 0, 2);
                         	creature.applyLastingEffect(newEffect);
                         }
+                        gameEventHandler.refreshListeners();
 					}
 		});
     } },
     
-    
-    // TODO probar esta
     SHIVAN_DRAGON("Shivan Dragon", Color.RED, 2, 4) { public Card createCardOfThisType() {
     	List<Attribute> attributes = new LinkedList<Attribute>();
 		attributes = Creature.getDefaultCreatureAttributes();
@@ -1018,7 +1017,6 @@ public enum CardType {
 		return new CreatureCard(CardType.VODALIAN_SOLDIERS, attributes, 1, 2, new DefaultCreatureAbility());
 	} },
     
-    //TODO probar esta
     WALL_OF_FIRE("Wall of Fire", Color.RED, 2, 1) { public Card createCardOfThisType() {
     	List<Attribute> attributes = new LinkedList<Attribute>();
 		attributes = Creature.getDefaultCreatureAttributes();
@@ -1036,6 +1034,7 @@ public enum CardType {
 			public void executeIfManaPayed() {
 				AutomaticLastingEffect newEffect = new OneTurnStatModifier(this, 1, 0);
 				this.getSourcePermanent().applyLastingEffect(newEffect);
+				Match.getMatch().resetPlayerMessage();
 			}
 		});
     } },
@@ -1082,6 +1081,7 @@ public enum CardType {
 					public void executeIfManaPayed() {
 						AutomaticLastingEffect newEffect = new OneTurnStatModifier(this, 1, 0);
 						this.getSourcePermanent().applyLastingEffect(newEffect);
+						Match.getMatch().resetPlayerMessage();
 					}
 		});
     } },	

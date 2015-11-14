@@ -1,4 +1,5 @@
 package ar.edu.itba.Magic.Backend;
+import ar.edu.itba.Magic.Backend.Enums.Event;
 import ar.edu.itba.Magic.Backend.Interfaces.GameEventListener;
 
 import java.util.*;
@@ -34,6 +35,10 @@ public class GameEventHandler {
 		for(GameEventListener listener : newList)
 			listener.executeOnEvent(gameEvent);
 	}
+    
+    public void refreshListeners() {
+    	this.triggerGameEvent(new GameEvent(Event.GENERIC_EVENT));
+    }
 	
     /**
      * Adds an automatic ability or lasting effect to the observer list.

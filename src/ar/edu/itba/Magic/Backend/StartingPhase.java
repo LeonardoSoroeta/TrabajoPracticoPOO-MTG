@@ -38,7 +38,7 @@ public class StartingPhase {
 	}
 	
 	public void playerSelectedNo() {
-		Match.getMatch().setActivePlayer(Match.getMatch().getOpposingPlayerFrom(Match.getMatch().getActivePlayer()));
+		Match.getMatch().changeActivePlayer();
 		Match.getMatch().setTurnOwner(Match.getMatch().getActivePlayer());
 		this.finish();
 	}

@@ -36,7 +36,6 @@ public class GameStack {
 	    	while(!gameStack.isEmpty()) {
 	    		gameStack.pop().resolveInStack();
 	    	}
-	    	Match.getMatch().newMessageToPlayer("Main Phase: Cast spells, activate abilities.");
 	    	Match.getMatch().setActivePlayer(Match.getMatch().getTurnOwner());
 	    	Match.getMatch().setMatchState(Match.getMatch().getPreviousMatchState());
     	} else {
