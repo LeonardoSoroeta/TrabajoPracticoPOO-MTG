@@ -24,6 +24,8 @@ public class Creature extends Permanent implements DamageTaking {
 		this.baseAttack = attack;
 		this.baseDefense = defense;
 		this.damageMarkers = 0;
+		this.attackModifier = 0;
+		this.defenseModifier = 0;
 	}
 	
 	public Integer getAttack(){
