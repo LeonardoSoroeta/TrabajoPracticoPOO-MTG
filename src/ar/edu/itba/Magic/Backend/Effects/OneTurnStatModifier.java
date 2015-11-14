@@ -24,33 +24,13 @@ public class OneTurnStatModifier extends AutomaticLastingEffect {
 
 	@Override
 	public void applyEffect() {
-		if(attackModifier < 0) {
-			((Creature)this.getTarget()).decreaseAttack(attackModifier);
-		}
-		else {
-			((Creature)this.getTarget()).increaseAttack(attackModifier);
-		}
-		if(defenseModifier < 0) {
-			((Creature)this.getTarget()).decreaseDefense(defenseModifier);
-		}
-		else {
-			((Creature)this.getTarget()).increaseDefense(defenseModifier);
-		}
+		((Creature)this.getTarget()).modifyAttack(attackModifier);
+		((Creature)this.getTarget()).modifyDefense(defenseModifier);
 	}
 
 	@Override
 	public void undoEffect() {
-		if(attackModifier < 0) {
-			((Creature)this.getTarget()).increaseAttack(attackModifier);
-		}
-		else {
-			((Creature)this.getTarget()).decreaseAttack(attackModifier);
-		}
-		if(defenseModifier < 0) {
-			((Creature)this.getTarget()).increaseDefense(defenseModifier);
-		}
-		else {
-			((Creature)this.getTarget()).decreaseDefense(defenseModifier);
-		}
+		((Creature)this.getTarget()).modifyAttack(-attackModifier);
+		((Creature)this.getTarget()).modifyDefense(-defenseModifier);
 	}
 }

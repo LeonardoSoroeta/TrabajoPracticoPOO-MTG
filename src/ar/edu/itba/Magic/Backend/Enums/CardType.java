@@ -671,8 +671,8 @@ public enum CardType {
 							if(permanent.getCardType().equals(CardType.SWAMP))
 								swamps++;
 						}
-						((Creature)this.getSourcePermanent()).setAttack(swamps);
-						((Creature)this.getSourcePermanent()).setDefense(swamps);
+						((Creature)this.getSourcePermanent()).setBaseAttack(swamps);
+						((Creature)this.getSourcePermanent()).setBaseDefense(swamps);
 					}
 		});
     } },

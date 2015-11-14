@@ -13,51 +13,45 @@ import java.util.List;
 public class Creature extends Permanent implements DamageTaking {
 	
 	GameEventHandler gameEventHandler = GameEventHandler.getGameEventHandler();
-	private int attack;
-	private int defense;
+	private Integer baseAttack;
+	private Integer baseDefense;
+	private Integer attackModifier;
+	private Integer defenseModifier;
 	private Integer damageMarkers;
 																						
 	public Creature(Card sourceCard, List<Attribute> attributes, Integer attack, Integer defense, PermanentAbility ability) {
 		super(sourceCard, attributes, ability);
-		this.attack = attack;
-		this.defense = defense;
+		this.baseAttack = attack;
+		this.baseDefense = defense;
 		this.damageMarkers = 0;
 	}
 	
 	public Integer getAttack(){
-		return this.attack;
+		return this.baseAttack + this.attackModifier;
 	}
 	
 	public Integer getDefense(){
-		return this.defense;
+		return this.baseDefense + this.defenseModifier;
 	}
 	
-	public void setAttack(int i){
-		this.attack = i;
+	public void setBaseAttack(Integer i){
+		this.baseAttack = i;
 	}
 	
-	public void setDefense(int i){
-		this.defense = i;
+	public void setBaseDefense(Integer i){
+		this.baseDefense = i;
 		// TODO if defense - damageMarkers <= 0 , then this.destroy();
 	}
 	
-	public void increaseAttack(int i){
-		this.attack += i;
+	public void modifyAttack(Integer i){
+		this.attackModifier += i;
 	}
 	
-	public void increaseDefense(int i){
-		this.defense += i;
-	}
-	
-	public void decreaseAttack(int i){
-		this.attack -= i;
-	}
-	
-	public void decreaseDefense(int i){
-		this.defense -= i;
+	public void modifyDefense(Integer i){
+		this.defenseModifier += i;
 		// TODO if defense - damageMarkers <= 0 , then this.destroy();
 	}
-	
+
 	public void dealDamageTo(Creature creature) {
 		creature.takeDamage(this.getAttack());
 	}
@@ -68,12 +62,12 @@ public class Creature extends Permanent implements DamageTaking {
 	
 	public void takeDamage(Integer damage) {		
 		damageMarkers += damage;
-		if(damageMarkers >= this.defense) {
+		if(damageMarkers >= this.getDefense()) {
 			this.destroy();
 		}
 	}
 	
-	public int getDamageMarker() {		
+	public Integer getDamageMarkers() {		
 		return damageMarkers;
 	}
 	

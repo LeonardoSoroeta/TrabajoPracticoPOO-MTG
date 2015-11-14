@@ -15,33 +15,13 @@ public class StaticStatModifier extends LastingEffect {
 
 	@Override
 	public void applyEffect() {
-		if(attackModifier < 0) {
-			((Creature)this.getTarget()).decreaseAttack(Math.abs(attackModifier));
-		}
-		else {
-			((Creature)this.getTarget()).increaseAttack(attackModifier);
-		}
-		if(defenseModifier < 0) {
-			((Creature)this.getTarget()).decreaseDefense(Math.abs(defenseModifier));
-		}
-		else {
-			((Creature)this.getTarget()).increaseDefense(defenseModifier);
-		}
+		((Creature)this.getTarget()).modifyAttack(attackModifier);
+		((Creature)this.getTarget()).modifyDefense(defenseModifier);
 	}
 
 	@Override
 	public void undoEffect() {
-		if(attackModifier < 0) {
-			((Creature)this.getTarget()).increaseAttack(Math.abs(attackModifier));
-		}
-		else {
-			((Creature)this.getTarget()).decreaseAttack(attackModifier);
-		}
-		if(defenseModifier < 0) {
-			((Creature)this.getTarget()).increaseDefense(Math.abs(defenseModifier));
-		}
-		else {
-			((Creature)this.getTarget()).decreaseDefense(defenseModifier);
-		}
+		((Creature)this.getTarget()).modifyAttack(-attackModifier);
+		((Creature)this.getTarget()).modifyDefense(-defenseModifier);
 	}
 }

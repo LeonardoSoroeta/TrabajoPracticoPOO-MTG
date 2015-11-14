@@ -51,7 +51,7 @@ public abstract class SpellAbility extends Ability implements GameStackObject {
 		} else {
 			this.coloredManaRequired = sourceCard.getColoredManaCost();
 			this.colorlessManaRequired = sourceCard.getColorlessManaCost();
-			match.awaitCastingManaPayment(this, "Pay requested mana cost to cast this card: ");
+			match.awaitCastingManaPayment(this, "Casting " + sourceCard.getCardType().getCardName() + ". Pay requested mana cost to cast this card.");
 		}
 	}
 	
@@ -90,7 +90,7 @@ public abstract class SpellAbility extends Ability implements GameStackObject {
     /** Executes when player presses Cancel button, if currently requesting mana on casting. */
     public final void cancelCastingManaRequest() {
     	this.resetManaCache();
-    	Match.getMatch().newMessageToPlayer("Mana payment cancelled. Mana reimbursed.");
+    	Match.getMatch().newMessageToPlayer("Casting " + sourceCard.getCardType().getCardName() + " cancelled. Mana reimbursed.");
     }
     
     /** Removes the source card from controllers hand and sends the spell to the stack */
