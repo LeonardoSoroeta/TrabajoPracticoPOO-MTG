@@ -23,12 +23,15 @@ public class GameEventHandler {
     }
     
     /** 
-     * Passes a GameEvent instance through the list of observers.
+     * Passes a GameEvent instance through the list of observers. Iterates over a copy of the listeners list
+     * to avoid ConcurrentModificationException.
      * 
      * @param gameEvent Event descriptor.
      */
-    public void triggerGameEvent(GameEvent gameEvent) {		
-		for(GameEventListener listener : listeners)
+    public void triggerGameEvent(GameEvent gameEvent) {	
+    	LinkedList<GameEventListener> newList = new LinkedList<GameEventListener>();
+    	newList.addAll(listeners);
+		for(GameEventListener listener : newList)
 			listener.executeOnEvent(gameEvent);
 	}
 	

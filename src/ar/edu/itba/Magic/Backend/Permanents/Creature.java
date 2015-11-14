@@ -36,30 +36,42 @@ public class Creature extends Permanent implements DamageTaking {
 		return this.baseDefense + this.defenseModifier;
 	}
 	
-	public void setBaseAttack(Integer i){
-		this.baseAttack = i;
+	public void setBaseAttack(Integer baseAttack){
+		this.baseAttack = baseAttack;
 	}
 	
-	public void setBaseDefense(Integer i){
-		this.baseDefense = i;
-		// TODO if defense - damageMarkers <= 0 , then this.destroy();
+	public void setBaseDefense(Integer baseDefense){
+		this.baseDefense = baseDefense;
+		if(baseDefense + defenseModifier > 0) {
+			this.destroy();
+		}
 	}
 	
-	public void modifyAttack(Integer i){
-		this.attackModifier += i;
+	public void modifyAttack(Integer modifier){
+		this.attackModifier += modifier;
 	}
 	
-	public void modifyDefense(Integer i){
-		this.defenseModifier += i;
-		// TODO if defense - damageMarkers <= 0 , then this.destroy();
+	public void modifyDefense(Integer modifier){
+		this.defenseModifier += modifier;
+		if(baseDefense + defenseModifier > 0) {
+			this.destroy();
+		}
 	}
 
 	public void dealDamageTo(Creature creature) {
-		creature.takeDamage(this.getAttack());
+		if(this.getAttack() < 0) {
+			creature.takeDamage(0);
+		} else {
+			creature.takeDamage(this.getAttack());
+		}
 	}
 	
 	public void dealDamageTo(Player player) {
-		player.takeDamage(this.getAttack());
+		if(this.getAttack() < 0) {
+			player.takeDamage(0);
+		} else {
+			player.takeDamage(this.getAttack());
+		}
 	}
 	
 	public void takeDamage(Integer damage) {		

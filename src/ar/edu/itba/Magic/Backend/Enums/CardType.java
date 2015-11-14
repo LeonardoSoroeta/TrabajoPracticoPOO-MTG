@@ -518,6 +518,7 @@ public enum CardType {
 						@Override
 						public void resolveInStack() {
 							gameEventHandler.addListener(this);
+							gameEventHandler.triggerGameEvent(new GameEvent(Event.GENERIC_EVENT));
 						}
 
 						@Override
