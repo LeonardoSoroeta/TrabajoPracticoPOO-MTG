@@ -180,7 +180,7 @@ public class CombatPhase {
 		
 		for(Creature attacker : attackers) {
 			if(!creaturePairs.containsKey(attacker)) {
-				Match.getMatch().getOpposingPlayerFrom(Match.getMatch().getTurnOwner()).takeDamage(attacker.getAttack());
+				attacker.dealDamageTo(Match.getMatch().getOpposingPlayerFrom(Match.getMatch().getTurnOwner()));
 			}
 		}
 		

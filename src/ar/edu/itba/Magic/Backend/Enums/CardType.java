@@ -196,7 +196,7 @@ public enum CardType {
 
 					@Override
 					public void executeOnActivation() {
-						this.requestAbilityManaPayment(Color.COLORLESS, 0, 1, "Pay 1 colorless mana");
+						this.requestAbilityManaPayment(0, 1);
 					}
 					
 					@Override
@@ -369,7 +369,7 @@ public enum CardType {
 
 					@Override
 					public void executeOnActivation() {
-						this.requestAbilityManaPayment(Color.BLACK, 1, 0, "Pay 1 black mana");
+						this.requestAbilityManaPayment(1, 0);
 					}
 					
 					@Override
@@ -899,7 +899,7 @@ public enum CardType {
 
 				@Override
 				public void executeOnActivation() {
-					this.requestAbilityManaPayment(Color.RED, 1, 0, "Pay 1 red mana");
+					this.requestAbilityManaPayment(1, 0);
 				}
 				
 				@Override
@@ -1027,7 +1027,7 @@ public enum CardType {
 
 			@Override
 			public void executeOnActivation() {
-				this.requestAbilityManaPayment(Color.RED, 1, 0, "Pay 1 red mana");
+				this.requestAbilityManaPayment(1, 0);
 			}
 			
 			@Override
@@ -1074,7 +1074,7 @@ public enum CardType {
 
 					@Override
 					public void executeOnActivation() {
-						this.requestAbilityManaPayment(Color.BLUE, 1, 0, "Pay 1 blue mana: ");
+						this.requestAbilityManaPayment(1, 0);
 					}
 					
 					@Override

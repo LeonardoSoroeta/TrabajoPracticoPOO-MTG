@@ -60,7 +60,7 @@ public abstract class PermanentAbility extends Ability {
 		} else {
 			this.coloredManaRequired = sourceCard.getColoredManaCost();
 			this.colorlessManaRequired = sourceCard.getColorlessManaCost();
-			match.awaitCastingManaPayment(this, "Casting " + sourceCard.getCardType().getCardName().toUpperCase() + ". Pay requested mana cost to cast this card.");
+			match.awaitCastingManaPayment(this, "Casting " + sourceCard.getCardType().getCardName().toUpperCase() + ". " + this.manaPrompt());
 		}
 	}
 	
@@ -70,7 +70,7 @@ public abstract class PermanentAbility extends Ability {
     	Color selectedColor = (Color)selectedTarget;
     	
     	if(!manaPool.containsOneManaOfThisColor(selectedColor)) {
-    		match.awaitCastingManaPayment(this, "Pay requested mana cost to cast this card: ");
+    		match.awaitCastingManaPayment(this, "Casting " + sourceCard.getCardType().getCardName().toUpperCase() + ". " + this.manaPrompt());
     	} else {
 	    	if(selectedColor.equals(sourceCard.getColor())) {
 	    		if(coloredManaRequired > 0) {
@@ -91,7 +91,7 @@ public abstract class PermanentAbility extends Ability {
 	    	if(coloredManaRequired.equals(0) && colorlessManaRequired.equals(0)) {
 	    		this.proceedToSelectCastingTarget();
 	    	} else {
-	    		match.awaitCastingManaPayment(this, "Pay requested mana cost to cast this card: ");
+	    		match.awaitCastingManaPayment(this, "Casting " + sourceCard.getCardType().getCardName().toUpperCase() + ". " + this.manaPrompt());
 	    	}
     	}
     }
@@ -158,7 +158,7 @@ public abstract class PermanentAbility extends Ability {
 	}
 	
 	/** Must use this method if ability requires mana payment */
-	public final void requestAbilityManaPayment(Color color, Integer coloredManaCost, Integer colorlessManaCost, String message) {
+	public final void requestAbilityManaPayment(Integer coloredManaCost, Integer colorlessManaCost) {
 		this.manaPool = this.getSourcePermanent().getController().getManaPool();
 		for(Color each : Color.values()) {
 			manaCache.put(each, 0);
@@ -168,7 +168,7 @@ public abstract class PermanentAbility extends Ability {
 		} else {
 			this.coloredManaRequired = coloredManaCost;
 			this.colorlessManaRequired = colorlessManaCost;
-			match.awaitAbilityManaPayment(this, message);
+			match.awaitAbilityManaPayment(this, "Activating " + sourceCard.getCardType().getCardName().toUpperCase() + ". " + this.manaPrompt());
 		}
 	}
 	
@@ -178,7 +178,7 @@ public abstract class PermanentAbility extends Ability {
     	Color selectedColor = (Color)selectedTarget;
     	
     	if(!manaPool.containsOneManaOfThisColor(selectedColor)) {
-    		match.awaitCastingManaPayment(this, "Pay requested mana cost to cast this card: ");
+    		match.awaitCastingManaPayment(this, "Casting " + sourceCard.getCardType().getCardName().toUpperCase() + ". " + this.manaPrompt());
     	} else {
 	    	if(selectedColor.equals(sourceCard.getColor())) {
 	    		if(coloredManaRequired > 0) {
@@ -199,7 +199,7 @@ public abstract class PermanentAbility extends Ability {
 	    	if(coloredManaRequired.equals(0) && colorlessManaRequired.equals(0)) {
 	    		this.executeIfManaPayed();
 	    	} else {
-	    		match.awaitAbilityManaPayment(this, "Continue paying mana cost: ");
+	    		match.awaitCastingManaPayment(this, "Casting " + sourceCard.getCardType().getCardName().toUpperCase() + ". " + this.manaPrompt());
 	    	}
     	}
 	}
@@ -213,6 +213,18 @@ public abstract class PermanentAbility extends Ability {
 	/** Must override this method if ability requires mana payment */
 	public void executeIfManaPayed() {
 		
+	}
+	
+	private String manaPrompt() {
+		if(coloredManaRequired.equals(0)) {
+			return "Pay " + colorlessManaRequired.toString() + " Colorless.";
+		} else {
+			if(colorlessManaRequired.equals(0)) {
+				return "Pay " + coloredManaRequired.toString() + " " + sourceCard.getColor().getName() + ".";
+			} else {
+				return "Pay "  + coloredManaRequired.toString() + " " + sourceCard.getColor().getName() + " " + colorlessManaRequired.toString() + " Colorless.";
+			}
+		}
 	}
 	
 	/** Executes when player presses Cancel button, if ability currently requesting a target. */

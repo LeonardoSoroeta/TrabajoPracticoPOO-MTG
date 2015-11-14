@@ -51,7 +51,7 @@ public abstract class SpellAbility extends Ability implements GameStackObject {
 		} else {
 			this.coloredManaRequired = sourceCard.getColoredManaCost();
 			this.colorlessManaRequired = sourceCard.getColorlessManaCost();
-			match.awaitCastingManaPayment(this, "Casting " + sourceCard.getCardType().getCardName().toUpperCase() + ". Pay requested mana cost to cast this card.");
+			match.awaitCastingManaPayment(this, "Casting " + sourceCard.getCardType().getCardName().toUpperCase() + ". " + this.manaPrompt());
 		}
 	}
 	
@@ -61,7 +61,7 @@ public abstract class SpellAbility extends Ability implements GameStackObject {
     	Color selectedColor = (Color)selectedTarget;
     	
     	if(!manaPool.containsOneManaOfThisColor(selectedColor)) {
-    		match.awaitCastingManaPayment(this, "Pay requested mana cost to cast this card: ");
+    		match.awaitCastingManaPayment(this, "Casting " + sourceCard.getCardType().getCardName().toUpperCase() + ". " + this.manaPrompt());
     	} else {
 	    	if(selectedColor.equals(sourceCard.getColor())) {
 	    		if(coloredManaRequired > 0) {
@@ -82,7 +82,7 @@ public abstract class SpellAbility extends Ability implements GameStackObject {
 	    	if(coloredManaRequired.equals(0) && colorlessManaRequired.equals(0)) {
 	    		this.proceedToSelectCastingTarget();
 	    	} else {
-	    		match.awaitCastingManaPayment(this, "Pay requested mana cost to cast this card: ");
+	    		match.awaitCastingManaPayment(this, "Casting " + sourceCard.getCardType().getCardName().toUpperCase() + ". " + this.manaPrompt());
 	    	}
     	}
     }
@@ -92,6 +92,18 @@ public abstract class SpellAbility extends Ability implements GameStackObject {
     	this.resetManaCache();
     	Match.getMatch().resetPlayerMessage();
     }
+    
+    private String manaPrompt() {
+		if(coloredManaRequired.equals(0)) {
+			return "Pay " + colorlessManaRequired.toString() + " Colorless.";
+		} else {
+			if(colorlessManaRequired.equals(0)) {
+				return "Pay " + coloredManaRequired.toString() + " " + sourceCard.getColor().getName() + ".";
+			} else {
+				return "Pay "  + coloredManaRequired.toString() + " " + sourceCard.getColor().getName() + " " + colorlessManaRequired.toString() + " Colorless.";
+			}
+		}
+	}
     
     /** Removes the source card from controllers hand and sends the spell to the stack */
     @Override 

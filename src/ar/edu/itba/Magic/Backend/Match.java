@@ -401,8 +401,13 @@ public class Match {
 			this.currentPhase = Phase.PRE_COMBAT_MAIN_PHASE;
 			this.mainPhase();
 		} else if(currentPhase.equals(Phase.PRE_COMBAT_MAIN_PHASE)) {
-			this.currentPhase = Phase.COMBAT_PHASE;
-			this.combatPhase();
+			if(turnOwner.getCreatures().isEmpty()) {
+				this.currentPhase = Phase.ENDING_PHASE;
+				this.endingPhase();
+			} else {
+				this.currentPhase = Phase.COMBAT_PHASE;
+				this.combatPhase();
+			}
 		} else if(currentPhase.equals(Phase.COMBAT_PHASE)) {
 			this.currentPhase = Phase.POST_COMBAT_MAIN_PHASE;
 			this.mainPhase();

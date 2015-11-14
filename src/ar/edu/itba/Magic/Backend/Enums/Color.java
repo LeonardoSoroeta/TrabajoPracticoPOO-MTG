@@ -12,10 +12,14 @@ public enum Color {
     BLUE("Blue"), 
     COLORLESS("Colorless");
 	
-	String color;
+	private String color;
 	
 	private Color(String color) {
 		this.color = color;
+	}
+	
+	public String getName() {
+		return color;
 	}
 
 }
