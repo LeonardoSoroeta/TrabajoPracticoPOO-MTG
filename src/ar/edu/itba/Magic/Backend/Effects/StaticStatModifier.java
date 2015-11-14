@@ -21,7 +21,7 @@ public class StaticStatModifier extends LastingEffect {
 
 	@Override
 	public void undoEffect() {
-		((Creature)this.getTarget()).modifyAttack(-attackModifier);
-		((Creature)this.getTarget()).modifyDefense(-defenseModifier);
+		((Creature)this.getTarget()).modifyAttack(-1*attackModifier);
+		((Creature)this.getTarget()).modifyDefense(-1*defenseModifier);
 	}
 }

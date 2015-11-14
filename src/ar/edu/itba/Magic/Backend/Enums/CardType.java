@@ -438,6 +438,7 @@ public enum CardType {
 					@Override
 					public void executeOnActivation() {
 						if(!this.getSourcePermanent().isTapped()) {
+							this.getSourcePermanent().tap();
 							this.getSourcePermanent().getController().getManaPool().addOneManaOfThisColor(Color.BLUE);
 						}
 					}
