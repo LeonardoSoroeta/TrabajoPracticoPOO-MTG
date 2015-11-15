@@ -276,10 +276,17 @@ public enum CardType {
     DARK_RITUAL("Dark Ritual", Color.BLACK, 1, 0) { public Card createCardOfThisType() {
     	return new InstantCard(CardType.DARK_RITUAL,
 				new SpellAbility() {
+    				
+    				/* Bypass the spell chain for mana generating spells */
+    				@Override 
+    				public void finishCasting() {
+    					this.getSourceCard().getController().getManaPool().addManaOfThisColor(Color.BLACK, 3);
+    					this.getSourceCard().getController().discardCard(this.getSourceCard());
+    				}
 
 					@Override
 					public void resolveInStack() {
-						this.getSourceCard().getController().getManaPool().addManaOfThisColor(Color.BLACK, 3);
+						
 					}
 		});
     } },	
@@ -473,6 +480,25 @@ public enum CardType {
 		return new CreatureCard(CardType.HURLOON_MINOTAUR, attributes, 2, 3, new DefaultCreatureAbility());
     } },
     
+    // TODO ver si aplicar esto para criaturas en spell state
+    INFERNO("Inferno", Color.RED, 2, 5) { public Card createCardOfThisType() {
+      	 return new InstantCard(CardType.INFERNO,
+           		new SpellAbility() {
+ 
+   					@Override
+   					public void resolveInStack() {
+   						LinkedList<Creature> allCreatures = new LinkedList<Creature>();
+   						allCreatures.addAll(Match.getMatch().getPlayer1().getCreatures());
+   						allCreatures.addAll(Match.getMatch().getPlayer2().getCreatures());
+   						for(Creature each : allCreatures) {
+   							each.takeDamage(6);
+   						}
+   						Match.getMatch().getPlayer1().takeDamage(6);
+   						Match.getMatch().getPlayer2().takeDamage(6);
+   					}	
+           });
+      } },
+    
     IRONROOT_TREEFOLK("Ironroot Treefolk", Color.GREEN, 1, 4) { public Card createCardOfThisType() {
     	List<Attribute> attributes = new LinkedList<Attribute>();
         attributes = Creature.getDefaultCreatureAttributes();
@@ -535,6 +561,36 @@ public enum CardType {
 		attributes.add(Attribute.FIRST_STRIKE);
 		return new CreatureCard(CardType.LAND_LEECHES, attributes, 2, 2, new DefaultCreatureAbility());
     } },
+    
+    LIGHTNING_BOLT("Lightning Bolt", Color.RED, 1, 0) { public Card createCardOfThisType() {
+   	 return new InstantCard(CardType.LIGHTNING_BOLT,
+        		new SpellAbility() {
+			   		Object target;
+			    	Creature targetCreature;
+			    	
+			    	@Override
+			    	public void proceedToSelectCastingTarget() {
+			    		Match.getMatch().awaitCastingTargetSelection(this, "Select target creature");
+			    	}
+			    	
+			    	@Override
+			    	public void resumeCastingTargetSelection() {
+			    		target = Match.getMatch().getSelectedTarget();
+			    		if(!(target instanceof Creature)) {
+			    			Match.getMatch().awaitCastingTargetSelection(this, "Select target creature");
+			    		} else {
+			    			targetCreature = (Creature)target;
+			    			this.finishCasting();
+			    		}
+			    	}
+			    	
+					@Override
+					public void resolveInStack() {
+						targetCreature.takeDamage(3);
+					}
+						
+        });
+   } },
  
     LLANOWAR_ELVES("Llanowar Elves", Color.GREEN, 1, 0) { public Card createCardOfThisType() {
     	List<Attribute> attributes = new LinkedList<Attribute>();
@@ -582,8 +638,7 @@ public enum CardType {
 	                            		creature.removeLastingEffectsFromSourceAbility(this);
 	                            	}
 	                            }
-							}
-							else {
+							} else {
 								List<Creature> allCreatures = new LinkedList<Creature>();
 	                             allCreatures.addAll(match.getPlayer1().getCreatures());
 	                             allCreatures.addAll(match.getPlayer2().getCreatures());
@@ -732,6 +787,56 @@ public enum CardType {
     	List<Attribute> attributes = new LinkedList<Attribute>();
         attributes = Creature.getDefaultCreatureAttributes();
         return new CreatureCard(CardType.PEARLED_UNICORN, attributes, 2, 2, new DefaultCreatureAbility());
+    } },
+    
+    // TODO ver si aplicar esto a criaturas en spell state
+    PESTILENCE("Pestilence", Color.BLACK, 2, 2) { public Card createCardOfThisType() {
+    	return new EnchantmentCard(CardType.PESTILENCE, 
+    				new AutomaticPermanentAbility() {
+    					boolean destroyThis;
+    		
+    					@Override
+    					public void executeOnEntering() {
+    						gameEventHandler.addListener(this);
+    					}
+    					
+    					@Override
+    					public void executeOnExit() {
+    						gameEventHandler.removeListener(this);
+    					}
+    					
+    					@Override
+    					public void executeOnEvent(GameEvent gameEvent) {
+    						if(gameEvent.getDescriptor().equals(Event.END_OF_TURN)) {
+	    						if(Match.getMatch().getPlayer1().getCreatures().isEmpty()) {
+		    						if(Match.getMatch().getPlayer2().getCreatures().isEmpty()) {
+		    							destroyThis = true;
+		    						}
+	    						}
+	    						if(destroyThis) {
+	    							this.getSourcePermanent().destroy();
+	    						}
+    						}
+    					}
+    					
+    					@Override
+    					public void executeOnActivation() {
+    						this.requestAbilityManaPayment(1, 0);
+    					}
+    					
+    					@Override 
+    					public void executeIfManaPayed() {
+    						LinkedList<Creature> allCreatures = new LinkedList<Creature>();
+       						allCreatures.addAll(Match.getMatch().getPlayer1().getCreatures());
+       						allCreatures.addAll(Match.getMatch().getPlayer2().getCreatures());
+       						for(Creature each : allCreatures) {
+       							each.takeDamage(1);
+       						}
+       						Match.getMatch().getPlayer1().takeDamage(1);
+       						Match.getMatch().getPlayer2().takeDamage(1);
+    					}
+    		
+    	});
     } },
     
     PLAINS("Plains", Color.COLORLESS, 0, 0) { public Card createCardOfThisType() {
@@ -978,6 +1083,36 @@ public enum CardType {
 		});
     } },
     
+    SINKHOLE("Sinkhole", Color.BLACK, 2, 0) { public Card createCardOfThisType() {
+      	 return new SorceryCard(CardType.SINKHOLE,
+           		new SpellAbility() {
+   			   		Object target;
+   			    	Land targetLand;
+   			    	
+   			    	@Override
+   			    	public void proceedToSelectCastingTarget() {
+   			    		Match.getMatch().awaitCastingTargetSelection(this, "Select target land");
+   			    	}
+   			    	
+   			    	@Override
+   			    	public void resumeCastingTargetSelection() {
+   			    		target = Match.getMatch().getSelectedTarget();
+   			    		if(!(target instanceof Land)) {
+   			    			Match.getMatch().awaitCastingTargetSelection(this, "Select target land");
+   			    		} else {
+   			    			targetLand = (Land)target;
+   			    			this.finishCasting();
+   			    		}
+   			    	}
+   			    	
+   					@Override
+   					public void resolveInStack() {
+   						targetLand.destroy();
+   					}
+   						
+           });
+      } },
+    
     SOL_RING("Sol Ring", Color.COLORLESS, 0, 1) { public Card createCardOfThisType() {
     	return new ArtifactCard(CardType.SOL_RING,
 				new PermanentAbility() {
@@ -999,6 +1134,36 @@ public enum CardType {
 		return new CreatureCard(CardType.SQUIRE, attributes, 1, 2, new DefaultCreatureAbility());
     } },
     
+    STONE_RAIN("Stone Rain", Color.RED, 1, 2) { public Card createCardOfThisType() {
+     	 return new SorceryCard(CardType.STONE_RAIN,
+          		new SpellAbility() {
+  			   		Object target;
+  			    	Land targetLand;
+  			    	
+  			    	@Override
+  			    	public void proceedToSelectCastingTarget() {
+  			    		Match.getMatch().awaitCastingTargetSelection(this, "Select target land");
+  			    	}
+  			    	
+  			    	@Override
+  			    	public void resumeCastingTargetSelection() {
+  			    		target = Match.getMatch().getSelectedTarget();
+  			    		if(!(target instanceof Land)) {
+  			    			Match.getMatch().awaitCastingTargetSelection(this, "Select target land");
+  			    		} else {
+  			    			targetLand = (Land)target;
+  			    			this.finishCasting();
+  			    		}
+  			    	}
+  			    	
+  					@Override
+  					public void resolveInStack() {
+  						targetLand.destroy();
+  					}
+  						
+          });
+     } },
+    
     SWAMP("Swamp", Color.COLORLESS, 0, 0) { public Card createCardOfThisType() {
     	return new LandCard(CardType.SWAMP, 
 				new PermanentAbility() {
@@ -1012,6 +1177,40 @@ public enum CardType {
 					}
 		});
     } },
+    
+    TERROR("Terror", Color.BLACK, 1, 1) { public Card createCardOfThisType() {
+      	 return new InstantCard(CardType.TERROR,
+           		new SpellAbility() {
+   			   		Object target;
+   			    	Creature targetCreature;
+   			    	
+   			    	@Override
+   			    	public void proceedToSelectCastingTarget() {
+   			    		Match.getMatch().awaitCastingTargetSelection(this, "Select target non black creature");
+   			    	}
+   			    	
+   			    	@Override
+   			    	public void resumeCastingTargetSelection() {
+   			    		target = Match.getMatch().getSelectedTarget();
+   			    		if(!(target instanceof Creature)) {
+   			    			Match.getMatch().awaitCastingTargetSelection(this, "Select target non black creature");
+   			    		} else {
+   			    			targetCreature = (Creature)target;
+   			    			if(!targetCreature.getColor().equals(Color.BLACK)) {
+   			    				this.finishCasting();
+   			    			} else {
+   			    				Match.getMatch().awaitCastingTargetSelection(this, "Select target non black creature");
+   			    			}
+   			    		}
+   			    	}
+   			    	
+   					@Override
+   					public void resolveInStack() {
+   						targetCreature.destroy();
+   					}
+   						
+           });
+      } },
     
     THE_RACK("The Rack", Color.COLORLESS, 0, 1) { public Card createCardOfThisType() {
     	return new ArtifactCard(CardType.THE_RACK,
