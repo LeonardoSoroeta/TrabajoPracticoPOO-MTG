@@ -248,7 +248,7 @@ public class NewMatchState extends BasicGameState {
 		if( match.getMatchState().equals(MatchState.AWAITING_ABILITY_TARGET_SELECTION) || match.getMatchState().equals(MatchState.AWAITING_CASTING_TARGET_SELECTION)){
 			
 			for(Permanent permanent: player1.getPermanentsInPlay()){	
-				if( decklistpl2.getTinyCard(permanent).mouseLClicked(input)){
+				if( decklistpl1.getTinyCard(permanent).mouseLClicked(input)){
 					match.returnSelectedTarget(permanent);
 					match.update();
 					}

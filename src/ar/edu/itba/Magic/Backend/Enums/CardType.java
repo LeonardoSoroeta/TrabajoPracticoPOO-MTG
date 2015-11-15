@@ -139,7 +139,26 @@ public enum CardType {
         attributes = Creature.getDefaultCreatureAttributes();
         attributes.add(Attribute.TRAMPLE);
         attributes.remove(Attribute.SUMMONING_SICKNESS);
-        return new CreatureCard(CardType.BALL_LIGHTNING, attributes, 6, 1, new DefaultCreatureAbility());
+        return new CreatureCard(CardType.BALL_LIGHTNING, attributes, 6, 1, new AutomaticPermanentAbility() {
+
+        	@Override
+        	public void executeOnEntering() {
+        		gameEventHandler.addListener(this);
+        	}
+        	
+        	@Override
+        	public void executeOnExit() {
+        		gameEventHandler.removeListener(this);
+        	}
+        	
+			@Override
+			public void executeOnEvent(GameEvent gameEvent) {
+				if(gameEvent.getDescriptor().equals(Event.END_OF_TURN)) {
+					this.getSourcePermanent().destroy();
+				}
+			}
+        	
+        });
     } },
     
     BIRD_MAIDEN("Bird Maiden", Color.RED, 1, 2) { public Card createCardOfThisType() {
@@ -379,6 +398,36 @@ public enum CardType {
 						Match.getMatch().resetPlayerMessage();
 					}
         });
+    } },
+    
+    GIANT_GROWTH("Giant Growth", Color.GREEN, 1, 0) { public Card createCardOfThisType() {
+    	return new InstantCard(CardType.GIANT_GROWTH, 
+    			new SpellAbility() {
+		    	Object target;
+		    	Creature targetCreature;
+		    	
+		    	@Override
+		    	public void proceedToSelectCastingTarget() {
+		    		Match.getMatch().awaitCastingTargetSelection(this, "Select target creature");
+		    	}
+		    	
+		    	@Override
+		    	public void resumeCastingTargetSelection() {
+		    		target = Match.getMatch().getSelectedTarget();
+		    		if(!(target instanceof Creature)) {
+		    			Match.getMatch().awaitCastingTargetSelection(this, "Select target creature");
+		    		} else {
+		    			targetCreature = (Creature)target;
+		    			this.finishCasting();
+		    		}
+		    	}
+		    	
+				@Override
+				public void resolveInStack() {
+					AutomaticLastingEffect newEffect = new OneTurnStatModifier(this, 3, 3);
+					targetCreature.applyLastingEffect(newEffect);
+				}
+    	});
     } },
     
     GRAY_OGRE("Gray Ogre", Color.RED, 1, 2) { public Card createCardOfThisType() {
