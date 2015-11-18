@@ -616,7 +616,7 @@ public class NewMatchState extends BasicGameState {
 
 	public int getID() {
 		
-		return 2;
+		return 5;
 		
 	}
 	

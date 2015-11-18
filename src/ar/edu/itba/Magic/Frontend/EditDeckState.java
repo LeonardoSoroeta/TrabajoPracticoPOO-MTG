@@ -1,6 +1,7 @@
 package ar.edu.itba.Magic.Frontend;
 
 import java.awt.Image;
+import java.io.IOException;
 import java.util.LinkedList;
 
 import org.newdawn.slick.GameContainer;
@@ -20,10 +21,12 @@ public class EditDeckState extends BasicGameState {
 	ExtendedImage setp1;
 	ExtendedImage setp2;
 	ExtendedImage edit;
+	ExtendedImage delete;
 	LinkedList<Deck> decks;
 	LinkedList<DeckUI> decksUI;
 	Input input;
 	int mouseWheel = 0;
+	int deckNum = 0;
 	boolean wheelMoved = false;
 	boolean askForDeck = false;
 	static boolean load = false;
@@ -35,8 +38,8 @@ public class EditDeckState extends BasicGameState {
 		setp2 = new ExtendedImage("res/setp2.png",gc.getWidth()*1/2,gc.getHeight()*1/3);
 		edit = new ExtendedImage("res/edit2.png",gc.getWidth()*4/8,gc.getHeight()*1/4);
 		back = new ExtendedImage("res/back.png",gc.getWidth()*4/8,gc.getHeight()*1/7);
+		delete = new ExtendedImage("res/dlt.png",gc.getWidth()*4/8,gc.getHeight()*1/7);
 		decksUI = new LinkedList<DeckUI>();
-		
 	}
 
 	public void update(GameContainer gc, StateBasedGame sbg, int arg2)
@@ -44,14 +47,12 @@ public class EditDeckState extends BasicGameState {
 		input = gc.getInput();
 		
 		if(load) {
-			System.out.println("assaf");
 			decks = Deck.loadDecks();
 			if(decks != null) {
 				int counter = 0;
 				for(Deck each: decks) {
 					DeckUI aux = new DeckUI(each);
 					aux.generateCardsImg(gc);
-					//aux.generateCardsImg(gc);
 					// sets the position of the deck, with it's first card
 					aux.setFirstCard(counter*gc.getWidth()*1/5,gc.getHeight()*1/4);
 					decksUI.add(aux);
@@ -64,17 +65,29 @@ public class EditDeckState extends BasicGameState {
 		if(askForDeck) {
 			if(setp1.mouseLClicked(input)) {
 				ref.generateDeck();
-				Match.getMatch().setPlayer1(new Player(ref.getDeck()));
+				Match.getMatch().setPlayer1(new Player(new Deck(ref.getDeck())));
 				askForDeck = false;
 			}
 			else if(setp2.mouseLClicked(input)) {
 				ref.generateDeck();
-				Match.getMatch().setPlayer2(new Player(ref.getDeck()));
+				Match.getMatch().setPlayer2(new Player(new Deck(ref.getDeck())));
 				askForDeck = false;				
 			}
 			else if(edit.mouseLClicked(input)) {
 				NewDeckState.setEditingDeck(ref);
+				decks = new LinkedList<Deck>();
+				decksUI = new LinkedList<DeckUI>();
 				sbg.enterState(3);
+				askForDeck = false;	
+			}
+			else if(delete.mouseLClicked(input)) {
+				try {
+					Deck.deleteDeck(deckNum);
+				} catch (IOException e) {
+					//System.out.println("error trying to delete a deck");
+				} 
+				decksUI.remove(deckNum);
+				askForDeck = false;		
 			}
 			else if(input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
 				askForDeck = false;
@@ -82,6 +95,8 @@ public class EditDeckState extends BasicGameState {
 		}
 		
 		if(back.mouseLClicked(input)) {
+			decks = new LinkedList<Deck>();
+			decksUI = new LinkedList<DeckUI>();
 			sbg.enterState(1);
 		}
 		
@@ -95,8 +110,8 @@ public class EditDeckState extends BasicGameState {
 		for(DeckUI each: decksUI) {
 			if(each.mouseRClicked(input)) {
 				this.askForDeck = true;
-				System.out.println("adsad");
 				ref = each;
+				deckNum = decksUI.indexOf(each);
 				return;
 			}
 		}
@@ -109,7 +124,6 @@ public class EditDeckState extends BasicGameState {
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics arg2)
 			throws SlickException {
 		back.draw();
-		int count = 0;
 		for(DeckUI each: decksUI) {
 			each.draw();
 		}
@@ -118,6 +132,7 @@ public class EditDeckState extends BasicGameState {
 			setp1.draw();
 			setp2.draw();
 			edit.draw();
+			delete.draw();
 		}
 		
 	}
