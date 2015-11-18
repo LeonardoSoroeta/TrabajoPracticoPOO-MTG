@@ -7,6 +7,7 @@ import java.util.Map;
 
 import ar.edu.itba.Magic.Backend.Enums.Attribute;
 import ar.edu.itba.Magic.Backend.Enums.CardType;
+import ar.edu.itba.Magic.Backend.Enums.MatchState;
 import ar.edu.itba.Magic.Backend.Permanents.Creature;
 import ar.edu.itba.Magic.Backend.Permanents.Land;
 import ar.edu.itba.Magic.Backend.Permanents.Permanent;
@@ -189,9 +190,11 @@ public class CombatPhase {
 			}
 		}
 		
-		this.resetData();
-		Match.getMatch().setActivePlayer(Match.getMatch().getTurnOwner());
-		Match.getMatch().executeNextPhase();
+		if(!Match.getMatch().getMatchState().equals(MatchState.GAME_OVER)) {
+			this.resetData();
+			Match.getMatch().setActivePlayer(Match.getMatch().getTurnOwner());
+			Match.getMatch().executeNextPhase();
+		}
 	}
 	
 	public List<Creature> getAttackers() {

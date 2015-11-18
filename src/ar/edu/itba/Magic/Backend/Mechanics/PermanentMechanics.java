@@ -1,4 +1,4 @@
-package ar.edu.itba.Magic.Backend.Abilities;
+package ar.edu.itba.Magic.Backend.Mechanics;
 
 import java.util.HashMap;
 import java.util.List;
@@ -19,7 +19,7 @@ import ar.edu.itba.Magic.Backend.Permanents.Land;
 import ar.edu.itba.Magic.Backend.Permanents.Permanent;
 
 /** All permanents and their source Cards contain a PermanentAbility */
-public abstract class PermanentAbility extends Ability {
+public abstract class PermanentMechanics extends Mechanics {
 	
 	Match match = Match.getMatch();
 	

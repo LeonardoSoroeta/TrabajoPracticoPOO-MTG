@@ -1,13 +1,13 @@
 package ar.edu.itba.Magic.Backend.Effects;
 
-import ar.edu.itba.Magic.Backend.Abilities.Ability;
+import ar.edu.itba.Magic.Backend.Mechanics.Mechanics;
 import ar.edu.itba.Magic.Backend.Permanents.Creature;
 
 public class StaticStatModifier extends LastingEffect {
 	private Integer attackModifier;
 	private Integer defenseModifier;
 
-	public StaticStatModifier(Ability sourceAbility, Integer attackModifier, Integer defenseModifier) {
+	public StaticStatModifier(Mechanics sourceAbility, Integer attackModifier, Integer defenseModifier) {
 		super(sourceAbility);
 		this.attackModifier = attackModifier;
 		this.defenseModifier = defenseModifier;

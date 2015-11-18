@@ -6,13 +6,13 @@ import java.util.LinkedList;
 import ar.edu.itba.Magic.Backend.GameEventHandler;
 import ar.edu.itba.Magic.Backend.Permanents.Creature;
 import ar.edu.itba.Magic.Backend.Player;
-import ar.edu.itba.Magic.Backend.Abilities.Ability;
-import ar.edu.itba.Magic.Backend.Abilities.PermanentAbility;
 import ar.edu.itba.Magic.Backend.Enums.Event;
 import ar.edu.itba.Magic.Backend.Enums.MatchState;
 import ar.edu.itba.Magic.Backend.Enums.Phase;
 import ar.edu.itba.Magic.Backend.Exceptions.UninitializedPlayersException;
 import ar.edu.itba.Magic.Backend.Interfaces.Constants.Constants;
+import ar.edu.itba.Magic.Backend.Mechanics.Mechanics;
+import ar.edu.itba.Magic.Backend.Mechanics.PermanentMechanics;
 
 /**
  * This class is responsible for the match's game logic. It executes on every game update cycle, and always 
@@ -22,7 +22,7 @@ public class Match {
 	
 	private static Match self = new Match();
 	
-	GameStack gameStack = GameStack.getGameStackInstance();
+	SpellStack gameStack = SpellStack.getSpellStack();
 	GameEventHandler gameEventHandler = GameEventHandler.getGameEventHandler();
 	CombatPhase combatPhase = CombatPhase.getCombatPhase();
 	CardDiscardPhase cardDiscardPhase = CardDiscardPhase.getCardDiscardPhase();
@@ -37,8 +37,8 @@ public class Match {
 	private MatchState previousMatchState;
 	private boolean isFirstTurn = true;
 	private boolean landPlayedThisTurn;
-	private Ability targetRequestingAbility;
-	private Ability manaRequestingAbility;
+	private Mechanics targetRequestingAbility;
+	private Mechanics manaRequestingAbility;
 	private boolean playerSelectedYes;
 	private boolean playerSelectedNo;
 	private boolean playerDoneClicking;
@@ -82,10 +82,10 @@ public class Match {
 		} else if(matchState.equals(MatchState.AWAITING_ABILITY_MANA_PAYMENT)) {
 			if(manaPaymentCancelled == true) {
 				matchState = previousMatchState;
-				((PermanentAbility)manaRequestingAbility).cancelAbilityManaRequest();
+				((PermanentMechanics)manaRequestingAbility).cancelAbilityManaRequest();
 			} else if(selectedTarget != null) {
 				matchState = previousMatchState;
-				((PermanentAbility)manaRequestingAbility).resumeAbilityManaRequest();
+				((PermanentMechanics)manaRequestingAbility).resumeAbilityManaRequest();
 			}
 			
 		} else if(matchState.equals(MatchState.AWAITING_CASTING_TARGET_SELECTION)) {
@@ -100,10 +100,10 @@ public class Match {
 		} else if(matchState.equals(MatchState.AWAITING_ABILITY_TARGET_SELECTION)) {
 			if(targetSelectionCancelled == true) {
 				matchState = previousMatchState;
-				((PermanentAbility)manaRequestingAbility).cancelAbilityTargetSelection();
+				((PermanentMechanics)manaRequestingAbility).cancelAbilityTargetSelection();
 			} else if(selectedTarget != null) {
 				matchState = previousMatchState;
-				((PermanentAbility)manaRequestingAbility).resumeAbilityTargetSelection();
+				((PermanentMechanics)manaRequestingAbility).resumeAbilityTargetSelection();
 			}
 			
 		} else if(matchState.equals(MatchState.AWAITING_STACK_ACTIONS)) {
@@ -305,7 +305,7 @@ public class Match {
 	}
 	
 	/** Halts the match in AWAITING_CASTING_TARGET_SELECTION state */
-	public void awaitCastingTargetSelection(Ability requestingAbility, String messageToPlayer) {
+	public void awaitCastingTargetSelection(Mechanics requestingAbility, String messageToPlayer) {
 		this.selectedTarget = null;
 		this.targetSelectionCancelled = false;
 		this.targetRequestingAbility = requestingAbility;
@@ -315,7 +315,7 @@ public class Match {
 	}
 	
 	/** Halts the match in AWAITING_CASTING_MANA_PAYMENT state */
-	public void awaitCastingManaPayment(Ability requestingAbility, String messageToPlayer) {
+	public void awaitCastingManaPayment(Mechanics requestingAbility, String messageToPlayer) {
 		this.selectedTarget = null;
 		this.manaPaymentCancelled = false;
 		this.manaRequestingAbility = requestingAbility;
@@ -325,7 +325,7 @@ public class Match {
 	}
 	
 	/** Halts the match in AWAITING_ABILITY_TARGET_SELECTION state */
-	public void awaitAbilityTargetSelection(Ability requestingAbility, String messageToPlayer) {
+	public void awaitAbilityTargetSelection(Mechanics requestingAbility, String messageToPlayer) {
 		this.selectedTarget = null;
 		this.targetSelectionCancelled = false;
 		this.targetRequestingAbility = requestingAbility;
@@ -335,7 +335,7 @@ public class Match {
 	}
 	
 	/** Halts the match in AWAITING_ABILITY_MANA_PAYMENT state */
-	public void awaitAbilityManaPayment(Ability requestingAbility, String messageToPlayer) {
+	public void awaitAbilityManaPayment(Mechanics requestingAbility, String messageToPlayer) {
 		this.selectedTarget = null;
 		this.manaPaymentCancelled = false;
 		this.manaRequestingAbility = requestingAbility;
@@ -422,13 +422,12 @@ public class Match {
 		}
 	}
 	
-	/** Ends the match */
-	public void endMatch() {
+	/** Resets all data */
+	public void resetAllData() {
 		this.resetData();
 		gameStack.resetData();
 		combatPhase.resetData();
 		gameEventHandler.resetData();
-		this.matchState = MatchState.GAME_OVER;
 	}
 	
 	/** Resets all data related to the match */
@@ -494,7 +493,7 @@ public class Match {
 		return combatPhase;
 	}
 	
-	public GameStack getGameStack() {
+	public SpellStack getGameStack() {
 		return gameStack;
 	}
 

@@ -1,8 +1,8 @@
 package ar.edu.itba.Magic.Backend.Effects;
 
 import ar.edu.itba.Magic.Backend.GameEvent;
-import ar.edu.itba.Magic.Backend.Abilities.Ability;
 import ar.edu.itba.Magic.Backend.Interfaces.GameEventListener;
+import ar.edu.itba.Magic.Backend.Mechanics.Mechanics;
 
 /**
  * AutomaticLastingEffect is a LastingEffect that takes on the responsiblity of removing itself 
@@ -10,7 +10,7 @@ import ar.edu.itba.Magic.Backend.Interfaces.GameEventListener;
  */
 public abstract class AutomaticLastingEffect extends LastingEffect implements GameEventListener {
 	
-	public AutomaticLastingEffect(Ability sourceAbility) {
+	public AutomaticLastingEffect(Mechanics sourceAbility) {
 		super(sourceAbility);
 	}
 	

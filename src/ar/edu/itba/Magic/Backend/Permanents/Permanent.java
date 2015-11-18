@@ -3,37 +3,37 @@ package ar.edu.itba.Magic.Backend.Permanents;
 import java.util.*;
 
 import ar.edu.itba.Magic.Backend.GameEventHandler;
-import ar.edu.itba.Magic.Backend.GameStack;
+import ar.edu.itba.Magic.Backend.SpellStack;
 import ar.edu.itba.Magic.Backend.Player;
-import ar.edu.itba.Magic.Backend.Abilities.Ability;
-import ar.edu.itba.Magic.Backend.Abilities.PermanentAbility;
 import ar.edu.itba.Magic.Backend.Cards.Card;
 import ar.edu.itba.Magic.Backend.Effects.AutomaticLastingEffect;
 import ar.edu.itba.Magic.Backend.Effects.LastingEffect;
 import ar.edu.itba.Magic.Backend.Enums.Attribute;
 import ar.edu.itba.Magic.Backend.Enums.CardType;
 import ar.edu.itba.Magic.Backend.Enums.Color;
-import ar.edu.itba.Magic.Backend.Interfaces.GameStackObject;
+import ar.edu.itba.Magic.Backend.Interfaces.Spell;
+import ar.edu.itba.Magic.Backend.Mechanics.Mechanics;
+import ar.edu.itba.Magic.Backend.Mechanics.PermanentMechanics;
 
 /**
  * All objects currently in play are Permanents. These objects may be a Creature, an Enchantment, an Artifact or a Land.
  * Permanents may be affected by LastingEffects from a determined Ability.
  */
-public abstract class Permanent implements GameStackObject {
+public abstract class Permanent implements Spell {
 	
 	private Card sourceCard;
 	private Player controller;
 	private boolean tapped;
 	private boolean legalTarget;
 	private boolean spellState;
-	private PermanentAbility permanentAbility;
+	private PermanentMechanics permanentAbility;
 	private List<Attribute> attributes;
 	private List<LastingEffect> appliedLastingEffects = new LinkedList<LastingEffect>();
 	private List<Enchantment> attachedEnchantments = new LinkedList<Enchantment>();
 	GameEventHandler gameEventHandler = GameEventHandler.getGameEventHandler();
-	GameStack gameStack = GameStack.getGameStackInstance();
+	SpellStack gameStack = SpellStack.getSpellStack();
 	
-	public Permanent(Card sourceCard, List<Attribute> attributes, PermanentAbility ability) {
+	public Permanent(Card sourceCard, List<Attribute> attributes, PermanentMechanics ability) {
 		this.sourceCard = sourceCard;
 		this.attributes = attributes;
 		this.permanentAbility = ability;
@@ -79,7 +79,7 @@ public abstract class Permanent implements GameStackObject {
      * 
      * @param ability an Ability that may be applying a LastingEffect on this Permanent.
      */
-    public void removeLastingEffectsFromSourceAbility(Ability ability) {
+    public void removeLastingEffectsFromSourceAbility(Mechanics ability) {
     	for(LastingEffect lastingEffect : appliedLastingEffects) {
     		if(lastingEffect.getSourceAbility() == ability) {
     			lastingEffect.undoEffect();
@@ -231,7 +231,7 @@ public abstract class Permanent implements GameStackObject {
 	 * @param ability an Ability that may be applying a LastingEffect on this Permanent.
 	 * @return True if affected. False otherwise.
 	 */
-    public boolean isAffectedByAbility(Ability ability) {
+    public boolean isAffectedByAbility(Mechanics ability) {
     	for(LastingEffect lastingEffect : appliedLastingEffects) {
     		if(lastingEffect.getSourceAbility() == ability) {
     			return true;
@@ -246,7 +246,7 @@ public abstract class Permanent implements GameStackObject {
      * 
      * @return PermanentAbility contained by this permanent.
      */
-	public PermanentAbility getAbility() {
+	public PermanentMechanics getAbility() {
 		return permanentAbility;
 	}
 	

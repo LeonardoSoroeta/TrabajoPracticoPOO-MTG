@@ -3,15 +3,15 @@ package ar.edu.itba.Magic.Backend.Permanents;
 import java.util.LinkedList;
 import java.util.List;
 
-import ar.edu.itba.Magic.Backend.Abilities.PermanentAbility;
 import ar.edu.itba.Magic.Backend.Cards.Card;
 import ar.edu.itba.Magic.Backend.Enums.Attribute;
-import ar.edu.itba.Magic.Backend.Interfaces.GameStackObject;
+import ar.edu.itba.Magic.Backend.Interfaces.Spell;
+import ar.edu.itba.Magic.Backend.Mechanics.PermanentMechanics;
 
 /** Artifacts are colorless permanents */
-public class Artifact extends Permanent implements GameStackObject {
+public class Artifact extends Permanent implements Spell {
 	 
-	public Artifact(Card sourceCard, PermanentAbility ability) {
+	public Artifact(Card sourceCard, PermanentMechanics ability) {
 		super(sourceCard, getDefaultArtifactAttributes(), ability);
 	}
 	

@@ -1,7 +1,7 @@
 package ar.edu.itba.Magic.Backend.Test;
 
-import ar.edu.itba.Magic.Backend.GameStack;
-import ar.edu.itba.Magic.Backend.Interfaces.GameStackObject;
+import ar.edu.itba.Magic.Backend.SpellStack;
+import ar.edu.itba.Magic.Backend.Interfaces.Spell;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -15,18 +15,18 @@ import static org.junit.Assert.assertEquals;
  */
 public class StackTest {
 
-    private GameStack stack;
-    private GameStackObject object;
-    private List<GameStackObject> list;
+    private SpellStack stack;
+    private Spell object;
+    private List<Spell> list;
 
     @Before
     public void initialize(){
 
-        stack = GameStack.getGameStackInstance();
+        stack = SpellStack.getSpellStack();
         list = new LinkedList<>();
 
         //SendToStack and resolveInStack methods will not be implementend. @object It is just a Test object.
-        object = new GameStackObject() {
+        object = new Spell() {
             @Override
             public void sendToStack() {
 
@@ -43,7 +43,7 @@ public class StackTest {
 
     @Test
     public void singletoneClassTest(){
-        assertEquals(stack, GameStack.getGameStackInstance());
+        assertEquals(stack, SpellStack.getSpellStack());
     }
 
     @Test

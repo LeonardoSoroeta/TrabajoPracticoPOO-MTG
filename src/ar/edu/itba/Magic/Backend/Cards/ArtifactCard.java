@@ -1,11 +1,11 @@
 package ar.edu.itba.Magic.Backend.Cards;
 
-import ar.edu.itba.Magic.Backend.Abilities.Ability;
 import ar.edu.itba.Magic.Backend.Enums.CardType;
+import ar.edu.itba.Magic.Backend.Mechanics.Mechanics;
 
 public class ArtifactCard extends Card {
 
-	public ArtifactCard(CardType cardType, Ability ability) {
+	public ArtifactCard(CardType cardType, Mechanics ability) {
 		super(cardType, ability);
 	}
 

@@ -3,6 +3,7 @@ package ar.edu.itba.Magic.Backend;
 import ar.edu.itba.Magic.Backend.Cards.Card;
 import ar.edu.itba.Magic.Backend.Enums.Attribute;
 import ar.edu.itba.Magic.Backend.Enums.Event;
+import ar.edu.itba.Magic.Backend.Enums.MatchState;
 import ar.edu.itba.Magic.Backend.Interfaces.DamageTaking;
 import ar.edu.itba.Magic.Backend.Permanents.Artifact;
 import ar.edu.itba.Magic.Backend.Permanents.Creature;
@@ -216,7 +217,7 @@ public class Player implements DamageTaking {
 		if(damage >= 0)
 			health -= damage;
 		if(this.lost()) {
-			match.endMatch();
+			match.setMatchState(MatchState.GAME_OVER);
 		}
 	}
 

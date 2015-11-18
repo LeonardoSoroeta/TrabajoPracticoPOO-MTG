@@ -1,8 +1,8 @@
 package ar.edu.itba.Magic.Backend.Cards;
 import ar.edu.itba.Magic.Backend.Player;
-import ar.edu.itba.Magic.Backend.Abilities.Ability;
 import ar.edu.itba.Magic.Backend.Enums.CardType;
 import ar.edu.itba.Magic.Backend.Enums.Color;
+import ar.edu.itba.Magic.Backend.Mechanics.Mechanics;
 
 /**
  * Created by Martin on 31/10/2015.
@@ -10,9 +10,9 @@ import ar.edu.itba.Magic.Backend.Enums.Color;
 public abstract class Card {
     private Player controller;
     private CardType cardType;
-    private Ability ability;
+    private Mechanics ability;
 
-    public Card(CardType cardType, Ability ability) {
+    public Card(CardType cardType, Mechanics ability) {
         this.cardType = cardType;
         this.ability = ability;
     }
@@ -41,7 +41,7 @@ public abstract class Card {
         return this.cardType.getColorlessManaCost();
     }
 
-    public Ability getAbility() {
+    public Mechanics getAbility() {
         return this.ability;
     }
 

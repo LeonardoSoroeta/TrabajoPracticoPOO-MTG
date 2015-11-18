@@ -1,9 +1,9 @@
-package ar.edu.itba.Magic.Backend.Abilities;
+package ar.edu.itba.Magic.Backend.Mechanics;
 
 import ar.edu.itba.Magic.Backend.GameEvent;
 import ar.edu.itba.Magic.Backend.Interfaces.GameEventListener;
 
-public abstract class AutomaticSpellAbility extends SpellAbility implements GameEventListener {
+public abstract class AutomaticSpellMechanics extends SpellMechanics implements GameEventListener {
 	
 	public abstract void resolveInStack();
 	

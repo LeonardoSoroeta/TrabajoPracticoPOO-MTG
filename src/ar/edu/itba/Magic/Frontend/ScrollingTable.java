@@ -6,9 +6,9 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 
-import ar.edu.itba.Magic.Backend.Abilities.SpellAbility;
 import ar.edu.itba.Magic.Backend.Cards.Card;
-import ar.edu.itba.Magic.Backend.Interfaces.GameStackObject;
+import ar.edu.itba.Magic.Backend.Interfaces.Spell;
+import ar.edu.itba.Magic.Backend.Mechanics.SpellMechanics;
 import ar.edu.itba.Magic.Backend.Permanents.Creature;
 import ar.edu.itba.Magic.Backend.Permanents.Permanent;
 
@@ -124,8 +124,8 @@ for( Card card: cards){
 	}
 	
 	
-	public void drawObject(List<GameStackObject> objects, DeckList dl, float w, float h, Input input){
-		for ( GameStackObject object: objects){
+	public void drawObject(List<Spell> objects, DeckList dl, float w, float h, Input input){
+		for ( Spell object: objects){
 			
 			if(object instanceof Permanent ){
 				
@@ -134,8 +134,8 @@ for( Card card: cards){
 			
 			}
 		
-		else if(object instanceof SpellAbility ){
-			dl.getTinyCard(((SpellAbility)object).getSourceCard()).draw(x+(objects.indexOf(objects)*w), y, w, h);
+		else if(object instanceof SpellMechanics ){
+			dl.getTinyCard(((SpellMechanics)object).getSourceCard()).draw(x+(objects.indexOf(objects)*w), y, w, h);
 		
 			}
 			

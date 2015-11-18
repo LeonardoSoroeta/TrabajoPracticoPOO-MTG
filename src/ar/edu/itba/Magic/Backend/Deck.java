@@ -150,7 +150,7 @@ public class Deck implements Serializable {
 		if(deck.contains(card)) {
 			deck.remove(card);
 		} else {
-			Match.getMatch().endMatch();
+			Match.getMatch().resetAllData();
 		}
 	}
 
