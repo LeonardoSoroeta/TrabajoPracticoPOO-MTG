@@ -398,9 +398,9 @@ public class Match {
 	/** Executes the next phase of the current player's turn */
 	public void executeNextPhase() {		
 		if(currentPhase.equals(Phase.BEGINNING_PHASE)) {
-			this.currentPhase = Phase.PRE_COMBAT_MAIN_PHASE;
+			this.currentPhase = Phase.MAIN_PHASE;
 			this.mainPhase();
-		} else if(currentPhase.equals(Phase.PRE_COMBAT_MAIN_PHASE)) {
+		} else if(currentPhase.equals(Phase.MAIN_PHASE)) {
 			if(turnOwner.getCreatures().isEmpty()) {
 				this.currentPhase = Phase.ENDING_PHASE;
 				this.endingPhase();
@@ -409,9 +409,6 @@ public class Match {
 				this.combatPhase();
 			}
 		} else if(currentPhase.equals(Phase.COMBAT_PHASE)) {
-			this.currentPhase = Phase.POST_COMBAT_MAIN_PHASE;
-			this.mainPhase();
-		} else if(currentPhase.equals(Phase.POST_COMBAT_MAIN_PHASE)) {
 			this.currentPhase = Phase.ENDING_PHASE;
 			this.endingPhase();
 		} else if(currentPhase.equals(Phase.ENDING_PHASE)) {
