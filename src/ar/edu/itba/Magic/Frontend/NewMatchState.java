@@ -251,6 +251,7 @@ public class NewMatchState extends BasicGameState {
 				if( decklistpl1.getTinyCard(permanent).mouseLClicked(input)){
 					match.returnSelectedTarget(permanent);
 					match.update();
+					break;
 					}
 			}
 			
@@ -259,6 +260,7 @@ public class NewMatchState extends BasicGameState {
 				if( decklistpl2.getTinyCard(permanent).mouseLClicked(input)){
 					match.returnSelectedTarget(permanent);
 					match.update();
+					break;
 				}
 			}
 		
@@ -268,6 +270,7 @@ public class NewMatchState extends BasicGameState {
 					if( decklistpl1.getTinyCard((Permanent)object).mouseLClicked(input)){
 						match.returnSelectedTarget(object);
 						match.update();
+						break;
 					}
 				}
 			
@@ -278,6 +281,7 @@ public class NewMatchState extends BasicGameState {
 					if( decklistpl2.getTinyCard((Permanent)object).mouseLClicked(input)){
 						match.returnSelectedTarget(object);
 						match.update();
+						break;
 					}
 				}
 				
