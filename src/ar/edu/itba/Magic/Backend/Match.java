@@ -396,7 +396,7 @@ public class Match {
 	}
 	
 	/** Executes the next phase of the current player's turn */
-	public void executeNextPhase() {		
+	public void executeNextPhase() {		 
 		if(currentPhase.equals(Phase.BEGINNING_PHASE)) {
 			this.currentPhase = Phase.MAIN_PHASE;
 			this.mainPhase();
