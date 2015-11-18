@@ -428,6 +428,7 @@ public class Match {
 		gameStack.resetData();
 		combatPhase.resetData();
 		gameEventHandler.resetData();
+		this.matchState = MatchState.GAME_OVER;
 	}
 	
 	/** Resets all data related to the match */
