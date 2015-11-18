@@ -253,6 +253,7 @@ public class NewMatchState extends BasicGameState {
 					match.update();
 					}
 			}
+			
 			for(Permanent permanent: player2.getPermanentsInPlay()){
 			
 				if( decklistpl2.getTinyCard(permanent).mouseLClicked(input)){
@@ -261,7 +262,26 @@ public class NewMatchState extends BasicGameState {
 				}
 			}
 		
-		
+			
+				for(Object object: match.getGameStack().getPlayer1STackObjects()){
+				
+					if( decklistpl1.getTinyCard((Permanent)object).mouseLClicked(input)){
+						match.returnSelectedTarget(object);
+						match.update();
+					}
+				}
+			
+			
+			
+				for(Object object: match.getGameStack().getPlayer2StackObjects()){
+				
+					if( decklistpl2.getTinyCard((Permanent)object).mouseLClicked(input)){
+						match.returnSelectedTarget(object);
+						match.update();
+					}
+				}
+				
+				
 			if (cancelbutton.mouseLClicked(input)){
 				match.cancelTargetSelection();
 				match.update();
