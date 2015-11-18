@@ -24,7 +24,6 @@ public class SpellStack {
     }
     
     public void initiateSpellChain() {
-    	Match.getMatch().setPreviousMatchState(Match.getMatch().getMatchState());
     	Match.getMatch().changeActivePlayer();
     	this.playerDidSomething = false;
     	Match.getMatch().setMatchState(MatchState.AWAITING_STACK_ACTIONS);
@@ -37,7 +36,7 @@ public class SpellStack {
 	    		spellStack.pop().resolveInStack();
 	    	}
 	    	Match.getMatch().setActivePlayer(Match.getMatch().getTurnOwner());
-	    	Match.getMatch().setMatchState(Match.getMatch().getPreviousMatchState());
+	    	Match.getMatch().setMatchState(MatchState.AWAITING_MAIN_PHASE_ACTIONS);
 	    	Match.getMatch().resetPlayerMessage();
     	} else {
     		Match.getMatch().changeActivePlayer();
