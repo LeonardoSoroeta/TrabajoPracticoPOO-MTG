@@ -7,11 +7,11 @@ import ar.edu.itba.Magic.Backend.Permanents.Permanent;
 
 import java.util.LinkedList;
 
-/** The game stack contains a list of spells being currently casted, that have not yet had its action */
+/** The spell stack contains a list of spells being currently casted, that have not yet executed their action */
 public class SpellStack {
 	
     private static SpellStack instance = new SpellStack();
-	private LinkedList<Spell> gameStack = new LinkedList<>();
+	private LinkedList<Spell> spellStack = new LinkedList<>();
 	
 	private boolean playerDidSomething;
 
@@ -33,8 +33,8 @@ public class SpellStack {
     
     public void playerDoneClicking() {
     	if(playerDidSomething == false) {
-	    	while(!gameStack.isEmpty()) {
-	    		gameStack.pop().resolveInStack();
+	    	while(!spellStack.isEmpty()) {
+	    		spellStack.pop().resolveInStack();
 	    	}
 	    	Match.getMatch().setActivePlayer(Match.getMatch().getTurnOwner());
 	    	Match.getMatch().setMatchState(Match.getMatch().getPreviousMatchState());
@@ -45,66 +45,66 @@ public class SpellStack {
     	}
     }
 
-	public void addStackObject(Spell gameStackObject) {
-		if(gameStack.isEmpty()) {
-			gameStack.push(gameStackObject);
+	public void addSpell(Spell spell) {
+		if(spellStack.isEmpty()) {
+			spellStack.push(spell);
 			this.initiateSpellChain();
 		} else {
-			gameStack.push(gameStackObject);
+			spellStack.push(spell);
 			this.playerDidSomething = true;
 		}
     }
 	
-	public void removeStackObject(Spell gameStackObject) {
-		gameStack.remove(gameStackObject);
+	public void removeSpell(Spell spell) {
+		spellStack.remove(spell);
 	}
 	
-	public LinkedList<Spell> getGameStackObjects() {
-		LinkedList<Spell> gameStackObjects = new LinkedList<Spell>();
+	public LinkedList<Spell> getSpells() {
+		LinkedList<Spell> spells = new LinkedList<Spell>();
 		
-		gameStackObjects.addAll(this.gameStack);
+		spells.addAll(this.spellStack);
 		
-		return gameStackObjects;
+		return spells;
 	}
 	
-	public LinkedList<Spell> getPlayer1STackObjects() {
-		LinkedList<Spell> gameStackObjects = new LinkedList<Spell>();
+	public LinkedList<Spell> getPlayer1Spells() {
+		LinkedList<Spell> spells = new LinkedList<Spell>();
 		
-		for(Spell each : gameStack) {
+		for(Spell each : spellStack) {
 			if(each instanceof SpellMechanics) {
 				if(((SpellMechanics)each).getSourceCard().getController().equals(Match.getMatch().getPlayer1())) {
-					gameStackObjects.add(each);
+					spells.add(each);
 				}
 			} else if (each instanceof Permanent) {
 				if(((Permanent)each).getSourceCard().getController().equals(Match.getMatch().getPlayer1())) {
-					gameStackObjects.add(each);
+					spells.add(each);
 				}
 			}
 		}
 		
-		return gameStackObjects;
+		return spells;
 	}
 	
-	public LinkedList<Spell> getPlayer2StackObjects() {
-		LinkedList<Spell> gameStackObjects = new LinkedList<Spell>();
+	public LinkedList<Spell> getPlayer2Spells() {
+		LinkedList<Spell> spells = new LinkedList<Spell>();
 		
-		for(Spell each : gameStack) {
+		for(Spell each : spellStack) {
 			if(each instanceof SpellMechanics) {
 				if(((SpellMechanics)each).getSourceCard().getController().equals(Match.getMatch().getPlayer2())) {
-					gameStackObjects.add(each);
+					spells.add(each);
 				}
 			} else if (each instanceof Permanent) {
 				if(((Permanent)each).getSourceCard().getController().equals(Match.getMatch().getPlayer2())) {
-					gameStackObjects.add(each);
+					spells.add(each);
 				}
 			}
 		}
 		
-		return gameStackObjects;
+		return spells;
 	}
 	
 	
 	public void resetData() {
-		gameStack.clear();
+		spellStack.clear();
 	}
 }

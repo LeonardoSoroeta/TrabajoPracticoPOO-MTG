@@ -137,7 +137,7 @@ public abstract class SpellMechanics extends Mechanics implements Spell {
 	
 	/** Sends spell to stack */
 	public final void sendToStack() {
-		gameStack.addStackObject(this);
+		gameStack.addSpell(this);
 	}
 	
 	/** Responsible for finally executing the spells action */

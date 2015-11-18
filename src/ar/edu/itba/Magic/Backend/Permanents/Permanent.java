@@ -281,7 +281,7 @@ public abstract class Permanent implements Spell {
 	}
 	
 	public void sendToStack() {
-		gameStack.addStackObject(this);
+		gameStack.addSpell(this);
 	}
 	
 	public void resolveInStack() {
@@ -298,7 +298,7 @@ public abstract class Permanent implements Spell {
 		if(this.isStillALegalTarget()) {
 			if(this.isCurrentlyInSpellState()) {
 				legalTarget = false;
-				gameStack.removeStackObject(this);
+				gameStack.removeSpell(this);
 				this.controller.placeCardInGraveyard(sourceCard);
 			}
 			else {

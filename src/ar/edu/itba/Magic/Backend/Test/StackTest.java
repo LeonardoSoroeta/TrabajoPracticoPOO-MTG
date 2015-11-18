@@ -48,8 +48,8 @@ public class StackTest {
 
     @Test
     public void gameStackObjectsTest(){
-        stack.addStackObject(object);
-       assertEquals(stack.getGameStackObjects(),list);
+        stack.addSpell(object);
+       assertEquals(stack.getSpells(),list);
     }
 
 }
