@@ -214,7 +214,7 @@ public class NewMatchState extends BasicGameState {
 		
 		if ( match.getMatchState().equals(MatchState.AWAITING_CASTING_MANA_PAYMENT) || match.getMatchState().equals(MatchState.AWAITING_ABILITY_MANA_PAYMENT)){
 			
-			if( match.getPlayerPlaying() == 1){
+			if ( match.getActivePlayer().equals(player1)){
 				for ( Color color: Color.values()){
 					if (mananumberPL1.getNumber().get(color).get(0).mouseLClicked(input)){
 						match.returnSelectedTarget(color);
@@ -222,7 +222,7 @@ public class NewMatchState extends BasicGameState {
 					}
 				}
 			}
-			if( match.getPlayerPlaying() == 2){
+			if ( match.getActivePlayer().equals(player2)){
 				
 				for ( Color color: Color.values()){
 					if (mananumberPL2.getNumber().get(color).get(0).mouseLClicked(input)){	
