@@ -1,9 +1,9 @@
-package ar.edu.itba.Magic.Backend.Abilities;
+package ar.edu.itba.Magic.Backend.Mechanics;
 
 import ar.edu.itba.Magic.Backend.Cards.Card;
 
 /** This class determines every Sorcery, Instant or Permanent's behavior */
-public abstract class Ability {
+public abstract class Mechanics {
 
 	public abstract void executeOnCasting(Card sourceCard);
 	

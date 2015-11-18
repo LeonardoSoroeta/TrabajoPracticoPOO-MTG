@@ -269,7 +269,7 @@ public class NewMatchState extends BasicGameState {
 			}
 			
 			if(selected == false){
-				for(Object object: match.getGameStack().getPlayer1STackObjects()){
+				for(Object object: match.getGameStack().getPlayer1Spells()){
 				
 					if( decklistpl1.getTinyCard((Permanent)object).mouseLClicked(input)){
 						match.returnSelectedTarget(object);
@@ -281,7 +281,7 @@ public class NewMatchState extends BasicGameState {
 			
 			
 			if(selected == false){
-				for(Object object: match.getGameStack().getPlayer2StackObjects()){
+				for(Object object: match.getGameStack().getPlayer2Spells()){
 				
 					if( decklistpl2.getTinyCard((Permanent)object).mouseLClicked(input)){
 						match.returnSelectedTarget(object);
@@ -636,8 +636,8 @@ public class NewMatchState extends BasicGameState {
 		movePermanentpl2.draw(gc.getWidth()/128*33, gc.getHeight()/128*26,gc.getWidth()/128*2, gc.getHeight()/128*14);
 		
 	
-		ststackpl1.drawObject( match.getGameStack().getPlayer1STackObjects(), decklistpl1, gc.getWidth()/128*7, gc.getHeight()/128*14, input);
-		stattackpl2.drawObject(match.getGameStack().getPlayer2StackObjects(), decklistpl2, (gc.getWidth()/128*7), (gc.getHeight()/128*14), input);
+		ststackpl1.drawObject( match.getGameStack().getPlayer1Spells(), decklistpl1, gc.getWidth()/128*7, gc.getHeight()/128*14, input);
+		stattackpl2.drawObject(match.getGameStack().getPlayer2Spells(), decklistpl2, (gc.getWidth()/128*7), (gc.getHeight()/128*14), input);
 		
 		
 		
@@ -646,7 +646,7 @@ public class NewMatchState extends BasicGameState {
 
 	public int getID() {
 		
-		return 2;
+		return 5;
 		
 	}
 	

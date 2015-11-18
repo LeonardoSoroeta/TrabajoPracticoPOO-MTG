@@ -1,13 +1,13 @@
 package ar.edu.itba.Magic.Backend.Cards;
 
 import ar.edu.itba.Magic.Backend.Match;
-import ar.edu.itba.Magic.Backend.Abilities.Ability;
 import ar.edu.itba.Magic.Backend.Enums.CardType;
+import ar.edu.itba.Magic.Backend.Mechanics.Mechanics;
 
 
 public class LandCard extends Card {
 	
-    public LandCard(CardType cardType, Ability ability) {
+    public LandCard(CardType cardType, Mechanics ability) {
         super(cardType, ability);
     }
 

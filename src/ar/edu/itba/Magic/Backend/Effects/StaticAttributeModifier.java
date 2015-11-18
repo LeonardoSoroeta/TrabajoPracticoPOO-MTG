@@ -1,14 +1,14 @@
 package ar.edu.itba.Magic.Backend.Effects;
 
-import ar.edu.itba.Magic.Backend.Abilities.Ability;
 import ar.edu.itba.Magic.Backend.Enums.Attribute;
 import ar.edu.itba.Magic.Backend.Enums.AttributeModifier;
+import ar.edu.itba.Magic.Backend.Mechanics.Mechanics;
 
 public class StaticAttributeModifier extends LastingEffect {
 	AttributeModifier attributeModifier;
 	Attribute attribute;
 
-	public StaticAttributeModifier(Ability sourceAbility, AttributeModifier attributeModifier, Attribute attribute) {
+	public StaticAttributeModifier(Mechanics sourceAbility, AttributeModifier attributeModifier, Attribute attribute) {
 		super(sourceAbility);
 		this.attributeModifier = attributeModifier;
 		this.attribute = attribute;

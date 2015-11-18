@@ -1,6 +1,6 @@
 package ar.edu.itba.Magic.Backend.Effects;
 
-import ar.edu.itba.Magic.Backend.Abilities.Ability;
+import ar.edu.itba.Magic.Backend.Mechanics.Mechanics;
 import ar.edu.itba.Magic.Backend.Permanents.Permanent;
 
 /**
@@ -11,9 +11,9 @@ import ar.edu.itba.Magic.Backend.Permanents.Permanent;
 public abstract class LastingEffect {
 
     Permanent target;
-    Ability sourceAbility;
+    Mechanics sourceAbility;
 
-    public LastingEffect(Ability sourceAbility) {
+    public LastingEffect(Mechanics sourceAbility) {
     	this.sourceAbility = sourceAbility;
     }
     
@@ -25,7 +25,7 @@ public abstract class LastingEffect {
     	return target;
     }
     
-    public Ability getSourceAbility() {
+    public Mechanics getSourceAbility() {
     	return sourceAbility;
     }
 

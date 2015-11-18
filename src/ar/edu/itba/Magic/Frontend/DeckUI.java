@@ -78,6 +78,7 @@ public class DeckUI implements Drawable {
 				deckUI.add(new CardUI(each.getCardType(), new ExtendedImage(ref,0,posY + gc.getHeight()*1/13)  ));
 			}
 		}
+		deckImg = new ExtendedImage(deckUI.get(0).getImg());	
 	}
 	
 	/*
@@ -96,7 +97,7 @@ public class DeckUI implements Drawable {
 	 * Draws the first card of this deck for a reference
 	 */
 	public void draw() {
-		deckUI.get(0).draw(screenPosX, screenPosY);
+		deckImg.draw(screenPosX, screenPosY);
 	}
 	
 	public float getX() {

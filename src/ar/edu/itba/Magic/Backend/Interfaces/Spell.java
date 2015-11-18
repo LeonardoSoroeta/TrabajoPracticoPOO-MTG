@@ -1,6 +1,6 @@
 package ar.edu.itba.Magic.Backend.Interfaces;
 
-public interface GameStackObject {
+public interface Spell {
 
 	/**
 	 * Sends the hability or permanent to the stack.

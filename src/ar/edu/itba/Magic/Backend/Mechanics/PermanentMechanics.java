@@ -1,4 +1,4 @@
-package ar.edu.itba.Magic.Backend.Abilities;
+package ar.edu.itba.Magic.Backend.Mechanics;
 
 import java.util.HashMap;
 import java.util.List;
@@ -19,7 +19,7 @@ import ar.edu.itba.Magic.Backend.Permanents.Land;
 import ar.edu.itba.Magic.Backend.Permanents.Permanent;
 
 /** All permanents and their source Cards contain a PermanentAbility */
-public abstract class PermanentAbility extends Ability {
+public abstract class PermanentMechanics extends Mechanics {
 	
 	Match match = Match.getMatch();
 	
@@ -115,6 +115,7 @@ public abstract class PermanentAbility extends Ability {
 	/** Executes when player presses Cancel button, if currently requesting a target on casting. */
 	public final void cancelCastingTargetSelection() {
 		this.resetManaCache();
+		Match.getMatch().resetPlayerMessage();
 	}
 	
     /** When all casting requirements are met, this method finally creates a permanent and sends it to game stack */
@@ -125,7 +126,7 @@ public abstract class PermanentAbility extends Ability {
 	        this.setSourcePermanent(enchantment);
 	        enchantment.setController(sourceCard.getController());
 	        sourceCard.getController().removeCardFromHand(sourceCard);
-	        Match.getMatch().newMessageToPlayer("Main Phase: Cast spells, activate abilities.");
+	        Match.getMatch().resetPlayerMessage();
 	        enchantment.sendToStack();	
 	        
 		} else if(sourceCard instanceof ArtifactCard) {
@@ -133,7 +134,7 @@ public abstract class PermanentAbility extends Ability {
 	        this.setSourcePermanent(artifact);
 	        artifact.setController(sourceCard.getController());
 	        sourceCard.getController().removeCardFromHand(sourceCard);
-	        Match.getMatch().newMessageToPlayer("Main Phase: Cast spells, activate abilities.");
+	        Match.getMatch().resetPlayerMessage();
 	        artifact.sendToStack();	
 	        
 		} else if(sourceCard instanceof CreatureCard) {
@@ -144,7 +145,7 @@ public abstract class PermanentAbility extends Ability {
 	        this.setSourcePermanent(creature);
 	        creature.setController(sourceCard.getController());
 	        sourceCard.getController().removeCardFromHand(sourceCard);
-	        Match.getMatch().newMessageToPlayer("Main Phase: Cast spells, activate abilities.");
+	        Match.getMatch().resetPlayerMessage();
 	        creature.sendToStack();	
 	        
 		} else if(sourceCard instanceof LandCard) {
@@ -230,6 +231,7 @@ public abstract class PermanentAbility extends Ability {
 	/** Executes when player presses Cancel button, if ability currently requesting a target. */
 	public final void cancelAbilityTargetSelection() {
 		this.resetManaCache();
+		Match.getMatch().resetPlayerMessage();
 	}
 	
 	/** Must override this method if ability requires target selection */

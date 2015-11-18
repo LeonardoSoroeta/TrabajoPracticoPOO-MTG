@@ -13,15 +13,59 @@ import java.util.NoSuchElementException;
 import ar.edu.itba.Magic.Backend.Cards.Card;
 import ar.edu.itba.Magic.Backend.Enums.CardType;
 
-public class Deck implements Serializable{
+
+public class Deck implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	private LinkedList<Card> deck;
 	
+	public Deck(Deck d){
+		deck = new LinkedList<Card>();
+		for(Card each: d.getCards()) {
+			deck.add(each.getCardType().createCardOfThisType());
+		}
+	}
+	
+	public Deck(){
+		deck = new LinkedList<Card>();
+	}
+	
+//	public Deck(Deck d){
+	//	deck = new LinkedList<Card>();
+//		deck.addAll(d.getCards());
+	//}
+
+    public Deck(LinkedList<Card> list){
+        deck.addAll(list);
+    }
+	
+	public static void deleteDeck(int num) throws IOException {
+		LinkedList<Deck> decks = loadDecks();
+		decks.remove(num);
+		
+		LinkedList<LinkedList<CardType>> listT = new LinkedList<LinkedList<CardType>>();
+			
+		for(Deck each1: decks) {
+			LinkedList<CardType> aux = new LinkedList<CardType>();
+			for(Card each2: each1.getCards()) {
+				aux.add(each2.getCardType());
+			}
+			listT.add(aux);
+		}
+			
+		FileOutputStream fos = new FileOutputStream("Decks.out");
+		ObjectOutputStream oos = new ObjectOutputStream(fos);
+		LinkedList<CardType> ct = new LinkedList<CardType>(); 
+		   
+		oos.writeObject(listT);
+		fos.close();
+	}
+	
+	
 	/*
 	 * deserialize a list of objects and returns a list of decks
 	 */
-   public static LinkedList<Deck> deserialize() throws IOException, ClassNotFoundException {
+    public static LinkedList<Deck> deserialize() throws IOException, ClassNotFoundException {
 		FileInputStream fis = new FileInputStream("Decks.out");
 		ObjectInputStream ois = new ObjectInputStream(fis);
 
@@ -77,7 +121,7 @@ public class Deck implements Serializable{
 	    try {
 	        serialize(this);
 	    } catch (IOException e) {
-	    	System.out.println("error writing decks");
+	    	//System.out.println("error writing decks");
 	        return;
 	    }
 	}
@@ -88,19 +132,11 @@ public class Deck implements Serializable{
 		try {
 		    decks = (LinkedList<Deck>) deserialize();
 		} catch (ClassNotFoundException | IOException e) {
-			System.out.println("error loading decks");
+			//System.out.println("error loading decks");
 		} finally{
 			return decks;
 		}
 	}
-	
-	public Deck(){
-		deck = new LinkedList<Card>();
-	}
-
-    public Deck(LinkedList<Card> list){
-        deck.addAll(list);
-    }
 
 	public void addCard(Card card){
 		if(card != null) {
@@ -114,7 +150,7 @@ public class Deck implements Serializable{
 		if(deck.contains(card)) {
 			deck.remove(card);
 		} else {
-			Match.getMatch().endMatch();
+			Match.getMatch().resetAllData();
 		}
 	}
 

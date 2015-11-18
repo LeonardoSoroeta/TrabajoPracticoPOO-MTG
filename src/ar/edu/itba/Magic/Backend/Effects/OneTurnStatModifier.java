@@ -1,15 +1,15 @@
 package ar.edu.itba.Magic.Backend.Effects;
 
 import ar.edu.itba.Magic.Backend.GameEvent;
-import ar.edu.itba.Magic.Backend.Abilities.Ability;
 import ar.edu.itba.Magic.Backend.Enums.Event;
+import ar.edu.itba.Magic.Backend.Mechanics.Mechanics;
 import ar.edu.itba.Magic.Backend.Permanents.Creature;
 
 public class OneTurnStatModifier extends AutomaticLastingEffect {
 	private Integer attackModifier;
 	private Integer defenseModifier;
 
-	public OneTurnStatModifier(Ability sourceAbility, Integer attackModifier, Integer defenseModifier) {
+	public OneTurnStatModifier(Mechanics sourceAbility, Integer attackModifier, Integer defenseModifier) {
 		super(sourceAbility);
 		this.attackModifier = attackModifier;
 		this.defenseModifier = defenseModifier;

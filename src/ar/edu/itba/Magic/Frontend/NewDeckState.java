@@ -61,6 +61,7 @@ public class NewDeckState extends BasicGameState {
 		}
 		
 		if(back.mouseLClicked(input)) {
+			deckUI = new DeckUI();
 			sbg.enterState(1);
 		}
 		
@@ -73,6 +74,7 @@ public class NewDeckState extends BasicGameState {
 				//saves the deck and goes back to the prev state
 				deckUI.generateDeck();
 				deckUI.writeDeck();
+				deckUI = new DeckUI();
 				sbg.enterState(1);
 			}
 		}

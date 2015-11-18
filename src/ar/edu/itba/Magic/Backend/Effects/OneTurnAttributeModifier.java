@@ -1,16 +1,16 @@
 package ar.edu.itba.Magic.Backend.Effects;
 
 import ar.edu.itba.Magic.Backend.GameEvent;
-import ar.edu.itba.Magic.Backend.Abilities.Ability;
 import ar.edu.itba.Magic.Backend.Enums.Attribute;
 import ar.edu.itba.Magic.Backend.Enums.AttributeModifier;
 import ar.edu.itba.Magic.Backend.Enums.Event;
+import ar.edu.itba.Magic.Backend.Mechanics.Mechanics;
 
 public class OneTurnAttributeModifier extends AutomaticLastingEffect {
 	AttributeModifier attributeModifier;
 	Attribute attribute;
 
-	public OneTurnAttributeModifier(Ability sourceAbility, AttributeModifier attributeModifier, Attribute attribute) {
+	public OneTurnAttributeModifier(Mechanics sourceAbility, AttributeModifier attributeModifier, Attribute attribute) {
 		super(sourceAbility);
 		this.attributeModifier = attributeModifier;
 		this.attribute = attribute;

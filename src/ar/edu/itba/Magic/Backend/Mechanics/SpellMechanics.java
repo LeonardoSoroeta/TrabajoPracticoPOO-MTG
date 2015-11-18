@@ -1,20 +1,20 @@
-package ar.edu.itba.Magic.Backend.Abilities;
+package ar.edu.itba.Magic.Backend.Mechanics;
 
 import java.util.HashMap;
 
-import ar.edu.itba.Magic.Backend.GameStack;
+import ar.edu.itba.Magic.Backend.SpellStack;
 import ar.edu.itba.Magic.Backend.ManaPool;
 import ar.edu.itba.Magic.Backend.Match;
 import ar.edu.itba.Magic.Backend.Cards.Card;
 import ar.edu.itba.Magic.Backend.Enums.Color;
-import ar.edu.itba.Magic.Backend.Interfaces.GameStackObject;
+import ar.edu.itba.Magic.Backend.Interfaces.Spell;
 
 
 /** All InstantCards and SorceryCards contain a SpellAbility */
-public abstract class SpellAbility extends Ability implements GameStackObject {
+public abstract class SpellMechanics extends Mechanics implements Spell {
 	
 	Match match = Match.getMatch();
-	GameStack gameStack = GameStack.getGameStackInstance();
+	SpellStack gameStack = SpellStack.getSpellStack();
 	
 	private ManaPool manaPool;
 	private Card sourceCard;
@@ -125,6 +125,7 @@ public abstract class SpellAbility extends Ability implements GameStackObject {
 	/** Executes when player presses Cancel button, if currently requesting a target on casting. */
 	public final void cancelCastingTargetSelection() {
 		this.resetManaCache();
+		Match.getMatch().resetPlayerMessage();
 	}
 	
 	/** Empties mana cache */
@@ -136,7 +137,7 @@ public abstract class SpellAbility extends Ability implements GameStackObject {
 	
 	/** Sends spell to stack */
 	public final void sendToStack() {
-		gameStack.addStackObject(this);
+		gameStack.addSpell(this);
 	}
 	
 	/** Responsible for finally executing the spells action */

@@ -1,10 +1,10 @@
 package ar.edu.itba.Magic.Backend.Permanents;
 import ar.edu.itba.Magic.Backend.GameEventHandler;
 import ar.edu.itba.Magic.Backend.Player;
-import ar.edu.itba.Magic.Backend.Abilities.PermanentAbility;
 import ar.edu.itba.Magic.Backend.Cards.Card;
 import ar.edu.itba.Magic.Backend.Enums.Attribute;
 import ar.edu.itba.Magic.Backend.Interfaces.DamageTaking;
+import ar.edu.itba.Magic.Backend.Mechanics.PermanentMechanics;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -19,7 +19,7 @@ public class Creature extends Permanent implements DamageTaking {
 	private Integer defenseModifier;
 	private Integer damageMarkers;
 																						
-	public Creature(Card sourceCard, List<Attribute> attributes, Integer attack, Integer defense, PermanentAbility ability) {
+	public Creature(Card sourceCard, List<Attribute> attributes, Integer attack, Integer defense, PermanentMechanics ability) {
 		super(sourceCard, attributes, ability);
 		this.baseAttack = attack;
 		this.baseDefense = defense;

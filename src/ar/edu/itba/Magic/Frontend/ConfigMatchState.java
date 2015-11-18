@@ -15,9 +15,11 @@ public class ConfigMatchState extends BasicGameState {
 	ExtendedImage chooseDeck;
 	ExtendedImage start;
 	ExtendedImage back;
+	ExtendedImage spd;
 	Input input;
-	DeckUI p1, p2;;
+	DeckUI p1, p2;
 	Match match;
+	boolean DecksNotChoosed;
 	
 	public void init(GameContainer gc, StateBasedGame sbg)
 			throws SlickException {
@@ -26,22 +28,27 @@ public class ConfigMatchState extends BasicGameState {
 		chooseDeck = new ExtendedImage("res/choosedecks.png",gc.getWidth()*2/9,gc.getHeight()*3/4);
 		start = new ExtendedImage("res/snm.png",gc.getWidth()*2/9,gc.getHeight()*2/3);
 		back = new ExtendedImage("res/back.png",gc.getWidth()*2/9,gc.getHeight()*5/6);
+		spd = new ExtendedImage("res/spd.png",gc.getWidth()*4/7,gc.getHeight()*4/7);
 		match = Match.getMatch();
 	}
 
 	public void update(GameContainer gc, StateBasedGame sbg, int arg2)
 			throws SlickException {
 		input = gc.getInput();
+		if(DecksNotChoosed) {
+			if(spd.mouseLClicked(input)) {
+				DecksNotChoosed = false;
+				EditDeckState.load();
+				sbg.enterState(4);
+			}
+		}
 		if(chooseDeck.mouseLClicked(input)) {
 			EditDeckState.load();
 			sbg.enterState(4);
 		}
 		if(start.mouseLClicked(input)) {
-			if(match.getPlayer1() == null) {
-				
-			}
-			else if(match.getPlayer2() == null){
-				
+			if(match.getPlayer1() == null || match.getPlayer2() == null) {
+				DecksNotChoosed = true;
 			}
 			else {
 				sbg.enterState(5);
@@ -63,6 +70,9 @@ public class ConfigMatchState extends BasicGameState {
 		chooseDeck.draw();
 		start.draw();
 		back.draw();
+		if(DecksNotChoosed) {
+			spd.draw();
+		}
 	}
 	
 	public int getID() {
