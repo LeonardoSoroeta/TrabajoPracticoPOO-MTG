@@ -246,22 +246,52 @@ public class NewMatchState extends BasicGameState {
 			
 		
 		if( match.getMatchState().equals(MatchState.AWAITING_ABILITY_TARGET_SELECTION) || match.getMatchState().equals(MatchState.AWAITING_CASTING_TARGET_SELECTION)){
-			
+			boolean selected = false;
+					
 			for(Permanent permanent: player1.getPermanentsInPlay()){	
 				if( decklistpl1.getTinyCard(permanent).mouseLClicked(input)){
 					match.returnSelectedTarget(permanent);
 					match.update();
+					selected = true;
+					
 					}
 			}
+			
+			if(selected == false){
 			for(Permanent permanent: player2.getPermanentsInPlay()){
 			
 				if( decklistpl2.getTinyCard(permanent).mouseLClicked(input)){
 					match.returnSelectedTarget(permanent);
 					match.update();
+					selected = true;
 				}
 			}
-		
-		
+			}
+			
+			if(selected == false){
+				for(Object object: match.getGameStack().getPlayer1STackObjects()){
+				
+					if( decklistpl1.getTinyCard((Permanent)object).mouseLClicked(input)){
+						match.returnSelectedTarget(object);
+						match.update();
+						selected = true;
+					}
+				}
+			}
+			
+			
+			if(selected == false){
+				for(Object object: match.getGameStack().getPlayer2StackObjects()){
+				
+					if( decklistpl2.getTinyCard((Permanent)object).mouseLClicked(input)){
+						match.returnSelectedTarget(object);
+						match.update();
+						selected = true;
+					}
+				}
+			}
+				
+				
 			if (cancelbutton.mouseLClicked(input)){
 				match.cancelTargetSelection();
 				match.update();
