@@ -125,6 +125,7 @@ public abstract class SpellMechanics extends Mechanics implements Spell {
 	/** Executes when player presses Cancel button, if currently requesting a target on casting. */
 	public final void cancelCastingTargetSelection() {
 		this.resetManaCache();
+		Match.getMatch().resetPlayerMessage();
 	}
 	
 	/** Empties mana cache */
