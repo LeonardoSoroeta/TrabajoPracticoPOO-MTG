@@ -19,14 +19,21 @@ public class Deck implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private LinkedList<Card> deck;
 	
+	public Deck(Deck d){
+		deck = new LinkedList<Card>();
+		for(Card each: d.getCards()) {
+			deck.add(each.getCardType().createCardOfThisType());
+		}
+	}
+	
 	public Deck(){
 		deck = new LinkedList<Card>();
 	}
 	
-	public Deck(Deck d){
-		deck = new LinkedList<Card>();
-		deck.addAll(d.getCards());
-	}
+//	public Deck(Deck d){
+	//	deck = new LinkedList<Card>();
+//		deck.addAll(d.getCards());
+	//}
 
     public Deck(LinkedList<Card> list){
         deck.addAll(list);
