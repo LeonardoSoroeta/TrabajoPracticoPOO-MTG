@@ -102,4 +102,8 @@ public class SpellStack {
 		
 		return spells;
 	}
+	
+	public boolean isEmpty() {
+		return spellStack.isEmpty();
+	}
 }

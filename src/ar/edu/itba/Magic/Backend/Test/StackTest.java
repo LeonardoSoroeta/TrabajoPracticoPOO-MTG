@@ -69,7 +69,7 @@ public class StackTest {
         };
         stack.addSpell(testSpell);
         stack.removeSpell(testSpell);
-        assertTrue(stack.stackEmpty());
+        assertTrue(stack.isEmpty());
     }
 
     @Test
