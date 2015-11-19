@@ -281,6 +281,7 @@ public enum CardType {
     				@Override 
     				public void finishCasting() {
     					this.getSourceCard().getController().getManaPool().addManaOfThisColor(Color.BLACK, 3);
+    					Match.getMatch().resetPlayerMessage();
     					this.getSourceCard().getController().discardCard(this.getSourceCard());
     				}
 
