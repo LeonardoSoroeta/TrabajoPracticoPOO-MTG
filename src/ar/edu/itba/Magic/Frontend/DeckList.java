@@ -71,38 +71,4 @@ public ExtendedImage getTinyCard(Creature creature){
     }
     
     
- public ExtendedImage getTinyStackCard(Spell object){
- 	
-	 
-	 
-	 if(object instanceof Permanent ){	
-		
- 	return tinycard.get((Permanent)object);
-	 
-	 }
-	
- 	if(object instanceof SpellMechanics ){
- 		 
- 		return tinycard.get(((SpellMechanics)object).getSourceCard());
- 	}
- 	
- 	throw new NullPointerException();
- }
- 
- 		
- 		
- 		
- 		
-public ExtendedImage getBigStackCard(Spell object){
-	 
-	 
-	 if(object instanceof Permanent )		
-	return bigcard.get((Permanent)object);
-	 
-	
-	if(object instanceof SpellMechanics )
-		return bigcard.get(((SpellMechanics)object).getSourceCard());
-	
-	return bigcard.get((Card)object);
-}
 }
