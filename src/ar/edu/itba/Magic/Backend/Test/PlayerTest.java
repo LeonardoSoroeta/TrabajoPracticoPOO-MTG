@@ -1,9 +1,7 @@
 package ar.edu.itba.Magic.Backend.Test;
 
 import ar.edu.itba.Magic.Backend.Deck;
-import ar.edu.itba.Magic.Backend.Enums.CardType;
 import ar.edu.itba.Magic.Backend.ManaPool;
-import ar.edu.itba.Magic.Backend.Permanents.Permanent;
 import ar.edu.itba.Magic.Backend.Player;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,15 +14,10 @@ import static org.junit.Assert.*;
 public class PlayerTest {
 
     private Player player;
-    private Player player2;
-    private Deck deck;
-    private Permanent permanent;
 
     @Before
     public void initializePlayer(){
         player = new Player(new Deck());
-        deck.addCard(CardType.BOG_IMP.createCardOfThisType());
-        player2 = new Player(deck);
     }
 
     @Test
