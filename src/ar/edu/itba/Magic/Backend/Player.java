@@ -245,6 +245,7 @@ public class Player implements DamageTaking {
 		if(damage >= 0)
 			health -= damage;
 		if(this.lost()) {
+			Match.getMatch().newMessageToPlayer("GAME OVER: Press ENTER to exit.");
 			match.setMatchState(MatchState.GAME_OVER);
 		}
 	}

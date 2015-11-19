@@ -149,6 +149,7 @@ public class Deck implements Serializable {
 		if(deck.contains(card)) {
 			deck.remove(card);
 		} else {
+			Match.getMatch().newMessageToPlayer("GAME OVER: Press ENTER to exit.");
 			Match.getMatch().setMatchState(MatchState.GAME_OVER);
 		}
 	}
