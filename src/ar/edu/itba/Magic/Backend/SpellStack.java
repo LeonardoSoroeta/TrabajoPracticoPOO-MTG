@@ -50,6 +50,7 @@ public class SpellStack {
 			this.initiateSpellChain();
 		} else {
 			spellStack.push(spell);
+			Match.getMatch().resetPlayerMessage();
 			this.playerDidSomething = true;
 		}
     }
