@@ -130,17 +130,19 @@ for( Card card: cards){
 	
 	
 	public void drawObject(List<Spell> objects, DeckList dl, float w, float h, Input input){
+		
+		
 		for ( Spell object: objects){
 			
 			if(object instanceof Permanent ){
 				
 				
-			dl.getTinyCard((Permanent)object).draw(x+(objects.indexOf(objects)*w), y, w, h);
+			dl.getTinyCard((Permanent)object).draw(x+(objects.indexOf(object)*w), y, w, h);
 			
 			}
 		
 		else if(object instanceof SpellMechanics ){
-			dl.getTinyCard(((SpellMechanics)object).getSourceCard()).draw(x+(objects.indexOf(objects)*w), y, w, h);
+			dl.getTinyCard(((SpellMechanics)object).getSourceCard()).draw(x+(objects.indexOf(object)*w), y, w, h);
 		
 			}
 			

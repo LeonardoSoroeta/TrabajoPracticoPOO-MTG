@@ -143,6 +143,8 @@ public class NewMatchState extends BasicGameState {
 	public void update(GameContainer gc, StateBasedGame sbg, int ag2)
 			throws SlickException {
 		
+		
+		
 		input = gc.getInput();
 		
 		if (setplayers.equals(false)){
