@@ -322,7 +322,6 @@ public class NewMatchState extends BasicGameState {
 				}
 			
 				
-				
 			if (cancelbutton.mouseLClicked(input)){
 				match.cancelTargetSelection();
 				match.update();
