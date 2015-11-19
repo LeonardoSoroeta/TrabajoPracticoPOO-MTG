@@ -19,6 +19,7 @@ import ar.edu.itba.Magic.Backend.Effects.AutomaticLastingEffect;
 import ar.edu.itba.Magic.Backend.Effects.LastingEffect;
 import ar.edu.itba.Magic.Backend.Effects.OneTurnStatModifier;
 import ar.edu.itba.Magic.Backend.Effects.StaticStatModifier;
+import ar.edu.itba.Magic.Backend.Interfaces.Spell;
 import ar.edu.itba.Magic.Backend.Mechanics.AutomaticPermanentMechanics;
 import ar.edu.itba.Magic.Backend.Mechanics.AutomaticSpellMechanics;
 import ar.edu.itba.Magic.Backend.Mechanics.DefaultCreatureMechanics;
@@ -225,6 +226,35 @@ public enum CardType {
 					}
 		});
     } },
+    
+    COUNTERSPELL("Counterspell", Color.BLUE, 2, 0) { public Card createCardOfThisType() {
+    	return new InstantCard(CardType.COUNTERSPELL,
+				new SpellMechanics() {
+		   		Object target;
+		    	Spell targetSpell;
+		    	
+		    	@Override
+		    	public void proceedToSelectCastingTarget() {
+		    		Match.getMatch().awaitCastingTargetSelection(this, "Select target spell");
+		    	}
+		    	
+		    	@Override
+		    	public void resumeCastingTargetSelection() {
+		    		target = Match.getMatch().getSelectedTarget();
+		    		if(!(target instanceof Spell)) {
+		    			Match.getMatch().awaitCastingTargetSelection(this, "Select target spell");
+		    		} else {
+		    			targetSpell = (Spell)target;
+		    			this.finishCasting();
+		    		}
+		    	}
+		    	
+				@Override
+				public void resolveInStack() {
+					targetSpell.counterSpell();
+				}
+		});
+    } },	
     
     CRAW_WURM("Craw Wurm", Color.GREEN, 2, 4) { public Card createCardOfThisType() {
     	List<Attribute> attributes = new LinkedList<Attribute>();

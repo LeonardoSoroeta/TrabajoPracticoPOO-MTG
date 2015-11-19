@@ -1,12 +1,15 @@
 package ar.edu.itba.Magic.Frontend;
 
+import java.awt.Font;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -34,8 +37,12 @@ public class NewDeckState extends BasicGameState {
 	boolean setAlert = false;
 	int cardWidth = 312;
 	Input input;
-
+	Font awtFont;
+	TrueTypeFont ttf;
+	
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
+		Font awtFont = new Font("Trajan Pro", Font.BOLD, 24);
+		ttf = new TrueTypeFont(awtFont, true);		
 		library = new ExtendedImage("res/library.png",gc.getWidth() - cardWidth*3/2,gc.getHeight()*5/6);
 		yourDeck = new ExtendedImage("res/yourdeck.png",cardWidth + 10,gc.getHeight()*5/6);
 		save = new ExtendedImage("res/save.png",gc.getWidth()*4/8,gc.getHeight()*1/2);
@@ -140,6 +147,9 @@ public class NewDeckState extends BasicGameState {
 	}
 	
 	public void render(GameContainer gc, StateBasedGame arg1, Graphics arg2) throws SlickException {
+		
+		ttf.drawString(cardWidth + 10, gc.getHeight()*7/8, deckUI.size() + " Cards", Color.red);
+		
 		library.draw();
 		yourDeck.draw();
 		save.draw();

@@ -26,9 +26,9 @@ public class ConfigMatchState extends BasicGameState {
 		backGround = new ExtendedImage("res/background.png",0,0);
 		magicLogo = new ExtendedImage("res/magic.png",gc.getWidth()*1/4,gc.getHeight()*1/10);
 		chooseDeck = new ExtendedImage("res/choosedecks.png",gc.getWidth()*2/9,gc.getHeight()*3/4);
-		start = new ExtendedImage("res/snm.png",gc.getWidth()*2/9,gc.getHeight()*2/3);
+		start = new ExtendedImage("res/startmatch.png",gc.getWidth()*2/9,gc.getHeight()*2/3);
 		back = new ExtendedImage("res/back.png",gc.getWidth()*2/9,gc.getHeight()*5/6);
-		spd = new ExtendedImage("res/spd.png",gc.getWidth()*4/7,gc.getHeight()*4/7);
+		spd = new ExtendedImage("res/spd.png",gc.getWidth()*5/8,gc.getHeight()*5/8);
 		match = Match.getMatch();
 	}
 
@@ -43,6 +43,7 @@ public class ConfigMatchState extends BasicGameState {
 			}
 		}
 		if(chooseDeck.mouseLClicked(input)) {
+			EditDeckState.backToConfig();
 			EditDeckState.load();
 			sbg.enterState(4);
 		}

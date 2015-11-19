@@ -280,6 +280,10 @@ public abstract class Permanent implements Spell {
 		this.spellState = spellState;
 	}
 	
+	public final void counterSpell() {
+		gameStack.removeSpell(this);
+	}
+	
 	public void sendToStack() {
 		gameStack.addSpell(this);
 	}
@@ -310,9 +314,6 @@ public abstract class Permanent implements Spell {
 				this.controller.removePermanentFromPlay(this);
 				this.controller.placeCardInGraveyard(sourceCard);
 			}
-		}
-		else {
-			// TODO capaz tirar un exception tried to destroy an illegal target
 		}
 	}
 	
