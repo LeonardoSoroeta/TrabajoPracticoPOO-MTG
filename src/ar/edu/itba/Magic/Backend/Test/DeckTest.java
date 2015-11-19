@@ -42,11 +42,6 @@ public class DeckTest {
         assertEquals(deck.getCard(), card);
     }
 
-    @Test(expected = NoSuchElementException.class)
-    public void EndOfGameTest(){
-        deck.getCard();
-        assertEquals(match.getMatchState(), MatchState.GAME_OVER);
-    }
 
     @Test
     public void ContainsCardTest(){
