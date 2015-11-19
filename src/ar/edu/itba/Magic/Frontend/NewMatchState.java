@@ -170,7 +170,9 @@ public class NewMatchState extends BasicGameState {
 		
 		
 		if (match.getMatchState().equals(MatchState.GAME_OVER)){
-			sbg.enterState(0);
+			if(input.isKeyPressed(input.KEY_ESCAPE)){
+				gc.exit();
+			}
 		}
 		
 		
