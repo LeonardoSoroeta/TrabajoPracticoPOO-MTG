@@ -1,5 +1,6 @@
 package ar.edu.itba.Magic.Frontend;
 
+import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -204,7 +205,6 @@ public class NewMatchState extends BasicGameState {
 				}
 				
 			}
-		
 		
 		
 		

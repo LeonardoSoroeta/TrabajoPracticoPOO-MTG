@@ -75,14 +75,18 @@ public ExtendedImage getTinyCard(Creature creature){
  	
 	 
 	 
-	 if(object instanceof Permanent )		
+	 if(object instanceof Permanent ){	
+		 System.out.println("PERMANENT STACK");
  	return tinycard.get((Permanent)object);
 	 
+	 }
 	
- 	if(object instanceof SpellMechanics )
+ 	if(object instanceof SpellMechanics ){
+ 		 System.out.println("SPELL STACK");
  		return tinycard.get(((SpellMechanics)object).getSourceCard());
+ 	}
  	
- 	return tinycard.get((Card)object);
+ 	throw new NullPointerException("is not Permanent or Spell");
  }
  
  		
