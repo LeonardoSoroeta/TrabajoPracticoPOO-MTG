@@ -16,6 +16,7 @@ import ar.edu.itba.Magic.Backend.Cards.InstantCard;
 import ar.edu.itba.Magic.Backend.Enums.CardType;
 import ar.edu.itba.Magic.Backend.Enums.Color;
 import ar.edu.itba.Magic.Backend.Enums.MatchState;
+import ar.edu.itba.Magic.Backend.Interfaces.Spell;
 import ar.edu.itba.Magic.Backend.Permanents.Creature;
 import ar.edu.itba.Magic.Backend.Permanents.Permanent;
 
@@ -247,50 +248,50 @@ public class NewMatchState extends BasicGameState {
 			
 		
 		if( match.getMatchState().equals(MatchState.AWAITING_ABILITY_TARGET_SELECTION) || match.getMatchState().equals(MatchState.AWAITING_CASTING_TARGET_SELECTION)){
-			boolean selected = false;
+			
 					
 			for(Permanent permanent: player1.getPermanentsInPlay()){	
 				if( decklistpl1.getTinyCard(permanent).mouseLClicked(input)){
 					match.returnSelectedTarget(permanent);
 					match.update();
-					selected = true;
+					
 					
 					}
 			}
 			
-			if(selected == false){
+			
 			for(Permanent permanent: player2.getPermanentsInPlay()){
 			
 				if( decklistpl2.getTinyCard(permanent).mouseLClicked(input)){
 					match.returnSelectedTarget(permanent);
 					match.update();
-					selected = true;
+					
 				}
 			}
-			}
 			
-			if(selected == false){
+			
+			
 				for(Object object: match.getGameStack().getPlayer1Spells()){
 				
-					if( decklistpl1.getTinyCard((Permanent)object).mouseLClicked(input)){
+					if( decklistpl1.getTinyStackCard((Spell)object).mouseLClicked(input)){
 						match.returnSelectedTarget(object);
 						match.update();
-						selected = true;
+						
 					}
 				}
-			}
 			
 			
-			if(selected == false){
+			
+			
 				for(Object object: match.getGameStack().getPlayer2Spells()){
 				
-					if( decklistpl2.getTinyCard((Permanent)object).mouseLClicked(input)){
+					if( decklistpl2.getTinyStackCard((Spell)object).mouseLClicked(input)){
 						match.returnSelectedTarget(object);
 						match.update();
-						selected = true;
+						
 					}
 				}
-			}
+			
 				
 				
 			if (cancelbutton.mouseLClicked(input)){
@@ -474,16 +475,19 @@ public class NewMatchState extends BasicGameState {
 			
 		}
 		
-		if ( match.getMatchState().equals(MatchState.AWAITING_STACK_ACTIONS)){
-			
+if ( match.getMatchState().equals(MatchState.AWAITING_STACK_ACTIONS)){
 			
 			
 			if ( match.getActivePlayer().equals(player1)){
+				
+				
+				
 				for( Card card: player1.getHand()){
 					
 					if (decklistpl1.getTinyCard(card).mouseLClicked(input)){
 						if(card instanceof InstantCard)
 						card.playCard();
+						
 					}
 				}
 			}
@@ -494,6 +498,7 @@ public class NewMatchState extends BasicGameState {
 					if (decklistpl2.getTinyCard(card).mouseLClicked(input)){
 						if(card instanceof InstantCard)
 						card.playCard();
+						
 					}
 				}
 			}
@@ -503,15 +508,17 @@ public class NewMatchState extends BasicGameState {
 				
 					if( decklistpl1.getTinyCard(permanent).mouseLClicked(input)){
 						permanent.getAbility().executeOnActivation();
+						
 					}
 				}
 			}
 			
-			else if ( match.getActivePlayer().equals(player2)){
+			 if ( match.getActivePlayer().equals(player2)) {
 				for(Permanent permanent: player2.getPermanentsInPlay()){
 				
 					if( decklistpl2.getTinyCard(permanent).mouseLClicked(input)){
 						permanent.getAbility().executeOnActivation();
+						
 					}
 				}
 			}
