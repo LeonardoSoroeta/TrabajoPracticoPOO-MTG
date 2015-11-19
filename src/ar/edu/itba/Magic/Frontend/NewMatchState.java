@@ -1,11 +1,14 @@
 package ar.edu.itba.Magic.Frontend;
 
+import java.awt.Font;
+
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -18,6 +21,7 @@ import ar.edu.itba.Magic.Backend.Enums.CardType;
 import ar.edu.itba.Magic.Backend.Enums.Color;
 import ar.edu.itba.Magic.Backend.Enums.MatchState;
 import ar.edu.itba.Magic.Backend.Interfaces.Spell;
+import ar.edu.itba.Magic.Backend.Mechanics.SpellMechanics;
 import ar.edu.itba.Magic.Backend.Permanents.Creature;
 import ar.edu.itba.Magic.Backend.Permanents.Permanent;
 
@@ -68,9 +72,14 @@ public class NewMatchState extends BasicGameState {
 	
 	private Boolean setplayers = false; 
 	
+	private TrueTypeFont live;
 	
 	public void init(GameContainer gc, StateBasedGame sbg)
 			throws SlickException {
+		
+		live = new TrueTypeFont(new Font("Arial", Font.BOLD, 80), false);
+		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		
 		backgroundBL = new Image("res/Match/TERR_BLACKpict.bmp"); 
 		backgroundRE = new Image("res/Match/TERR_REDpict.bmp"); 
@@ -272,22 +281,44 @@ public class NewMatchState extends BasicGameState {
 			
 			
 				for(Object object: match.getGameStack().getPlayer1Spells()){
-				
-					if( decklistpl1.getTinyStackCard((Spell)object).mouseLClicked(input)){
-						match.returnSelectedTarget(object);
-						match.update();
+					
+					
+					if(object instanceof Permanent ){
 						
+						if (decklistpl1.getTinyCard((Permanent)object).mouseLClicked(input)){
+							match.returnSelectedTarget(object);
+							match.update();
+						}
 					}
+					else if(object instanceof SpellMechanics ){
+						
+						if(decklistpl1.getTinyCard(((SpellMechanics)object).getSourceCard()).mouseLClicked(input)){
+							match.returnSelectedTarget(object);
+							match.update();
+						}
+				}
+					
 				}
 						
 			
 				for(Object object: match.getGameStack().getPlayer2Spells()){
-				
-					if( decklistpl2.getTinyStackCard((Spell)object).mouseLClicked(input)){
-						match.returnSelectedTarget(object);
-						match.update();
+					
+					
+					if(object instanceof Permanent ){
 						
+						if (decklistpl2.getTinyCard((Permanent)object).mouseLClicked(input)){
+							match.returnSelectedTarget(object);
+							match.update();
+						}
 					}
+					else if(object instanceof SpellMechanics ){
+						
+						if(decklistpl2.getTinyCard(((SpellMechanics)object).getSourceCard()).mouseLClicked(input)){
+							match.returnSelectedTarget(object);
+							match.update();
+						}
+				}
+					
 				}
 			
 				
@@ -584,9 +615,9 @@ if ( match.getMatchState().equals(MatchState.AWAITING_STACK_ACTIONS)){
 		
 		g.drawString("Cancel/Done", gc.getWidth()/74*62, gc.getHeight()/128*64);
 		
-		//TODO V E R   L A   E S C A L A
-		g.drawString( player1.getHealth().toString(), 0, 20);
-		g.drawString( player2.getHealth().toString(), 0, 0); 
+		
+		live.drawString(0, 0, player1.getHealth().toString());
+		live.drawString(0, gc.getHeight()-100, player2.getHealth().toString());
 		
 		
 		
