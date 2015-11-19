@@ -73,11 +73,13 @@ public class NewMatchState extends BasicGameState {
 	private Boolean setplayers = false; 
 	
 	private TrueTypeFont live;
+	private TrueTypeFont mana;
 	
 	public void init(GameContainer gc, StateBasedGame sbg)
 			throws SlickException {
 		
 		live = new TrueTypeFont(new Font("Arial", Font.BOLD, 80), false);
+		mana = new TrueTypeFont(new Font("Arial", Font.BOLD, 20), false);
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		
@@ -172,7 +174,7 @@ public class NewMatchState extends BasicGameState {
 		
 		
 		if (match.getMatchState().equals(MatchState.GAME_OVER)){
-			if(input.isKeyPressed(input.KEY_ESCAPE)){
+			if(input.isKeyPressed(input.KEY_ENTER)){
 				gc.exit();
 			}
 		}
@@ -231,7 +233,7 @@ public class NewMatchState extends BasicGameState {
 			
 			if ( match.getActivePlayer().equals(player1)){
 				for ( Color color: Color.values()){
-					if (mananumberPL1.getNumber().get(color).get(0).mouseLClicked(input)){
+					if (mananumberPL1.getMana().get(color).mouseLClicked(input)){
 						match.returnSelectedTarget(color);
 						match.update();
 					}
@@ -240,7 +242,7 @@ public class NewMatchState extends BasicGameState {
 			if ( match.getActivePlayer().equals(player2)){
 				
 				for ( Color color: Color.values()){
-					if (mananumberPL2.getNumber().get(color).get(0).mouseLClicked(input)){	
+					if (mananumberPL2.getMana().get(color).mouseLClicked(input)){	
 					match.returnSelectedTarget(color);
 					match.update();
 					}
@@ -619,29 +621,39 @@ if ( match.getMatchState().equals(MatchState.AWAITING_STACK_ACTIONS)){
 		g.drawString("Cancel/Done", gc.getWidth()/74*62, gc.getHeight()/128*64);
 		
 		
-		live.drawString(0, 0, player1.getHealth().toString());
-		live.drawString(0, gc.getHeight()-100, player2.getHealth().toString());
+		live.drawString(0, 0, player2.getHealth().toString());
+		live.drawString(0, gc.getHeight()-100, player1.getHealth().toString());
 		
 		
 		
 													
-		mananumberPL2.getNumber().get(Color.BLACK).get(player2.getManaPool().getAvailableManaOfThisColor(Color.BLACK)).draw(gc.getWidth()/64*10, gc.getHeight()/64*1, gc.getWidth()/64, gc.getHeight()/64);
-		mananumberPL2.getNumber().get(Color.BLUE).get(player2.getManaPool().getAvailableManaOfThisColor(Color.BLUE)).draw(gc.getWidth()/64*10, gc.getHeight()/64*4, gc.getWidth()/64, gc.getHeight()/64);
-		mananumberPL2.getNumber().get(Color.GREEN).get(player2.getManaPool().getAvailableManaOfThisColor(Color.GREEN)).draw(gc.getWidth()/64*10, gc.getHeight()/64*7, gc.getWidth()/64, gc.getHeight()/64);
-		mananumberPL2.getNumber().get(Color.RED).get(player2.getManaPool().getAvailableManaOfThisColor(Color.RED)).draw(gc.getWidth()/64*10, gc.getHeight()/64*9, gc.getWidth()/64, gc.getHeight()/64);
-		mananumberPL2.getNumber().get(Color.WHITE).get(player2.getManaPool().getAvailableManaOfThisColor(Color.WHITE)).draw(gc.getWidth()/64*10, gc.getHeight()/64*12, gc.getWidth()/64, gc.getHeight()/64);
-		mananumberPL2.getNumber().get(Color.COLORLESS).get(player2.getManaPool().getAvailableManaOfThisColor(Color.COLORLESS)).draw(gc.getWidth()/64*10, gc.getHeight()/64*15, gc.getWidth()/64, gc.getHeight()/64);
+		mananumberPL2.getMana().get(Color.BLACK).draw(gc.getWidth()/64*10, gc.getHeight()/64*1, gc.getWidth()/64, gc.getHeight()/64);
+		mananumberPL2.getMana().get(Color.BLUE).draw(gc.getWidth()/64*10, gc.getHeight()/64*4, gc.getWidth()/64, gc.getHeight()/64);
+		mananumberPL2.getMana().get(Color.GREEN).draw(gc.getWidth()/64*10, gc.getHeight()/64*7, gc.getWidth()/64, gc.getHeight()/64);
+		mananumberPL2.getMana().get(Color.RED).draw(gc.getWidth()/64*10, gc.getHeight()/64*9, gc.getWidth()/64, gc.getHeight()/64);
+		mananumberPL2.getMana().get(Color.WHITE).draw(gc.getWidth()/64*10, gc.getHeight()/64*12, gc.getWidth()/64, gc.getHeight()/64);
+		mananumberPL2.getMana().get(Color.COLORLESS).draw(gc.getWidth()/64*10, gc.getHeight()/64*15, gc.getWidth()/64, gc.getHeight()/64);
 		
+		mana.drawString(gc.getWidth()/64*10, gc.getHeight()/64*1, player2.getManaPool().getAvailableManaOfThisColor(Color.BLACK).toString());
+		mana.drawString(gc.getWidth()/64*10, gc.getHeight()/64*4, player2.getManaPool().getAvailableManaOfThisColor(Color.BLUE).toString());
+		mana.drawString(gc.getWidth()/64*10, gc.getHeight()/64*7, player2.getManaPool().getAvailableManaOfThisColor(Color.GREEN).toString());
+		mana.drawString(gc.getWidth()/64*10, gc.getHeight()/64*9, player2.getManaPool().getAvailableManaOfThisColor(Color.RED).toString());
+		mana.drawString(gc.getWidth()/64*10, gc.getHeight()/64*12, player2.getManaPool().getAvailableManaOfThisColor(Color.WHITE).toString());
+		mana.drawString(gc.getWidth()/64*10, gc.getHeight()/64*15, player2.getManaPool().getAvailableManaOfThisColor(Color.COLORLESS).toString());
 		
+		mananumberPL1.getMana().get(Color.BLACK).draw(gc.getWidth()/64*10, gc.getHeight()/64*52, gc.getWidth()/64, gc.getHeight()/64);
+		mananumberPL1.getMana().get(Color.BLUE).draw(gc.getWidth()/64*10, gc.getHeight()/64*55, gc.getWidth()/64, gc.getHeight()/64);
+		mananumberPL1.getMana().get(Color.GREEN).draw(gc.getWidth()/64*10, gc.getHeight()/64*57, gc.getWidth()/64, gc.getHeight()/64);
+		mananumberPL1.getMana().get(Color.RED).draw(gc.getWidth()/64*10, gc.getHeight()/64*60, gc.getWidth()/64, gc.getHeight()/64);
+		mananumberPL1.getMana().get(Color.WHITE).draw(gc.getWidth()/64*10, gc.getHeight()/64*63, gc.getWidth()/64, gc.getHeight()/64);
+		mananumberPL1.getMana().get(Color.COLORLESS).draw(gc.getWidth()/64*10, gc.getHeight()/64*66, gc.getWidth()/64, gc.getHeight()/64);
 		
-		mananumberPL1.getNumber().get(Color.BLACK).get(player1.getManaPool().getAvailableManaOfThisColor(Color.BLACK)).draw(gc.getWidth()/64*10, gc.getHeight()/64*52, gc.getWidth()/64, gc.getHeight()/64);
-		mananumberPL1.getNumber().get(Color.BLUE).get(player1.getManaPool().getAvailableManaOfThisColor(Color.BLUE)).draw(gc.getWidth()/64*10, gc.getHeight()/64*55, gc.getWidth()/64, gc.getHeight()/64);
-		mananumberPL1.getNumber().get(Color.GREEN).get(player1.getManaPool().getAvailableManaOfThisColor(Color.GREEN)).draw(gc.getWidth()/64*10, gc.getHeight()/64*57, gc.getWidth()/64, gc.getHeight()/64);
-		mananumberPL1.getNumber().get(Color.RED).get(player1.getManaPool().getAvailableManaOfThisColor(Color.RED)).draw(gc.getWidth()/64*10, gc.getHeight()/64*60, gc.getWidth()/64, gc.getHeight()/64);
-		mananumberPL1.getNumber().get(Color.WHITE).get(player1.getManaPool().getAvailableManaOfThisColor(Color.WHITE)).draw(gc.getWidth()/64*10, gc.getHeight()/64*63, gc.getWidth()/64, gc.getHeight()/64);
-		mananumberPL1.getNumber().get(Color.COLORLESS).get(player1.getManaPool().getAvailableManaOfThisColor(Color.COLORLESS)).draw(gc.getWidth()/64*10, gc.getHeight()/64*66, gc.getWidth()/64, gc.getHeight()/64);
-		
-		
+		mana.drawString(gc.getWidth()/64*10, gc.getHeight()/64*52, player1.getManaPool().getAvailableManaOfThisColor(Color.BLACK).toString());
+		mana.drawString(gc.getWidth()/64*10, gc.getHeight()/64*55, player1.getManaPool().getAvailableManaOfThisColor(Color.BLUE).toString());
+		mana.drawString(gc.getWidth()/64*10, gc.getHeight()/64*57, player1.getManaPool().getAvailableManaOfThisColor(Color.GREEN).toString());
+		mana.drawString(gc.getWidth()/64*10, gc.getHeight()/64*60, player1.getManaPool().getAvailableManaOfThisColor(Color.RED).toString());
+		mana.drawString(gc.getWidth()/64*10, gc.getHeight()/64*63, player1.getManaPool().getAvailableManaOfThisColor(Color.WHITE).toString());
+		mana.drawString(gc.getWidth()/64*10, gc.getHeight()/64*66, player1.getManaPool().getAvailableManaOfThisColor(Color.COLORLESS).toString());
 		
 		if ( hidecardspl1 == true)
 		sthandpl1.drawCards(player1.getHand(), decklistpl1,gc.getWidth()/128*7, gc.getHeight()/128*14, input );

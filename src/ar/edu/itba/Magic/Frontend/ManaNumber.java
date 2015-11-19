@@ -9,32 +9,23 @@ import ar.edu.itba.Magic.Backend.Enums.Color;
 
 public class ManaNumber {
 
-	Map< Color, Map< Integer, ExtendedImage>> mana;
+	Map< Color, ExtendedImage> mana;
 	
 	
 	
 	public ManaNumber() throws SlickException{
 		
-		mana = new HashMap< Color, Map< Integer, ExtendedImage>>();
+		mana = new HashMap< Color,  ExtendedImage>();
 		
 			for(Color color: Color.values()){
 			
-				Map< Integer, ExtendedImage> map = new HashMap< Integer, ExtendedImage>();
-				
-					for(int i=0; i<10; i++){
-						
-						
-					map.put(i, new ExtendedImage("res/Match/Mana/" + color.toString() + "/" + i + ".png"));	
-					
-				
-					}	
-					
-				mana.put(color , map);
+					mana.put(color, new ExtendedImage("res/Match/Mana/TransparentButton.png"));	
+
 				
 			}	
 	}
 	
-	public Map< Color, Map< Integer, ExtendedImage>> getNumber(){
+	public Map< Color, ExtendedImage> getMana(){
 		
 		return mana;
 	}

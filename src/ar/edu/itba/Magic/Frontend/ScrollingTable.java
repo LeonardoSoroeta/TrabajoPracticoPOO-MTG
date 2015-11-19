@@ -50,7 +50,7 @@ public class ScrollingTable {
 			dl.getTinyCard(permanent).draw(x+(permanents.indexOf(permanent)*w), y, w, h);
 			
 			
-			g.drawString(permanent.isTapped()?"    tapped":"",x+(permanents.indexOf(permanent)*w), y);
+			g.drawString(permanent.isTapped()?"\n\ntapped":"",x+(permanents.indexOf(permanent)*w), y);
 			
 			if( permanent instanceof Creature){
 				
