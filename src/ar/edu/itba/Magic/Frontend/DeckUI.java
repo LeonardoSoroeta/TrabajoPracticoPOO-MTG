@@ -29,6 +29,12 @@ public class DeckUI implements Drawable {
 		deckUI = new LinkedList<CardUI>();
 		deck = new Deck();
 	}
+
+	public DeckUI(DeckUI dUI) {
+		deckUI = (LinkedList<CardUI>) dUI.getCards();
+		deck = dUI.getDeck();
+	}
+	
 	
 	public DeckUI(Deck refDeck) {
 		deckUI = new LinkedList<CardUI>();

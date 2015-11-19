@@ -30,6 +30,7 @@ public class EditDeckState extends BasicGameState {
 	boolean wheelMoved = false;
 	boolean askForDeck = false;
 	static boolean load = false;
+	static boolean backToConfig = false;
 	DeckUI ref = null;
 		
 	public void init(GameContainer gc, StateBasedGame sbg)
@@ -64,12 +65,14 @@ public class EditDeckState extends BasicGameState {
 		
 		if(askForDeck) {
 			if(setp1.mouseLClicked(input)) {
-				ref.generateDeck();
 				Match.getMatch().setPlayer1(new Player(new Deck(ref.getDeck())));
 				askForDeck = false;
+			
+				for(CardUI each: ref.getCards()) {
+					System.out.println(each.getCardType().getCardName());
+				}
 			}
 			else if(setp2.mouseLClicked(input)) {
-				ref.generateDeck();
 				Match.getMatch().setPlayer2(new Player(new Deck(ref.getDeck())));
 				askForDeck = false;				
 			}
@@ -97,7 +100,12 @@ public class EditDeckState extends BasicGameState {
 		if(back.mouseLClicked(input)) {
 			decks = new LinkedList<Deck>();
 			decksUI = new LinkedList<DeckUI>();
+			if(backToConfig) {
+				backToConfig = false;
+				sbg.enterState(2);	
+			} else {
 			sbg.enterState(1);
+			}
 		}
 		
 		if(wheelMoved) {
@@ -110,7 +118,7 @@ public class EditDeckState extends BasicGameState {
 		for(DeckUI each: decksUI) {
 			if(each.mouseRClicked(input)) {
 				this.askForDeck = true;
-				ref = each;
+				ref = new DeckUI(each);
 				deckNum = decksUI.indexOf(each);
 				return;
 			}
@@ -121,12 +129,20 @@ public class EditDeckState extends BasicGameState {
 		}
 	}
 	
-	public void render(GameContainer gc, StateBasedGame sbg, Graphics arg2)
+	public void render(GameContainer gc, StateBasedGame sbg, Graphics g)
 			throws SlickException {
 		back.draw();
 		for(DeckUI each: decksUI) {
 			each.draw();
+			Integer size = each.getCards().size();
+			g.drawString(size.toString(),50,50);
 		}
+		
+		for(Deck each: decks) {
+			Integer size = each.getCards().size();
+			g.drawString(size.toString(),50,100);
+		}
+		
 		
 		if(askForDeck) {
 			setp1.draw();
@@ -137,8 +153,18 @@ public class EditDeckState extends BasicGameState {
 		
 	}
 	
+	/*
+	 * asks if it needs to load the decks
+	 */
 	public static void load() {
 		load = true;
+	}
+	
+	/*
+	 * asks if the previous state was ConfigMatchState
+	 */
+	public static void backToConfig() {
+		backToConfig = true;
 	}
 	
 	public void mouseWheelMoved(int value) {

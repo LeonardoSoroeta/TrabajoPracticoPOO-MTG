@@ -6,9 +6,9 @@ import java.util.Map;
 import org.newdawn.slick.SlickException;
 
 import ar.edu.itba.Magic.Backend.Deck;
+import ar.edu.itba.Magic.Backend.Abilities.SpellAbility;
 import ar.edu.itba.Magic.Backend.Cards.Card;
-import ar.edu.itba.Magic.Backend.Interfaces.Spell;
-import ar.edu.itba.Magic.Backend.Mechanics.SpellMechanics;
+import ar.edu.itba.Magic.Backend.Interfaces.GameStackObject;
 import ar.edu.itba.Magic.Backend.Permanents.Creature;
 import ar.edu.itba.Magic.Backend.Permanents.Permanent;
 
@@ -71,7 +71,7 @@ public ExtendedImage getTinyCard(Creature creature){
     }
     
     
- public ExtendedImage getTinyStackCard(Spell object){
+ public ExtendedImage getTinyStackCard(GameStackObject object){
  	
 	 
 	 
@@ -79,8 +79,8 @@ public ExtendedImage getTinyCard(Creature creature){
  	return tinycard.get((Permanent)object);
 	 
 	
- 	if(object instanceof SpellMechanics )
- 		return tinycard.get(((SpellMechanics)object).getSourceCard());
+ 	if(object instanceof SpellAbility )
+ 		return tinycard.get(((SpellAbility)object).getSourceCard());
  	
  	return tinycard.get((Card)object);
  }
@@ -89,15 +89,15 @@ public ExtendedImage getTinyCard(Creature creature){
  		
  		
  		
-public ExtendedImage getBigStackCard(Spell object){
+public ExtendedImage getBigStackCard(GameStackObject object){
 	 
 	 
 	 if(object instanceof Permanent )		
 	return bigcard.get((Permanent)object);
 	 
 	
-	if(object instanceof SpellMechanics )
-		return bigcard.get(((SpellMechanics)object).getSourceCard());
+	if(object instanceof SpellAbility )
+		return bigcard.get(((SpellAbility)object).getSourceCard());
 	
 	return bigcard.get((Card)object);
 }
