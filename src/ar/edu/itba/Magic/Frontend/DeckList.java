@@ -14,7 +14,7 @@ import ar.edu.itba.Magic.Backend.Permanents.Permanent;
 
 public class DeckList {
 	
-	Map<Card, ExtendedImage> bigcard;
+	Map<Card, ExtendedImage> bigcard;   
 	Map<Card, ExtendedImage> tinycard;
 
 	

@@ -23,7 +23,7 @@ import ar.edu.itba.Magic.Backend.Permanents.Permanent;
 
 public class NewMatchState extends BasicGameState {
 	
-	private Match match;
+	private Match match;   
 	private Input input;
 	
 	private Image backgroundBL;
