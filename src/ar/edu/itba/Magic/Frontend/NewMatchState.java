@@ -564,6 +564,7 @@ public class NewMatchState extends BasicGameState {
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g)
 			throws SlickException {
 			
+		
 		backgroundBL.draw(gc.getWidth()/4,0, gc.getWidth(), gc.getHeight()/2);
 		backgroundRE.draw(gc.getWidth()/4,gc.getHeight()/2, gc.getWidth(), gc.getHeight()/2 );
 		manapool.draw(0, 0, gc.getWidth()/4, gc.getHeight());
