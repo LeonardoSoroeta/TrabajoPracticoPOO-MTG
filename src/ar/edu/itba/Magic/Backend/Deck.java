@@ -167,7 +167,9 @@ public class Deck implements Serializable {
 			return deck.pop();
 		}
 		else {
-			throw new NoSuchElementException();
+			Match.getMatch().setMatchState(MatchState.GAME_OVER);
+			Match.getMatch().newMessageToPlayer("GAME OVER: Press ENTER to exit.");
+			return null;
 		}
 	}
 	
@@ -181,7 +183,9 @@ public class Deck implements Serializable {
 			return card;
 		}
 		else {
-			throw new NoSuchElementException();
+			Match.getMatch().setMatchState(MatchState.GAME_OVER);
+			Match.getMatch().newMessageToPlayer("GAME OVER: Press ENTER to exit.");
+			return null;
 		}
 		 
 	}

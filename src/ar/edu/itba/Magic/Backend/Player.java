@@ -74,7 +74,9 @@ public class Player implements DamageTaking {
 	/** Removes one card from the top of the player's deck and places it in his hand. */
 	public Card drawCard() {
 		Card card = deck.getCard();
-		this.placeCardInHand(card);
+		if(card != null) {
+			this.placeCardInHand(card);
+		}
 		return card;
 	}
 	

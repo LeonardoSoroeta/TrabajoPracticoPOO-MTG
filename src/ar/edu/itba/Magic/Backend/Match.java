@@ -174,7 +174,9 @@ public class Match {
 		} else {
 			this.activePlayer.drawCard();
 		}
-		this.executeNextPhase();
+		if(!matchState.equals(MatchState.GAME_OVER)) {
+			this.executeNextPhase();
+		}
 	}
 	
 	/** Executes on current player's pre and post combat main phase */
