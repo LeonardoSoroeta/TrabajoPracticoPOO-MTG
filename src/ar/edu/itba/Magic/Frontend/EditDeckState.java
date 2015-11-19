@@ -67,10 +67,6 @@ public class EditDeckState extends BasicGameState {
 			if(setp1.mouseLClicked(input)) {
 				Match.getMatch().setPlayer1(new Player(new Deck(ref.getDeck())));
 				askForDeck = false;
-			
-				for(CardUI each: ref.getCards()) {
-					System.out.println(each.getCardType().getCardName());
-				}
 			}
 			else if(setp2.mouseLClicked(input)) {
 				Match.getMatch().setPlayer2(new Player(new Deck(ref.getDeck())));
@@ -134,16 +130,8 @@ public class EditDeckState extends BasicGameState {
 		back.draw();
 		for(DeckUI each: decksUI) {
 			each.draw();
-			Integer size = each.getCards().size();
-			g.drawString(size.toString(),50,50);
 		}
-		
-		for(Deck each: decks) {
-			Integer size = each.getCards().size();
-			g.drawString(size.toString(),50,100);
-		}
-		
-		
+				
 		if(askForDeck) {
 			setp1.draw();
 			setp2.draw();
