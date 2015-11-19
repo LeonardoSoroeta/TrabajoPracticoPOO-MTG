@@ -6,7 +6,7 @@ import org.newdawn.slick.SlickException;
 
 import ar.edu.itba.Magic.Backend.Interfaces.Drawable;
 
-/*
+/**
  *  class extended from Image (Slick2d) with added behavior
  *  like input interaction
  */

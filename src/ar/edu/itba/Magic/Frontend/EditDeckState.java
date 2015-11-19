@@ -47,6 +47,7 @@ public class EditDeckState extends BasicGameState {
 			throws SlickException {
 		input = gc.getInput();
 		
+		//asks if it needs to load the decks
 		if(load) {
 			decks = Deck.loadDecks();
 			if(decks != null) {
@@ -63,6 +64,7 @@ public class EditDeckState extends BasicGameState {
 			load = false;
 		}
 		
+		//enter in this if when some deck has been right clicked
 		if(askForDeck) {
 			if(setp1.mouseLClicked(input)) {
 				Match.getMatch().setPlayer1(new Player(new Deck(ref.getDeck())));
@@ -138,14 +140,14 @@ public class EditDeckState extends BasicGameState {
 		
 	}
 	
-	/*
+	/**
 	 * asks if it needs to load the decks
 	 */
 	public static void load() {
 		load = true;
 	}
 	
-	/*
+	/**
 	 * asks if the previous state was ConfigMatchState
 	 */
 	public static void backToConfig() {
@@ -157,6 +159,9 @@ public class EditDeckState extends BasicGameState {
 		wheelMoved = true;
 	}
 	
+	/**
+	 * deck remove wrapper
+	 */
 	public void delete(int num) {
 		try {
 			Deck.deleteDeck(num);

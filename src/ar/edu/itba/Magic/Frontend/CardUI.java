@@ -6,6 +6,11 @@ import org.newdawn.slick.Input;
 import ar.edu.itba.Magic.Backend.Enums.CardType;
 import ar.edu.itba.Magic.Backend.Interfaces.Drawable;
 
+
+/**
+ * CardsUI represents the user interface of the Card object, 
+ * containing its card type and card image
+ */
 public class CardUI implements Drawable{
 	private CardType cardType;
 	private ExtendedImage img;
