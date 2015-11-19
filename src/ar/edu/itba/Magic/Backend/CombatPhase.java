@@ -12,6 +12,11 @@ import ar.edu.itba.Magic.Backend.Permanents.Creature;
 import ar.edu.itba.Magic.Backend.Permanents.Land;
 import ar.edu.itba.Magic.Backend.Permanents.Permanent;
 
+/**
+ * This class is responsible for each turn's combat phase. It prompts the curent turn owner to select a group of attackers,
+ * then prompts his opponent to select a group of defenders. They then deal damage to one another, or if the opponent
+ * failed to block a creature, he takes damage.
+ */
 public class CombatPhase {
 	
 	private static CombatPhase self = new CombatPhase();
@@ -92,6 +97,7 @@ public class CombatPhase {
 					attacker.tap();
 				}
 				attackers.add(attacker);
+				attacker.tap();
 				Match.getMatch().awaitAttackerSelection("Select another attacker:");
 			}
 		}
@@ -162,14 +168,14 @@ public class CombatPhase {
 					entry.getKey().dealDamageTo(entry.getValue());
 					entry.getValue().dealDamageTo(entry.getKey());
 					trample(entry.getKey(), entry.getValue());
-				} else {	//osea key first strike pero value no
+				} else {
 					entry.getKey().dealDamageTo(entry.getValue());
 					trample(entry.getKey(), entry.getValue());
 					if(entry.getValue().isStillALegalTarget()) {
 						entry.getValue().dealDamageTo(entry.getKey());
 					}
 				}
-			} else {	//aca key no tiene arrollar
+			} else {	
 				if(entry.getValue().containsAttribute(Attribute.FIRST_STRIKE)) {
 					entry.getValue().dealDamageTo(entry.getKey());
 					if(entry.getKey().isStillALegalTarget()) {
@@ -217,7 +223,7 @@ public class CombatPhase {
 		return creaturePairs;
 	}
 	
-	public void trample(Creature attacker, Creature blocker) {
+	private void trample(Creature attacker, Creature blocker) {
 		if(attacker.containsAttribute(Attribute.TRAMPLE)) {
 			if(attacker.getAttack() > blocker.getDefense())	{
 				blocker.getController().takeDamage(attacker.getAttack() - blocker.getDefense());

@@ -5,7 +5,8 @@ import ar.edu.itba.Magic.Backend.Enums.Color;
 import ar.edu.itba.Magic.Backend.Mechanics.Mechanics;
 
 /**
- * Created by Martin on 31/10/2015.
+ * The Card is the starting point for every object in the game. Cards generate Creatures, Artifacts, Enchantments,
+ * Lands, as well as casting sorcery and instant spells.
  */
 public abstract class Card {
     private Player controller;

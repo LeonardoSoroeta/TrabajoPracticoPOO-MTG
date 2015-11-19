@@ -4,7 +4,7 @@ import ar.edu.itba.Magic.Backend.Match;
 import ar.edu.itba.Magic.Backend.Enums.CardType;
 import ar.edu.itba.Magic.Backend.Mechanics.Mechanics;
 
-
+/** This card creates a Land Permanent on casting. */
 public class LandCard extends Card {
 	
     public LandCard(CardType cardType, Mechanics ability) {

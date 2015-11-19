@@ -5,9 +5,9 @@ import ar.edu.itba.Magic.Backend.Interfaces.GameEventListener;
 import java.util.*;
 
 /**
- * Contains a list of all automatic abilities and lasting effects currently in play. These objects implement ExecutesOnEvent.
+ * Contains a list of all automatic mechanics and lasting effects currently in play. These objects implement GameEventListener.
  * They receive an instance of a game event descriptor (GameEvent) through their excuteOnEvent method every time a game event 
- * is notified.
+ * is triggered.
  */
 public class GameEventHandler {
 
@@ -24,10 +24,7 @@ public class GameEventHandler {
     }
     
     /** 
-     * Passes a GameEvent instance through the list of observers. Iterates over a copy of the listeners list
-     * to avoid ConcurrentModificationException.
-     * 
-     * @param gameEvent Event descriptor.
+     * Passes a GameEvent instance through the list of observers.
      */
     public void triggerGameEvent(GameEvent gameEvent) {	
     	LinkedList<GameEventListener> newList = new LinkedList<GameEventListener>();
@@ -36,21 +33,22 @@ public class GameEventHandler {
 			listener.executeOnEvent(gameEvent);
 	}
     
+    /**
+     * Triggers an empty generic event.
+     */
     public void refreshListeners() {
     	this.triggerGameEvent(new GameEvent(Event.GENERIC_EVENT));
     }
 	
     /**
-     * Adds an automatic ability or lasting effect to the observer list.
+     * Adds an automatic mechanics or lasting effect to the observer list.
      */
 	public void addListener(GameEventListener listener) {
 		listeners.add(listener);
 	}
 	
 	/**
-	 * Removes an automatic ability or lasting effect from the observer list.
-	 * 
-	 * @param observer Any automatic ability or lasting effect.
+	 * Removes an automatic mechanics or lasting effect from the observer list.
 	 */
 	public void removeListener(GameEventListener listener) {
 		listeners.remove(listener);

@@ -6,7 +6,7 @@ import ar.edu.itba.Magic.Backend.Enums.Attribute;
 import ar.edu.itba.Magic.Backend.Enums.CardType;
 import ar.edu.itba.Magic.Backend.Mechanics.Mechanics;
 
-
+/** This card generates a Creature Permanent on casting. */
 public class CreatureCard extends Card {
 	private Integer attackPoints;
     private Integer defencePoints;

@@ -7,7 +7,7 @@ import ar.edu.itba.Magic.Backend.Permanents.Permanent;
 
 import java.util.LinkedList;
 
-/** The spell stack contains a list of spells being currently casted, that have not yet executed their action */
+/** The spell stack contains a list of spells being currently casted, before they have executed their action */
 public class SpellStack {
 	
     private static SpellStack instance = new SpellStack();
@@ -23,7 +23,7 @@ public class SpellStack {
         return instance;
     }
     
-    public void initiateSpellChain() {
+    private void initiateSpellChain() {
     	Match.getMatch().changeActivePlayer();
     	this.playerDidSomething = false;
     	Match.getMatch().setMatchState(MatchState.AWAITING_STACK_ACTIONS);
@@ -101,10 +101,5 @@ public class SpellStack {
 		}
 		
 		return spells;
-	}
-	
-	
-	public void resetData() {
-		spellStack.clear();
 	}
 }

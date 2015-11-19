@@ -12,8 +12,12 @@ import java.util.NoSuchElementException;
 
 import ar.edu.itba.Magic.Backend.Cards.Card;
 import ar.edu.itba.Magic.Backend.Enums.CardType;
+import ar.edu.itba.Magic.Backend.Enums.MatchState;
 
-
+/**
+ * The Deck contains a list of cards. Each player has one Deck. If at any point a player's deck becomes empty, 
+ * that player loses.
+ */
 public class Deck implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
@@ -29,11 +33,6 @@ public class Deck implements Serializable {
 	public Deck(){
 		deck = new LinkedList<Card>();
 	}
-	
-//	public Deck(Deck d){
-	//	deck = new LinkedList<Card>();
-//		deck.addAll(d.getCards());
-	//}
 
     public Deck(LinkedList<Card> list){
         deck.addAll(list);
@@ -150,7 +149,7 @@ public class Deck implements Serializable {
 		if(deck.contains(card)) {
 			deck.remove(card);
 		} else {
-			Match.getMatch().resetAllData();
+			Match.getMatch().setMatchState(MatchState.GAME_OVER);
 		}
 	}
 

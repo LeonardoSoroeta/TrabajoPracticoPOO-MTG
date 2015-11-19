@@ -3,7 +3,7 @@ package ar.edu.itba.Magic.Backend;
 import ar.edu.itba.Magic.Backend.Enums.Phase;
 
 /** 
- * The starting phase is responsible for asking which player goes first.
+ * The starting phase is responsible for asking which player plays first.
  */
 public class StartingPhase {
 	

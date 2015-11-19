@@ -19,7 +19,6 @@ import ar.edu.itba.Magic.Backend.Effects.AutomaticLastingEffect;
 import ar.edu.itba.Magic.Backend.Effects.LastingEffect;
 import ar.edu.itba.Magic.Backend.Effects.OneTurnStatModifier;
 import ar.edu.itba.Magic.Backend.Effects.StaticStatModifier;
-import ar.edu.itba.Magic.Backend.Interfaces.Spell;
 import ar.edu.itba.Magic.Backend.Mechanics.AutomaticPermanentMechanics;
 import ar.edu.itba.Magic.Backend.Mechanics.AutomaticSpellMechanics;
 import ar.edu.itba.Magic.Backend.Mechanics.DefaultCreatureMechanics;
@@ -31,8 +30,8 @@ import ar.edu.itba.Magic.Backend.Permanents.Land;
 import ar.edu.itba.Magic.Backend.Permanents.Permanent;
 
 /** 
- * This enum contains the implementations of all Cards available in the game. Card enums contain the card's
- * specific name, color, casting mana costs, and the cards Ability implementation.
+ * This enum contains the implementations of all Cards in the game. Card enums contain the card type's
+ * name, color, casting mana costs, and their specific mechanics implementation.
  */
 public enum CardType {
 	
@@ -481,7 +480,6 @@ public enum CardType {
 		return new CreatureCard(CardType.HURLOON_MINOTAUR, attributes, 2, 3, new DefaultCreatureMechanics());
     } },
     
-    // TODO ver si aplicar esto para criaturas en spell state
     INFERNO("Inferno", Color.RED, 2, 5) { public Card createCardOfThisType() {
       	 return new InstantCard(CardType.INFERNO,
            		new SpellMechanics() {
@@ -790,7 +788,6 @@ public enum CardType {
         return new CreatureCard(CardType.PEARLED_UNICORN, attributes, 2, 2, new DefaultCreatureMechanics());
     } },
     
-    // TODO ver si aplicar esto a criaturas en spell state
     PESTILENCE("Pestilence", Color.BLACK, 2, 2) { public Card createCardOfThisType() {
     	return new EnchantmentCard(CardType.PESTILENCE, 
     				new AutomaticPermanentMechanics() {

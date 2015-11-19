@@ -2,6 +2,10 @@ package ar.edu.itba.Magic.Backend;
 
 import ar.edu.itba.Magic.Backend.Enums.Event;
 
+/**
+ * GameEvents are objects that contain information related to a game event that has just happened. Certain 
+ * mechanics listen for GameEvents that they may use to execute an action.
+ */
 public class GameEvent {
 	
 	private Event event;

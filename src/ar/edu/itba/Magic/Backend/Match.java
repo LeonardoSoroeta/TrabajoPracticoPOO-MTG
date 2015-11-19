@@ -419,34 +419,6 @@ public class Match {
 		}
 	}
 	
-	/** Resets all data */
-	public void resetAllData() {
-		this.resetData();
-		gameStack.resetData();
-		combatPhase.resetData();
-		gameEventHandler.resetData();
-	}
-	
-	/** Resets all data related to the match */
-	public void resetData() {
-		player1 = null;
-		player2 = null;
-		turnOwner = null;
-		activePlayer = null;
-		currentPhase = null;
-		matchState = MatchState.GAME_OVER;
-		previousMatchState = null;
-		isFirstTurn = true;
-		landPlayedThisTurn = false;
-		targetRequestingAbility = null;
-		manaRequestingAbility = null;
-		playerDoneClicking = false;
-		targetSelectionCancelled = false;
-		manaPaymentCancelled = false;
-		messageToPlayer = null;
-		selectedTarget = null;
-	}
-	
 	/** Specifies a message for the active player */
 	public void newMessageToPlayer(String message) {
 		this.messageToPlayer = message;
