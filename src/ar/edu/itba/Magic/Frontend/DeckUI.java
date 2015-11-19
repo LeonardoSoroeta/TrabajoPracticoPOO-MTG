@@ -46,8 +46,10 @@ public class DeckUI implements Drawable {
 	 *  the actual representation of the deck
 	 */
 	public void generateDeck() {
-		for(CardUI each: deckUI) {
-			deck.addCard(each.getCardType().createCardOfThisType());
+		if(deckUI.size() == 0) {
+			for(CardUI each: deckUI) {
+				deck.addCard(each.getCardType().createCardOfThisType());
+			}
 		}
 	}
 	

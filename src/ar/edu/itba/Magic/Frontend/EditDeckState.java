@@ -74,18 +74,15 @@ public class EditDeckState extends BasicGameState {
 			}
 			else if(edit.mouseLClicked(input)) {
 				NewDeckState.setEditingDeck(ref);
+				delete(deckNum);
 				decks = new LinkedList<Deck>();
 				decksUI = new LinkedList<DeckUI>();
+				NewDeckState.setNotBack();
 				sbg.enterState(3);
 				askForDeck = false;	
 			}
 			else if(delete.mouseLClicked(input)) {
-				try {
-					Deck.deleteDeck(deckNum);
-				} catch (IOException e) {
-					//System.out.println("error trying to delete a deck");
-				} 
-				decksUI.remove(deckNum);
+				delete(deckNum);
 				askForDeck = false;		
 			}
 			else if(input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
@@ -158,6 +155,15 @@ public class EditDeckState extends BasicGameState {
 	public void mouseWheelMoved(int value) {
 		mouseWheel = value;
 		wheelMoved = true;
+	}
+	
+	public void delete(int num) {
+		try {
+			Deck.deleteDeck(num);
+		} catch (IOException e) {
+			//System.out.println("error trying to delete a deck");
+		} 
+		decksUI.remove(num);
 	}
 	
 	public int getID() {

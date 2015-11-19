@@ -35,6 +35,7 @@ public class NewDeckState extends BasicGameState {
 	int lastCardIndex = 0;
 	boolean wheelMoved = false;
 	boolean setAlert = false;
+	static boolean notBack = false;
 	int cardWidth = 312;
 	Input input;
 	Font awtFont;
@@ -67,7 +68,7 @@ public class NewDeckState extends BasicGameState {
 			}
 		}
 		
-		if(back.mouseLClicked(input)) {
+		if(!notBack && back.mouseLClicked(input)) {
 			deckUI = new DeckUI();
 			sbg.enterState(1);
 		}
@@ -78,6 +79,10 @@ public class NewDeckState extends BasicGameState {
 				return;
 			}
 			else {
+				//if it goes back to menu state sets the back button again in this state
+				if(notBack) {
+					notBack = false;
+				}
 				//saves the deck and goes back to the prev state
 				deckUI.generateDeck();
 				deckUI.writeDeck();
@@ -153,7 +158,9 @@ public class NewDeckState extends BasicGameState {
 		library.draw();
 		yourDeck.draw();
 		save.draw();
-		back.draw();		
+		if(!notBack) {
+			back.draw();	
+		}
 		
 		if(setAlert) {
 			alert.draw();
@@ -186,6 +193,10 @@ public class NewDeckState extends BasicGameState {
 		wheelMoved = true;
 	}
 
+	public static void setNotBack() {
+		notBack = true;
+	}
+	
 	public static void setEditingDeck(DeckUI d) {
 		deckUI = d;
 	}
