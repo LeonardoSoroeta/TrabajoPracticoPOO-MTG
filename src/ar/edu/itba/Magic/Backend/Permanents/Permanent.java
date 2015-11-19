@@ -26,17 +26,17 @@ public abstract class Permanent implements Spell {
 	private boolean tapped;
 	private boolean legalTarget;
 	private boolean spellState;
-	private PermanentMechanics permanentAbility;
+	private PermanentMechanics permanentMechanics;
 	private List<Attribute> attributes;
 	private List<LastingEffect> appliedLastingEffects = new LinkedList<LastingEffect>();
 	private List<Enchantment> attachedEnchantments = new LinkedList<Enchantment>();
 	GameEventHandler gameEventHandler = GameEventHandler.getGameEventHandler();
 	SpellStack gameStack = SpellStack.getSpellStack();
 	
-	public Permanent(Card sourceCard, List<Attribute> attributes, PermanentMechanics ability) {
+	public Permanent(Card sourceCard, List<Attribute> attributes, PermanentMechanics mechanics) {
 		this.sourceCard = sourceCard;
 		this.attributes = attributes;
-		this.permanentAbility = ability;
+		this.permanentMechanics = mechanics;
 		this.tapped = false;
 		this.legalTarget = true;
 		this.spellState = true;
@@ -46,8 +46,6 @@ public abstract class Permanent implements Spell {
 	 * Applies a determined lasting effect on this permanent. Sets this permanent as the LastingEffect's target
 	 * and executes the LastingEffects applyEffect method. If lasting effect is an AutomaticLastingEffect, 
 	 * adds it to the GameEventHandler as well.
-	 * 
-	 * @param lastingEffect lasting effect to be applied.
 	 */
 	public void applyLastingEffect(LastingEffect lastingEffect) {
 		appliedLastingEffects.add(lastingEffect);
@@ -61,8 +59,6 @@ public abstract class Permanent implements Spell {
 	/**
 	 * Removes a determined lasting effect from this permanent. Executes the LastingEffect's undoEffect method.
 	 * If lasting effect is an AutomaticLastingEffect, removes it from the GameEventHandler as well.
-	 * 
-	 * @param lastingEffect LastingEffect to be removed.
 	 */
 	public void removeLastingEffect(LastingEffect lastingEffect) {
 		appliedLastingEffects.remove(lastingEffect);
@@ -73,11 +69,9 @@ public abstract class Permanent implements Spell {
 	}
 	
 	/**
-     * Removes any LastingEffect from this permanent that comes from a specific Ability. Executes the
+     * Removes any LastingEffect from this permanent that comes from a specific Mechanics. Executes the
      * LastingEffect's undoEffect method. If lasting effect is an AutomaticLastingEffect, removes 
      * it from the GameEventHandler as well.
-     * 
-     * @param ability an Ability that may be applying a LastingEffect on this Permanent.
      */
     public void removeLastingEffectsFromSourceAbility(Mechanics ability) {
     	for(LastingEffect lastingEffect : appliedLastingEffects) {
@@ -109,8 +103,6 @@ public abstract class Permanent implements Spell {
 	
 	/**
 	 * Adds an attribute to this permanent's attribute list.
-	 * 
-	 * @param attribute Attribute to be added.
 	 */
 	public void addAttribute(Attribute	attribute) {
 		attributes.add(attribute);
@@ -118,8 +110,6 @@ public abstract class Permanent implements Spell {
 	
 	/**
 	 * Removes an attribute from this permanent's attribute list.
-	 * 
-	 * @param attribute Attribute to be removed.
 	 */
 	public void removeAttribute(Attribute attribute) {
 		attributes.remove(attribute);
@@ -127,9 +117,6 @@ public abstract class Permanent implements Spell {
 	
 	/**
 	 * Whether this permanent contains a determined attribute.
-	 * 
-	 * @param attribute Attribute permanent must contain to return true.
-	 * @return True if contains determined attribute. False otherwise.
 	 */
 	public boolean containsAttribute(Attribute attribute) {
 		if(attributes.contains(attribute))
@@ -140,8 +127,6 @@ public abstract class Permanent implements Spell {
 	
 	/**
 	 * Get's this permanent's attribute list.
-	 * 
-	 * @return LinkedList containing this permanent's attributes.
 	 */
 	public List<Attribute> getAttributes() {
 		return attributes;
@@ -149,8 +134,6 @@ public abstract class Permanent implements Spell {
 	
 	/**
 	 * Gets this permanent's source card type.
-	 * 
-	 * @return String containing this permanent's source card type.
 	 */
 	public CardType getCardType() {
 		return this.sourceCard.getCardType();
@@ -158,8 +141,6 @@ public abstract class Permanent implements Spell {
 	
 	/**
 	 * Gets this permanent's color.
-	 * 
-	 * @return This permanent's color.
 	 */
 	public Color getColor() {
 		return this.sourceCard.getCardType().getColor();
@@ -167,8 +148,6 @@ public abstract class Permanent implements Spell {
 	
 	/**
 	 * Gets this permanent's colored mana cost.
-	 * 
-	 * @return permanent's colored mana cost.
 	 */
 	public Integer getColoredManaCost() {
 		return this.sourceCard.getCardType().getColoredManaCost();
@@ -176,8 +155,6 @@ public abstract class Permanent implements Spell {
 	
 	/**
 	 * Gets this permanent's colorless mana cost.
-	 * 
-	 * @return permanent's colorless mana cost.
 	 */
 	public Integer getColorlessManaCost() {
 		return this.sourceCard.getCardType().getColorlessManaCost();
@@ -185,8 +162,6 @@ public abstract class Permanent implements Spell {
 	
 	/**
 	 * Sets the player who controls this permanent.
-	 * 
-	 * @param controller controlling Player.
 	 */
 	public void setController(Player controller) {
 		this.controller = controller;
@@ -194,8 +169,6 @@ public abstract class Permanent implements Spell {
 	
 	/**
 	 * Controller is the player that contains the Permanent in his PermanentsInPlay section.
-	 * 
-	 * @return the Player that controlls this permanent.s
 	 */
 	public Player getController() {
 		return controller;
@@ -203,8 +176,6 @@ public abstract class Permanent implements Spell {
 	
 	/**
 	 * Gets the Card that created this Permanent.
-	 * 
-	 * @return the Card that created this Permanent.
 	 */
 	public Card getSourceCard() {
 		return sourceCard;
@@ -213,27 +184,13 @@ public abstract class Permanent implements Spell {
 	public String getName() {
 		return sourceCard.getCardType().getCardName();
 	}
-	
-	/**
-	 * Whether this Permanent contains an Ability. Only Creature Permanents may not contain an Ability.
-	 * 
-	 * @return True if this Permanent contains an Ability. False otherwise.
-	 */
-	public boolean containsAbility() {
-		if (this.permanentAbility == null)
-			return false;
-		return true;
-	}
     
 	/**
-	 * Whether this Permanent is affected by a LastingEffect from a specific Ability
-	 * 
-	 * @param ability an Ability that may be applying a LastingEffect on this Permanent.
-	 * @return True if affected. False otherwise.
+	 * Whether this Permanent is affected by a LastingEffect from a specific Mechanics
 	 */
-    public boolean isAffectedByAbility(Mechanics ability) {
+    public boolean isAffectedByMechanics(Mechanics mechanics) {
     	for(LastingEffect lastingEffect : appliedLastingEffects) {
-    		if(lastingEffect.getSourceAbility() == ability) {
+    		if(lastingEffect.getSourceAbility() == mechanics) {
     			return true;
     		}
     	}
@@ -247,7 +204,7 @@ public abstract class Permanent implements Spell {
      * @return PermanentAbility contained by this permanent.
      */
 	public PermanentMechanics getAbility() {
-		return permanentAbility;
+		return permanentMechanics;
 	}
 	
 	/** Sets this Permanent's tapped status to true */

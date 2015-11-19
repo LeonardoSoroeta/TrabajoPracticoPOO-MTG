@@ -110,7 +110,7 @@ public enum CardType {
                         allCreatures.addAll(match.getPlayer2().getCreatures());
                         for(Creature creature : allCreatures) {
                             if(creature.getColor().equals(Color.BLACK)) {
-                                if(creature.isAffectedByAbility(this)) {
+                                if(creature.isAffectedByMechanics(this)) {
                                     creature.removeLastingEffectsFromSourceAbility(this);
                                 }
                             }
@@ -124,7 +124,7 @@ public enum CardType {
                         allCreatures.addAll(match.getPlayer2().getCreatures());
                         for(Creature creature : allCreatures) {
                             if(creature.getColor().equals(Color.BLACK)) {
-                                if(!creature.isAffectedByAbility(this)) {
+                                if(!creature.isAffectedByMechanics(this)) {
                                     LastingEffect newEffect = new StaticStatModifier(this, 1, 1);  
                                     creature.applyLastingEffect(newEffect);
                                 }
@@ -249,7 +249,7 @@ public enum CardType {
                          allCreatures.addAll(match.getPlayer2().getCreatures());
                          for(Creature creature : allCreatures) {
                              if(creature.getColor().equals(Color.WHITE)) {
-                                 if(creature.isAffectedByAbility(this)) {
+                                 if(creature.isAffectedByMechanics(this)) {
                                      creature.removeLastingEffectsFromSourceAbility(this);
                                  }
                              }
@@ -263,7 +263,7 @@ public enum CardType {
                          allCreatures.addAll(match.getPlayer2().getCreatures());
                          for(Creature creature : allCreatures) {
                              if(creature.getColor().equals(Color.WHITE)) {
-                                 if(!creature.isAffectedByAbility(this)) {
+                                 if(!creature.isAffectedByMechanics(this)) {
                                      LastingEffect newEffect = new StaticStatModifier(this, 1, 1);  
                                      creature.applyLastingEffect(newEffect);
                                  }
@@ -633,7 +633,7 @@ public enum CardType {
 	                            allCreatures.addAll(match.getPlayer1().getCreatures());
 	                            allCreatures.addAll(match.getPlayer2().getCreatures());
 	                            for(Creature creature : allCreatures) {
-	                            	if(creature.isAffectedByAbility(this)) {
+	                            	if(creature.isAffectedByMechanics(this)) {
 	                            		creature.removeLastingEffectsFromSourceAbility(this);
 	                            	}
 	                            }
@@ -642,7 +642,7 @@ public enum CardType {
 	                             allCreatures.addAll(match.getPlayer1().getCreatures());
 	                             allCreatures.addAll(match.getPlayer2().getCreatures());
 	                             for(Creature creature : allCreatures) {
-	                                 if(!creature.isAffectedByAbility(this)) {
+	                                 if(!creature.isAffectedByMechanics(this)) {
 	                                     LastingEffect newEffect = new StaticStatModifier(this, -2, 0);  
 	                                     creature.applyLastingEffect(newEffect);
 	                                 }
@@ -990,7 +990,7 @@ public enum CardType {
                         allCreatures.addAll(match.getPlayer1().getCreatures());
                         allCreatures.addAll(match.getPlayer2().getCreatures());
                         for(Creature creature : allCreatures) {
-                            if(creature.isAffectedByAbility(this)) {
+                            if(creature.isAffectedByMechanics(this)) {
                                 creature.removeLastingEffectsFromSourceAbility(this);
                             }
                         }
@@ -1003,13 +1003,13 @@ public enum CardType {
                         allCreatures.addAll(match.getPlayer2().getCreatures());
                         for(Creature creature : allCreatures) {
                             if(creature.containsAttribute(Attribute.FLYING)) {
-                                if(!creature.isAffectedByAbility(this)) {
+                                if(!creature.isAffectedByMechanics(this)) {
                                     LastingEffect newEffect = new StaticStatModifier(this, 1, 1);  
                                     creature.applyLastingEffect(newEffect);
                                 }
                             }
                             if(!creature.containsAttribute(Attribute.FLYING)) {
-                            	if(creature.isAffectedByAbility(this)) {
+                            	if(creature.isAffectedByMechanics(this)) {
                             		creature.removeLastingEffectsFromSourceAbility(this);
                             	}
                             }
