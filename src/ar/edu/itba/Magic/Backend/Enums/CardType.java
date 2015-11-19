@@ -222,6 +222,7 @@ public enum CardType {
 					public void executeIfManaPayed() {
 						AutomaticLastingEffect newEffect = new OneTurnStatModifier(this, 1, 1);
 						this.getSourcePermanent().applyLastingEffect(newEffect);
+						Match.getMatch().resetPlayerMessage();
 					}
 		});
     } },	
@@ -961,6 +962,7 @@ public enum CardType {
 				public void executeIfManaPayed() {
 					AutomaticLastingEffect newEffect = new OneTurnStatModifier(this, 1, 0);
 					this.getSourcePermanent().applyLastingEffect(newEffect);
+					Match.getMatch().resetPlayerMessage();
 				}
 		});
     } },
