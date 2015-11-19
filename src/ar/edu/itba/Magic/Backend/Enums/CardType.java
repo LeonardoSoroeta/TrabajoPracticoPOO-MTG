@@ -527,7 +527,6 @@ public enum CardType {
     KISMET("Kismet", Color.WHITE, 1, 3) { public Card createCardOfThisType() {
     	return new EnchantmentCard(CardType.KISMET,
 				new AutomaticPermanentMechanics() {
-					Player opponent = Match.getMatch().getOpposingPlayerFrom(this.getSourcePermanent().getController());
 
 					@Override
 					public void executeOnEntering() {
@@ -542,7 +541,7 @@ public enum CardType {
 					@Override
 					public void executeOnEvent(GameEvent gameEvent) {
 						if(gameEvent.getDescriptor().equals(Event.PERMANENT_ENTERS_PLAY)) {
-							if(((Permanent)gameEvent.getObject1()).getController() == opponent){
+							if(((Permanent)gameEvent.getObject1()).getController() == Match.getMatch().getOpposingPlayerFrom(this.getSourcePermanent().getController())) {
 								if(gameEvent.getObject1() instanceof Creature ||
 								   gameEvent.getObject1() instanceof Artifact ||
 								   gameEvent.getObject1() instanceof Land		) {
@@ -878,59 +877,6 @@ public enum CardType {
         return new CreatureCard(CardType.SCRYB_SPRITES, attributes, 1, 1, new DefaultCreatureMechanics());
     } },
     
-    SEA_SERPENT("Sea Serpent", Color.BLUE, 1, 5) { public Card createCardOfThisType() {
-    	List<Attribute> attributes = new LinkedList<Attribute>();
-		attributes = Creature.getDefaultCreatureAttributes();
-		return new CreatureCard(CardType.SEA_SERPENT, attributes, 5, 5, 
-				new AutomaticPermanentMechanics() {
-
-					@Override
-					public void executeOnEntering() {
-						gameEventHandler.addListener(this);
-					}
-					
-					@Override
-					public void executeOnExit() {
-						gameEventHandler.removeListener(this);
-					}
-			
-					@Override
-					public void executeOnEvent(GameEvent gameEvent) {
-						boolean destroyThis = true;
-						boolean opponentHasIsland = false;
-						List<Land> lands;
-						Player opponent = match.getOpposingPlayerFrom(this.getSourcePermanent().getController());
-						
-						lands = opponent.getLands();
-						for(Land land : lands) {
-							if(land.getCardType().equals(CardType.ISLAND)) {
-								opponentHasIsland = true;
-							}
-						}
-						if(opponentHasIsland) {
-							if(!this.getSourcePermanent().containsAttribute(Attribute.CAN_ATTACK)) {
-								this.getSourcePermanent().addAttribute(Attribute.CAN_ATTACK);
-							}
-						}
-						else {
-							if(this.getSourcePermanent().containsAttribute(Attribute.CAN_ATTACK)) {
-								this.getSourcePermanent().removeAttribute(Attribute.CAN_ATTACK);
-							}
-						}
-						
-						lands = this.getSourcePermanent().getController().getLands();
-						for(Land land : lands) {
-							if(land.getCardType().equals(CardType.ISLAND)) {
-								destroyThis = false;
-							}
-						}
-						if(destroyThis == true) {
-							this.getSourcePermanent().destroy();
-						}
-					}
-		});
-    } },
-    
     SEGOVIAN_LEVIATHAN("Segovian Leviathan", Color.BLUE, 1, 4) { public Card createCardOfThisType() {
     	List<Attribute> attributes = new LinkedList<Attribute>();
 		attributes = Creature.getDefaultCreatureAttributes();
@@ -973,50 +919,6 @@ public enum CardType {
 		attributes.remove(Attribute.TAPS_ON_ATTACK);
 		return new CreatureCard(CardType.SERRA_ANGEL, attributes, 4, 4, new DefaultCreatureMechanics());
     } },
-    
-    SERRA_AVIARY("Serra Aviary", Color.WHITE, 1, 3) { public Card createCardOfThisType() {
-    	return new EnchantmentCard(CardType.SERRA_AVIARY, 
-        		new AutomaticPermanentMechanics() {
-        	
-                    @Override
-                    public void executeOnEntering() {
-                        gameEventHandler.addListener(this);
-                    }
-
-                    @Override
-                    public void executeOnExit() {
-                        gameEventHandler.removeListener(this);
-                        List<Creature> allCreatures = new LinkedList<Creature>();
-                        allCreatures.addAll(match.getPlayer1().getCreatures());
-                        allCreatures.addAll(match.getPlayer2().getCreatures());
-                        for(Creature creature : allCreatures) {
-                            if(creature.isAffectedByMechanics(this)) {
-                                creature.removeLastingEffectsFromSourceAbility(this);
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void executeOnEvent(GameEvent gameEvent) {
-                    	List<Creature> allCreatures = new LinkedList<Creature>();
-                        allCreatures.addAll(match.getPlayer1().getCreatures());
-                        allCreatures.addAll(match.getPlayer2().getCreatures());
-                        for(Creature creature : allCreatures) {
-                            if(creature.containsAttribute(Attribute.FLYING)) {
-                                if(!creature.isAffectedByMechanics(this)) {
-                                    LastingEffect newEffect = new StaticStatModifier(this, 1, 1);  
-                                    creature.applyLastingEffect(newEffect);
-                                }
-                            }
-                            if(!creature.containsAttribute(Attribute.FLYING)) {
-                            	if(creature.isAffectedByMechanics(this)) {
-                            		creature.removeLastingEffectsFromSourceAbility(this);
-                            	}
-                            }
-                         }
-                      }
-                  });
-    } },	
     
     SHANODIN_DRYADS("Shanodin Dryads", Color.GREEN, 1, 0) { public Card createCardOfThisType() {
     	List<Attribute> attributes = new LinkedList<Attribute>();
