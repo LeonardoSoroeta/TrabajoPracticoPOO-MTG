@@ -279,9 +279,7 @@ public class NewMatchState extends BasicGameState {
 						
 					}
 				}
-			
-			
-			
+						
 			
 				for(Object object: match.getGameStack().getPlayer2Spells()){
 				
