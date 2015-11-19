@@ -145,7 +145,9 @@ public class NewMatchState extends BasicGameState {
 	public void update(GameContainer gc, StateBasedGame sbg, int ag2)
 			throws SlickException {
 		
-		
+		if(input.isKeyPressed(input.KEY_ESCAPE)){
+			gc.exit();
+		}
 		
 		input = gc.getInput();
 		
@@ -464,7 +466,6 @@ public class NewMatchState extends BasicGameState {
 		
 		
 								
-								// carta o permanent
 		if ( match.getMatchState().equals(MatchState.AWAITING_MAIN_PHASE_ACTIONS)){
 			
 			if ( match.getPlayerPlaying() == 1){
