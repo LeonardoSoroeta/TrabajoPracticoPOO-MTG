@@ -97,7 +97,6 @@ public class CombatPhase {
 					attacker.tap();
 				}
 				attackers.add(attacker);
-				attacker.tap();
 				Match.getMatch().awaitAttackerSelection("Select another attacker:");
 			}
 		}

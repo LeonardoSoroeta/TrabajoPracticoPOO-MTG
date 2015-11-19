@@ -101,6 +101,7 @@ public class Creature extends Permanent implements DamageTaking {
 		attributes.add(Attribute.CAN_ATTACK);
 		attributes.add(Attribute.CAN_BLOCK);
 		attributes.add(Attribute.CAN_TAP);
+		attributes.add(Attribute.TAPS_ON_ATTACK);
 	
 		return attributes;
 	}

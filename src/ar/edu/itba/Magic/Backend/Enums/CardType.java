@@ -527,7 +527,7 @@ public enum CardType {
     KISMET("Kismet", Color.WHITE, 1, 3) { public Card createCardOfThisType() {
     	return new EnchantmentCard(CardType.KISMET,
 				new AutomaticPermanentMechanics() {
-					Player targetPlayer;
+					Player opponent = Match.getMatch().getOpposingPlayerFrom(this.getSourcePermanent().getController());
 
 					@Override
 					public void executeOnEntering() {
@@ -542,7 +542,7 @@ public enum CardType {
 					@Override
 					public void executeOnEvent(GameEvent gameEvent) {
 						if(gameEvent.getDescriptor().equals(Event.PERMANENT_ENTERS_PLAY)) {
-							if(((Permanent)gameEvent.getObject1()).getController() == targetPlayer){
+							if(((Permanent)gameEvent.getObject1()).getController() == opponent){
 								if(gameEvent.getObject1() instanceof Creature ||
 								   gameEvent.getObject1() instanceof Artifact ||
 								   gameEvent.getObject1() instanceof Land		) {
