@@ -264,7 +264,7 @@ public abstract class Permanent implements Spell {
 	 * 
 	 * @return True if this Permanent is tapped. False otherwise.
 	 */
-	public boolean isTapped() {
+	public Boolean isTapped() {
 		return tapped;
 	}
 	
