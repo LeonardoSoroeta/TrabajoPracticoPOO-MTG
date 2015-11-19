@@ -171,6 +171,7 @@ public class NewMatchState extends BasicGameState {
 			match.update();
 		}
 		
+		 
 		
 		
 		if (match.getMatchState().equals(MatchState.GAME_OVER)){

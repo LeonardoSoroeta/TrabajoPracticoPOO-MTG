@@ -20,7 +20,6 @@ public class ManaNumber {
 			for(Color color: Color.values()){
 			
 					mana.put(color, new ExtendedImage("res/Match/Mana/TransparentButton.png"));	
-
 				
 			}	
 	}
