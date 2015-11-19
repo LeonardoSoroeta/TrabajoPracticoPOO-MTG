@@ -571,8 +571,10 @@ public class NewMatchState extends BasicGameState {
 		backcard.draw(gc.getWidth()/64, (gc.getHeight()/4),gc.getWidth()/16*3, (gc.getHeight()/4)*2);
 		button.draw(gc.getWidth()/4, gc.getHeight()/128*63,gc.getWidth()/2, gc.getHeight()/64*3);
 	
-		g.drawString(match.getActivePlayer().equals(player1)?"Player 1: ":"Player 2: " , gc.getWidth()*5/16, gc.getHeight()/128*64);
-		g.drawString(match.getMessageToPlayer(), gc.getWidth()*6/16, gc.getHeight()/128*64);
+		
+		g.drawString((match.getActivePlayer().equals(player1)?"Player 1: ":"Player 2: ") +match.getMessageToPlayer(), gc.getWidth()/4, gc.getHeight()/128*64);
+		
+		
 		cancelbutton.draw(gc.getWidth()/74*60, gc.getHeight()/128*63,gc.getWidth()/7, gc.getHeight()/64*3);
 		
 		g.drawString("Cancel/Done", gc.getWidth()/74*62, gc.getHeight()/128*64);
