@@ -44,9 +44,19 @@ public class DeckUI implements Drawable {
 	/*
 	 *  from the list of user interface cards, it generates
 	 *  the actual representation of the deck
+	 *  if its already generated will replace the cards that are diferent from 
+	 *  the previous generated deck
 	 */
 	public void generateDeck() {
-		if(deckUI.size() == 0) {
+		if(deck.getSize() > 0) {
+			for(int i = 0; i < deckUI.size(); i++) {
+				if(!deckUI.get(i).getCardType().getCardName().equals(deck.getCards().get(i).getCardType().getCardName())) {
+					deck.getCards().remove(i);
+					deck.getCards().add(i, deckUI.get(i).getCardType().createCardOfThisType());
+				}
+			}
+		}
+		else {
 			for(CardUI each: deckUI) {
 				deck.addCard(each.getCardType().createCardOfThisType());
 			}
