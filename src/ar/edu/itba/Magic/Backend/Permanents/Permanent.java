@@ -75,7 +75,7 @@ public abstract class Permanent implements Spell {
      */
     public void removeLastingEffectsFromSourceAbility(Mechanics ability) {
     	for(LastingEffect lastingEffect : appliedLastingEffects) {
-    		if(lastingEffect.getSourceAbility() == ability) {
+    		if(lastingEffect.getSourceMechanics() == ability) {
     			lastingEffect.undoEffect();
     			appliedLastingEffects.remove(lastingEffect);
     			if(lastingEffect instanceof AutomaticLastingEffect) {
@@ -190,7 +190,7 @@ public abstract class Permanent implements Spell {
 	 */
     public boolean isAffectedByMechanics(Mechanics mechanics) {
     	for(LastingEffect lastingEffect : appliedLastingEffects) {
-    		if(lastingEffect.getSourceAbility() == mechanics) {
+    		if(lastingEffect.getSourceMechanics() == mechanics) {
     			return true;
     		}
     	}

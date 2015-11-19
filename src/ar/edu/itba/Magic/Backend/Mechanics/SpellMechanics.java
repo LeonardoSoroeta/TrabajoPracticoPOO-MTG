@@ -24,12 +24,12 @@ public abstract class SpellMechanics extends Mechanics implements Spell {
 	private HashMap<Color, Integer> manaCache = new HashMap<Color, Integer>();
 	private Object selectedTarget;
 	
-	/** Returns the card that contains this ability */
+	/** Returns the card that contains this mechanics */
 	public Card getSourceCard() {
 		return sourceCard;
 	}
 	
-	/** Sets the card that contains this ability */
+	/** Sets the card that contains this mechanics */
 	public void setSourceCard(Card sourceCard) {
 		this.sourceCard = sourceCard;
 	}
