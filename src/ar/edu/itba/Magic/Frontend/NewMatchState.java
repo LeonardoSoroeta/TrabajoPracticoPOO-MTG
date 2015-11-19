@@ -565,8 +565,8 @@ public class NewMatchState extends BasicGameState {
 			throws SlickException {
 			
 		
-		backgroundBL.draw(gc.getWidth()/4,0, gc.getWidth(), gc.getHeight()/2);
-		backgroundRE.draw(gc.getWidth()/4,gc.getHeight()/2, gc.getWidth(), gc.getHeight()/2 );
+		backgroundBL.draw(gc.getWidth()/4, 0, gc.getWidth()*3/4, gc.getHeight()/2);
+		backgroundRE.draw(gc.getWidth()/4,gc.getHeight()/2, gc.getWidth()*3/4, gc.getHeight()/2 );
 		manapool.draw(0, 0, gc.getWidth()/4, gc.getHeight());
 		backcard.draw(gc.getWidth()/64, (gc.getHeight()/4),gc.getWidth()/16*3, (gc.getHeight()/4)*2);
 		button.draw(gc.getWidth()/4, gc.getHeight()/128*63,gc.getWidth()/2, gc.getHeight()/64*3);
